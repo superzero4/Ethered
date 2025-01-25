@@ -2,6 +2,7 @@
 
 .vpprefdata/
 *.vpp.bak*
+*.vpp.lck
 *.vpp.working
 *.vpp.working-journal
 *.lock
