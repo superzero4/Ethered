@@ -28,7 +28,60 @@ namespace UnitSystem
         private TargetType _targetType;
         public bool IsValidTarget(IBattleElement origin, params IBattleElement[] targets)
         {
-            throw new NotImplementedException("TODO from range, phase ant target type");
+            if (targets.Length > _nbTargets)
+            {
+                return false;
+            }
+            foreach (var target in targets)
+            {
+                if(target.Position.DistanceTo(origin.Position) > _range)
+                {
+                    return false;
+                }
+                if (!_phase.HasFlag(target.Phase))
+                {
+                    return false;
+                }
+                bool isSelf = origin == target;
+                bool isAlly = origin.Team == target.Team;
+                bool isUnit = !target.IsGround;
+                switch(_targetType)
+                {
+                    case TargetType.Self:
+                        if (!isSelf) return false;
+                        break;
+                    case TargetType.OtherAlly:
+                        if (isSelf || !isAlly) return false;
+                        break;
+                    case TargetType.AnyAlly:
+                        if (!isAlly) return false;
+                        break;
+                    case TargetType.AnyEnemy:
+                        if (isAlly) return false;
+                        break;
+                    case TargetType.Ground:
+                        if (isUnit) return false;
+                        break;
+                    case TargetType.AnyUnit:
+                        if (!isUnit) return false;
+                        break;
+                    //TODO implement the all vs any logic
+                    //case TargetType.AllEnemies:
+                    //    if (origin.Team == target.Team) return false;
+                    //    break;
+                    //case TargetType.AllOtherAllies:
+                    //    if (origin.Team == target.Team) return false;
+                    //    break;
+                    //case TargetType.AllAllies:
+                    //    if (origin.Team != target.Team) return false;
+                    //    break;
+                    case TargetType.Anything:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            return true;
         }
     }
 }
