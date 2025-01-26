@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be1fcc23db1945d5a3b9653875272df9, type: 3}
   m_Name: BattleInfo
   m_EditorClassIdentifier: 
-  _size: {x: 5, y: 5}
+  _size: {x: 5, y: 7}
   _enemies:
     _units:
     - _visualInformations:
@@ -85,13 +85,8 @@ MonoBehaviour:
       _color: {r: 0, g: 0, b: 0, a: 0}
       _name: 
       _description: 
-    _phase: 0
-    _position: {x: 0, y: 0}
-  _specificEnvironments:
-  - _visualInformations:
-      _sprite: {fileID: 0}
-      _color: {r: 0, g: 0, b: 0, a: 0}
-      _name: 
-      _description: 
-    _phase: -1
-    _position: {x: 3, y: 3}
+    _position:
+      position: {x: 0, y: 0}
+      phase: 0
+    _team: 0
+  _specificEnvironments: []
