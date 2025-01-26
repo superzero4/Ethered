@@ -16,6 +16,9 @@ namespace BattleSystem
             this.position = position;
             this.phase = phase;
         }
+        public PositionData(int phase,int x,int y) : this(new Vector2Int(x,y),(EPhase)phase)
+        {
+        }
         [SerializeField]
         public Vector2Int position;
         [SerializeField]

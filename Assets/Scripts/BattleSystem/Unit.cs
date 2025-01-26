@@ -17,6 +17,7 @@ namespace UnitSystem
             _info = info;
             _team = team;
             _position = new PositionData(position, phase);
+            _onUnitMoves = new UnitEvent();
         }
 
         public void Move(Vector2Int newPosition, EPhase newPhase) => Move(new PositionData(newPosition, newPhase));
@@ -25,7 +26,7 @@ namespace UnitSystem
         {
             var oldPosition = _position;
             _position = newPosition;
-            _onUnitMoves.Invoke(new UnitEventData { unit = this, oldPosition = oldPosition });
+            _onUnitMoves?.Invoke(new UnitEventData { unit = this, oldPosition = oldPosition });
         }
 
         public PositionData Position

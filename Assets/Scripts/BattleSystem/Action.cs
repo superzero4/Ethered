@@ -14,6 +14,12 @@ namespace BattleSystem
         [SerializeField] private TargetCollection _targets;
         [SerializeField] private IActionInfo _info;
 
+        public Action(OriginType origin, IActionInfo info)
+        {
+            _origin = origin;
+            _info = info;
+        }
+
         public void Execute()
         {
             _info.Execute(_origin, _targets);
