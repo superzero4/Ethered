@@ -7,7 +7,7 @@ using UnityEngine;
 namespace UnitSystem
 {
     //[System.Serializable]
-    public interface ActionInfo : IIcon
+    public interface IActionInfo : IIcon
     {
         protected EPhase OriginPhase { get; };
         protected IEnumerable<TargetDefinition> Target { get; };

@@ -11,7 +11,7 @@ namespace BattleSystem
     {
         [SerializeField] private IBattleElement _origin;
         [SerializeField] private TargetCollection _targets;
-        [SerializeField] private ActionInfo _info;
+        [SerializeField] private IActionInfo _info;
 
         public void Execute()
         {
