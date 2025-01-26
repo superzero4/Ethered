@@ -16,7 +16,9 @@ namespace BattleSystem
 
         [SerializeField]
         private VisualInformations _visualInformations;
+        [SerializeField]
         private PositionData _position;
+        [SerializeField]
         private ETeam _team;
 
         public VisualInformations VisualInformations => _visualInformations;

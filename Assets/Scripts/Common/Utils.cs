@@ -35,7 +35,7 @@ namespace Common
         {
             if(element==null)
                 return "";
-            return $"({element.Position}):BattleElementToString(element)";
+            return $"({element.Position}):{BattleElementToSimpleString(element)}";
         }
         public static string TeamToChar(ETeam team)
         {

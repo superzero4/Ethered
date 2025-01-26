@@ -1,7 +1,10 @@
+using System;
+using Common;
 using UnityEngine;
 
 namespace BattleSystem
 {
+    [Serializable]
     public struct PositionData
     {
         public int DistanceTo(PositionData other)
@@ -13,10 +16,28 @@ namespace BattleSystem
             this.position = position;
             this.phase = phase;
         }
-
+        [SerializeField]
         public Vector2Int position;
+        [SerializeField]
         public EPhase phase;
         public int x => position.x;
         public int y => position.y;
+
+        public Vector2Int Position
+        {
+            get => position;
+            set => position = value;
+        }
+
+        public EPhase Phase
+        {
+            get => phase;
+            set => phase = value;
+        }
+
+        public override string ToString()
+        {
+            return $"({position.x},{position.y}:{Utils.PhaseToChar(phase)})";
+        }
     }
 }

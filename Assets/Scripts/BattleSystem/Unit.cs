@@ -38,7 +38,5 @@ namespace UnitSystem
         public VisualInformations VisualInformations => _info.VisualInformations;
 
         public UnitEvent OnUnitMoves => _onUnitMoves;
-
-        public EPhase Phase => ((IBattleElement)(this)).Phase;
     }
 }
