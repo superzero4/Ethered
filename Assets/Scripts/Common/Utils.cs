@@ -18,7 +18,8 @@ namespace Common
             int index = 0;
             foreach (EPhase value in Enum.GetValues(typeof(EPhase)))
             {
-                if (value != EPhase.None && value != 0 && phase.HasFlag(value))
+                var isPowerOfTwo = (value & (value - 1)) == 0;//To ignore "conpound values" and only use atomic ones
+                if (value != 0 && isPowerOfTwo && phase.HasFlag(value))
                 {
                     yield return index-1;
                 }
