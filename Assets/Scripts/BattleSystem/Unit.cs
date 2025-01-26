@@ -8,44 +8,37 @@ namespace UnitSystem
     public class Unit : IBattleElement
     {
         [SerializeField] private UnitInfo _info;
-        private EPhase _phase;
-        private Vector2Int _position;
+        private PositionData _position;
         private ETeam _team;
-        [SerializeField] private UnitEvent _onUnitChange;
+        [SerializeField] private UnitEvent _onUnitMoves;
+
         public Unit(UnitInfo info, ETeam team, Vector2Int position, EPhase phase)
         {
             _info = info;
             _team = team;
-            _position = position;
-            _phase = phase;
-        }
-        private void RaiseUpdate()
-        {
-            _onUnitChange?.Invoke(this);
+            _position = new PositionData(position, phase);
         }
 
-        public EPhase Phase
+        public void Move(Vector2Int newPosition, EPhase newPhase) => Move(new PositionData(newPosition, newPhase));
+
+        public void Move(PositionData newPosition)
         {
-            get => _phase;
-            set
-            {
-                _phase = value;
-                RaiseUpdate();
-            }
+            var oldPosition = _position;
+            _position = newPosition;
+            _onUnitMoves.Invoke(new UnitEventData { unit = this, oldPosition = oldPosition });
         }
 
-        public Vector2Int Position
+        public PositionData Position
         {
             get => _position;
-            set
-            {
-                _position = value;
-                RaiseUpdate();
-            }
         }
 
         public ETeam Team => _team;
 
         public VisualInformations VisualInformations => _info.VisualInformations;
+
+        public UnitEvent OnUnitMoves => _onUnitMoves;
+
+        public EPhase Phase => ((IBattleElement)(this)).Phase;
     }
 }

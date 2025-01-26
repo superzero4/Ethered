@@ -1,4 +1,6 @@
+using BattleSystem;
 using UnitSystem;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Common.Events
@@ -28,6 +30,7 @@ namespace Common.Events
     public struct UnitEventData 
     {
         public Unit unit;
+        public PositionData oldPosition;
         public static implicit operator UnitEventData(Unit unit)
         {
             return new UnitEventData { unit = unit };

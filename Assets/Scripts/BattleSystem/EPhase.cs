@@ -6,7 +6,7 @@ namespace BattleSystem
     [Flags]
     public enum EPhase
     {
-        None = 0, Normal= 1, Ethered = 2, Both = 3
+        None = 0, Normal= 1, Ethered = 2, Both = Normal | Ethered
         
     }
 }

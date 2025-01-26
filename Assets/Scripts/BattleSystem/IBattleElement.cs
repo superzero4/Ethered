@@ -1,15 +1,13 @@
 using UI.Battle;
+using UnityEngine;
 
 namespace BattleSystem
 {
-    using UnityEngine;
-
-    
     public interface IBattleElement : IIcon
     {
-        public EPhase Phase { get; set; }
-        public Vector2Int Position { get; set; }
+        public PositionData Position { get; }
         public ETeam Team { get; }
-        
+        public EPhase Phase => Position.phase;
+        public Vector2Int PositionVector => Position.position;
     }
 }

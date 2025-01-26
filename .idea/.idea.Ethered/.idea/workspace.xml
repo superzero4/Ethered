@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dfbbefe9-82c2-4166-abb4-5f79325cf839" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Documentation/Conception/classDiagram.vpp" beforeDir="false" afterPath="$PROJECT_DIR$/Documentation/Conception/classDiagram.vpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Ethered/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Ethered/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleSystem/Battle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleSystem/Battle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleSystem/EPhase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleSystem/EPhase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleSystem/Environment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleSystem/Environment.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleSystem/IBattleElement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleSystem/IBattleElement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleSystem/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleSystem/Unit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Events.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Events.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Utils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Utils.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,14 +49,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Battle-Packages",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Battle-Packages&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Programs\Softwares\Unity\6000.0.34f1\Editor\Unity.exe" />
@@ -107,7 +111,8 @@
       <updated>1737846822628</updated>
       <workItem from="1737846822802" duration="2425000" />
       <workItem from="1737850173014" duration="3936000" />
-      <workItem from="1737854313051" duration="5288000" />
+      <workItem from="1737854313051" duration="5908000" />
+      <workItem from="1737911993321" duration="2412000" />
     </task>
     <servers />
   </component>

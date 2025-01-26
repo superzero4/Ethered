@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using BattleSystem;
 using UnitSystem;
 
@@ -5,7 +8,24 @@ namespace Common
 {
     public static class Utils
     {
-        public static string UnitToSimpleString(Unit unit)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="phase">This should return 0 for first phase, 1 for second one, 0 and 1 for both etc... Scales if we extend enum</param>
+        /// <returns></returns>
+        public static IEnumerable<int> FlagIndexes(EPhase phase)
+        {
+            int index = 0;
+            foreach (EPhase value in Enum.GetValues(typeof(EPhase)))
+            {
+                if (value != EPhase.None && value != 0 && phase.HasFlag(value))
+                {
+                    yield return index-1;
+                }
+                index++;
+            }
+        }
+        public static string BattleElementToSimpleString(IBattleElement unit)
         {
             if(unit==null)
                 return "  ";
@@ -15,7 +35,7 @@ namespace Common
         {
             if(element==null)
                 return "";
-            return $"({element.Position}):{PhaseToChar(element.Phase)}{TeamToChar(element.Team)}";
+            return $"({element.Position}):BattleElementToString(element)";
         }
         public static string TeamToChar(ETeam team)
         {

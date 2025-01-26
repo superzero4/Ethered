@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Common;
+using Common.Events;
 using JetBrains.Annotations;
 using UnitSystem;
 using UnityEngine;
@@ -34,11 +35,27 @@ namespace BattleSystem
 
             for (int i = 0; i < info.Enemies.Units.Count; i++)
             {
-                var item = new Unit(info.Enemies.Units[i], ETeam.Enemy, new Vector2Int(i, info.Size.y-1),
+                var item = new Unit(info.Enemies.Units[i], ETeam.Enemy, new Vector2Int(i, info.Size.y - 1),
                     i % 2 == 1 ? EPhase.Normal : EPhase.Ethered);
                 _units.Add(item);
                 _battleElements.SetUnit(item);
             }
+
+            SubscribeToUnitsEvents();
+        }
+
+        private void SubscribeToUnitsEvents()
+        {
+            foreach (var unit in _units)
+            {
+                unit.OnUnitMoves?.AddListener(RefreshTileMap);
+            }
+        }
+
+        private void RefreshTileMap(UnitEventData arg0)
+        {
+            _battleElements.RemoveUnit(arg0.oldPosition);
+            _battleElements.SetUnit(arg0.unit);
         }
 
         public bool ConfirmAction(Action action)
@@ -71,14 +88,19 @@ namespace BattleSystem
             {
                 get
                 {
-                    Assert.AreNotEqual(_base.Phase, _unit.Phase);
-                    return _base.Phase;
+                    Assert.AreNotEqual(_base.Position.phase, _unit.Phase);
+                    return _unit.Phase;
                 }
             }
 
             [SerializeField] private Environment _base;
             [SerializeField] [CanBeNull] private Unit _unit;
-            public Environment Base => _base;
+
+            public Environment Base
+            {
+                get => _base;
+                set => _base = value;
+            }
 
             public Unit Unit
             {
@@ -93,10 +115,23 @@ namespace BattleSystem
             [SerializeField] private Tile[][][] _tiles;
             public IEnumerable<Tile[][]> Tiles => _tiles;
 
+            public void RemoveUnit(PositionData position)
+            {
+                //Remove unit from all phase it's in
+                foreach (var phase in Utils.FlagIndexes(position.phase))
+                {
+                    _tiles[phase][position.x][position.y].Unit = null;
+                }
+            }
+
             public void SetUnit(Unit element)
             {
                 var coord = element.Position;
-                _tiles[element.Phase == EPhase.Normal ? 0 : 1][coord.x][coord.y].Unit = element;
+                //Set unit in all phase he's in
+                foreach (var phase in Utils.FlagIndexes(coord.phase))
+                {
+                    _tiles[phase][coord.x][coord.y].Unit = element;
+                }
             }
 
             public Tilemap(Vector3Int size, Tile defaultTile)
@@ -112,13 +147,10 @@ namespace BattleSystem
                         {
                             var b = defaultTile.Base;
                             var u = defaultTile.Unit;
-                            b.Position = new Vector2Int(j, k);
-                            b.Phase = i == 0 ? EPhase.Normal : EPhase.Ethered;
+                            b.Position = new PositionData(new Vector2Int(j, k),
+                                i == 0 ? EPhase.Normal : EPhase.Ethered);
                             if (u != null)
-                            {
-                                u.Position = b.Position;
-                                u.Phase = b.Phase;
-                            }
+                                u.Move(b.Position);
                             _tiles[i][j][k] = new Tile(b, u);
                         }
                     }
@@ -127,6 +159,10 @@ namespace BattleSystem
 
             public void SetEnvironment(Environment env)
             {
+                foreach (var phase in Utils.FlagIndexes(env.Position.phase))
+                {
+                    _tiles[phase][env.Position.x][env.Position.y].Base = env;
+                }
             }
         }
 
@@ -142,7 +178,7 @@ namespace BattleSystem
                     {
                         var b = tile.Base;
                         sb.Append(Utils.BattleElementToString(b));
-                        sb.Append(Utils.UnitToSimpleString(tile.Unit));
+                        sb.Append(Utils.BattleElementToSimpleString(tile.Unit));
                         sb.Append(" ");
                     }
 
