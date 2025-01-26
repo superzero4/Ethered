@@ -1,26 +1,26 @@
 using System.Collections.Generic;
+using System.Linq;
 using BattleSystem;
 using UI.Battle;
 using UnityEngine;
 
 namespace UnitSystem
 {
-    [System.Serializable]
-    public abstract class ActionInfo : IIcon
+    //[System.Serializable]
+    public interface ActionInfo : IIcon
     {
-        [SerializeField] private EPhase _originPhase;
-        [SerializeField] private TargetDefinition _target;
-        public TargetDefinition Target => _target;
-
+        protected EPhase OriginPhase { get; };
+        protected IEnumerable<TargetDefinition> Target { get; };
+        
+        public bool IsValidTarget(IBattleElement origin, IBattleElement[] target)
+        {
+            return Target.Any(t => t.IsValidTarget(origin, target));
+        }
+        public bool CanExecute(IBattleElement origin, TargetCollection targets, Battle.Tilemap map);
+        public void Execute(IBattleElement origin, TargetCollection targetCollection);
         public void Execute(IBattleElement origin, IBattleElement target)
         {
             Execute(origin, new TargetCollection(target));
         }
-
-        [SerializeField] private VisualInformations _visualInformations;
-        public VisualInformations VisualInformations => _visualInformations;
-
-        public abstract void Execute(IBattleElement origin, TargetCollection targetCollection);
-        public abstract bool CanExecute(IBattleElement origin, TargetCollection targets, Battle.Tilemap map);
     }
 }

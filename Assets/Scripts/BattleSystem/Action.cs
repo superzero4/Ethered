@@ -27,7 +27,7 @@ namespace BattleSystem
 
         public bool TrySetTarget(IBattleElement origin, params IBattleElement[] target)
         {
-            if (_info.Target.IsValidTarget(origin, target))
+            if (_info.IsValidTarget(origin, target))
             {
                 _origin = origin;
                 _targets = new TargetCollection(target.ToList());
