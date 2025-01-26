@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be1fcc23db1945d5a3b9653875272df9, type: 3}
+  m_Name: BattleInfo
+  m_EditorClassIdentifier: 
+  _size: {x: 5, y: 5}
+  _enemies:
+    _units:
+    - _visualInformations:
+        _sprite: {fileID: 0}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+    - _visualInformations:
+        _sprite: {fileID: 0}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+    - _visualInformations:
+        _sprite: {fileID: 0}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+    - _visualInformations:
+        _sprite: {fileID: 0}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+    - _visualInformations:
+        _sprite: {fileID: 0}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+  _squad:
+    _units:
+    - _visualInformations:
+        _sprite: {fileID: 0}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+    - _visualInformations:
+        _sprite: {fileID: 0}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+    - _visualInformations:
+        _sprite: {fileID: 0}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+    - _visualInformations:
+        _sprite: {fileID: 0}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+    - _visualInformations:
+        _sprite: {fileID: 0}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+  _defaultUnit:
+    _visualInformations:
+      _sprite: {fileID: 0}
+      _color: {r: 0, g: 0, b: 0, a: 0}
+      _name: 
+      _description: 
+  _defaultEnemy:
+    _visualInformations:
+      _sprite: {fileID: 0}
+      _color: {r: 0, g: 0, b: 0, a: 0}
+      _name: 
+      _description: 
+  _defaultEnvironment:
+    _visualInformations:
+      _sprite: {fileID: 0}
+      _color: {r: 0, g: 0, b: 0, a: 0}
+      _name: 
+      _description: 
+    _phase: 0
+    _position: {x: 0, y: 0}
+  _specificEnvironments:
+  - _visualInformations:
+      _sprite: {fileID: 0}
+      _color: {r: 0, g: 0, b: 0, a: 0}
+      _name: 
+      _description: 
+    _phase: -1
+    _position: {x: 3, y: 3}
