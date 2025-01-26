@@ -7,6 +7,7 @@ namespace UnitSystem.Actions.Bases
     [CreateAssetMenu(fileName = "Movement", menuName = "UnitSystem/Actions/BasicMovement")]
     public class BasicMovement : ActionInfoBaseSO
     {
+        [SerializeField]
         private EPhase _originPhase;
         [SerializeField, Range(1, 20)] private int _range;
         [SerializeField] private EPhase _destinationPhase;
