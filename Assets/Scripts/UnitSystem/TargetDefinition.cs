@@ -8,6 +8,14 @@ namespace UnitSystem
     [Serializable]
     public struct TargetDefinition
     {
+        public TargetDefinition(EPhase phase, int nbTargets, int range, TargetType targetType)
+        {
+            _phase = phase;
+            _nbTargets = nbTargets;
+            _range = range;
+            _targetType = targetType;
+        }
+
         [Flags]
         public enum TargetType
         {
