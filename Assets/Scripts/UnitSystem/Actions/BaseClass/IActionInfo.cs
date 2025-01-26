@@ -4,13 +4,13 @@ using BattleSystem;
 using UI.Battle;
 using UnityEngine;
 
-namespace UnitSystem
+namespace UnitSystem.Actions.Bases
 {
     //[System.Serializable]
     public interface IActionInfo : IIcon
     {
-        protected EPhase OriginPhase { get; };
-        protected IEnumerable<TargetDefinition> Target { get; };
+        public EPhase OriginPhase { get; }
+        public abstract IEnumerable<TargetDefinition> Target { get; }
         
         public bool IsValidTarget(IBattleElement origin, IBattleElement[] target)
         {
