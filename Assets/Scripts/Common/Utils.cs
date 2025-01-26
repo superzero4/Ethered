@@ -45,9 +45,9 @@ namespace Common
                 case ETeam.Player:
                     return "P";
                 case ETeam.Enemy:
-                    return "E";
+                    return "O";
                 default:
-                    return "x";
+                    return " ";
             }
         }
         public static string PhaseToChar(EPhase phase)

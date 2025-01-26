@@ -32,7 +32,7 @@ namespace BattleSystem
             for (int i = 0; i < info.Squad.Units.Count; i++)
             {
                 var item = new Unit(info.Squad.Units[i], ETeam.Player, new Vector2Int(i, 0),
-                    i==2 ? EPhase.Both : (i % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
+                    i == 2 ? EPhase.Both : (i % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
                 _units.Add(item);
                 _battleElements.SetUnit(item);
             }
@@ -40,7 +40,7 @@ namespace BattleSystem
             for (int i = 0; i < info.Enemies.Units.Count; i++)
             {
                 var item = new Unit(info.Enemies.Units[i], ETeam.Enemy, new Vector2Int(i, info.Size.y - 1),
-                    i==2 ? EPhase.Both : (i % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
+                    i == 2 ? EPhase.Both : (i % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
                 _units.Add(item);
                 _battleElements.SetUnit(item);
             }
@@ -74,6 +74,36 @@ namespace BattleSystem
             return false;
         }
 
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Battle:\n");
+            foreach (var phase in _battleElements.Tiles)
+            {
+                foreach (var row in phase)
+                {
+                    foreach (var tile in row)
+                    {
+                        var b = tile.Base;
+                        sb.Append(b.Position);
+                        //sb.Append(Utils.BattleElementToString(b));
+                        sb.Append(Utils.BattleElementToSimpleString(tile.Unit));
+                        //if (tile.Unit == null)
+                        //    sb.Append("  ");
+                        //else 
+                        //    sb.Append(Utils.TeamToChar(tile.Unit.Team));
+                        sb.Append(" ");
+                    }
+
+                    sb.Append("\n");
+                }
+
+                sb.Append("OtherPhase :\n");
+            }
+
+            return sb.ToString();
+        }
+
         [Serializable]
         public class Tile
         {
@@ -82,7 +112,9 @@ namespace BattleSystem
                 _base = other._base;
                 _unit = other._unit;
             }
+
             public bool Empty => _unit == null;
+
             public Tile(Environment baseElement, Unit unit)
             {
                 _base = baseElement;
@@ -124,7 +156,7 @@ namespace BattleSystem
             {
                 get
                 {
-                    foreach(var phase in Utils.FlagIndexes(p.Phase))
+                    foreach (var phase in Utils.FlagIndexes(p.Phase))
                         yield return _tiles[phase][p.x][p.y];
                 }
             }
@@ -178,31 +210,6 @@ namespace BattleSystem
                     _tiles[phase][env.Position.x][env.Position.y].Base = env;
                 }
             }
-        }
-
-        public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("Battle:\n");
-            foreach (var phase in _battleElements.Tiles)
-            {
-                foreach (var row in phase)
-                {
-                    foreach (var tile in row)
-                    {
-                        var b = tile.Base;
-                        sb.Append(Utils.BattleElementToString(b));
-                        sb.Append(Utils.BattleElementToSimpleString(tile.Unit));
-                        sb.Append(" ");
-                    }
-
-                    sb.Append("\n");
-                }
-
-                sb.Append("OtherPhase :\n");
-            }
-
-            return sb.ToString();
         }
     }
 }
