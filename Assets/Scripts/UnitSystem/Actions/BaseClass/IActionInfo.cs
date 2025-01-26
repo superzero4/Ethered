@@ -12,13 +12,20 @@ namespace UnitSystem.Actions.Bases
         public EPhase OriginPhase { get; }
         public abstract IEnumerable<TargetDefinition> Target { get; }
         
-        public bool IsValidTarget(IBattleElement origin, IBattleElement[] target)
+        public bool IsValidTarget(Unit origin, IBattleElement[] target)
         {
             return Target.Any(t => t.IsValidTarget(origin, target));
         }
-        public bool CanExecute(IBattleElement origin, TargetCollection targets, Battle.Tilemap map);
-        public void Execute(IBattleElement origin, TargetCollection targetCollection);
-        public void Execute(IBattleElement origin, IBattleElement target)
+        /// <summary>
+        /// This methods assume that the targets have already been verified and set, you don't need to check them in there
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="targets"></param>
+        /// <param name="map"></param>
+        /// <returns></returns>
+        public bool CanExecuteOnMap(Unit origin, TargetCollection targets, Battle.Tilemap map);
+        public void Execute(Unit origin, TargetCollection targetCollection);
+        public void Execute(Unit origin, IBattleElement target)
         {
             Execute(origin, new TargetCollection(target));
         }

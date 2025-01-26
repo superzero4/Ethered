@@ -77,7 +77,7 @@ namespace BattleSystem
                 _base = other._base;
                 _unit = other._unit;
             }
-
+            public bool Empty => _unit == null;
             public Tile(Environment baseElement, Unit unit)
             {
                 _base = baseElement;
@@ -114,6 +114,15 @@ namespace BattleSystem
         {
             [SerializeField] private Tile[][][] _tiles;
             public IEnumerable<Tile[][]> Tiles => _tiles;
+
+            public IEnumerable<Tile> this[PositionData p]
+            {
+                get
+                {
+                    foreach(var phase in Utils.FlagIndexes(p.phase))
+                        yield return _tiles[phase][p.x][p.y];
+                }
+            }
 
             public void RemoveUnit(PositionData position)
             {

@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using BattleSystem;
 
 namespace UnitSystem
@@ -10,11 +12,14 @@ namespace UnitSystem
         {
         }
 
-        public TargetCollection(List<IBattleElement> target)
+        public TargetCollection(List<IBattleElement> targetUnits)
         {
-            Target = target;
+            Target = targetUnits;
         }
 
+        //public IEnumerable<IBattleElement> TargetEnvironment => TargetTiles.Select(t=>(IBattleElement)t.Base);
+        //public IEnumerable<Unit> TargetUnits => TargetTiles.Select(t=>t.Unit);
         public List<IBattleElement> Target { get; private set; }
+        //public List<Battle.Tile> TargetTiles { get; private set; }
     }
 }

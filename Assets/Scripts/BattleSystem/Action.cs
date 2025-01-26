@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UI.Battle;
 using UnitSystem;
+using UnitSystem.Actions.Bases;
 using UnityEngine;
-
+using OriginType = UnitSystem.Unit;//IBattleElement;
 namespace BattleSystem
 {
     public class Action : IComparable<Action>
     {
-        [SerializeField] private IBattleElement _origin;
+        [SerializeField] private OriginType _origin;
         [SerializeField] private TargetCollection _targets;
         [SerializeField] private IActionInfo _info;
 
@@ -20,12 +21,12 @@ namespace BattleSystem
 
         // ReSharper disable SimplifyConditionalTernaryExpression
         public bool CanExecute(Battle.Tilemap map) =>
-            (IsReady ? _info.CanExecute(_origin, _targets, map) : false);
+            (IsReady ? _info.CanExecuteOnMap(_origin, _targets, map) : false);
         // ReSharper restore SimplifyConditionalTernaryExpression
 
         private bool IsReady => _origin != null && _targets != null;
 
-        public bool TrySetTarget(IBattleElement origin, params IBattleElement[] target)
+        public bool TrySetTarget(OriginType origin, params IBattleElement[] target)
         {
             if (_info.IsValidTarget(origin, target))
             {

@@ -1,3 +1,4 @@
+using System;
 using UI.Battle;
 using UnityEngine;
 
@@ -9,5 +10,7 @@ namespace BattleSystem
         public ETeam Team { get; }
         public EPhase Phase => Position.phase;
         public Vector2Int PositionVector => Position.position;
+        [Obsolete("Not very OOP, find another way")]
+        public bool IsGround => Team == ETeam.None;
     }
 }
