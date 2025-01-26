@@ -28,7 +28,7 @@ namespace BattleSystem
             for (int i = 0; i < info.Squad.Units.Count; i++)
             {
                 var item = new Unit(info.Squad.Units[i], ETeam.Player, new Vector2Int(i, 0),
-                    i % 2 == 0 ? EPhase.Normal : EPhase.Ethered);
+                    i==2 ? EPhase.Both : (i % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
                 _units.Add(item);
                 _battleElements.SetUnit(item);
             }
@@ -36,7 +36,7 @@ namespace BattleSystem
             for (int i = 0; i < info.Enemies.Units.Count; i++)
             {
                 var item = new Unit(info.Enemies.Units[i], ETeam.Enemy, new Vector2Int(i, info.Size.y - 1),
-                    i % 2 == 1 ? EPhase.Normal : EPhase.Ethered);
+                    i==2 ? EPhase.Both : (i % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
                 _units.Add(item);
                 _battleElements.SetUnit(item);
             }
