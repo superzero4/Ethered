@@ -15,10 +15,14 @@ namespace BattleSystem
         [SerializeField] private List<Unit> _units;
         [SerializeField] private Tilemap _battleElements;
         [SerializeField] private Timeline _timeline;
+        public Tilemap Tiles => _battleElements;
+        public Timeline Timeline => _timeline;
+        public IEnumerable<Unit> Units => _units;
 
         public void Init(BattleInfo info)
         {
             _timeline = new Timeline();
+            _timeline.Initialize(new List<Action>());
             _battleElements = new Tilemap(new Vector3Int(2, info.Size.x, info.Size.y),
                 new Tile(info.DefaultEnvironment, null));
             if (info.SpecificEnvironments != null && info.SpecificEnvironments.Count > 0)
@@ -62,7 +66,8 @@ namespace BattleSystem
         {
             if (action.CanExecute(_battleElements))
             {
-                _timeline.PriorityInsert(action);
+                _timeline.Append(action);
+                //_timeline.PriorityInsert(action);
                 return true;
             }
 
