@@ -319,7 +319,7 @@ GameObject:
   - component: {fileID: 1548557099}
   - component: {fileID: 1548557098}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: ConsoleSimulation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -338,6 +338,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _battleInfo: {fileID: 11400000, guid: 73d592778fc517947a7253233d649979, type: 2}
+  _actionsToTest:
+  - {fileID: 11400000, guid: 767d4d44098bc85429196b4c9532a85c, type: 2}
 --- !u!4 &1548557099
 Transform:
   m_ObjectHideFlags: 0
