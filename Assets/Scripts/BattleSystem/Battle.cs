@@ -88,8 +88,8 @@ namespace BattleSystem
             {
                 get
                 {
-                    Assert.AreNotEqual(_base.Position.phase, _unit.Phase);
-                    return _unit.Phase;
+                    Assert.AreNotEqual(_base.Position.Phase, _unit.Position.Phase);
+                    return _unit.Position.Phase;
                 }
             }
 
@@ -119,7 +119,7 @@ namespace BattleSystem
             {
                 get
                 {
-                    foreach(var phase in Utils.FlagIndexes(p.phase))
+                    foreach(var phase in Utils.FlagIndexes(p.Phase))
                         yield return _tiles[phase][p.x][p.y];
                 }
             }
@@ -127,7 +127,7 @@ namespace BattleSystem
             public void RemoveUnit(PositionData position)
             {
                 //Remove unit from all phase it's in
-                foreach (var phase in Utils.FlagIndexes(position.phase))
+                foreach (var phase in Utils.FlagIndexes(position.Phase))
                 {
                     _tiles[phase][position.x][position.y].Unit = null;
                 }
@@ -137,7 +137,7 @@ namespace BattleSystem
             {
                 var coord = element.Position;
                 //Set unit in all phase he's in
-                foreach (var phase in Utils.FlagIndexes(coord.phase))
+                foreach (var phase in Utils.FlagIndexes(coord.Phase))
                 {
                     _tiles[phase][coord.x][coord.y].Unit = element;
                 }
@@ -168,7 +168,7 @@ namespace BattleSystem
 
             public void SetEnvironment(Environment env)
             {
-                foreach (var phase in Utils.FlagIndexes(env.Position.phase))
+                foreach (var phase in Utils.FlagIndexes(env.Position.Phase))
                 {
                     _tiles[phase][env.Position.x][env.Position.y].Base = env;
                 }
