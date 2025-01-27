@@ -10,12 +10,14 @@ namespace UnitSystem.Actions.Bases
     public interface IActionInfo : IIcon
     {
         public EPhase OriginPhase { get; }
+        public abstract EPhase TargetPhase(EPhase currentPhase);
         public abstract IEnumerable<TargetDefinition> Target { get; }
-        
+
         public bool IsValidTarget(Unit origin, IBattleElement[] target)
         {
-            return Target.Any(t => t.IsValidTarget(origin, target));
+            return Target.Any(t => t.IsValidTarget(origin, TargetPhase(origin.Position.Phase), target));
         }
+
         /// <summary>
         /// This methods assume that the targets have already been verified and set, you don't need to check them in there
         /// </summary>
@@ -24,7 +26,9 @@ namespace UnitSystem.Actions.Bases
         /// <param name="map"></param>
         /// <returns></returns>
         public bool CanExecuteOnMap(Unit origin, TargetCollection targets, Battle.Tilemap map);
+
         public void Execute(Unit origin, TargetCollection targetCollection);
+
         public void Execute(Unit origin, IBattleElement target)
         {
             Execute(origin, new TargetCollection(target));
