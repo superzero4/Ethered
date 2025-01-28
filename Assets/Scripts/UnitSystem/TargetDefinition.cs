@@ -1,5 +1,6 @@
 using System;
 using BattleSystem;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
@@ -27,7 +28,7 @@ namespace UnitSystem
         {
             None = 0,
             Self = 1,
-            OtherAlly = 2,
+            AnyOtherAlly = 2,
             AnyAlly = 3,
             AnyEnemy = 4,
             Ground = 8,
@@ -52,6 +53,12 @@ namespace UnitSystem
                 return false;
             }
 
+            if (!CheckForAllTargets(origin, targets, phase)) return false;
+            return true;
+        }
+
+        private bool CheckForAllTargets(IBattleElement origin, IBattleElement[] targets, EPhase phase)
+        {
             foreach (var target in targets)
             {
                 if (target.Position.DistanceTo(origin.Position) > _range)
@@ -67,44 +74,51 @@ namespace UnitSystem
                 bool isSelf = origin == target;
                 bool isAlly = origin.Team == target.Team;
                 bool isUnit = !target.IsGround;
-                switch (_targetType)
+                //TODO implement concrete logic all vs anything and find a batter way than this order dependant if forest
+                if (_targetType.HasFlag(TargetType.Anything))
                 {
-                    case TargetType.Self:
-                        if (!isSelf) return false;
-                        break;
-                    case TargetType.OtherAlly:
-                        if (isSelf || !isAlly) return false;
-                        break;
-                    case TargetType.AnyAlly:
-                        if (!isAlly) return false;
-                        break;
-                    case TargetType.AnyEnemy:
-                        if (isAlly) return false;
-                        break;
-                    case TargetType.Ground:
-                        if (isUnit) return false;
-                        break;
-                    case TargetType.AnyUnit:
-                        if (!isUnit) return false;
-                        break;
-                    //TODO implement the all vs any logic
-                    //case TargetType.AllEnemies:
-                    //    if (origin.Team == target.Team) return false;
-                    //    break;
-                    //case TargetType.AllOtherAllies:
-                    //    if (origin.Team == target.Team) return false;
-                    //    break;
-                    //case TargetType.AllAllies:
-                    //    if (origin.Team != target.Team) return false;
-                    //    break;
-                    case TargetType.Anything:
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                    return true;
+                }
+
+                if (isUnit)
+                {
+                    if (_targetType.HasFlag(TargetType.AnyUnit))
+                        return true;
+                    if (isAlly)
+                    {
+                        if (_targetType.HasFlag(TargetType.AnyAlly))
+                            return true;
+                        else if (_targetType.HasFlag(TargetType.AllAllies))
+                            return true;
+                        if (isSelf)
+                        {
+                            if (_targetType.HasFlag(TargetType.Self))
+                                return true;
+                        }
+                        else
+                        {
+                            if (_targetType.HasFlag(TargetType.AnyOtherAlly))
+                                return true;
+                            if (_targetType.HasFlag(TargetType.AllOtherAllies))
+                                return true;
+                        }
+                    }
+                    else
+                    {
+                        if (_targetType.HasFlag(TargetType.AnyEnemy))
+                            return true;
+                        else if (_targetType.HasFlag(TargetType.AllEnemies))
+                            return true;
+                    }
+                }
+                else
+                {
+                    if (_targetType.HasFlag(TargetType.Ground))
+                        return true;
                 }
             }
 
-            return true;
+            return false;
         }
     }
 }
