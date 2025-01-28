@@ -20,7 +20,7 @@ namespace BattleSystem
         private PositionData _position;
         [SerializeField]
         private ETeam _team;
-
+        
         public VisualInformations VisualInformations => _visualInformations;
 
         public PositionData Position
@@ -31,5 +31,14 @@ namespace BattleSystem
         
 
         public ETeam Team => _team;
+        //By default environment isn't destructible or damageable
+        public int CurrentHealth => 0;
+
+        public int MaxHealth => 0;
+
+        public void TakeDamage(int damage)
+        {
+            return;
+        }
     }
 }
