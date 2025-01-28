@@ -53,13 +53,19 @@ namespace BattleSystem
             foreach (var unit in _units)
             {
                 unit.OnUnitMoves?.AddListener(RefreshTileMap);
+                unit.OnUnitHealthChange?.AddListener(RefreshHealth);
             }
         }
 
-        private void RefreshTileMap(UnitEventData arg0)
+        private void RefreshTileMap(UnitMovementData arg0)
         {
             _battleElements.RemoveUnit(arg0.oldPosition);
             _battleElements.SetUnit(arg0.unit);
+            //TODO link with the tilemap display
+        }
+        private void RefreshHealth(UnitHealthData arg0)
+        {
+            //TODO link with the health display
         }
 
         public bool ConfirmAction(Action action)
@@ -87,7 +93,7 @@ namespace BattleSystem
                         var b = tile.Base;
                         sb.Append(b.Position);
                         //sb.Append(Utils.BattleElementToString(b));
-                        sb.Append(Utils.BattleElementToSimpleString(tile.Unit));
+                        sb.Append(Utils.BattleElementToSimpleString(tile.Unit,true));
                         //if (tile.Unit == null)
                         //    sb.Append("  ");
                         //else 
