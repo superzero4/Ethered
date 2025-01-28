@@ -25,7 +25,6 @@ namespace UnitSystem.Actions.Bases
             {
                 if (!tile.Empty) return false;
             }
-
             Debug.LogWarning("Simple movement is implemented via teleportation for now, no pathfinding.");
             return true;
         }

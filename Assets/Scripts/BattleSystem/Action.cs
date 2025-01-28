@@ -26,8 +26,10 @@ namespace BattleSystem
         }
 
         // ReSharper disable SimplifyConditionalTernaryExpression
-        public bool CanExecute(Battle.Tilemap map) =>
-            (IsReady ? _info.CanExecuteOnMap(_origin, _targets, map) : false);
+        public bool CanExecute(Battle.Tilemap map)
+        {
+            return (IsReady ?  _info.CanExecuteOnMap(_origin, _targets, map) : false);
+        }
         // ReSharper restore SimplifyConditionalTernaryExpression
 
         private bool IsReady => _origin != null && _targets != null;
