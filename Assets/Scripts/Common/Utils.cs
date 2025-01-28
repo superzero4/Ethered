@@ -18,26 +18,31 @@ namespace Common
             int index = 0;
             foreach (EPhase value in Enum.GetValues(typeof(EPhase)))
             {
-                var isPowerOfTwo = (value & (value - 1)) == 0;//To ignore "conpound values" and only use atomic ones
+                var isPowerOfTwo = (value & (value - 1)) == 0; //To ignore "conpound values" and only use atomic ones
                 if (value != 0 && isPowerOfTwo && phase.HasFlag(value))
                 {
-                    yield return index-1;
+                    yield return index - 1;
                 }
+
                 index++;
             }
         }
-        public static string BattleElementToSimpleString(IBattleElement unit)
+
+        public static string BattleElementToSimpleString(IBattleElement unit, bool displayHealth = false)
         {
-            if(unit==null)
-                return "  ";
-            return $"{PhaseToChar(unit.Phase)}{TeamToChar(unit.Team)}";
+            if (unit == null)
+                return "        ";
+            return $"{PhaseToChar(unit.Phase)}{TeamToChar(unit.Team)} " +
+                   (displayHealth ? $"{unit.CurrentHealth:D2}/{unit.MaxHealth:D2}" : "     ");
         }
-        public static string BattleElementToString(IBattleElement element)
+
+        public static string BattleElementToString(IBattleElement element, bool displayHealth = false)
         {
-            if(element==null)
+            if (element == null)
                 return "";
             return $"({element.Position}):{BattleElementToSimpleString(element)}";
         }
+
         public static string TeamToChar(ETeam team)
         {
             switch (team)
@@ -50,6 +55,7 @@ namespace Common
                     return " ";
             }
         }
+
         public static string PhaseToChar(EPhase phase)
         {
             switch (phase)
