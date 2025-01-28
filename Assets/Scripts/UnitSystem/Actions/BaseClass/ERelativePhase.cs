@@ -33,7 +33,7 @@ namespace UnitSystem
                     phase = EPhase.Both;
                     break;
                 default:
-                    throw new NotImplementedException("Missing either a case in the switch or a value converted from the enum.");
+                    throw new Exception("Missing either a case in the switch or a value converted from the enum.");
             }
 
             return phase;
