@@ -81,3 +81,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 .idea/.idea.Ethered/.idea/workspace.xml
+/Assets/RiderFlow.UserData
+Assets/RiderFlow.UserData.meta
