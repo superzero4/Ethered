@@ -9,13 +9,16 @@ namespace BattleSystem
     {
         [SerializeField] private List<Action> _actions;
 
-        public IEnumerator Execute(float delay = -1f)
+        public IEnumerator Execute(bool resetAfter, float delay = -1f)
         {
             foreach (var action in _actions)
             {
                 action.Execute();
-                yield return null;
+                yield return delay > 0 ? new WaitForSeconds(delay) : null;
             }
+
+            if (resetAfter)
+                _actions.Clear();
         }
 
         public void Initialize(List<Action> actions)

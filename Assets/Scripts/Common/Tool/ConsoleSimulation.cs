@@ -24,7 +24,6 @@ namespace Common.Events.Tool
             while (true)
             {
                 //To reset timeline in beetween every round, other way action are stacked in and repeated
-                battle.Timeline.Initialize(new List<Action>());
                 //_actionsToTest2 = new[] { _actionsToTest2[0] };
                 Debug.LogWarning(battle.ToString());
                 var units = battle.Units;
@@ -39,7 +38,7 @@ namespace Common.Events.Tool
                     }
                 }
 
-                yield return battle.Timeline.Execute();
+                yield return battle.Timeline.Execute(true);
                 yield return new WaitForSeconds(0.01f);
             }
         }
