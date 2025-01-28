@@ -15,65 +15,77 @@ MonoBehaviour:
   _size: {x: 5, y: 7}
   _enemies:
     _units:
-    - _visualInformations:
+    - _maxHealth: 20
+      _visualInformations:
         _sprite: {fileID: 0}
         _color: {r: 0, g: 0, b: 0, a: 0}
         _name: 
         _description: 
-    - _visualInformations:
+    - _maxHealth: 20
+      _visualInformations:
         _sprite: {fileID: 0}
         _color: {r: 0, g: 0, b: 0, a: 0}
         _name: 
         _description: 
-    - _visualInformations:
+    - _maxHealth: 20
+      _visualInformations:
         _sprite: {fileID: 0}
         _color: {r: 0, g: 0, b: 0, a: 0}
         _name: 
         _description: 
-    - _visualInformations:
+    - _maxHealth: 20
+      _visualInformations:
         _sprite: {fileID: 0}
         _color: {r: 0, g: 0, b: 0, a: 0}
         _name: 
         _description: 
-    - _visualInformations:
+    - _maxHealth: 20
+      _visualInformations:
         _sprite: {fileID: 0}
         _color: {r: 0, g: 0, b: 0, a: 0}
         _name: 
         _description: 
   _squad:
     _units:
-    - _visualInformations:
+    - _maxHealth: 20
+      _visualInformations:
         _sprite: {fileID: 0}
         _color: {r: 0, g: 0, b: 0, a: 0}
         _name: 
         _description: 
-    - _visualInformations:
+    - _maxHealth: 20
+      _visualInformations:
         _sprite: {fileID: 0}
         _color: {r: 0, g: 0, b: 0, a: 0}
         _name: 
         _description: 
-    - _visualInformations:
+    - _maxHealth: 20
+      _visualInformations:
         _sprite: {fileID: 0}
         _color: {r: 0, g: 0, b: 0, a: 0}
         _name: 
         _description: 
-    - _visualInformations:
+    - _maxHealth: 20
+      _visualInformations:
         _sprite: {fileID: 0}
         _color: {r: 0, g: 0, b: 0, a: 0}
         _name: 
         _description: 
-    - _visualInformations:
+    - _maxHealth: 20
+      _visualInformations:
         _sprite: {fileID: 0}
         _color: {r: 0, g: 0, b: 0, a: 0}
         _name: 
         _description: 
   _defaultUnit:
+    _maxHealth: 20
     _visualInformations:
       _sprite: {fileID: 0}
       _color: {r: 0, g: 0, b: 0, a: 0}
       _name: 
       _description: 
   _defaultEnemy:
+    _maxHealth: 20
     _visualInformations:
       _sprite: {fileID: 0}
       _color: {r: 0, g: 0, b: 0, a: 0}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using BattleSystem;
+using NaughtyAttributes;
 using SquadSystem;
 using UnitSystem;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace Common
     {
         [SerializeField] private Vector2Int _size;
         [SerializeField] private Squad _enemies;
-        [SerializeField] private Squad _squad; 
+        [SerializeField] private Squad _squad;
         [SerializeField] private UnitInfo _defaultUnit;
         [SerializeField] private UnitInfo _defaultEnemy;
         [SerializeField] private Environment _defaultEnvironment;
@@ -23,19 +24,14 @@ namespace Common
         public Squad Enemies => _enemies;
         public Environment DefaultEnvironment => _defaultEnvironment;
         public List<Environment> SpecificEnvironments => _specificEnvironments;
-        
+
         public Vector2Int Size => _size;
 
-        private void OnValidate()
+        [Button]
+        private void CreateTeamsFromDefaults()
         {
-            if (_squad.Units == null || _squad.Units.Count == 0)
-            {
-                _squad.Init(5, null);
-            }
-            if (_enemies.Units == null || _enemies.Units.Count == 0)
-            {
-                _enemies.Init(5, null);
-            }
+            _squad.Init(5, _defaultUnit);
+            _enemies.Init(5, _defaultEnemy);
         }
     }
 }
