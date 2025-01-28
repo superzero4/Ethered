@@ -10,10 +10,12 @@ namespace UnitSystem.Actions.Bases
     public interface IActionInfo : IIcon
     {
         public EPhase OriginPhase { get; }
-        public abstract IEnumerable<TargetDefinition> Target { get; }
+        public IEnumerable<TargetDefinition> Target { get; }
 
         public bool IsValidTarget(Unit origin, IBattleElement[] target)
         {
+            if (!OriginPhase.HasFlag(origin.Position.Phase))
+                return false;
             return Target.Any(t =>
                 t.IsValidTarget(origin, target));
         }
