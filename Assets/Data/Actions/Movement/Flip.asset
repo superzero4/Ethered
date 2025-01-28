@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 755b567109c24990a978c0c1cb87fea7, type: 3}
+  m_Script: {fileID: 11500000, guid: c59043d41ae644f3a87f8375a5f5d590, type: 3}
   m_Name: Flip
   m_EditorClassIdentifier: 
   _visualInformations:
@@ -19,4 +19,4 @@ MonoBehaviour:
     _description: 
   _originPhase: -1
   _range: 0
-  _destinationPhase: 2
+  _targetPhase: -2

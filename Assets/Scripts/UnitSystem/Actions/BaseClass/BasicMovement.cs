@@ -4,15 +4,17 @@ using UnityEngine;
 
 namespace UnitSystem.Actions.Bases
 {
-    public abstract class BasicMovement : ActionInfoBaseSO
+    [CreateAssetMenu(fileName = "BasicMovement", menuName = "Actions/Movement/BasicMovement", order = 0)]
+    public class BasicMovement : ActionInfoBaseSO
     {
         [SerializeField] private EPhase _originPhase;
         [SerializeField, Range(0, 20)] private int _range = 1;
+        [SerializeField] private ERelativePhase _targetPhase;
         public override EPhase OriginPhase => _originPhase;
 
         public override IEnumerable<TargetDefinition> Target
         {
-            get { yield return new TargetDefinition(1, _range, TargetDefinition.TargetType.Ground); }
+            get { yield return new TargetDefinition(_targetPhase, 1, _range, TargetDefinition.TargetType.Ground); }
         }
 
         public override bool CanExecuteOnMap(Unit origin, TargetCollection targets, Battle.Tilemap map)

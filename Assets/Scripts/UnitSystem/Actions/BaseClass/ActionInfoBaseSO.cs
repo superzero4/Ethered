@@ -14,7 +14,6 @@ namespace UnitSystem.Actions.Bases
         public virtual VisualInformations VisualInformations => _visualInformations;
 
         public abstract EPhase OriginPhase { get; }
-        public abstract EPhase TargetPhase(EPhase currentPhase);
         public abstract IEnumerable<TargetDefinition> Target { get; }
         public abstract bool CanExecuteOnMap(Unit origin, TargetCollection targets, Battle.Tilemap map);
         public abstract void Execute(Unit origin, TargetCollection targetCollection);
