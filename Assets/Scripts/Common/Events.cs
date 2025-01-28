@@ -13,6 +13,14 @@ namespace Common.Events
     {
         
     }
+    public class UnitMovementEvent : UnityEvent<UnitMovementData>
+    {
+        
+    }
+    public class UnitHealthEvent : UnityEvent<UnitHealthData>
+    {
+        
+    }
     public class UnitEvent : UnityEvent<UnitEventData>
     {
         
@@ -26,11 +34,17 @@ namespace Common.Events
     {
         
     }
-    
-    public struct UnitEventData 
+    public class UnitMovementData : UnitEventData
+    {
+        public PositionData oldPosition;
+    }
+    public class UnitHealthData : UnitEventData
+    {
+        public int oldHealth;
+    }
+    public class UnitEventData 
     {
         public Unit unit;
-        public PositionData oldPosition;
         public static implicit operator UnitEventData(Unit unit)
         {
             return new UnitEventData { unit = unit };
