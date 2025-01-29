@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using BattleSystem.TileSystem;
 using Common;
@@ -21,11 +22,17 @@ namespace BattleSystem
         {
             _timeline = new Timeline();
             _timeline.Initialize(new List<Action>());
-            _battleElements = new Tilemap(new Vector3Int(2, info.Size.x, info.Size.y),
+            _battleElements = new Tilemap(new Vector2Int(info.Size.x, info.Size.y), 2,
                 new Tile(info.DefaultEnvironment, null));
-            if (info.SpecificEnvironments != null && info.SpecificEnvironments.Count > 0)
-                foreach (var env in info.SpecificEnvironments)
+            var specific = info.GetSpecificEnvironments();
+            if (specific != null && specific.Any())
+            {
+                foreach (var env in specific)
+                {
                     _battleElements.SetEnvironment(env);
+                }
+            }
+
             _units = new List<Unit>();
             for (int i = 0; i < info.Squad.Units.Count; i++)
             {
@@ -61,6 +68,7 @@ namespace BattleSystem
             _battleElements.SetUnit(arg0.unit);
             //TODO link with the tilemap display
         }
+
         private void RefreshHealth(UnitHealthData arg0)
         {
             //TODO link with the health display
@@ -90,12 +98,9 @@ namespace BattleSystem
                     {
                         var b = tile.Base;
                         sb.Append(b.Position);
+                        sb.Append(Utils.WalkTypeToChar(b.allowedMovement));
                         //sb.Append(Utils.BattleElementToString(b));
-                        sb.Append(Utils.BattleElementToSimpleString(tile.Unit,true));
-                        //if (tile.Unit == null)
-                        //    sb.Append("  ");
-                        //else 
-                        //    sb.Append(Utils.TeamToChar(tile.Unit.Team));
+                        sb.Append(Utils.BattleElementToSimpleString(tile.Unit, true));
                         sb.Append(" ");
                     }
 
