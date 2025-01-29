@@ -70,5 +70,21 @@ namespace Common
                     return "x";
             }
         }
+
+        public static char WalkTypeToChar(EAllowedMovement bAllowedMovement)
+        {
+            
+            switch(bAllowedMovement)
+            {
+                case EAllowedMovement.Nothing:
+                    return 'X';
+                case EAllowedMovement.Cross:
+                    return '-';
+                case EAllowedMovement.Stop:
+                    return 'O';
+                default:
+                    return '?';
+            }
+        }
     }
 }
