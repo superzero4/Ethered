@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using BattleSystem;
+using BattleSystem.TileSystem;
 using UI.Battle;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace UnitSystem.Actions.Bases
 
         public abstract EPhase OriginPhase { get; }
         public abstract IEnumerable<TargetDefinition> Target { get; }
-        public abstract bool CanExecuteOnMap(Unit origin, TargetCollection targets, Battle.Tilemap map);
+        public abstract bool CanExecuteOnMap(Unit origin, TargetCollection targets, Tilemap map);
         public abstract void Execute(Unit origin, TargetCollection targetCollection);
     }
 }

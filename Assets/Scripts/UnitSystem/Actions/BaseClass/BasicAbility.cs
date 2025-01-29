@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using BattleSystem;
+using BattleSystem.TileSystem;
 using NaughtyAttributes;
 using UnitSystem.Actions.Bases;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace UnitSystem.Actions.BaseClass
 
         public override IEnumerable<TargetDefinition> Target => _target;
 
-        public override bool CanExecuteOnMap(Unit origin, TargetCollection targets, Battle.Tilemap map)
+        public override bool CanExecuteOnMap(Unit origin, TargetCollection targets, Tilemap map)
         {
             if (_requireLOS)
             {

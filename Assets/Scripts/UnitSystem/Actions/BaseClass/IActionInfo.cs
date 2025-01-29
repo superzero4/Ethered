@@ -27,7 +27,7 @@ namespace UnitSystem.Actions.Bases
         /// <param name="targets"></param>
         /// <param name="map"></param>
         /// <returns></returns>
-        public bool CanExecuteOnMap(Unit origin, TargetCollection targets, Battle.Tilemap map);
+        public bool CanExecuteOnMap(Unit origin, TargetCollection targets, BattleSystem.TileSystem.Tilemap map);
 
         public void Execute(Unit origin, TargetCollection targetCollection);
 

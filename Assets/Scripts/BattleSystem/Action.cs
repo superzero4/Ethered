@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BattleSystem.TileSystem;
 using UI.Battle;
 using UnitSystem;
 using UnitSystem.Actions.Bases;
@@ -26,7 +27,7 @@ namespace BattleSystem
         }
 
         // ReSharper disable SimplifyConditionalTernaryExpression
-        public bool CanExecute(Battle.Tilemap map)
+        public bool CanExecute(Tilemap map)
         {
             return (IsReady ?  _info.CanExecuteOnMap(_origin, _targets, map) : false);
         }

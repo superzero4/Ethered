@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using BattleSystem;
+using BattleSystem.TileSystem;
 using UnityEngine;
 
 namespace UnitSystem.Actions.Bases
@@ -17,7 +18,7 @@ namespace UnitSystem.Actions.Bases
             get { yield return new TargetDefinition(_targetPhase, 1, _range, TargetDefinition.TargetType.Ground); }
         }
 
-        public override bool CanExecuteOnMap(Unit origin, TargetCollection targets, Battle.Tilemap map)
+        public override bool CanExecuteOnMap(Unit origin, TargetCollection targets, Tilemap map)
         {
             var target = targets.Target[0];
             //If we are on multiple phases, we need to be able to land on all of them
