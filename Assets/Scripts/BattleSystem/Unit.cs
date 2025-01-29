@@ -47,11 +47,15 @@ namespace UnitSystem
         public UnitMovementEvent OnUnitMoves => _onUnitMoves;
         public UnitHealthEvent OnUnitHealthChange => _onUnitHealthChange;
 
-        public int CurrentHealth => _currentHealth;
+        int IHealth.CurrentHealth
+        {
+            get => _currentHealth;
+            set => _currentHealth = value;
+        }
 
         public int MaxHealth => _info.MaxHealth;
 
-        public void TakeDamage(int damage)
+        void IHealth.TakeDamageUncapped(int damage)
         {
             var data = new UnitHealthData() { unit = this, oldHealth = _currentHealth };
             _currentHealth -= damage;

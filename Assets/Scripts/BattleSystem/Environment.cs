@@ -29,15 +29,17 @@ namespace BattleSystem
             set => _position = value;
         }
 
-
         public ETeam Team => _team;
 
-        //By default environment isn't destructible or damageable
-        public int CurrentHealth => 0;
+        int IHealth.CurrentHealth
+        {
+            get => 0;
+            set { return; }
+        }
 
         public int MaxHealth => 0;
 
-        public void TakeDamage(int damage)
+        void IHealth.TakeDamageUncapped(int damage)
         {
             return;
         }
