@@ -9,12 +9,15 @@ namespace BattleSystem.TileSystem
     [Serializable]
     public class Tile
     {
+        [SerializeField] private Environment _base;
+        [SerializeField] [CanBeNull] private Unit _unit;
+
         public Tile(Tile other)
         {
             _base = other._base;
             _unit = other._unit;
         }
-
+        public EAllowedMovement AllowedMovement => _unit==null ? _base.allowedMovement : _base.allowedMovement & _unit.allowedMovement;
         public bool Empty => _unit == null;
 
         public Tile(Environment baseElement, Unit unit)
@@ -31,9 +34,6 @@ namespace BattleSystem.TileSystem
                 return _unit.Position.Phase;
             }
         }
-
-        [SerializeField] private Environment _base;
-        [SerializeField] [CanBeNull] private Unit _unit;
 
         public Environment Base
         {
