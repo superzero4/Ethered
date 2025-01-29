@@ -119,13 +119,13 @@ MonoBehaviour:
     positions:
     - _position:
         position: {x: 0, y: 2}
-      phase: -1
+      phase: 1
     - _position:
         position: {x: 1, y: 2}
-      phase: -1
+      phase: 1
     - _position:
         position: {x: 2, y: 2}
-      phase: -1
+      phase: 1
     - _position:
         position: {x: 3, y: 2}
       phase: -1
