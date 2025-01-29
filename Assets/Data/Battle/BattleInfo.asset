@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be1fcc23db1945d5a3b9653875272df9, type: 3}
   m_Name: BattleInfo
   m_EditorClassIdentifier: 
-  _size: {x: 5, y: 7}
+  _size: {x: 5, y: 5}
   _enemies:
     _units:
     - _maxHealth: 20
@@ -135,3 +135,25 @@ MonoBehaviour:
     - _position:
         position: {x: 5, y: 2}
       phase: -1
+  - environment:
+      _visualInformations:
+        _sprite: {fileID: 0}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+      _position:
+        _position:
+          position: {x: 0, y: 0}
+        phase: 0
+      _team: 0
+      _movementAllowed: 1
+    positions:
+    - _position:
+        position: {x: 0, y: 2}
+      phase: 2
+    - _position:
+        position: {x: 1, y: 2}
+      phase: 2
+    - _position:
+        position: {x: 2, y: 2}
+      phase: 2
