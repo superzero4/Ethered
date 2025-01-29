@@ -50,7 +50,7 @@ namespace Common
                 case ETeam.Player:
                     return "P";
                 case ETeam.Enemy:
-                    return "O";
+                    return "H";
                 default:
                     return " ";
             }
@@ -81,7 +81,7 @@ namespace Common
                 case EAllowedMovement.Cross:
                     return '-';
                 case EAllowedMovement.Stop:
-                    return 'O';
+                    return 'o';
                 default:
                     return '?';
             }
