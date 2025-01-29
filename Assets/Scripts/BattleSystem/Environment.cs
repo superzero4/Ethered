@@ -7,20 +7,20 @@ namespace BattleSystem
     [Serializable]
     public struct Environment : IBattleElement
     {
-        public Environment(EPhase phase, Vector2Int position)
+        public Environment(EPhase phase, Vector2Int position, EAllowedMovement movementAllowed)
         {
             _position = new PositionData(position, phase);
             _team = ETeam.None;
+            _movementAllowed = movementAllowed;
             _visualInformations = new VisualInformations();
         }
 
-        [SerializeField]
-        private VisualInformations _visualInformations;
-        [SerializeField]
-        private PositionData _position;
-        [SerializeField]
-        private ETeam _team;
-        
+        [SerializeField] private VisualInformations _visualInformations;
+        [SerializeField] private PositionData _position;
+        [SerializeField] private ETeam _team;
+
+        [SerializeField] private EAllowedMovement _movementAllowed;
+        public EAllowedMovement allowedMovement => _movementAllowed;
         public VisualInformations VisualInformations => _visualInformations;
 
         public PositionData Position
@@ -28,9 +28,10 @@ namespace BattleSystem
             get => _position;
             set => _position = value;
         }
-        
+
 
         public ETeam Team => _team;
+
         //By default environment isn't destructible or damageable
         public int CurrentHealth => 0;
 
