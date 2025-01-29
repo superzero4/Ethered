@@ -4,17 +4,9 @@ using UnityEngine.Assertions;
 
 namespace BattleSystem.TileSystem
 {
-    public class Traversing
+    public static class TilemapPathFindingExtensions
     {
-        private Tilemap _tilemap;
-        public Tilemap Tilemap => _tilemap;
-
-        public Traversing(Tilemap tilemap)
-        {
-            _tilemap = tilemap;
-        }
-
-        public IEnumerable<Tile> InRange(PositionData.PositionIndexer position, EPhase phase, int range)
+        public static IEnumerable<Tile> InRange(this Tilemap map,PositionData.PositionIndexer position, EPhase phase, int range)
         {
             var pos = position.position;
             for (int r = -range; r <= range; r++)
@@ -25,7 +17,7 @@ namespace BattleSystem.TileSystem
                 {
                     var p = new PositionData(new PositionData.PositionIndexer(pos.x + r * dir.x, pos.y + r * dir.y),
                         phase);
-                    foreach (var tile in _tilemap[p])
+                    foreach (var tile in map[p])
                     {
                         Assert.IsTrue(tile.Base.Position.DistanceTo(p) <= range);
                         yield return tile;
@@ -34,7 +26,7 @@ namespace BattleSystem.TileSystem
             }
         }
 
-        public IEnumerable<Tile> InReach(PositionData.PositionIndexer position, EPhase phase, int range)
+        public static IEnumerable<Tile> InReach(this Tilemap map,PositionData.PositionIndexer position, EPhase phase, int range)
         {
             var pos = position.position;
             HashSet<Tile> visited = new HashSet<Tile>();

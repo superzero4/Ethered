@@ -15,14 +15,11 @@ namespace BattleSystem.TileSystem
     {
         [SerializeField] private Tile[][][] _tiles;
         [SerializeField] private Vector3Int _size;
-        [SerializeField] private Traversing _traversing;
-        public Traversing Traversing => _traversing;
         public Vector3Int Size => _size;
         public IEnumerable<Tile[][]> Tiles => _tiles;
 
         public Tilemap(Vector2Int sizeXY, int numberOfPhase, Tile defaultTile)
         {
-            _traversing = new Traversing(this);
             Vector3Int size = new Vector3Int(sizeXY.x, sizeXY.y, numberOfPhase);
             _tiles = new Tile[size.z][][];
             for (int i = 0; i < _tiles.Length; i++)

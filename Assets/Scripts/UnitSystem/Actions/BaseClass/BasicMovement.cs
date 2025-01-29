@@ -30,7 +30,7 @@ namespace UnitSystem.Actions.Bases
             }
 
             int count = 0;
-            foreach (var tile in map.Traversing.InReach(origin.Position.Position, origin.Position.Phase, _range))
+            foreach (var tile in map.InReach(origin.Position.Position, origin.Position.Phase, _range))
             {
                 if (hash.Contains(tile))
                 {
