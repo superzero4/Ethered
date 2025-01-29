@@ -40,6 +40,8 @@ namespace UnitSystem
 
         public ETeam Team => _team;
 
+        public EAllowedMovement allowedMovement => EAllowedMovement.Cross;
+
         public VisualInformations VisualInformations => _info.VisualInformations;
 
         public UnitMovementEvent OnUnitMoves => _onUnitMoves;
