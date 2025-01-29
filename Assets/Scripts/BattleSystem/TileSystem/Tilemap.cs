@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BattleSystem;
 using Common;
+using JetBrains.Annotations;
 using UnitSystem;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace BattleSystem.TileSystem
 {
@@ -11,14 +14,60 @@ namespace BattleSystem.TileSystem
     public class Tilemap
     {
         [SerializeField] private Tile[][][] _tiles;
+        [SerializeField] private Vector3Int _size;
+        [SerializeField] private Traversing _traversing;
+        public Traversing Traversing => _traversing;
+        public Vector3Int Size => _size;
         public IEnumerable<Tile[][]> Tiles => _tiles;
+
+        public Tilemap(Vector2Int sizeXY, int numberOfPhase, Tile defaultTile)
+        {
+            _traversing = new Traversing(this);
+            Vector3Int size = new Vector3Int(sizeXY.x, sizeXY.y, numberOfPhase);
+            _tiles = new Tile[size.z][][];
+            for (int i = 0; i < _tiles.Length; i++)
+            {
+                _tiles[i] = new Tile[size.x][];
+                for (int j = 0; j < _tiles[i].Length; j++)
+                {
+                    _tiles[i][j] = new Tile[size.y];
+                    for (int k = 0; k < _tiles[i][j].Length; k++)
+                    {
+                        var b = defaultTile.Base;
+                        var u = defaultTile.Unit;
+                        b.Position = new PositionData(new Vector2Int(j, k),
+                            i == 0 ? EPhase.Normal : EPhase.Ethered);
+                        if (u != null)
+                            u.Move(b.Position);
+                        _tiles[i][j][k] = new Tile(b, u);
+                    }
+                }
+            }
+        }
+
+        
+        [CanBeNull]
+        public Tile this[PositionData.PositionIndexer p, int phaseIndex]
+        {
+            get
+            {
+                if (phaseIndex < 0 || phaseIndex >= _tiles.Length || p.x < 0 || p.x >= _tiles[phaseIndex].Length ||
+                    p.y < 0 || p.y >= _tiles[phaseIndex][p.x].Length)
+                    return null;
+                return _tiles[phaseIndex][p.x][p.y];
+            }
+        }
 
         public IEnumerable<Tile> this[PositionData p]
         {
             get
             {
-                foreach (var phase in Utils.FlagIndexes(p.Phase))
-                    yield return _tiles[phase][p.x][p.y];
+                foreach (var ph in Utils.FlagIndexes(p.Phase))
+                {
+                    var val = this[p.Position, ph];
+                    if (val != null)
+                        yield return val;
+                }
             }
         }
 
@@ -41,34 +90,16 @@ namespace BattleSystem.TileSystem
             }
         }
 
-        public Tilemap(Vector3Int size, Tile defaultTile)
-        {
-            _tiles = new Tile[size.x][][];
-            for (int i = 0; i < _tiles.Length; i++)
-            {
-                _tiles[i] = new Tile[size.y][];
-                for (int j = 0; j < _tiles[i].Length; j++)
-                {
-                    _tiles[i][j] = new Tile[size.z];
-                    for (int k = 0; k < _tiles[i][j].Length; k++)
-                    {
-                        var b = defaultTile.Base;
-                        var u = defaultTile.Unit;
-                        b.Position = new PositionData(new Vector2Int(j, k),
-                            i == 0 ? EPhase.Normal : EPhase.Ethered);
-                        if (u != null)
-                            u.Move(b.Position);
-                        _tiles[i][j][k] = new Tile(b, u);
-                    }
-                }
-            }
-        }
-
+        
         public void SetEnvironment(Environment env)
         {
             foreach (var phase in Utils.FlagIndexes(env.Position.Phase))
             {
-                _tiles[phase][env.Position.x][env.Position.y].Base = env;
+                var tile = this[env.Position.Position,phase];
+                if (tile != null)
+                {
+                    tile.Base = env;
+                }
             }
         }
     }
