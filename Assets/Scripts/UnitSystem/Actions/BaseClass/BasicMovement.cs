@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using BattleSystem;
 using BattleSystem.TileSystem;
 using UnityEngine;
@@ -22,12 +23,23 @@ namespace UnitSystem.Actions.Bases
         {
             var target = targets.Target[0];
             //If we are on multiple phases, we need to be able to land on all of them
-            foreach (var tile in map[target.Position])
+            var hash = new HashSet<Tile>(map[target.Position]);
+            foreach (var tile in hash)
             {
                 if (!tile.Empty) return false;
             }
-            Debug.LogWarning("Simple movement is implemented via teleportation for now, no pathfinding.");
-            return true;
+
+            int count = 0;
+            foreach (var tile in map.Traversing.InReach(origin.Position.Position, origin.Position.Phase, _range))
+            {
+                if (hash.Contains(tile))
+                {
+                    count++;
+                    if (count == hash.Count) return true;
+                }
+            }
+
+            return false;
         }
 
         public override void Execute(Unit origin, TargetCollection targetCollection)
