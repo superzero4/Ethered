@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BattleSystem;
 using NaughtyAttributes;
 using SquadSystem;
@@ -19,11 +20,29 @@ namespace Common
         [SerializeField] private UnitInfo _defaultUnit;
         [SerializeField] private UnitInfo _defaultEnemy;
         [SerializeField] private Environment _defaultEnvironment;
-        [SerializeField] private List<Environment> _specificEnvironments;
+        [SerializeField] private List<EnvironmentGroup> _specificEnvironments;
+
+        [Serializable]
+        private struct EnvironmentGroup
+        {
+            [SerializeField] public Environment environment;
+            [SerializeField] public PositionData[] positions;
+        }
+
         public Squad Squad => _squad;
         public Squad Enemies => _enemies;
         public Environment DefaultEnvironment => _defaultEnvironment;
-        public List<Environment> SpecificEnvironments => _specificEnvironments;
+
+        public IEnumerable<Environment> GetSpecificEnvironments()
+        {
+            return _specificEnvironments
+                .SelectMany(ep => ep.positions
+                    .Select(p =>
+                    {
+                        ep.environment.Position = p;
+                        return ep.environment;
+                    }));
+        }
 
         public Vector2Int Size => _size;
 
