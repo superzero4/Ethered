@@ -53,15 +53,15 @@ namespace BattleSystem.TileSystem
                     {
                         if (!visited.Contains(close))
                         {
-                            var cross = close.Base.allowedMovement;
+                            var allowed = close.Base.allowedMovement;
                             //We consider a tile reachable if we can cross it and it's not the last or if we can stop on it
-                            var couple = (close, depth + 1);
-                            if (cross == EAllowedMovement.Nothing)
+                            if (allowed == EAllowedMovement.Nothing)
                                 continue;
-                            if ((int)cross > (int)(EAllowedMovement.Cross))
+                            var couple = (close, depth + 1);
+                            if ((int)allowed >= (int)(EAllowedMovement.Cross))
                             {
                                 stack.Enqueue(couple);
-                                if (depth < range || cross == EAllowedMovement.Stop)
+                                if (allowed == EAllowedMovement.Stop)
                                 {
                                     yield return close;
                                 }
