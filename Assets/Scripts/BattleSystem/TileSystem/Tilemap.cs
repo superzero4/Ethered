@@ -17,7 +17,7 @@ namespace BattleSystem.TileSystem
         [SerializeField] private Vector3Int _size;
         public Vector3Int Size => _size;
         public IEnumerable<Tile[][]> Tiles => _tiles;
-
+        
         public Tilemap(Vector2Int sizeXY, int numberOfPhase, Tile defaultTile)
         {
             Vector3Int size = new Vector3Int(sizeXY.x, sizeXY.y, numberOfPhase);
@@ -44,7 +44,7 @@ namespace BattleSystem.TileSystem
 
         
         [CanBeNull]
-        public Tile this[PositionData.PositionIndexer p, int phaseIndex]
+        public Tile this[PositionIndexer p, int phaseIndex]
         {
             get
             {

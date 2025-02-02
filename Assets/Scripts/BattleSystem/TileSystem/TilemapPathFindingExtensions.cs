@@ -6,7 +6,7 @@ namespace BattleSystem.TileSystem
 {
     public static class TilemapPathFindingExtensions
     {
-        public static IEnumerable<Tile> InRange(this Tilemap map,PositionData.PositionIndexer position, EPhase phase, int range)
+        public static IEnumerable<Tile> InRange(this Tilemap map,PositionIndexer position, EPhase phase, int range)
         {
             var pos = position.position;
             for (int r = -range; r <= range; r++)
@@ -15,7 +15,7 @@ namespace BattleSystem.TileSystem
                     continue;
                 foreach (var dir in new (int x, int y)[] { (1, 0), (0, 1) })
                 {
-                    var p = new PositionData(new PositionData.PositionIndexer(pos.x + r * dir.x, pos.y + r * dir.y),
+                    var p = new PositionData(new PositionIndexer(pos.x + r * dir.x, pos.y + r * dir.y),
                         phase);
                     foreach (var tile in map[p])
                     {
@@ -26,12 +26,12 @@ namespace BattleSystem.TileSystem
             }
         }
 
-        public static IEnumerable<Tile> InReach(this Tilemap map,PositionData.PositionIndexer position, EPhase phase, int range)
+        public static IEnumerable<Tile> InReach(this Tilemap map,PositionIndexer position, EPhase phase, int range)
         {
             var pos = position.position;
             HashSet<Tile> visited = new HashSet<Tile>();
             Queue<(Tile, int)> stack = new Queue<(Tile, int)>();
-            foreach (var start in _tilemap[new PositionData(pos.x, pos.y, phase)])
+            foreach (var start in map[new PositionData(pos.x, pos.y, phase)])
             {
                 stack.Enqueue((start, 0));
             }
@@ -41,7 +41,7 @@ namespace BattleSystem.TileSystem
                 (Tile current, int depth) = stack.Dequeue();
                 visited.Add(current);
                 {
-                    foreach (var close in InRange(current.Base.Position.Position, phase, 1))
+                    foreach (var close in map.InRange(current.Base.Position.Position, phase, 1))
                     {
                         if (!visited.Contains(close))
                         {

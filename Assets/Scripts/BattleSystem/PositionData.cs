@@ -8,32 +8,6 @@ namespace BattleSystem
     [Serializable]
     public struct PositionData
     {
-        /// <summary>
-        /// Simple Wrapper class in case we'd like to use another indexer type
-        /// </summary>
-        [System.Serializable]
-        public struct PositionIndexer
-        {
-            [SerializeField]
-            public Vector2Int position;
-            public int x => position.x;
-            public int y => position.y;
-            public PositionIndexer(int x, int y)
-            {
-                position = new Vector2Int(x, y);
-            }
-
-            public static implicit operator Vector2Int(PositionIndexer positionIndexer)
-            {
-                return positionIndexer.position;
-            }
-
-            public static implicit operator PositionIndexer(Vector2Int position)
-            {
-                return new PositionIndexer { position = position };
-            }
-        }
-
         public int DistanceTo(PositionData other)
         {
             return Mathf.Abs(x - other.x) + Mathf.Abs(y - other.y);
@@ -74,6 +48,47 @@ namespace BattleSystem
         public override string ToString()
         {
             return $"({Position.x},{Position.y}:{Utils.PhaseToChar(phase)})";
+        }
+    }
+
+    /// <summary>
+    /// Simple Wrapper class in case we'd like to use another indexer type with only easy cast/forward operator
+    /// </summary>
+    [System.Serializable]
+    public struct PositionIndexer
+    {
+        [SerializeField] public Vector2Int position;
+
+        public int x
+        {
+            get { return position.x; }
+            set { position.x = value; }
+        }
+
+        public int y
+        {
+            get { return position.y; }
+            set { position.y = value; }
+        }
+
+        public PositionIndexer(int x, int y)
+        {
+            position = new Vector2Int(x, y);
+        }
+
+        public static implicit operator Vector2Int(PositionIndexer positionIndexer)
+        {
+            return positionIndexer.position;
+        }
+
+        public static implicit operator PositionIndexer(Vector2Int position)
+        {
+            return new PositionIndexer { position = position };
+        }
+
+        public override string ToString()
+        {
+            return position.ToString();
         }
     }
 }
