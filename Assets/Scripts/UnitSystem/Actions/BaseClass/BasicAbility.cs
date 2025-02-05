@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using BattleSystem;
 using BattleSystem.TileSystem;
 using NaughtyAttributes;
@@ -28,9 +29,7 @@ namespace UnitSystem.Actions.BaseClass
         {
             if (_requireLOS)
             {
-                Debug.LogWarning(
-                    "TODO LOS Ability should check concretely for the LOS, no checking of cover or anything currently.");
-                return true;
+                return targets.Target.All(t => map.HasLOS(origin.Position, t.Position));
             }
 
             return true;
