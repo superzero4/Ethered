@@ -28,9 +28,7 @@ namespace UnitSystem.Actions.BaseClass
         public override bool CanExecuteOnMap(Unit origin, TargetCollection targets, Tilemap map)
         {
             if (_requireLOS)
-            {
                 return targets.Target.All(t => map.HasLOS(origin.Position, t.Position));
-            }
 
             return true;
         }
