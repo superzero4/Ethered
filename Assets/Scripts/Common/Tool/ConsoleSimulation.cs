@@ -10,18 +10,15 @@ using UnityEngine;
 using Action = BattleSystem.Action;
 using Random = UnityEngine.Random;
 
-namespace Common.Events.Tool
+namespace Common.Tool
 {
     public class ConsoleSimulation : MonoBehaviour
     {
-        [SerializeField] private BattleInfo _battleInfo;
         [SerializeField] private ActionInfoBaseSO[] _actionsToTest;
         [SerializeField] private ActionInfoBaseSO[] _actionsToTest2;
 
-        IEnumerator Start()
+        public IEnumerator StartSimulation(Battle battle)
         {
-            var battle = new Battle();
-            battle.Init(_battleInfo);
             while (true)
             {
                 //To reset timeline in beetween every round, other way action are stacked in and repeated
@@ -44,15 +41,16 @@ namespace Common.Events.Tool
             }
         }
 
-        
+
         private bool QueueAction(Battle battle, Unit unit, ActionInfoBaseSO[] actionA, bool targetBase)
         {
+            var Size = battle.Tiles.Size;
             IBattleElement target;
             if (targetBase)
             {
                 var ph = Random.Range(1, 3);
-                var posX = Random.Range(0, _battleInfo.Size.x);
-                var posY = Random.Range(0, _battleInfo.Size.y);
+                var posX = Random.Range(0, Size.x);
+                var posY = Random.Range(0, Size.y);
                 var pos = new PositionData(ph, posX, posY);
                 var tile = battle.Tiles[pos].ToList();
                 target = tile[0].Base;
