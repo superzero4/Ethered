@@ -57,7 +57,7 @@ namespace UnitSystem
             return true;
         }
 
-        private bool CheckForAllTargets(IBattleElement origin, IBattleElement[] stargets, EPhase phase)
+        private bool CheckForAllTargets(IBattleElement origin, IBattleElement[] targets, EPhase phase)
         {
             foreach (var target in targets)
             {
