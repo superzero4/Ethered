@@ -1,33 +1,34 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using BattleSystem;
 using Common;
 using JetBrains.Annotations;
+using NaughtyAttributes;
 using UnitSystem;
 using UnityEngine;
-using UnityEngine.Assertions;
-
+using ReadOnly = NaughtyAttributes.ReadOnlyAttribute;
 namespace BattleSystem.TileSystem
 {
     [Serializable]
     public class Tilemap
     {
         [SerializeField] private Tile[][][] _tiles;
-        [SerializeField] private Vector3Int _size;
+        [SerializeField] [ReadOnly] private Vector3Int _size;
         public Vector3Int Size => _size;
         public IEnumerable<Tile[][]> Tiles => _tiles;
-        
+        public IEnumerable<Tile> TilesFlat => _tiles.SelectMany(x => x.SelectMany(y => y));
+
         public Tilemap(Vector2Int sizeXY, int numberOfPhase, Tile defaultTile)
         {
-            Vector3Int size = new Vector3Int(sizeXY.x, sizeXY.y, numberOfPhase);
-            _tiles = new Tile[size.z][][];
+            _size = new Vector3Int(sizeXY.x, sizeXY.y, numberOfPhase);
+            _tiles = new Tile[_size.z][][];
             for (int i = 0; i < _tiles.Length; i++)
             {
-                _tiles[i] = new Tile[size.x][];
+                _tiles[i] = new Tile[_size.x][];
                 for (int j = 0; j < _tiles[i].Length; j++)
                 {
-                    _tiles[i][j] = new Tile[size.y];
+                    _tiles[i][j] = new Tile[_size.y];
                     for (int k = 0; k < _tiles[i][j].Length; k++)
                     {
                         var b = defaultTile.Base;
@@ -42,7 +43,7 @@ namespace BattleSystem.TileSystem
             }
         }
 
-        
+
         [CanBeNull]
         public Tile this[PositionIndexer p, int phaseIndex]
         {
@@ -87,12 +88,12 @@ namespace BattleSystem.TileSystem
             }
         }
 
-        
+
         public void SetEnvironment(Environment env)
         {
             foreach (var phase in Utils.FlagIndexes(env.Position.Phase))
             {
-                var tile = this[env.Position.Position,phase];
+                var tile = this[env.Position.Position, phase];
                 if (tile != null)
                 {
                     tile.Base = env;
