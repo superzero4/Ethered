@@ -6,6 +6,7 @@ using Common;
 using Common.Events;
 using UnitSystem;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace BattleSystem
 {
@@ -39,6 +40,7 @@ namespace BattleSystem
                 var item = new Unit(info.Squad.Units[i], ETeam.Player, new Vector2Int(i, 0),
                     i == 2 ? EPhase.Both : (i % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
                 _units.Add(item);
+                Assert.IsTrue(item.Position.Phase != EPhase.None);
                 _battleElements.SetUnit(item);
             }
 
