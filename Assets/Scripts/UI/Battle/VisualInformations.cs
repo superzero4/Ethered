@@ -1,4 +1,5 @@
 using System;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace UI.Battle
@@ -10,7 +11,8 @@ namespace UI.Battle
         [SerializeField] private Color _color;
         [SerializeField] private string _name;
         [SerializeField] private string _description;
-
+        
+        
         public Sprite Sprite
         {
             get => _sprite;
@@ -19,16 +21,27 @@ namespace UI.Battle
         public Color Color
         {
             get => _color;
+            set => _color = value;
         }
 
         public string Name
         {
             get => _name;
+            set => _name = value;
         }
 
         public string Description
         {
             get => _description;
         }
+        
+        [Button]
+        private void ColorMaxAlpha()
+        {
+            _color.a = 1;
+        }
+        //Dynamic default that will be use as a real cohrent default when fallbacking from a null or C# default
+        public static VisualInformations Default;
+
     }
 }
