@@ -5,23 +5,19 @@ using UnityEngine;
 namespace BattleSystem
 {
     [Serializable]
-    public struct Environment : IBattleElement
+    public class Environment : IBattleElement
     {
-        public Environment(EPhase phase, Vector2Int position, EAllowedMovement movementAllowed)
+        public Environment(EnvironmentInfo info, EPhase phase, Vector2Int position)
         {
             _position = new PositionData(position, phase);
-            _team = ETeam.None;
-            _movementAllowed = movementAllowed;
-            _visualInformations = new VisualInformations();
+            this._info = info;
         }
 
-        [SerializeField] private VisualInformations _visualInformations;
+        [SerializeField] private EnvironmentInfo _info;
         [SerializeField] private PositionData _position;
-        [SerializeField] private ETeam _team;
 
-        [SerializeField] private EAllowedMovement _movementAllowed;
-        public EAllowedMovement allowedMovement => _movementAllowed;
-        public VisualInformations VisualInformations => _visualInformations;
+        public EAllowedMovement allowedMovement => _info.AllowedMovement;
+        public VisualInformations VisualInformations => _info.VisualInformations;
 
         public PositionData Position
         {
@@ -29,7 +25,7 @@ namespace BattleSystem
             set => _position = value;
         }
 
-        public ETeam Team => _team;
+        public ETeam Team => ETeam.None;
 
         int IHealth.CurrentHealth
         {
