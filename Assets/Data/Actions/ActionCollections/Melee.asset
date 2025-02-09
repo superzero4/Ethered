@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a05ca1f5046f45c585f6fbc20a4bb72f, type: 3}
+  m_Name: Melee
+  m_EditorClassIdentifier: 
+  _actions:
+  - {fileID: 11400000, guid: 4dd9bf59d139279439ecbd565cc07c66, type: 2}
+  - {fileID: 11400000, guid: b686a582120f0454da4b3d36b55ff885, type: 2}
+  - {fileID: 11400000, guid: c6a6144560e31434589116791b3e9e2b, type: 2}
+  - {fileID: 11400000, guid: 4a3ced525bed6f449924a5f7678914a9, type: 2}
