@@ -1,5 +1,5 @@
 using System;
-using UI.Battle;
+using Common.Visuals;
 using UnityEngine;
 using UnityEngine.Serialization;
 

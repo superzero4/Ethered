@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using BattleSystem;
-using UI.Battle;
-using UnityEngine;
+using Common.Visuals;
+
 
 namespace UnitSystem.Actions.Bases
 {

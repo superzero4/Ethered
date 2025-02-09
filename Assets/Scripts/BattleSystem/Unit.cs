@@ -1,7 +1,7 @@
 using System;
 using BattleSystem;
 using Common.Events;
-using UI.Battle;
+using Common.Visuals;
 using UnityEngine;
 
 namespace UnitSystem

@@ -1,6 +1,7 @@
 using BattleSystem;
 using NaughtyAttributes;
 using UI;
+using UI.Battle;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -14,14 +15,14 @@ namespace Views.Battle
 
         [SerializeReference] [ReadOnly] protected T _data;
 
-        [SerializeField] [ReadOnly] protected InfoUI _ui;
+       //[SerializeField] [ReadOnly] protected UnitUI _ui;
 
         public T Data => _data;
 
-        public void Init(T data, Grid grid, InfoUI ui)
+        public void Init(T data, Grid grid)
         {
             _data = data;
-            _ui = ui;
+            //_ui = ui;
             Init(grid);
             SetColor();
         }
@@ -80,9 +81,9 @@ namespace Views.Battle
             SnapToCorrectPosition(grid);
         }
 
-        public void UpdateUI()
-        {
-            _ui.SetInfo(_data);
-        }
+        //public void UpdateUI()
+        //{
+        //    _ui.SetInfo(_data);
+        //}
     }
 }

@@ -32,13 +32,13 @@ namespace Views.Battle
             foreach (var unit in _battle.Units)
             {
                 var unitView = Instantiate(_unitViewPrefab, transform);
-                unitView.Init(unit, _grid, _ui.UnitUI);
+                unitView.Init(unit, _grid);
             }
 
             foreach (var t in _battle.Tiles.TilesFlat)
             {
                 EnvironmentView env = Instantiate(_environmentViewPrefab, transform);
-                env.Init(t.Base, _grid, _ui.TileUI);
+                env.Init(t.Base, _grid);
                 env.SetTile(t);
                 PhaseSelector.SetLayer(env);
                 env.gameObject.name = "Tile " + t.Base.Position.ToString();
@@ -52,8 +52,8 @@ namespace Views.Battle
 
         private void OnHover(SelectionEventData selection)
         {
-            _ui.UnitUI.SetInfo(selection.unit);
-            _ui.TileUI.SetInfo(selection.environment);
+            _ui.UnitUI.SetUnit(selection.unit?.Info);
+            _ui.TileUI.SetInfo(selection.environment.Info);
         }
         
     }

@@ -1,5 +1,5 @@
 using System;
-using UI.Battle;
+using Common.Visuals;
 using UnityEngine;
 
 namespace BattleSystem
@@ -42,6 +42,8 @@ namespace BattleSystem
         }
 
         public int MaxHealth => 0;
+
+        public EnvironmentInfo Info => _info;
 
         void IHealth.TakeDamageUncapped(int damage)
         {

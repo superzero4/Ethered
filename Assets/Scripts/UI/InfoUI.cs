@@ -1,18 +1,21 @@
 using NUnit.Framework;
 using TMPro;
-using UI.Battle;
+using Common.Visuals;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI
 {
-    public class InfoUI : MonoBehaviour
+    public class InfoUI : MonoBehaviour, IVisualInformationUI
     {
-        [FormerlySerializedAs("_spriteRenderer")] [SerializeField] private Image _image;
+        [FormerlySerializedAs("_spriteRenderer")] [SerializeField]
+        private Image _image;
+
         [SerializeField] private TextMeshProUGUI _nameText;
         [SerializeField] private TextMeshProUGUI _descriptionText;
-        private void Awake()
+
+        protected virtual  void Awake()
         {
             Assert.IsTrue(_image != null);
             Assert.IsTrue(_nameText != null);
@@ -23,6 +26,7 @@ namespace UI
             _nameText.text = string.Empty;
             _descriptionText.text = string.Empty;
         }
+
         public void SetInfo(VisualInformations info)
         {
             _image.sprite = info.Sprite;
@@ -33,7 +37,7 @@ namespace UI
 
         public void SetInfo(IIcon iconProvider)
         {
-            SetInfo(iconProvider?.VisualInformations ?? VisualInformations.Default);
+            (this as IVisualInformationUI).SetIcon(iconProvider);
         }
     }
 }

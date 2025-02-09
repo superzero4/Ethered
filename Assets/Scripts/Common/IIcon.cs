@@ -1,4 +1,4 @@
-namespace UI.Battle
+namespace Common.Visuals
 {
     public interface IIcon
     {

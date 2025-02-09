@@ -2,7 +2,7 @@ using System;
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace UI.Battle
+namespace Common.Visuals
 {
     [Serializable]
     public struct VisualInformations

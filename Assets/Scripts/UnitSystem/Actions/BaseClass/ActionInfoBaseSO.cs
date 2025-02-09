@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using BattleSystem;
 using BattleSystem.TileSystem;
-using UI.Battle;
+using Common.Visuals;
 using UnityEngine;
 
 namespace UnitSystem.Actions.Bases
