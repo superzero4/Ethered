@@ -5,6 +5,7 @@ using System.Linq;
 using Common;
 using JetBrains.Annotations;
 using NaughtyAttributes;
+using UnityEngine.Assertions;
 using UnitSystem;
 using UnityEngine;
 using ReadOnly = NaughtyAttributes.ReadOnlyAttribute;
@@ -85,6 +86,7 @@ namespace BattleSystem.TileSystem
             foreach (var phase in Utils.FlagIndexes(coord.Phase))
             {
                 _tiles[phase][coord.x][coord.y].Unit = element;
+                Assert.IsTrue(element.Position.Position == _tiles[phase][coord.x][coord.y].Base.Position.Position);
             }
         }
 
