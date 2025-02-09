@@ -627,6 +627,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5992904491264964503, guid: e5a3e0e099a6b5e4daa327710821c080, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5962923626308589625}
+    - targetCorrespondingSourceObject: {fileID: 5992904491264964503, guid: e5a3e0e099a6b5e4daa327710821c080, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8745827542181326168}
+    - targetCorrespondingSourceObject: {fileID: 5992904491264964503, guid: e5a3e0e099a6b5e4daa327710821c080, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8604146719698286686}
   m_SourcePrefab: {fileID: 100100000, guid: e5a3e0e099a6b5e4daa327710821c080, type: 3}
 --- !u!4 &5321803289272561878 stripped
 Transform:
@@ -664,4 +670,73 @@ MonoBehaviour:
     _team: 0
     _movementAllowed: 0
   _ui: {fileID: 0}
+  _tile:
+    _base:
+      _visualInformations:
+        _sprite: {fileID: 0}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+      _position:
+        _position:
+          position: {x: 0, y: 0}
+        phase: 0
+      _team: 0
+      _movementAllowed: 0
+    _unit:
+      _info:
+        _maxHealth: 0
+        _visualInformations:
+          _sprite: {fileID: 0}
+          _color: {r: 0, g: 0, b: 0, a: 0}
+          _name: 
+          _description: 
+      _position:
+        _position:
+          position: {x: 0, y: 0}
+        phase: 0
+      _team: 0
+      _onUnitMoves:
+        m_PersistentCalls:
+          m_Calls: []
+      _onUnitHealthChange:
+        m_PersistentCalls:
+          m_Calls: []
+      _currentHealth: 0
   _root: {fileID: 2714433655697972495}
+--- !u!114 &8745827542181326168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9212755853797352331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e459536d250a48ac9e4f336107118fe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _collider: {fileID: 8604146719698286686}
+  _env: {fileID: 5962923626308589625}
+  _hintAnchor: {fileID: 1595159568472603106}
+--- !u!65 &8604146719698286686
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9212755853797352331}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.2, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

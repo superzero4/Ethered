@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 678341651956317964}
   - component: {fileID: 4001677503993550540}
   - component: {fileID: 3871737118798555265}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 1873340815323004278}
   - component: {fileID: 8194147257513596483}
   - component: {fileID: 4089582354229372888}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 237919723448395497}
   - component: {fileID: 7022486643462349654}
   - component: {fileID: 6219029706986507935}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -501,6 +501,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit
       objectReference: {fileID: 0}
+    - target: {fileID: 5992904491264964503, guid: e5a3e0e099a6b5e4daa327710821c080, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7290076159236482250, guid: e5a3e0e099a6b5e4daa327710821c080, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.269184
@@ -574,7 +578,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a6e0a65ca8469aa633ba3c6f479539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _renderer: {fileID: 8424380713517471993}
+  _mainRenderer: {fileID: 8424380713517471993}
+  _data:
+    _info:
+      _maxHealth: 0
+      _visualInformations:
+        _sprite: {fileID: 0}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+    _position:
+      _position:
+        position: {x: 0, y: 0}
+      phase: 0
+    _team: 0
+    _onUnitMoves:
+      m_PersistentCalls:
+        m_Calls: []
+    _onUnitHealthChange:
+      m_PersistentCalls:
+        m_Calls: []
+    _currentHealth: 0
   _ui: {fileID: 0}
   _healthUI: {fileID: 4089582354229372888}
   _grid: {fileID: 0}
