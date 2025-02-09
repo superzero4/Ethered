@@ -23,8 +23,7 @@ namespace BattleSystem
         {
             _timeline = new Timeline();
             _timeline.Initialize(new List<Action>());
-            _battleElements = new Tilemap(new Vector2Int(info.Size.x, info.Size.y), 2,
-                new Tile(info.DefaultEnvironment, null));
+            _battleElements = new Tilemap(new Vector2Int(info.Size.x, info.Size.y), 2, info.DefaultEnvironment);
             var specific = info.GetSpecificEnvironments();
             if (specific != null && specific.Any())
             {

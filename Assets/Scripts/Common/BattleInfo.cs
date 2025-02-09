@@ -19,29 +19,25 @@ namespace Common
         [SerializeField] private Squad _squad;
         [SerializeField] private UnitInfo _defaultUnit;
         [SerializeField] private UnitInfo _defaultEnemy;
-        [SerializeField] private Environment _defaultEnvironment;
+        [SerializeField] private EnvironmentInfo _defaultEnvironment;
         [SerializeField] private List<EnvironmentGroup> _specificEnvironments;
 
         [Serializable]
         private struct EnvironmentGroup
         {
-            [SerializeField] public Environment environment;
+            [SerializeField] public EnvironmentInfo environment;
             [SerializeField] public PositionData[] positions;
         }
 
         public Squad Squad => _squad;
         public Squad Enemies => _enemies;
-        public Environment DefaultEnvironment => _defaultEnvironment;
+        public EnvironmentInfo DefaultEnvironment => _defaultEnvironment;
 
         public IEnumerable<Environment> GetSpecificEnvironments()
         {
             return _specificEnvironments
-                .SelectMany(ep => ep.positions
-                    .Select(p =>
-                    {
-                        ep.environment.Position = p;
-                        return ep.environment;
-                    }));
+                    .SelectMany<EnvironmentGroup, Environment>(ep => ep.positions
+                    .Select<PositionData,Environment>(p =>  new Environment(ep.environment, p)));
         }
 
         public Vector2Int Size => _size;
@@ -74,7 +70,6 @@ namespace Common
                             names[UnityEngine.Random.Range(0, names.Length)];
                 unit.VisualInformations = info;
             }
-            
         }
 
         [Button]
@@ -82,6 +77,7 @@ namespace Common
         {
             SetColors(Color.white);
         }
+
         private void SetColors(Color color)
         {
             foreach (var unit in _squad.Units.Concat(_enemies.Units))

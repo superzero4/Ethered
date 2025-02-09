@@ -7,10 +7,18 @@ namespace BattleSystem
     [Serializable]
     public class Environment : IBattleElement
     {
-        public Environment(EnvironmentInfo info, EPhase phase, Vector2Int position)
+        
+        public Environment(EnvironmentInfo info, PositionData position)
         {
-            _position = new PositionData(position, phase);
+            this._position = position;
             this._info = info;
+        }
+        public Environment(EnvironmentInfo info) : this(info, new PositionData(Vector2Int.zero, EPhase.Normal))
+        {
+        }
+        public Environment(EnvironmentInfo info, EPhase phase, Vector2Int position) : this(info,
+            new PositionData(position, phase))
+        {
         }
 
         [SerializeField] private EnvironmentInfo _info;

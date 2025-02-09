@@ -10,7 +10,7 @@ namespace BattleSystem.TileSystem
     [Serializable]
     public class Tile
     {
-        [SerializeField] private Environment _base;
+        [SerializeReference] private Environment _base;
 
         [SerializeReference] [CanBeNull] [ReadOnly]
         private Unit _unit = null;

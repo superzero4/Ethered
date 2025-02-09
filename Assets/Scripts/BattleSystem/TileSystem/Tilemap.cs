@@ -9,6 +9,7 @@ using UnityEngine.Assertions;
 using UnitSystem;
 using UnityEngine;
 using ReadOnly = NaughtyAttributes.ReadOnlyAttribute;
+
 namespace BattleSystem.TileSystem
 {
     [Serializable]
@@ -20,7 +21,7 @@ namespace BattleSystem.TileSystem
         public IEnumerable<Tile[][]> Tiles => _tiles;
         public IEnumerable<Tile> TilesFlat => _tiles.SelectMany(x => x.SelectMany(y => y));
 
-        public Tilemap(Vector2Int sizeXY, int numberOfPhase, Tile defaultTile)
+        public Tilemap(Vector2Int sizeXY, int numberOfPhase, EnvironmentInfo defaultEnvironment)
         {
             _size = new Vector3Int(sizeXY.x, sizeXY.y, numberOfPhase);
             _tiles = new Tile[_size.z][][];
@@ -32,13 +33,10 @@ namespace BattleSystem.TileSystem
                     _tiles[i][j] = new Tile[_size.y];
                     for (int k = 0; k < _tiles[i][j].Length; k++)
                     {
-                        var b = defaultTile.Base;
-                        var u = defaultTile.Unit;
-                        b.Position = new PositionData(new Vector2Int(j, k),
-                            i == 0 ? EPhase.Normal : EPhase.Ethered);
-                        if (u != null)
-                            u.Move(b.Position);
-                        _tiles[i][j][k] = new Tile(b, u);
+                        var b = new Environment(defaultEnvironment, i == 0 ? EPhase.Normal : EPhase.Ethered,
+                            new Vector2Int(j, k)
+                        );
+                        _tiles[i][j][k] = new Tile(b, null);
                     }
                 }
             }
