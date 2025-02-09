@@ -14,6 +14,7 @@ namespace Common.Tool
 {
     public class ConsoleSimulation : MonoBehaviour
     {
+        [SerializeField] private bool _logStatusToConsole = false;
         [SerializeField] private ActionInfoBaseSO[] _actionsToTest;
         [SerializeField] private ActionInfoBaseSO[] _actionsToTest2;
 
@@ -23,7 +24,8 @@ namespace Common.Tool
             {
                 //To reset timeline in beetween every round, other way action are stacked in and repeated
                 //_actionsToTest2 = new[] { _actionsToTest2[0] };
-                Debug.LogWarning(battle.ToString());
+                if (_logStatusToConsole)
+                    Debug.LogWarning(battle.ToString());
                 var units = battle.Units;
                 var allies = units.Take(2);
                 var enemies = units.TakeLast(2);
@@ -31,7 +33,8 @@ namespace Common.Tool
                 {
                     if (QueueAction(battle, unit, _actionsToTest, true))
                     {
-                        Debug.Log("Action1 successful, trying action 2");
+                        if (_logStatusToConsole)
+                            Debug.Log("Action1 successful, trying action 2");
                         QueueAction(battle, unit, _actionsToTest2, false);
                     }
                 }
@@ -64,11 +67,13 @@ namespace Common.Tool
             Action action = new Action(unit, pickedAction);
             var result = action.TrySetTarget(unit, target);
             if (!targetBase)
-                Debug.Log($"{result} => {unit.Position} is trying to use {pickedAction.name} on {target.Position}");
+                if (_logStatusToConsole)
+                    Debug.Log($"{result} => {unit.Position} is trying to use {pickedAction.name} on {target.Position}");
             if (result)
             {
                 if (!battle.ConfirmAction(action))
-                    Debug.Log("But couldn't execute on current map");
+                    if (_logStatusToConsole)
+                        Debug.Log("But couldn't execute on current map");
             }
 
             return result;

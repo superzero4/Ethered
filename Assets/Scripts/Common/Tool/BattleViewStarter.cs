@@ -1,4 +1,5 @@
 using UnityEngine;
+using Views.Battle;
 
 namespace Common.Tool
 {
