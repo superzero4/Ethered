@@ -47,10 +47,49 @@ namespace Common
         public Vector2Int Size => _size;
 
         [Button]
-        private void CreateTeamsFromDefaults()
+        private void CreateDefaultSquat()
         {
             _squad.Init(5, _defaultUnit);
+        }
+
+        [Button]
+        private void CreateDefaultEnemys()
+        {
             _enemies.Init(5, _defaultEnemy);
+        }
+
+        [Button]
+        private void FillRandomNames()
+        {
+            string[] names = new string[]
+            {
+                "John", "Doe", "Jane", "Smith", "Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Heidi",
+                "Ivan", "Judy", "Kevin", "Linda", "Mallory", "Oscar", "Peggy", "Romeo", "Trent", "Ursula", "Victor",
+                "Walter", "Xander", "Yvonne", "Zelda"
+            };
+            foreach (var unit in _squad.Units.Concat(_enemies.Units))
+            {
+                var info = unit.VisualInformations;
+                info.Name = names[UnityEngine.Random.Range(0, names.Length)] + " " +
+                            names[UnityEngine.Random.Range(0, names.Length)];
+                unit.VisualInformations = info;
+            }
+            
+        }
+
+        [Button]
+        private void SetAllWhite()
+        {
+            SetColors(Color.white);
+        }
+        private void SetColors(Color color)
+        {
+            foreach (var unit in _squad.Units.Concat(_enemies.Units))
+            {
+                var info = unit.VisualInformations;
+                info.Color = color;
+                unit.VisualInformations = info;
+            }
         }
     }
 }
