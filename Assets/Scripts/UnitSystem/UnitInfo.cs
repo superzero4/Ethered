@@ -14,7 +14,12 @@ namespace UnitSystem
         [SerializeField] private List<IActionInfo> _actions;
         
         [SerializeField] private VisualInformations _visualInformations;
-        public VisualInformations VisualInformations => _visualInformations;
+        public VisualInformations VisualInformations
+        {
+            get => _visualInformations;
+            set => _visualInformations = value;
+        }
+
         public int MaxHealth => _maxHealth;
     }
 }
