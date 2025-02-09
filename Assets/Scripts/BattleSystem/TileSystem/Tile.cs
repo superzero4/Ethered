@@ -1,5 +1,6 @@
 using System;
 using JetBrains.Annotations;
+using NaughtyAttributes;
 using UnitSystem;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -10,14 +11,19 @@ namespace BattleSystem.TileSystem
     public class Tile
     {
         [SerializeField] private Environment _base;
-        [SerializeField] [CanBeNull] private Unit _unit;
+
+        [SerializeReference] [CanBeNull] [ReadOnly]
+        private Unit _unit = null;
 
         public Tile(Tile other)
         {
             _base = other._base;
             _unit = other._unit;
         }
-        public EAllowedMovement AllowedMovement => _unit==null ? _base.allowedMovement : _base.allowedMovement & _unit.allowedMovement;
+
+        public EAllowedMovement AllowedMovement =>
+            _unit == null ? _base.allowedMovement : _base.allowedMovement & _unit.allowedMovement;
+
         public bool Empty => _unit == null;
 
         public Tile(Environment baseElement, Unit unit)
@@ -30,8 +36,10 @@ namespace BattleSystem.TileSystem
         {
             get
             {
-                Assert.AreNotEqual(_base.Position.Phase, _unit.Position.Phase);
-                return _unit.Position.Phase;
+                Assert.IsTrue(_unit == null || ((_base.Position.Phase & _unit.Position.Phase) != 0b0),
+                    "base value is " + (_base.Position.Phase) + " and unit position is " +
+                    (_unit == null ? "null" : _unit.Position.Phase.ToString()));
+                return _base.Position.Phase;
             }
         }
 
