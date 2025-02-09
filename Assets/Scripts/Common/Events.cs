@@ -1,50 +1,85 @@
+using System;
 using BattleSystem;
+using BattleSystem.TileSystem;
+using JetBrains.Annotations;
 using UnitSystem;
 using UnityEngine;
 using UnityEngine.Events;
+using Environment = BattleSystem.Environment;
 
 namespace Common.Events
 {
+    [Serializable]
     public class ActionEvent : UnityEvent<ActionEventData>
     {
-        
-    }
-    public class SelectionEvent : UnityEvent<SelectionEventData>
-    {
-        
-    }
-    public class UnitMovementEvent : UnityEvent<UnitMovementData>
-    {
-        
-    }
-    public class UnitHealthEvent : UnityEvent<UnitHealthData>
-    {
-        
-    }
-    public class UnitEvent : UnityEvent<UnitEventData>
-    {
-        
-    }
-    public struct ActionEventData
-    {
-        
     }
 
+    [Serializable]
+    public class SelectionEvent : UnityEvent<SelectionEventData>
+    {
+    }
+
+    [Serializable]
+    public class UnitMovementEvent : UnityEvent<UnitMovementData>
+    {
+    }
+
+    [Serializable]
+    public class UnitHealthEvent : UnityEvent<UnitHealthData>
+    {
+    }
+
+    public class UnitEvent : UnityEvent<UnitEventData>
+    {
+    }
+
+    [Serializable]
+    public class PhaseEvent : UnityEvent<PhaseEventData>
+    {
+    }
+
+    [Serializable]
+    public struct PhaseEventData
+    {
+        public EPhase phase;
+    }
+
+    [Serializable]
+    public struct ActionEventData
+    {
+    }
+
+    [Serializable]
     public struct SelectionEventData
     {
-        
+        [CanBeNull]
+        public Unit unit;
+        public Environment environment;
+
+        public SelectionEventData(Environment environment, Unit unit)
+        {
+            this.unit = unit;
+            this.environment = environment;
+        }
     }
+
+    [Serializable]
     public class UnitMovementData : UnitEventData
     {
         public PositionData oldPosition;
     }
+
+    [Serializable]
     public class UnitHealthData : UnitEventData
     {
         public int oldHealth;
     }
-    public class UnitEventData 
+
+    [Serializable]
+    public class UnitEventData
     {
         public Unit unit;
+
         public static implicit operator UnitEventData(Unit unit)
         {
             return new UnitEventData { unit = unit };
