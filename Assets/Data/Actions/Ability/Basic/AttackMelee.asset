@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: AttackMelee
   m_EditorClassIdentifier: 
   _visualInformations:
-    _sprite: {fileID: 0}
-    _color: {r: 0, g: 0, b: 0, a: 0}
-    _name: 
-    _description: 
+    _sprite: {fileID: 21300000, guid: efcc3bf9ba6ba8c489c3201ab7b11490, type: 3}
+    _color: {r: 1, g: 1, b: 1, a: 1}
+    _name: Slash
+    _description: Close quarter attack in your phase
   _originPhase: -1
   _target:
   - _nbTargets: 1

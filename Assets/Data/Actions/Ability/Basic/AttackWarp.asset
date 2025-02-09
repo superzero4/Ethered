@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: AttackWarp
   m_EditorClassIdentifier: 
   _visualInformations:
-    _sprite: {fileID: 0}
-    _color: {r: 0, g: 0, b: 0, a: 0}
-    _name: 
-    _description: 
+    _sprite: {fileID: 21300000, guid: b42d72a66c3f81644b649164fe3254c7, type: 3}
+    _color: {r: 1, g: 1, b: 1, a: 1}
+    _name: Distant attack
+    _description: Damage an ennemy in the same phase
   _originPhase: -1
   _target:
   - _nbTargets: 1
