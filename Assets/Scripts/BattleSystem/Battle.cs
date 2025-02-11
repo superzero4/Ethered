@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,6 @@ namespace BattleSystem
         [SerializeField] private Tilemap _battleElements;
         [SerializeField] private Timeline _timeline;
         public Tilemap Tiles => _battleElements;
-        public Timeline Timeline => _timeline;
         public IEnumerable<Unit> Units => _units;
 
         public void Init(BattleInfo info)
@@ -112,6 +112,11 @@ namespace BattleSystem
             }
 
             return sb.ToString();
+        }
+
+        public IEnumerator TurnEndConfirmed(bool b)
+        {
+            yield return _timeline.Execute(true);
         }
     }
 }
