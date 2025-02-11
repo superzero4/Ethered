@@ -10,7 +10,7 @@ namespace UI.Battle
     {
         [SerializeField] private InfoUI _unitUI;
         [SerializeField] private List<ActionUI> _actions;
-
+        public IEnumerable<ActionUI> Actions => _actions;
         //public void Init()
         //{
         //    foreach(var action in _actions)
