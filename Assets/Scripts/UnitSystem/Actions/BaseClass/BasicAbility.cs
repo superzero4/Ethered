@@ -28,14 +28,14 @@ namespace UnitSystem.Actions.BaseClass
         public override bool CanExecuteOnMap(Unit origin, TargetCollection targets, Tilemap map)
         {
             if (_requireLOS)
-                return targets.Target.All(t => map.HasLOS(origin.Position, t.Position));
+                return targets.Targets.All(t => map.HasLOS(origin.Position, t.Position));
 
             return true;
         }
 
         public override void Execute(Unit origin, TargetCollection targetCollection)
         {
-            foreach (var target in targetCollection.Target)
+            foreach (var target in targetCollection.Targets)
             {
                 target.TakeDamage(_damage);
             }

@@ -12,7 +12,7 @@ namespace UnitSystem.Actions.Bases
         public EPhase OriginPhase { get; }
         public IEnumerable<TargetDefinition> Target { get; }
 
-        public bool IsValidTarget(Unit origin, IBattleElement[] target)
+        public bool AreTargetsValid(Unit origin, IBattleElement[] target)
         {
             if (!OriginPhase.HasFlag(origin.Position.Phase))
                 return false;

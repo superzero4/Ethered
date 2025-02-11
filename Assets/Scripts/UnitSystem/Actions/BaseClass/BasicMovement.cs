@@ -21,7 +21,7 @@ namespace UnitSystem.Actions.Bases
 
         public override bool CanExecuteOnMap(Unit origin, TargetCollection targets, Tilemap map)
         {
-            var target = targets.Target[0];
+            var target = targets[0];
             //If we are on multiple phases, we need to be able to land on all of them
             var hash = new HashSet<Tile>(map[target.Position]);
             foreach (var tile in hash)
@@ -44,7 +44,7 @@ namespace UnitSystem.Actions.Bases
 
         public override void Execute(Unit origin, TargetCollection targetCollection)
         {
-            origin.Move(targetCollection.Target[0].Position);
+            origin.Move(targetCollection[0].Position);
         }
     }
 }
