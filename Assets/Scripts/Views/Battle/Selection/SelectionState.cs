@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BattleSystem;
 using Common;
+using JetBrains.Annotations;
 using UnitSystem;
 using UnitSystem.Actions.Bases;
 using UnityEngine;
@@ -54,12 +55,12 @@ namespace Views.Battle.Selection
                 $"Unit {_origin} or Action {_action} is not set before trying to set targets");
             return _action.TryAppendTarget(_origin, target);
         }
-
+        [CanBeNull]
         public Action Confirm()
         {
-            Assert.IsTrue(_origin != null, "Unit is not set");
-            Assert.IsTrue(_action != null, "Action is not set");
-            Assert.IsTrue(_action != null && _action.HasTargets, "Target is not set or empty");
+            //Assert.IsTrue(_origin != null, "Unit is not set");
+            //Assert.IsTrue(_action != null, "Action is not set");
+            //Assert.IsTrue(_action != null && _action.HasTargets, "Target is not set or empty");
             return _action;
         }
 
