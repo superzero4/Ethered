@@ -13,6 +13,7 @@ namespace UI
         [SerializeField] private UnityEvent<EventArg> _onClick = new();
 
         public UnityEvent<EventArg> OnClick => _onClick;
+
         /// <summary>
         /// This is supposed to handle any internal logic/changes that should happen on click, it has the same information than the external that would subscribe to the method, possibly empty
         /// </summary>
@@ -29,49 +30,31 @@ namespace UI
             _button.onClick.AddListener(() => Debug.Log("Button Clicked"));
             _onClick.AddListener(args => Debug.Log("On click event raised with args: " + args));
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns>The arguments of specified type that will be raised with the event, typically a status represented by a field or other logic, continaing information about what was pressed</returns>
         protected abstract EventArg GetArgs();
     }
+
     /// <summary>
     /// Simple helper class for No Args clickable UI
     /// </summary>
-    public class ClickableUI : ClickableUI<EmptyEvenData>{
+    public class ClickableUI : ClickableUI<EmptyEvenData>
+    {
         public void AddListener(Action action)
         {
             OnClick.AddListener(_ => action());
         }
+
         protected override void Clicked(EmptyEvenData args)
         {
-            
         }
 
         protected override EmptyEvenData GetArgs()
         {
             return default;
-        }
-    }
-    public abstract class HighlightUI<T> : ClickableUI<T>
-    {
-        [SerializeField] private Graphic _highlightGO;
-
-        protected override void AfterAwake()
-        {
-            base.AfterAwake();
-            Reset();
-        }
-
-        protected override void Clicked(T args)
-        {
-            _highlightGO.enabled = true;
-            Debug.Log("SELECTION Hightlighted: " + args);
-        }
-
-        public virtual void Reset()
-        {
-            _highlightGO.enabled = false;
         }
     }
 }

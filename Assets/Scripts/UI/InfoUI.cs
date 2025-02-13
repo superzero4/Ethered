@@ -9,13 +9,13 @@ namespace UI
 {
     public class InfoUI : MonoBehaviour, IVisualInformationUI
     {
-        [SerializeField] private bool _startHidden = true;
+        [SerializeField] protected bool _startHidden = true;
 
         [FormerlySerializedAs("_spriteRenderer")] [SerializeField]
-        private Image _image;
+        protected Image _image;
 
-        [SerializeField] private TextMeshProUGUI _nameText;
-        [SerializeField] private TextMeshProUGUI _descriptionText;
+        [SerializeField] protected TextMeshProUGUI _nameText;
+        [SerializeField] protected TextMeshProUGUI _descriptionText;
 
         private void Awake()
         {
