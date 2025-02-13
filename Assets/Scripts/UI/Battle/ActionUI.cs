@@ -5,17 +5,18 @@ using UnityEngine.InputSystem;
 
 namespace UI.Battle
 {
-    public class ActionUI : ClickableUI<IActionInfo>
+    public class ActionUI : HighlightUI<IActionInfo>
     {
         [ReadOnly] private IActionInfo _action;
 
         protected override void Clicked(IActionInfo args)
         {
+            base.Clicked(args);
         }
 
-        protected override void Awake()
+        protected override void AfterAwake()
         {
-            base.Awake();
+            base.AfterAwake();
         }
 
         protected override IActionInfo GetArgs()

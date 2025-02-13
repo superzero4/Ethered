@@ -1,4 +1,5 @@
 using System;
+using Common.Events;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,12 +19,15 @@ namespace UI
         /// <param name="args"></param>
         protected abstract void Clicked(EventArg args);
 
-        private void Awake()
+        protected override void AfterAwake()
         {
+            base.AfterAwake();
             Assert.IsTrue(_button != null);
             //We forward the event through another event with be uses externally, and we also call a abstract method for OnClick logic internal to this class
             _button.onClick.AddListener(() => _onClick.Invoke(GetArgs()));
             _onClick.AddListener(Clicked);
+            _button.onClick.AddListener(() => Debug.Log("Button Clicked"));
+            _onClick.AddListener(args => Debug.Log("On click event raised with args: " + args));
         }
         /// <summary>
         /// 
@@ -32,25 +36,42 @@ namespace UI
         protected abstract EventArg GetArgs();
     }
     /// <summary>
-    /// Simple helper class for No Args clickable UI, we use mother class with bool, just because we are forced to provide a type, but we don't use it
+    /// Simple helper class for No Args clickable UI
     /// </summary>
-    public class ClickableUI : ClickableUI<bool>{
+    public class ClickableUI : ClickableUI<EmptyEvenData>{
         public void AddListener(Action action)
         {
             OnClick.AddListener(_ => action());
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="args">Ignored boolean, always true, doesn't contains any information, do not considere it as a parameter</param>
-        protected override void Clicked(bool args)
+        protected override void Clicked(EmptyEvenData args)
         {
             
         }
 
-        protected override bool GetArgs()
+        protected override EmptyEvenData GetArgs()
         {
-            return true;
+            return default;
+        }
+    }
+    public abstract class HighlightUI<T> : ClickableUI<T>
+    {
+        [SerializeField] private Graphic _highlightGO;
+
+        protected override void AfterAwake()
+        {
+            base.AfterAwake();
+            Reset();
+        }
+
+        protected override void Clicked(T args)
+        {
+            _highlightGO.enabled = true;
+            Debug.Log("SELECTION Hightlighted: " + args);
+        }
+
+        public virtual void Reset()
+        {
+            _highlightGO.enabled = false;
         }
     }
 }
