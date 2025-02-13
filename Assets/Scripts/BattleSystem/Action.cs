@@ -32,6 +32,7 @@ namespace BattleSystem
         {
             _origin = origin;
             _info = info;
+            _targets = new TargetCollection();
         }
 
         public void Execute()
