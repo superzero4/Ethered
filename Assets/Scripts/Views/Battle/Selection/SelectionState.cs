@@ -16,7 +16,6 @@ namespace Views.Battle.Selection
         public bool CanSelectUnit => _origin == null;
         public bool CanSelectAction => !CanSelectUnit && _action == null;
         public bool CanSelectTarget => !CanSelectUnit && !CanSelectAction;
-
         public SelectionState()
         {
             Reset();
@@ -49,7 +48,7 @@ namespace Views.Battle.Selection
 
         public bool AppendTarget(Unit target)
         {
-            Assert.IsTrue(!CanSelectTarget, "Unit or Action is not set before trying to set targets");
+            Assert.IsTrue(CanSelectTarget, $"Unit {_origin} or Action {_action} is not set before trying to set targets");
             return _action.TryAppendTarget(_origin, target);
         }
         
@@ -59,6 +58,16 @@ namespace Views.Battle.Selection
             Assert.IsTrue(_action != null, "Action is not set");
             Assert.IsTrue(_action != null && _action.HasTargets, "Target is not set or empty");
             return _action;
+        }
+
+        public void SelectActionIfValid(IActionInfo action)
+        {
+            if (this.CanSelectAction)
+                this.SetAction(action);
+            else
+            {
+                Debug.LogWarning("SELECTION Action not selected: " + action);
+            }
         }
     }
 }
