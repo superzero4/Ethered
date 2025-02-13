@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using BattleSystem;
+using Common;
 using UnitSystem;
 using UnitSystem.Actions.Bases;
 using UnityEngine;
@@ -9,13 +10,14 @@ using UnityEngine.Serialization;
 namespace Views.Battle.Selection
 {
     [System.Serializable]
-    public class SelectionState
+    public class SelectionState : IReset
     {
-        [SerializeField] private Unit _origin;
+        [SerializeReference] private Unit _origin;
         [SerializeReference] private Action _action;
         public bool CanSelectUnit => _origin == null;
         public bool CanSelectAction => !CanSelectUnit && _action == null;
         public bool CanSelectTarget => !CanSelectUnit && !CanSelectAction;
+
         public SelectionState()
         {
             Reset();
@@ -48,10 +50,11 @@ namespace Views.Battle.Selection
 
         public bool AppendTarget(Unit target)
         {
-            Assert.IsTrue(CanSelectTarget, $"Unit {_origin} or Action {_action} is not set before trying to set targets");
+            Assert.IsTrue(CanSelectTarget,
+                $"Unit {_origin} or Action {_action} is not set before trying to set targets");
             return _action.TryAppendTarget(_origin, target);
         }
-        
+
         public Action Confirm()
         {
             Assert.IsTrue(_origin != null, "Unit is not set");
@@ -60,13 +63,21 @@ namespace Views.Battle.Selection
             return _action;
         }
 
-        public void SelectActionIfValid(IActionInfo action)
+        public void SelectionActionIfValid(IActionInfo action)
         {
             if (this.CanSelectAction)
-                this.SetAction(action);
+            {
+                if (action.CouldUnitExecute(_origin))
+                {
+                    this.SetAction(action);
+                    //return true;
+                }
+            }
             else
             {
+                _action = null;
                 Debug.LogWarning("SELECTION Action not selected: " + action);
+                //return false;
             }
         }
     }

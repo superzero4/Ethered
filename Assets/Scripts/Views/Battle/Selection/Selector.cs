@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using BattleSystem;
+using Common;
 using Common.Events;
 using NaughtyAttributes;
 using NUnit.Framework;
@@ -13,13 +14,16 @@ using ReadOnly = NaughtyAttributes.ReadOnlyAttribute;
 
 namespace Views.Battle.Selection
 {
-    public class Selector : MonoBehaviour
+    public class Selector : MonoBehaviour,IReset
     {
         private LayerMask _selectionMask;
         [SerializeField] private Camera _camera;
         [SerializeField] private PhaseSelector _phase;
-        [InfoBox("Will find all Hints available in scene on startup and use them")] [SerializeReference] [ReadOnly] private SelectionHintManager _hints;
-        [SerializeField] private SelectionEvent _onHoverChanges = new();
+
+        [InfoBox("Will find all Hints available in scene on startup and use them")] [SerializeReference] [ReadOnly]
+        private SelectionHintManager _hints;
+
+        [FormerlySerializedAs("_onHoverChanges")] [SerializeField] private SelectionEvent _onHoverChanged = new();
 
         [FormerlySerializedAs("_onSelectionUpdates")] [SerializeField]
         private SelectionEvent _selectionUpdated = new();
@@ -31,21 +35,30 @@ namespace Views.Battle.Selection
 
         [SerializeField] [ReadOnly] private RaycastHit[] _results;
         [SerializeField] [ReadOnly] private Dictionary<GameObject, Selectable> _selectables;
+        private bool _updateHint = true;
 
-        public SelectionEvent OnHoverChanges => _onHoverChanges;
+        public SelectionEvent OnHoverChanged => _onHoverChanged;
 
         public SelectionEvent SelectionUpdated => _selectionUpdated;
 
         public PhaseSelector Phase => _phase;
 
         public ResetEvent Reseted => _reseted;
+        public void AddResetableElement(IReset restable) => _reseted.AddListener(restable.Reset);
 
         public SelectionHintManager Hints => _hints;
 
+        public bool UpdateHint
+        {
+            get { return _updateHint; }
+            set { _updateHint = value; }
+        }
+
         public void Initialize()
         {
+            _updateHint = true;
             var hints = FindObjectsByType<SelectionHint>(FindObjectsSortMode.None);
-            Assert.IsTrue(hints!=null && hints.Length >= 1);
+            Assert.IsTrue(hints != null && hints.Length >= 1);
             _hints = new SelectionHintManager(hints);
             _results = new RaycastHit[4];
             //We have a quick mapping from a gameObject to it's selectable component without the need of a GetComponent on every selection
@@ -57,7 +70,7 @@ namespace Views.Battle.Selection
 
             _selectables = dictionary;
             _lastSelectable = dictionary.First().Value;
-            _hints.Hint(_lastSelectable, true);
+            RaiseCurrentHover();
             _phase.Initialize(EPhase.Normal);
             _selectionMask = _phase.GetLayerMask();
             StartCoroutine(CheckSelection());
@@ -66,7 +79,7 @@ namespace Views.Battle.Selection
         private void Update()
         {
             if (_lastSelectable != null && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) ||
-                Input.GetKeyDown(KeyCode.Return)))
+                                            Input.GetKeyDown(KeyCode.Return)))
             {
                 _selectionUpdated.Invoke(_lastSelectable.Selection);
             }
@@ -98,7 +111,6 @@ namespace Views.Battle.Selection
                 if ((selectable != _lastSelectable && _phase.Contains(selectable.Tile.Phase)))
                 {
                     _lastSelectable = selectable;
-                    _hints.Hint(selectable, true);
                     RaiseCurrentHover();
                 }
             }
@@ -106,8 +118,16 @@ namespace Views.Battle.Selection
 
         public void RaiseCurrentHover()
         {
-            _onHoverChanges.Invoke(_lastSelectable.Selection);
-            _hints.Hint(_lastSelectable, true);
+            _onHoverChanged.Invoke(_lastSelectable.Selection);
+            if (_updateHint)
+                _hints.Hint(_lastSelectable, true);
+        }
+
+        public void Reset()
+        {
+            Hints.Clear();
+            UpdateHint = true;
+            RaiseCurrentHover();
         }
     }
 }

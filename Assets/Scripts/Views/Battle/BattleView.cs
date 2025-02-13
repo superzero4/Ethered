@@ -3,7 +3,9 @@ using System.Linq;
 using BattleSystem;
 using Common;
 using Common.Events;
+using Common.Visuals;
 using NaughtyAttributes;
+using UI;
 using UI.Battle;
 using UnitSystem.Actions.Bases;
 using UnityEngine;
@@ -52,45 +54,41 @@ namespace Views.Battle
             _selectionState = new SelectionState();
             _ui.Initialize();
             _selector.Initialize();
-            ReactOnHover(true);
             //_selector.SelectionUpdated.AddListener(s => Debug.Log("Selected: " + s.unit));
             SetCallbacks();
         }
 
-        private void ReactOnHover(bool val)
-        {
-            if (val)
-            {
-                _selector.OnHoverChanges.AddListener(OnHover);
-                //We force the raise to get back the currecnt selection when we start to listining to it basically, relistening to the last hover message we possibly missed
-                _selector.RaiseCurrentHover();
-            }
-            else
-                _selector.OnHoverChanges.RemoveListener(OnHover);
-        }
-
         private void OnHover(SelectionEventData selection)
         {
-            _ui.UnitUI.SetUnit(selection.unit?.Info);
+            if (_selectionState.CanSelectTarget)
+            {
+                _ui.TargetUI.SetInfo(selection.unit?.VisualInformations ?? VisualInformations.Default);
+            }
+            else if (_selectionState.CanSelectUnit)
+            {
+                _ui.UnitUI.SetUnit(selection.unit);
+            }
             _ui.TileUI.SetInfo(selection.environment.Info);
         }
 
         [SuppressMessage("ReSharper", "ConvertClosureToMethodGroup")]
         private void SetCallbacks()
         {
-            _selector.Reseted.AddListener(e => _selectionState.Reset());
-            _selector.Reseted.AddListener(e => ReactOnHover(true));
-            _selector.Reseted.AddListener(e =>
+            _selector.OnHoverChanged.AddListener(OnHover);
+            _selector.AddResetableElement(_selectionState);
+            _selector.AddResetableElement(_selector);
+            _selector.SelectionUpdated.AddListener(UpdateSelection);
+            foreach (var actionUI in _ui.UnitUI.ActionUIs)
             {
-                _selector.Hints.Clear();
-                _selector.RaiseCurrentHover();
-            });
-            _selector.SelectionUpdated.AddListener(OnSelected);
-            foreach (var actionUI in _ui.UnitUI.Actions)
-            {
-                _selector.Reseted.AddListener(e => actionUI.Reset());
-                actionUI.OnClick.AddListener(_selectionState.SelectActionIfValid);
-                actionUI.OnClick.AddListener(e => Debug.LogWarning(" SELECTION Action selected: " + e));
+                _selector.AddResetableElement(actionUI);
+                UnityEvent<IActionInfo> onClick = actionUI.OnClick;
+                onClick.AddListener(a =>
+                {
+                    _ui.UnitUI.ResetActionUIs(actionUI);
+                    _selectionState.SelectionActionIfValid(a);
+                });
+                onClick.AddListener(e => _selector.UpdateHint = true);
+                //onClick.AddListener(e => Debug.LogWarning(" SELECTION Action selected: " + e));
             }
 
             _ui.ConfirmButton.AddListener(OnConfirmed);
@@ -114,7 +112,7 @@ namespace Views.Battle
         }
 
 
-        private void OnSelected(SelectionEventData s)
+        private void UpdateSelection(SelectionEventData s)
         {
             if (_selectionState.CanSelectTarget)
             {
@@ -128,6 +126,7 @@ namespace Views.Battle
                 }
                 else
                 {
+                    //Debug.LogWarning("SELECTION Target not valid");
                     //TODO Show negative feedback showing target wasn't selected
                 }
             }
@@ -136,9 +135,9 @@ namespace Views.Battle
                 if (s.unit != null)
                 {
                     //In theory, already set by the hover event so redundant but as a safe
-                    _ui.UnitUI.SetUnit(s.unit.Info);
+                    _ui.UnitUI.SetUnit(s.unit);
                     _selectionState.SetUnit(s.unit, true);
-                    ReactOnHover(false);
+                    _selector.UpdateHint = false;
                     _selector.Hints.Lock();
                 }
             }

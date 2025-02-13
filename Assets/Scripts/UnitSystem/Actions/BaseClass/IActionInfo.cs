@@ -14,10 +14,15 @@ namespace UnitSystem.Actions.Bases
 
         public bool AreTargetsValid(Unit origin, IBattleElement[] target)
         {
-            if (!OriginPhase.HasFlag(origin.Position.Phase))
+            if (!CouldUnitExecute(origin))
                 return false;
             return Target.Any(t =>
                 t.IsValidTarget(origin, target));
+        }
+
+        public bool CouldUnitExecute(Unit origin)
+        {
+            return (origin.Position.Phase & OriginPhase) != 0b0;
         }
 
         /// <summary>
