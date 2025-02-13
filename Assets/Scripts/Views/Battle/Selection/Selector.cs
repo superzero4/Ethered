@@ -6,6 +6,7 @@ using System.Linq;
 using BattleSystem;
 using Common.Events;
 using NaughtyAttributes;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Serialization;
 using ReadOnly = NaughtyAttributes.ReadOnlyAttribute;
@@ -17,9 +18,14 @@ namespace Views.Battle.Selection
         private LayerMask _selectionMask;
         [SerializeField] private Camera _camera;
         [SerializeField] private PhaseSelector _phase;
-        [SerializeField] private SelectionHint _selectionHint;
+        [InfoBox("Will find all Hints available in scene on startup and use them")] [SerializeReference] [ReadOnly] private SelectionHintManager _hints;
         [SerializeField] private SelectionEvent _onHoverChanges = new();
-        [SerializeField] private SelectionEvent _onSelectionUpdates = new();
+
+        [FormerlySerializedAs("_onSelectionUpdates")] [SerializeField]
+        private SelectionEvent _selectionUpdated = new();
+
+        [FormerlySerializedAs("_onReset")] [SerializeField]
+        private ResetEvent _reseted = new();
 
         [SerializeField] [ReadOnly] private Selectable _lastSelectable;
 
@@ -28,12 +34,19 @@ namespace Views.Battle.Selection
 
         public SelectionEvent OnHoverChanges => _onHoverChanges;
 
-        public SelectionEvent OnSelectionUpdates => _onSelectionUpdates;
+        public SelectionEvent SelectionUpdated => _selectionUpdated;
 
         public PhaseSelector Phase => _phase;
 
+        public ResetEvent Reseted => _reseted;
+
+        public SelectionHintManager Hints => _hints;
+
         public void Initialize()
         {
+            var hints = FindObjectsByType<SelectionHint>(FindObjectsSortMode.None);
+            Assert.IsTrue(hints!=null && hints.Length >= 1);
+            _hints = new SelectionHintManager(hints);
             _results = new RaycastHit[4];
             //We have a quick mapping from a gameObject to it's selectable component without the need of a GetComponent on every selection
             Dictionary<GameObject, Selectable> dictionary = new Dictionary<GameObject, Selectable>();
@@ -41,9 +54,10 @@ namespace Views.Battle.Selection
             {
                 dictionary.Add(selectable.gameObject, selectable);
             }
+
             _selectables = dictionary;
             _lastSelectable = dictionary.First().Value;
-            _selectionHint.Hint(_lastSelectable, true);
+            _hints.Hint(_lastSelectable, true);
             _phase.Initialize(EPhase.Normal);
             _selectionMask = _phase.GetLayerMask();
             StartCoroutine(CheckSelection());
@@ -51,10 +65,15 @@ namespace Views.Battle.Selection
 
         private void Update()
         {
-            if (_results != null && Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) ||
-                Input.GetKeyDown(KeyCode.Return))
+            if (_lastSelectable != null && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) ||
+                Input.GetKeyDown(KeyCode.Return)))
             {
-                _onSelectionUpdates.Invoke(_lastSelectable.Selection);
+                _selectionUpdated.Invoke(_lastSelectable.Selection);
+            }
+
+            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Escape))
+            {
+                _reseted.Invoke();
             }
         }
 
@@ -79,10 +98,16 @@ namespace Views.Battle.Selection
                 if ((selectable != _lastSelectable && _phase.Contains(selectable.Tile.Phase)))
                 {
                     _lastSelectable = selectable;
-                    _selectionHint.Hint(selectable, true);
-                    _onHoverChanges.Invoke(selectable.Selection);
+                    _hints.Hint(selectable, true);
+                    RaiseCurrentHover();
                 }
             }
+        }
+
+        public void RaiseCurrentHover()
+        {
+            _onHoverChanges.Invoke(_lastSelectable.Selection);
+            _hints.Hint(_lastSelectable, true);
         }
     }
 }
