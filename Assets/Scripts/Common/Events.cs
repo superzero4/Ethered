@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using UnitSystem;
 using UnityEngine;
 using UnityEngine.Events;
+using Action = BattleSystem.Action;
 using Environment = BattleSystem.Environment;
 
 namespace Common.Events
@@ -46,6 +47,7 @@ namespace Common.Events
     public class PhaseEvent : UnityEvent<PhaseEventData>
     {
     }
+    [Serializable] public class TimelineEvent : UnityEvent<TimelineEventData> { }
 
     [Serializable]
     public struct PhaseEventData
@@ -94,6 +96,12 @@ namespace Common.Events
         }
     }
 
+    [Serializable]
+    public struct TimelineEventData
+    {
+        public int index;
+        public Action action;
+    }
     [Serializable]
     public struct EmptyEvenData
     {

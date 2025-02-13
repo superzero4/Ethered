@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using BattleSystem.TileSystem;
 using NUnit.Framework;
@@ -15,8 +16,9 @@ namespace BattleSystem
         //Intermediate class to define a group of targets, used in the abstract methods, we use intermediate class in case we need to use another data structure or have middle logic
         [SerializeField] private OriginType _origin;
         [SerializeField] private TargetCollection _targets;
+        [SerializeField] private IActionInfo _info;
         public bool HasTargets => _targets != null && _targets.Count > 0;
-
+        public IEnumerable<IBattleElement> TargetsEnumerable => _targets.Targets;
         [Obsolete(
             "Private setter, targets shouldn't be accessed nor modiified directly, use methods that try to set them instead",
             true)]
@@ -26,7 +28,6 @@ namespace BattleSystem
             get => _targets;
         }
 
-        [SerializeField] private IActionInfo _info;
 
         public Action(OriginType origin, IActionInfo info)
         {
@@ -48,6 +49,10 @@ namespace BattleSystem
         // ReSharper restore SimplifyConditionalTernaryExpression
 
         private bool IsReady => _origin != null && _targets != null;
+
+        public OriginType Origin => _origin;
+
+        public IActionInfo Info => _info;
 
         public bool TryAppendTarget(Unit origin, params IBattleElement[] target)
         {

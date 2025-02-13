@@ -18,7 +18,7 @@ namespace BattleSystem
         [SerializeField] private Timeline _timeline;
         public Tilemap Tiles => _battleElements;
         public IEnumerable<Unit> Units => _units;
-
+        public TimelineEvent OnTimelineAction => _timeline.ActionInserted;
         public void Init(BattleInfo info)
         {
             _timeline = new Timeline();
@@ -77,7 +77,7 @@ namespace BattleSystem
 
         public bool ConfirmAction(Action action)
         {
-            if (action.CanExecute(_battleElements))
+            if (action !=null && action.CanExecute(_battleElements))
             {
                 _timeline.Append(action);
                 //_timeline.PriorityInsert(action);

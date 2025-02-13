@@ -74,6 +74,8 @@ namespace Views.Battle
         [SuppressMessage("ReSharper", "ConvertClosureToMethodGroup")]
         private void SetCallbacks()
         {
+            _battle.OnTimelineAction.AddListener(_ui.TimelineUI1.OnTimelineMemberInserted);
+            
             _selector.OnHoverChanged.AddListener(OnHover);
             _selector.AddResetableElement(_selectionState);
             _selector.AddResetableElement(_selector);

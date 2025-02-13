@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Common.Events;
 using UnityEngine;
 
 namespace BattleSystem
@@ -8,6 +9,9 @@ namespace BattleSystem
     public class Timeline
     {
         [SerializeField] private List<Action> _actions;
+        [SerializeField] private TimelineEvent _actionInserted = new();
+
+        public TimelineEvent ActionInserted => _actionInserted;
 
         public IEnumerator Execute(bool resetAfter, float delay = -1f)
         {
@@ -28,7 +32,7 @@ namespace BattleSystem
 
         public void Append(Action action)
         {
-            _actions.Add(action);
+            Insert(_actions.Count, action);
         }
 
         [Obsolete(
@@ -40,12 +44,11 @@ namespace BattleSystem
             {
                 if (action.CompareTo(_actions[i]) < 0)
                 {
-                    _actions.Insert(i, action);
+                    Insert(i, action);
                     return;
                 }
             }
-
-            _actions.Add(action);
+            Append(action);
         }
 
         public void Prepend(Action action)
@@ -56,6 +59,11 @@ namespace BattleSystem
         private void Insert(int index, Action action)
         {
             _actions.Insert(index, action);
+            _actionInserted.Invoke(new TimelineEventData()
+            {
+                action = action,
+                index = index
+            });
         }
     }
 }
