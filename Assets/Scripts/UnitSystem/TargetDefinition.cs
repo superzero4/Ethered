@@ -46,6 +46,7 @@ namespace UnitSystem
 
         public bool IsValidTarget(IBattleElement origin, params IBattleElement[] targets)
         {
+            //TODO IMPORTANT : in the selection system ensure the origin is selected in a way with only one phase, or a speace specifier/override when passing a Unit with a dual phase position
             Assert.IsTrue(origin.Position.Phase.IsOnlyOnOnePhase());
             EPhase phase = _phase.ToPhase(origin.Position.Phase);
             if (targets.Length > _nbTargets)
@@ -61,7 +62,7 @@ namespace UnitSystem
         {
             foreach (var target in targets)
             {
-                if (target.Position.DistanceTo(origin.Position) > _range)
+                if (target == null || target.Position.DistanceTo(origin.Position) > _range)
                 {
                     return false;
                 }
