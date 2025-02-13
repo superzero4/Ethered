@@ -20,6 +20,15 @@ namespace Common.Events
     }
 
     [Serializable]
+    public class ResetEvent : UnityEvent<EmptyEvenData>
+    {
+        public void Invoke()
+        {
+            Invoke(default);
+        }
+    }
+
+    [Serializable]
     public class UnitMovementEvent : UnityEvent<UnitMovementData>
     {
     }
@@ -52,9 +61,8 @@ namespace Common.Events
     [Serializable]
     public struct SelectionEventData
     {
-        [CanBeNull]
-        public Unit unit;
-        public Environment environment;
+        [CanBeNull] [SerializeReference] public Unit unit;
+        [SerializeReference] public  Environment environment;
 
         public SelectionEventData(Environment environment, Unit unit)
         {
@@ -84,5 +92,10 @@ namespace Common.Events
         {
             return new UnitEventData { unit = unit };
         }
+    }
+
+    [Serializable]
+    public struct EmptyEvenData
+    {
     }
 }
