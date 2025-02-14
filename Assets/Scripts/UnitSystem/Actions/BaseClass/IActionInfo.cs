@@ -10,14 +10,23 @@ namespace UnitSystem.Actions.Bases
     public interface IActionInfo : IIcon
     {
         public EPhase OriginPhase { get; }
-        public IEnumerable<TargetDefinition> Target { get; }
-
-        public bool AreTargetsValid(Unit origin, IBattleElement[] target)
+        public IEnumerable<TargetDefinition> PossibleTargets { get; }
+        public int NbTargets { get; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="targets">Can be one or multiple targets, will require all to be valid</param>
+        /// <returns>True if all targets could execute on at least one (any) of the target definition</returns>
+        public bool AreTargetsValid(Unit origin, params IBattleElement[] targets)
         {
             if (!CouldUnitExecute(origin))
                 return false;
-            return Target.Any(t =>
-                t.IsValidTarget(origin, target));
+            if (targets.Length > NbTargets)
+            {
+                return false;
+            }
+            return targets.All(t => PossibleTargets.Any(targetDefinition => targetDefinition.AreValidTargets(origin, t)));
         }
 
         public bool CouldUnitExecute(Unit origin)
@@ -38,7 +47,7 @@ namespace UnitSystem.Actions.Bases
 
         public void Execute(Unit origin, IBattleElement target)
         {
-            Execute(origin, new TargetCollection(target));
+            Execute(origin, new TargetCollection(target,NbTargets));
         }
     }
 }

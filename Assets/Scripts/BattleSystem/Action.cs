@@ -19,6 +19,7 @@ namespace BattleSystem
         [SerializeField] private IActionInfo _info;
         public bool HasTargets => _targets != null && _targets.Count > 0;
         public IEnumerable<IBattleElement> TargetsEnumerable => _targets.Targets;
+
         [Obsolete(
             "Private setter, targets shouldn't be accessed nor modiified directly, use methods that try to set them instead",
             true)]
@@ -33,7 +34,7 @@ namespace BattleSystem
         {
             _origin = origin;
             _info = info;
-            _targets = new TargetCollection();
+            _targets = new TargetCollection(_info.NbTargets);
         }
 
         public void Execute()
@@ -54,7 +55,13 @@ namespace BattleSystem
 
         public IActionInfo Info => _info;
 
-        public bool TryAppendTarget(Unit origin, params IBattleElement[] target)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="targets"></param>
+        /// <returns>True if at least one of the target was succesfuly appended</returns>
+        public bool TryAppendTargets(Unit origin, params IBattleElement[] targets)
         {
             Assert.IsTrue(_targets != null, "Targets should be initialized before trying to append to them");
             Assert.IsTrue(_origin != null || origin != null,
@@ -63,21 +70,30 @@ namespace BattleSystem
                 "Origin should be the same as the one used to initialize the action");
             if (_origin == null)
                 _origin = origin;
-            if (_info.AreTargetsValid(_origin, target))
+            bool flag = false;
+            foreach (var t in targets)
             {
-                _origin = origin;
-                _targets.AddRange(target);
-                return true;
+                if (_targets.Count < _info.NbTargets)
+                {
+                    if (_info.AreTargetsValid(_origin, t))
+                    {
+                        _targets.Add(t);
+                        if (!flag) flag = true;
+                    }
+                }
             }
-            else
-                return false;
+
+            Debug.Log("SELECTION target size : " + _targets.Count);
+            return flag;
         }
 
+        [Obsolete(
+            "Use TryAppendTargets instead, this would return true if at least only one target sueccesfuly appended but this might not be what you want")]
         public bool TrySetTarget(OriginType origin, params IBattleElement[] target)
         {
-            _targets = new TargetCollection();
+            _targets = new TargetCollection(_info.NbTargets);
             _origin = origin;
-            if (TryAppendTarget(_origin, target))
+            if (TryAppendTargets(_origin, target))
                 return true;
             else
             {

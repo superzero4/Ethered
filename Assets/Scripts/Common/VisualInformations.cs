@@ -8,7 +8,7 @@ namespace Common.Visuals
     public struct VisualInformations
     {
         [SerializeField] private Sprite _sprite;
-        [SerializeField] private Sprite _grayScale;
+        [SerializeField,ReadOnly] private Sprite _grayScale;
         [SerializeField] private Color _color;
         [SerializeField] private string _name;
         [SerializeField] private string _description;

@@ -106,6 +106,7 @@ namespace Views.Battle
             _selector.Reset();
             if (confirmed)
             {
+                Debug.Log("SELECTION Action confirmed");
                 //TODO Show positive feedback
                 //Timeline UI should have subscribed to timeline events and be update on it's own
             }
@@ -120,10 +121,10 @@ namespace Views.Battle
         {
             if (_selectionState.CanSelectTarget)
             {
-                bool targetValid = _selectionState.AppendTarget(s.unit);
-                if (targetValid)
+                bool atLeastOnTarget = _selectionState.AppendTarget(s);
+                if (atLeastOnTarget)
                 {
-                    _ui.TargetUI.SetInfo(s.unit);
+                    _ui.TargetUI.SetInfo(s.unit?.VisualInformations ?? s.environment.VisualInformations);
                     _selector.Hints.Lock();
                     _selector.RaiseCurrentHover();
                     //TODO Probably maintain a List of targets and not just a single LastTargetUI

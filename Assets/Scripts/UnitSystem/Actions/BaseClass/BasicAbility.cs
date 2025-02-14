@@ -14,6 +14,7 @@ namespace UnitSystem.Actions.BaseClass
     {
         [SerializeField] EPhase _originPhase;
         [SerializeField] TargetDefinition[] _target;
+        [SerializeField, Range(0, 10)] private int _nbTargets = 1;
 
         [SerializeField, Range(-20, 20), InfoBox("Negative means heal")]
         private int _damage = 1;
@@ -21,9 +22,12 @@ namespace UnitSystem.Actions.BaseClass
         [SerializeField, Tooltip("If it requires a direct line of sight on target")]
         private bool _requireLOS = true;
 
+
         public override EPhase OriginPhase => _originPhase;
 
-        public override IEnumerable<TargetDefinition> Target => _target;
+        public override IEnumerable<TargetDefinition> PossibleTargets => _target;
+
+        public override int NbTargets => _nbTargets;
 
         public override bool CanExecuteOnMap(Unit origin, TargetCollection targets, Tilemap map)
         {

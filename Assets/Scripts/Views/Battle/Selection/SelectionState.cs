@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using BattleSystem;
+using BattleSystem.TileSystem;
 using Common;
+using Common.Events;
 using JetBrains.Annotations;
 using UnitSystem;
 using UnitSystem.Actions.Bases;
@@ -48,13 +50,20 @@ namespace Views.Battle.Selection
                 $"Action is incorrect => Unit doesn't have action {action} in list {_origin.Info.Actions}");
             _action = new Action(_origin, action);
         }
-
-        public bool AppendTarget(Unit target)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="environment"></param>
+        /// <returns>True if either unit or environment in selection was considered a correct target</returns>
+        public bool AppendTarget(SelectionEventData selection)
         {
             Assert.IsTrue(CanSelectTarget,
                 $"Unit {_origin} or Action {_action} is not set before trying to set targets");
-            return _action.TryAppendTarget(_origin, target);
+            //Action could either target the environment or the potentally null unit on itself, we pass both, each action will filter them individually and add them to target list if they are valid targets (potentially both or none)
+            return _action.TryAppendTargets(_origin, selection.unit, selection.environment);
         }
+
         [CanBeNull]
         public Action Confirm()
         {
