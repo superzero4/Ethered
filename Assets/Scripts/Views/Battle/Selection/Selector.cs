@@ -29,7 +29,7 @@ namespace Views.Battle.Selection
         [FormerlySerializedAs("_onSelectionUpdates")] [SerializeField]
         private SelectionEvent _selectionUpdated = new();
 
-        [FormerlySerializedAs("_onReset")] [SerializeField]
+        [SerializeField]
         private ResetEvent _reseted = new();
 
         [SerializeField] [ReadOnly] private Selectable _lastSelectable;
@@ -45,7 +45,7 @@ namespace Views.Battle.Selection
         public PhaseSelector Phase => _phase;
 
         public ResetEvent Reseted => _reseted;
-        public void AddResetableElement(IReset restable) => _reseted.AddListener(restable.Reset);
+        public void AddResetableElement(IReset resetable) => _reseted.AddListener(resetable.Reset);
 
         public SelectionHintManager Hints => _hints;
 

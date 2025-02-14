@@ -53,9 +53,12 @@ namespace Views.Battle
 
             _selectionState = new SelectionState();
             _ui.Initialize();
-            _selector.Initialize();
-            //_selector.SelectionUpdated.AddListener(s => Debug.Log("Selected: " + s.unit));
+            //We set callbacks before initializing the _selector because we basically hook on selectione events and we want everything to be set as the selector initializes
             SetCallbacks();
+            _selector.Initialize();
+            _ui.ConfirmButton.AddListener(OnConfirmed);
+            _ui.ConfirmButton.AddListener(_selector.Hints.Clear);
+            //_selector.SelectionUpdated.AddListener(s => Debug.Log("Selected: " + s.unit));
         }
 
         private void OnHover(SelectionEventData selection)
@@ -68,6 +71,7 @@ namespace Views.Battle
             {
                 _ui.UnitUI.SetUnit(selection.unit);
             }
+
             _ui.TileUI.SetInfo(selection.environment.Info);
         }
 
@@ -75,7 +79,9 @@ namespace Views.Battle
         private void SetCallbacks()
         {
             _battle.OnTimelineAction.AddListener(_ui.TimelineUI1.OnTimelineMemberInserted);
-            
+
+            _selector.Phase.OnSelectedPhaseChanges.AddListener(_ui.PhaseUI.DisplayPhase);
+
             _selector.OnHoverChanged.AddListener(OnHover);
             _selector.AddResetableElement(_selectionState);
             _selector.SelectionUpdated.AddListener(UpdateSelection);
@@ -91,9 +97,6 @@ namespace Views.Battle
                 onClick.AddListener(e => _selector.UpdateHint = true);
                 //onClick.AddListener(e => Debug.LogWarning(" SELECTION Action selected: " + e));
             }
-
-            _ui.ConfirmButton.AddListener(OnConfirmed);
-            _ui.ConfirmButton.AddListener(_selector.Hints.Clear);
         }
 
         private void OnConfirmed()
