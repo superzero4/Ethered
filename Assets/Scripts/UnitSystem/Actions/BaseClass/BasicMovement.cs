@@ -21,6 +21,7 @@ namespace UnitSystem.Actions.Bases
 
         public override bool CanExecuteOnMap(Unit origin, TargetCollection targets, Tilemap map)
         {
+            if (targets.Count != 1) return false;
             var target = targets[0];
             //If we are on multiple phases, we need to be able to land on all of them
             var hash = new HashSet<Tile>(map[target.Position]);

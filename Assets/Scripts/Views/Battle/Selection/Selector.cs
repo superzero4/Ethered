@@ -14,7 +14,7 @@ using ReadOnly = NaughtyAttributes.ReadOnlyAttribute;
 
 namespace Views.Battle.Selection
 {
-    public class Selector : MonoBehaviour,IReset
+    public class Selector : MonoBehaviour, IReset
     {
         private LayerMask _selectionMask;
         [SerializeField] private Camera _camera;
@@ -23,7 +23,8 @@ namespace Views.Battle.Selection
         [InfoBox("Will find all Hints available in scene on startup and use them")] [SerializeReference] [ReadOnly]
         private SelectionHintManager _hints;
 
-        [FormerlySerializedAs("_onHoverChanges")] [SerializeField] private SelectionEvent _onHoverChanged = new();
+        [FormerlySerializedAs("_onHoverChanges")] [SerializeField]
+        private SelectionEvent _onHoverChanged = new();
 
         [FormerlySerializedAs("_onSelectionUpdates")] [SerializeField]
         private SelectionEvent _selectionUpdated = new();
@@ -86,7 +87,7 @@ namespace Views.Battle.Selection
 
             if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Escape))
             {
-                _reseted.Invoke();
+                Reset();
             }
         }
 
@@ -128,6 +129,7 @@ namespace Views.Battle.Selection
             Hints.Clear();
             UpdateHint = true;
             RaiseCurrentHover();
+            _reseted.Invoke();
         }
     }
 }

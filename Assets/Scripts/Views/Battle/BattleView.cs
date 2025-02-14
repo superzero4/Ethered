@@ -78,7 +78,6 @@ namespace Views.Battle
             
             _selector.OnHoverChanged.AddListener(OnHover);
             _selector.AddResetableElement(_selectionState);
-            _selector.AddResetableElement(_selector);
             _selector.SelectionUpdated.AddListener(UpdateSelection);
             foreach (var actionUI in _ui.UnitUI.ActionUIs)
             {
@@ -101,7 +100,7 @@ namespace Views.Battle
         {
             var action = _selectionState.Confirm();
             var confirmed = _battle.ConfirmAction(action);
-            _selectionState.Reset();
+            _selector.Reset();
             if (confirmed)
             {
                 //TODO Show positive feedback
