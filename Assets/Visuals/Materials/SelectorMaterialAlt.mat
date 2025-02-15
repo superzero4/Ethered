@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SelectorMaterial
+  m_Name: SelectorMaterialAlt
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -15,7 +15,7 @@ Material:
   - _ALPHAPREMULTIPLY_ON
   - _EMISSION
   m_InvalidKeywords: []
-  m_LightmapFlags: 1
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
@@ -47,7 +47,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 269490de66e33a34dad45a50e3d4c168, type: 3}
+        m_Texture: {fileID: 2800000, guid: a7ad6ad1555ea2c46ac36fd76674f805, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -89,8 +89,8 @@ Material:
     - _UseUIAlphaClip: 0
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 1, g: 0.23591241, b: 0.09019607, a: 0.26666668}
-    - _EmissionColor: {r: 9.069761, g: 0.89841974, b: 0.89841974, a: 0}
+    - _Color: {r: 1, g: 0.23591238, b: 0.090196066, a: 1}
+    - _EmissionColor: {r: 3.9533484, g: 0.39160475, b: 0.39160475, a: 0}
     - _TintColor: {r: 1, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
