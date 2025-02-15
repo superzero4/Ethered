@@ -18,14 +18,20 @@ namespace Views.Battle
 {
     public class BattleView : MonoBehaviour
     {
+        [Header("Settings")]
+        [SerializeField]
+        private float _delay = 0.5f;
+        [Header("References")]
         [SerializeField] private BattleInfo _battleInfo;
+        [SerializeField] private Grid _grid;
+        [SerializeField,InfoBox("Just a big reference holder")] private BattleUI _ui;
+        [SerializeField] private Selector _selector;
+        [Header("Prefabs")]
         [SerializeField] private UnitView _unitViewPrefab;
         [SerializeField] private EnvironmentView _environmentViewPrefab;
-        [SerializeField] private Grid _grid;
-        [SerializeField] private BattleUI _ui;
-        [SerializeField] private Selector _selector;
-        private BattleSystem.Battle _battle;
+        [Header("Read Only")]
         [SerializeReference] [ReadOnly] private SelectionState _selectionState;
+        private BattleSystem.Battle _battle;
 
         public BattleSystem.Battle Battle
         {
@@ -57,7 +63,10 @@ namespace Views.Battle
             SetCallbacks();
             _selector.Initialize();
             _ui.ConfirmButton.AddListener(OnConfirmed);
-            _ui.ConfirmButton.AddListener(_selector.Hints.Clear);
+            _ui.EndTurnButton.AddListener(()=>
+            {
+                StartCoroutine(_battle.TurnEnd(true,_delay));
+            });
             //_selector.SelectionUpdated.AddListener(s => Debug.Log("Selected: " + s.unit));
         }
 
@@ -71,7 +80,6 @@ namespace Views.Battle
             {
                 _ui.UnitUI.SetUnit(selection.unit);
             }
-
             _ui.TileUI.SetInfo(selection.environment.Info);
         }
 
@@ -85,6 +93,8 @@ namespace Views.Battle
             _selector.OnHoverChanged.AddListener(OnHover);
             _selector.AddResetableElement(_selectionState);
             _selector.SelectionUpdated.AddListener(UpdateSelection);
+            
+            _selector.AddResetableElement(_ui.ConfirmButton);
             foreach (var actionUI in _ui.UnitUI.ActionUIs)
             {
                 _selector.AddResetableElement(actionUI);
@@ -127,6 +137,7 @@ namespace Views.Battle
                     _ui.TargetUI.SetInfo(s.unit?.VisualInformations ?? s.environment.VisualInformations);
                     _selector.Hints.Lock();
                     _selector.RaiseCurrentHover();
+                    _ui.ConfirmButton.interactable = true;
                     //TODO Probably maintain a List of targets and not just a single LastTargetUI
                 }
                 else

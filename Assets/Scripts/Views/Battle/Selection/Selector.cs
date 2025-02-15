@@ -14,7 +14,7 @@ using ReadOnly = NaughtyAttributes.ReadOnlyAttribute;
 
 namespace Views.Battle.Selection
 {
-    public class Selector : MonoBehaviour, IReset
+    public class Selector : MonoBehaviour
     {
         private LayerMask _selectionMask;
         [SerializeField] private Camera _camera;
@@ -44,7 +44,6 @@ namespace Views.Battle.Selection
 
         public PhaseSelector Phase => _phase;
 
-        public ResetEvent Reseted => _reseted;
         public void AddResetableElement(IReset resetable) => _reseted.AddListener(resetable.Reset);
 
         public SelectionHintManager Hints => _hints;
@@ -75,6 +74,7 @@ namespace Views.Battle.Selection
             _phase.Initialize(EPhase.Normal);
             _selectionMask = _phase.GetLayerMask();
             StartCoroutine(CheckSelection());
+            Reset();
         }
 
         private void Update()
