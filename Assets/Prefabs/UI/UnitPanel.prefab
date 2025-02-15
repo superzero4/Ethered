@@ -186,12 +186,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ba8bde4060e47b692c5b4a1715737ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unitUI: {fileID: 2614218729655028127}
-  _actions:
+  _actionUIs:
   - {fileID: 4575638481847293635}
   - {fileID: 3223766718009397950}
   - {fileID: 1898975152604442636}
   - {fileID: 2440565390110837115}
+  _unitUI: {fileID: 2614218729655028127}
 --- !u!1001 &6279237215027464418
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -206,7 +206,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5304750332588497095, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_fontSize
-      value: 36.25
+      value: 24.15
       objectReference: {fileID: 0}
     - target: {fileID: 7679349473396145482, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_Pivot.x
@@ -327,7 +327,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5304750332588497095, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_fontSize
-      value: 36.25
+      value: 24.15
       objectReference: {fileID: 0}
     - target: {fileID: 7679349473396145482, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_Pivot.x
@@ -448,7 +448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5304750332588497095, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_fontSize
-      value: 36.25
+      value: 24.15
       objectReference: {fileID: 0}
     - target: {fileID: 7679349473396145482, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_Pivot.x
@@ -569,7 +569,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5304750332588497095, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_fontSize
-      value: 36.25
+      value: 24.15
       objectReference: {fileID: 0}
     - target: {fileID: 7679349473396145482, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_Pivot.x
@@ -770,7 +770,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3508989113751386768, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
-      value: 72
+      value: 48.3
       objectReference: {fileID: 0}
     - target: {fileID: 4498193299314624251, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
