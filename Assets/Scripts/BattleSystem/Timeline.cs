@@ -9,9 +9,9 @@ namespace BattleSystem
     public class Timeline
     {
         [SerializeField] private List<Action> _actions;
-        [SerializeField] private TimelineEvent _actionInserted = new();
+        [SerializeField] private TimelineEvent _timeLineUpdated = new();
 
-        public TimelineEvent ActionInserted => _actionInserted;
+        public TimelineEvent TimeLineUpdated => _timeLineUpdated;
 
         public IEnumerator Execute(bool resetAfter, float delay = -1f)
         {
@@ -22,7 +22,13 @@ namespace BattleSystem
             }
 
             if (resetAfter)
-                _actions.Clear();
+                Reset();
+        }
+
+        private void Reset()
+        {
+            _actions.Clear();
+            _timeLineUpdated.Invoke(new TimelineEventData(_actions, null));
         }
 
         public void Initialize(List<Action> actions)
@@ -48,6 +54,7 @@ namespace BattleSystem
                     return;
                 }
             }
+
             Append(action);
         }
 
@@ -59,11 +66,7 @@ namespace BattleSystem
         private void Insert(int index, Action action)
         {
             _actions.Insert(index, action);
-            _actionInserted.Invoke(new TimelineEventData()
-            {
-                action = action,
-                index = index
-            });
+            _timeLineUpdated.Invoke(new TimelineEventData(_actions, index));
         }
     }
 }

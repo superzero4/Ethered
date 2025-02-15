@@ -18,7 +18,7 @@ namespace BattleSystem
         [SerializeField] private Timeline _timeline;
         public Tilemap Tiles => _battleElements;
         public IEnumerable<Unit> Units => _units;
-        public TimelineEvent OnTimelineAction => _timeline.ActionInserted;
+        public TimelineEvent OnTimelineAction => _timeline.TimeLineUpdated;
         public void Init(BattleInfo info)
         {
             _timeline = new Timeline();
