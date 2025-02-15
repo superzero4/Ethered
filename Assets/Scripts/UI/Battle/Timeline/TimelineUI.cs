@@ -2,31 +2,30 @@ using System;
 using Common;
 using Common.Events;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 namespace UI.Battle
 {
     public class TimelineUI : MonoBehaviour,IReset
     {
-        [SerializeField] private TimelineMemberUI[] _members;
-
+        [SerializeField] private TimelineMemberUI _memberPrefab;
+        private DynamicHideAndShow<TimelineMemberUI> _memberPool;
         private void Awake()
         {
-            _members = GetComponentsInChildren<TimelineMemberUI>(true);
+            _memberPool = new DynamicHideAndShow<TimelineMemberUI>(_memberPrefab,10,transform);
         }
 
         public void OnTimelineMemberInserted(TimelineEventData t)
         {
-            var member = _members[t.index];
+            var member = _memberPool.At(t.index);
             member.gameObject.SetActive(true);
             member.SetAction(t.action);
         }
 
         public void Reset()
         {
-            foreach (var member in _members)
-            {
-                member.gameObject.SetActive(false);
-            }
+            _memberPool.Reset();
         }
     }
 }

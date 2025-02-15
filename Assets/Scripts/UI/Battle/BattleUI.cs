@@ -37,6 +37,7 @@ namespace UI.Battle
         public void Initialize()
         {
             VisualInformations.Default = _default;
+            _unitUI.Initialize();
         }
     }
 }
