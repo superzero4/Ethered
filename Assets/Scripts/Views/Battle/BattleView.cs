@@ -134,8 +134,8 @@ namespace Views.Battle
         {
             if (_selectionState.CanSelectTarget)
             {
-                bool atLeastOnTarget = _selectionState.AppendTarget(s);
-                if (atLeastOnTarget)
+                bool atLeastOneTarget = _selectionState.AppendTarget(s);
+                if (atLeastOneTarget)
                 {
                     _ui.TargetUI.SetInfo(s.unit?.VisualInformations ?? s.environment.VisualInformations);
                     _selector.Hints.Lock();
