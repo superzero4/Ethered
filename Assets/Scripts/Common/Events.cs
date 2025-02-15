@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using BattleSystem;
 using BattleSystem.TileSystem;
 using JetBrains.Annotations;
 using UnitSystem;
 using UnityEngine;
 using UnityEngine.Events;
+using Action = BattleSystem.Action;
 using Environment = BattleSystem.Environment;
 
 namespace Common.Events
@@ -17,6 +19,15 @@ namespace Common.Events
     [Serializable]
     public class SelectionEvent : UnityEvent<SelectionEventData>
     {
+    }
+
+    [Serializable]
+    public class ResetEvent : UnityEvent<EmptyEvenData>
+    {
+        public void Invoke()
+        {
+            Invoke(default);
+        }
     }
 
     [Serializable]
@@ -37,6 +48,7 @@ namespace Common.Events
     public class PhaseEvent : UnityEvent<PhaseEventData>
     {
     }
+    [Serializable] public class TimelineEvent : UnityEvent<TimelineEventData> { }
 
     [Serializable]
     public struct PhaseEventData
@@ -52,9 +64,8 @@ namespace Common.Events
     [Serializable]
     public struct SelectionEventData
     {
-        [CanBeNull]
-        public Unit unit;
-        public Environment environment;
+        [CanBeNull] [SerializeReference] public Unit unit;
+        [SerializeReference] public  Environment environment;
 
         public SelectionEventData(Environment environment, Unit unit)
         {
@@ -84,5 +95,26 @@ namespace Common.Events
         {
             return new UnitEventData { unit = unit };
         }
+    }
+
+    [Serializable]
+    public struct TimelineEventData
+    {
+        private int? _insertIndex;
+        private List<Action> _actions;
+
+        public TimelineEventData(IEnumerable<Action> newActions, int? insertIndex=null)
+        {
+            this._insertIndex = insertIndex;
+            //We do a copy of the references but we do not reference the list in case it's modified, we just want a copy
+            this._actions = new List<Action>(newActions);
+        }
+
+        public int? InsertIndex => _insertIndex;
+        public Action Action => _insertIndex.HasValue ? _actions[_insertIndex.Value] : null;
+    }
+    [Serializable]
+    public struct EmptyEvenData
+    {
     }
 }

@@ -15,8 +15,9 @@ namespace UnitSystem.Actions.Bases
         [SerializeField] private EPhase _originPhase;
         [Tooltip("Will mostly be a one element lits, target will be valid if it matches at least one of the target definitions (For instance an ability could have a different reach depending on the target's phase)")]
         [SerializeField] private List<TargetDefinition> _target;
-        
+        [SerializeField,Range(0,10)] private int _nbTargets = 1;
+        public override int NbTargets => _nbTargets;
         public override EPhase OriginPhase => _originPhase;
-        public override IEnumerable<TargetDefinition> Target => _target;
+        public override IEnumerable<TargetDefinition> PossibleTargets => _target;
     }
 }

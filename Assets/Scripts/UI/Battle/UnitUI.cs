@@ -1,50 +1,54 @@
 using System.Collections.Generic;
+using Common;
 using UnitSystem;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Common.Visuals;
+using UnitSystem.Actions.Bases;
+using UnityEngine.Serialization;
 
 namespace UI.Battle
 {
     public class UnitUI : MonoBehaviour, IVisualInformationUI
     {
+        [SerializeField] private List<ActionUI> _actionUIs;
         [SerializeField] private InfoUI _unitUI;
-        [SerializeField] private List<ActionUI> _actions;
+        private DynamicHideAndShow<ActionUI> _dynamicHideAndShow;
 
-        //public void Init()
-        //{
-        //    foreach(var action in _actions)
-        //        action.Init();
-        //}
+        public IEnumerable<ActionUI> ActionUIs => _actionUIs;
 
-        public void SetUnit(UnitInfo unitInfo)
+        public void Initialize()
         {
+            _dynamicHideAndShow = new DynamicHideAndShow<ActionUI>(_actionUIs);
+        }
+
+        public void SetUnit(Unit unit)
+        {
+            var unitInfo = unit?.Info;
             (this as IVisualInformationUI).SetIcon(unitInfo);
             if (unitInfo == null || unitInfo.Actions == null)
             {
-                HideActionPanelsFrom(0);
+                _dynamicHideAndShow.Reset();
                 return;
             }
-            Assert.IsTrue(unitInfo.Actions.Count <= _actions.Count,
-                $"{_actions.Count} ui action panel references (and probably UI design itself) isn't enough to display all of the {unitInfo.Actions.Count} unit actions)");
-            int i = 0;
-            for (; i < unitInfo.Actions.Count; i++)
-            {
-                _actions[i].gameObject.SetActive(true);
-                _actions[i].SetAction(unitInfo.Actions[i]);
-            }
-            HideActionPanelsFrom(i);
+
+            _dynamicHideAndShow.SetPanels(unit.Info.Actions,
+                (action, actionUI) => { actionUI.SetAction(action, action.CouldUnitExecute(unit)); });
         }
 
-        private void HideActionPanelsFrom(int i)
-            {
-                for (; i < _actions.Count; i++)
-                    _actions[i].gameObject.SetActive(false);
-            }
+        public void SetInfo(VisualInformations info)
+        {
+            _unitUI.SetInfo(info);
+        }
 
-            public void SetInfo(VisualInformations info)
+        public void ResetActionUIs(ActionUI except = null)
+        {
+            foreach (var actionUI in _actionUIs)
             {
-                _unitUI.SetInfo(info);
+                if (actionUI == except)
+                    continue;
+                actionUI.Reset();
             }
         }
     }
+}

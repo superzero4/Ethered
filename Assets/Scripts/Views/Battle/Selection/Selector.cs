@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using BattleSystem;
+using Common;
 using Common.Events;
 using NaughtyAttributes;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Serialization;
 using ReadOnly = NaughtyAttributes.ReadOnlyAttribute;
@@ -17,23 +19,58 @@ namespace Views.Battle.Selection
         private LayerMask _selectionMask;
         [SerializeField] private Camera _camera;
         [SerializeField] private PhaseSelector _phase;
-        [SerializeField] private SelectionHint _selectionHint;
-        [SerializeField] private SelectionEvent _onHoverChanges = new();
-        [SerializeField] private SelectionEvent _onSelectionUpdates = new();
 
         [SerializeField] [ReadOnly] private Selectable _lastSelectable;
+        
+        [InfoBox("Will find all Hints available in scene on startup and use them")] [SerializeReference] [ReadOnly]
+        private SelectionHintManager _hints;
+
+        [FormerlySerializedAs("_onHoverChanges")] [SerializeField]
+        private SelectionEvent _onHoverChanged = new();
+
+        [FormerlySerializedAs("_onSelectionUpdates")] [SerializeField]
+        private SelectionEvent _selectionUpdated = new();
+
+        [SerializeField] private ResetEvent _reseted = new();
+
 
         [SerializeField] [ReadOnly] private RaycastHit[] _results;
         [SerializeField] [ReadOnly] private Dictionary<GameObject, Selectable> _selectables;
+        private bool _updateHint = true;
 
-        public SelectionEvent OnHoverChanges => _onHoverChanges;
+        public SelectionEvent OnHoverChanged => _onHoverChanged;
 
-        public SelectionEvent OnSelectionUpdates => _onSelectionUpdates;
+        public SelectionEvent SelectionUpdated => _selectionUpdated;
 
         public PhaseSelector Phase => _phase;
 
+        private void AddResetableElement(IReset resetable) => _reseted.AddListener(resetable.Reset);
+
+        public void AddResetables(params IReset[] resetable)
+        {
+            foreach (var resetable1 in resetable)
+            {
+                AddResetableElement(resetable1);
+            }
+        }
+
+        public SelectionHintManager Hints => _hints;
+
+        public bool UpdateHint
+        {
+            get { return _updateHint; }
+            set
+            {
+                _updateHint = value;
+            }
+        }
+
         public void Initialize()
         {
+            _updateHint = true;
+            var hints = FindObjectsByType<SelectionHint>(FindObjectsSortMode.None);
+            Assert.IsTrue(hints != null && hints.Length >= 1);
+            _hints = new SelectionHintManager(hints);
             _results = new RaycastHit[4];
             //We have a quick mapping from a gameObject to it's selectable component without the need of a GetComponent on every selection
             Dictionary<GameObject, Selectable> dictionary = new Dictionary<GameObject, Selectable>();
@@ -41,20 +78,27 @@ namespace Views.Battle.Selection
             {
                 dictionary.Add(selectable.gameObject, selectable);
             }
+
             _selectables = dictionary;
             _lastSelectable = dictionary.First().Value;
-            _selectionHint.Hint(_lastSelectable, true);
+            RaiseCurrentHover();
             _phase.Initialize(EPhase.Normal);
             _selectionMask = _phase.GetLayerMask();
             StartCoroutine(CheckSelection());
+            Reset();
         }
 
         private void Update()
         {
-            if (_results != null && Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) ||
-                Input.GetKeyDown(KeyCode.Return))
+            if (_lastSelectable != null && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) ||
+                                            Input.GetKeyDown(KeyCode.Return)))
             {
-                _onSelectionUpdates.Invoke(_lastSelectable.Selection);
+                _selectionUpdated.Invoke(_lastSelectable.Selection);
+            }
+
+            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Escape))
+            {
+                Reset();
             }
         }
 
@@ -79,10 +123,25 @@ namespace Views.Battle.Selection
                 if ((selectable != _lastSelectable && _phase.Contains(selectable.Tile.Phase)))
                 {
                     _lastSelectable = selectable;
-                    _selectionHint.Hint(selectable, true);
-                    _onHoverChanges.Invoke(selectable.Selection);
+                    RaiseCurrentHover();
                 }
             }
+        }
+
+        public void RaiseCurrentHover()
+        {
+            _onHoverChanged.Invoke(_lastSelectable.Selection);
+            if (_updateHint)
+                _hints.Hint(_lastSelectable, true);
+        }
+
+        public void Reset()
+        {
+            _hints.Clear();
+            _hints.ActivateNew();
+            UpdateHint = true;
+            RaiseCurrentHover();
+            _reseted.Invoke();
         }
     }
 }

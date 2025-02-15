@@ -8,7 +8,7 @@ namespace Common.Tool
         [SerializeField] private BattleInfo _battleInfo;
         [SerializeField] private ConsoleSimulation _consoleSimulation;
 
-        private void Awake()
+        private void Start()
         {
             var battle = new Battle();
             battle.Init(_battleInfo);
