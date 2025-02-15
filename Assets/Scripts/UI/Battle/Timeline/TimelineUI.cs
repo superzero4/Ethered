@@ -11,7 +11,7 @@ namespace UI.Battle
 
         private void Awake()
         {
-            _members = GetComponentsInChildren<TimelineMemberUI>();
+            _members = GetComponentsInChildren<TimelineMemberUI>(true);
         }
 
         public void OnTimelineMemberInserted(TimelineEventData t)

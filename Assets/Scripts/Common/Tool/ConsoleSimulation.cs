@@ -35,7 +35,7 @@ namespace Common.Tool
                     }
                 }
 
-                yield return battle.TurnEndConfirmed(true);
+                yield return battle.TurnEnd(true);
                 yield return new WaitForSeconds(0.01f);
             }
         }

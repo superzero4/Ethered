@@ -114,7 +114,7 @@ namespace BattleSystem
             return sb.ToString();
         }
 
-        public IEnumerator TurnEndConfirmed(bool b)
+        public IEnumerator TurnEnd(bool b, float delay = .1f)
         {
             yield return _timeline.Execute(true);
         }

@@ -7,6 +7,7 @@ namespace UI.Battle
 {
     public class BattleUI : MonoBehaviour
     {
+        [Header("References")]
         [SerializeField] private UnitUI _unitUI;
         [SerializeField] private InfoUI _tileUI;
         [SerializeField] private InfoUI _targetUI;
@@ -15,6 +16,8 @@ namespace UI.Battle
 
         [SerializeField, InfoBox("Reusable, changable and event reassignable action button")]
         private ClickableUI _confirmButton;
+        [SerializeField]
+        private ClickableUI _endTurnButton;
 
         [SerializeField] private VisualInformations _default;
         public UnitUI UnitUI => _unitUI;
@@ -28,6 +31,8 @@ namespace UI.Battle
         public TimelineUI TimelineUI1 => _timelineUI;
 
         public PhaseUI PhaseUI => _phaseUI;
+
+        public ClickableUI EndTurnButton => _endTurnButton;
 
         public void Initialize()
         {

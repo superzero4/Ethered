@@ -1,4 +1,5 @@
 using System;
+using Common;
 using Common.Events;
 using NUnit.Framework;
 using UnityEngine;
@@ -7,10 +8,20 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public abstract class ClickableUI<EventArg> : InfoUI
+    public abstract class ClickableUI<EventArg> : InfoUI, IReset
     {
         [SerializeField] private Button _button;
         [SerializeField] private UnityEvent<EventArg> _onClick = new();
+
+        public bool interactable
+        {
+            get => _button.interactable;
+            set
+            {
+                _button.interactable = value;
+                Interactable(value);
+            }
+        }
 
         public UnityEvent<EventArg> OnClick => _onClick;
 
@@ -19,6 +30,10 @@ namespace UI
         /// </summary>
         /// <param name="args"></param>
         protected abstract void Clicked(EventArg args);
+
+        protected virtual void Interactable(bool value)
+        {
+        }
 
         protected override void AfterAwake()
         {
@@ -36,6 +51,11 @@ namespace UI
         /// </summary>
         /// <returns>The arguments of specified type that will be raised with the event, typically a status represented by a field or other logic, continaing information about what was pressed</returns>
         protected abstract EventArg GetArgs();
+
+        public void Reset()
+        {
+            interactable = false;
+        }
     }
 
     /// <summary>
