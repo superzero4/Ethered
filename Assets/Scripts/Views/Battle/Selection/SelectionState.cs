@@ -21,6 +21,15 @@ namespace Views.Battle.Selection
         public bool CanSelectAction => !CanSelectUnit && _action == null;
         public bool CanSelectTarget => !CanSelectUnit && !CanSelectAction;
 
+        public bool AcceptsMoreTargets
+        {
+            get
+            {
+                Assert.IsNotNull(_action);
+                return !_action.AreTargetsFull;
+            }
+        }
+
         public SelectionState()
         {
             Reset();

@@ -55,6 +55,11 @@ namespace BattleSystem
 
         public IActionInfo Info => _info;
 
+        public bool AreTargetsFull
+        {
+            get { return _targets.Count >= _info.NbTargets; }
+        }
+
         /// <summary>
         /// 
         /// </summary>

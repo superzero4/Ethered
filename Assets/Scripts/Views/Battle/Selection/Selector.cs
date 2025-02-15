@@ -20,6 +20,8 @@ namespace Views.Battle.Selection
         [SerializeField] private Camera _camera;
         [SerializeField] private PhaseSelector _phase;
 
+        [SerializeField] [ReadOnly] private Selectable _lastSelectable;
+        
         [InfoBox("Will find all Hints available in scene on startup and use them")] [SerializeReference] [ReadOnly]
         private SelectionHintManager _hints;
 
@@ -29,10 +31,8 @@ namespace Views.Battle.Selection
         [FormerlySerializedAs("_onSelectionUpdates")] [SerializeField]
         private SelectionEvent _selectionUpdated = new();
 
-        [SerializeField]
-        private ResetEvent _reseted = new();
+        [SerializeField] private ResetEvent _reseted = new();
 
-        [SerializeField] [ReadOnly] private Selectable _lastSelectable;
 
         [SerializeField] [ReadOnly] private RaycastHit[] _results;
         [SerializeField] [ReadOnly] private Dictionary<GameObject, Selectable> _selectables;
@@ -44,14 +44,25 @@ namespace Views.Battle.Selection
 
         public PhaseSelector Phase => _phase;
 
-        public void AddResetableElement(IReset resetable) => _reseted.AddListener(resetable.Reset);
+        private void AddResetableElement(IReset resetable) => _reseted.AddListener(resetable.Reset);
+
+        public void AddResetables(params IReset[] resetable)
+        {
+            foreach (var resetable1 in resetable)
+            {
+                AddResetableElement(resetable1);
+            }
+        }
 
         public SelectionHintManager Hints => _hints;
 
         public bool UpdateHint
         {
             get { return _updateHint; }
-            set { _updateHint = value; }
+            set
+            {
+                _updateHint = value;
+            }
         }
 
         public void Initialize()
@@ -126,7 +137,8 @@ namespace Views.Battle.Selection
 
         public void Reset()
         {
-            Hints.Clear();
+            _hints.Clear();
+            _hints.ActivateNew();
             UpdateHint = true;
             RaiseCurrentHover();
             _reseted.Invoke();

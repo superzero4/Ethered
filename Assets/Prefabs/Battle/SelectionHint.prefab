@@ -199,6 +199,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 2571957123013372730}
+  _normal: {fileID: 2100000, guid: 70ee623a0efc8fc4da31e453d50f8dd4, type: 2}
+  _alt: {fileID: 2100000, guid: 934a761dc369ba744b01c78ce3d55eb1, type: 2}
 --- !u!4 &7882137532016905675 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7290076159236482250, guid: e5a3e0e099a6b5e4daa327710821c080, type: 3}

@@ -60,6 +60,7 @@ namespace Views.Battle
             _selectionState = new SelectionState();
             _ui.Initialize();
             //We set callbacks before initializing the _selector because we basically hook on selectione events and we want everything to be set as the selector initializes
+            _selector.AddResetables(_selectionState,_ui.ConfirmButton);
             SetCallbacks();
             _selector.Initialize();
             _ui.ConfirmButton.AddListener(OnConfirmed);
@@ -91,20 +92,22 @@ namespace Views.Battle
             _selector.Phase.OnSelectedPhaseChanges.AddListener(_ui.PhaseUI.DisplayPhase);
 
             _selector.OnHoverChanged.AddListener(OnHover);
-            _selector.AddResetableElement(_selectionState);
             _selector.SelectionUpdated.AddListener(UpdateSelection);
             
-            _selector.AddResetableElement(_ui.ConfirmButton);
             foreach (var actionUI in _ui.UnitUI.ActionUIs)
             {
-                _selector.AddResetableElement(actionUI);
+                _selector.AddResetables(actionUI);
                 UnityEvent<IActionInfo> onClick = actionUI.OnClick;
                 onClick.AddListener(a =>
                 {
                     _ui.UnitUI.ResetActionUIs(actionUI);
                     _selectionState.SelectActionIfValid(a);
                 });
-                onClick.AddListener(e => _selector.UpdateHint = true);
+                onClick.AddListener(e =>
+                {
+                    _selector.UpdateHint = true;
+                    _selector.Hints.ActivateNew();
+                });
                 //onClick.AddListener(e => Debug.LogWarning(" SELECTION Action selected: " + e));
             }
         }
@@ -136,6 +139,7 @@ namespace Views.Battle
                 {
                     _ui.TargetUI.SetInfo(s.unit?.VisualInformations ?? s.environment.VisualInformations);
                     _selector.Hints.Lock();
+                    _selector.UpdateHint = _selectionState.AcceptsMoreTargets;
                     _selector.RaiseCurrentHover();
                     _ui.ConfirmButton.interactable = true;
                     //TODO Probably maintain a List of targets and not just a single LastTargetUI
