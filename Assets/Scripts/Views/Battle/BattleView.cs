@@ -102,7 +102,7 @@ namespace Views.Battle
                 onClick.AddListener(a =>
                 {
                     _ui.UnitUI.ResetActionUIs(actionUI);
-                    _selectionState.SelectionActionIfValid(a);
+                    _selectionState.SelectActionIfValid(a);
                 });
                 onClick.AddListener(e => _selector.UpdateHint = true);
                 //onClick.AddListener(e => Debug.LogWarning(" SELECTION Action selected: " + e));

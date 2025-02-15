@@ -73,7 +73,7 @@ namespace Views.Battle.Selection
             return _action;
         }
 
-        public void SelectionActionIfValid(IActionInfo action)
+        public void SelectActionIfValid(IActionInfo action)
         {
             if (this.CanSelectAction)
             {
