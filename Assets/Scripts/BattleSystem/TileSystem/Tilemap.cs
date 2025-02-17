@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using BattleSystem;
 using Common;
 using JetBrains.Annotations;
+using NaughtyAttributes;
+using UnityEngine.Assertions;
 using UnitSystem;
 using UnityEngine;
-using UnityEngine.Assertions;
+using ReadOnly = NaughtyAttributes.ReadOnlyAttribute;
 
 namespace BattleSystem.TileSystem
 {
@@ -14,35 +16,33 @@ namespace BattleSystem.TileSystem
     public class Tilemap
     {
         [SerializeField] private Tile[][][] _tiles;
-        [SerializeField] private Vector3Int _size;
+        [SerializeField] [ReadOnly] private Vector3Int _size;
         public Vector3Int Size => _size;
         public IEnumerable<Tile[][]> Tiles => _tiles;
-        
-        public Tilemap(Vector2Int sizeXY, int numberOfPhase, Tile defaultTile)
+        public IEnumerable<Tile> TilesFlat => _tiles.SelectMany(x => x.SelectMany(y => y));
+
+        public Tilemap(Vector2Int sizeXY, int numberOfPhase, EnvironmentInfo defaultEnvironment)
         {
-            Vector3Int size = new Vector3Int(sizeXY.x, sizeXY.y, numberOfPhase);
-            _tiles = new Tile[size.z][][];
+            _size = new Vector3Int(sizeXY.x, sizeXY.y, numberOfPhase);
+            _tiles = new Tile[_size.z][][];
             for (int i = 0; i < _tiles.Length; i++)
             {
-                _tiles[i] = new Tile[size.x][];
+                _tiles[i] = new Tile[_size.x][];
                 for (int j = 0; j < _tiles[i].Length; j++)
                 {
-                    _tiles[i][j] = new Tile[size.y];
+                    _tiles[i][j] = new Tile[_size.y];
                     for (int k = 0; k < _tiles[i][j].Length; k++)
                     {
-                        var b = defaultTile.Base;
-                        var u = defaultTile.Unit;
-                        b.Position = new PositionData(new Vector2Int(j, k),
-                            i == 0 ? EPhase.Normal : EPhase.Ethered);
-                        if (u != null)
-                            u.Move(b.Position);
-                        _tiles[i][j][k] = new Tile(b, u);
+                        var b = new Environment(defaultEnvironment, i == 0 ? EPhase.Normal : EPhase.Ethered,
+                            new Vector2Int(j, k)
+                        );
+                        _tiles[i][j][k] = new Tile(b, null);
                     }
                 }
             }
         }
 
-        
+
         [CanBeNull]
         public Tile this[PositionIndexer p, int phaseIndex]
         {
@@ -84,15 +84,16 @@ namespace BattleSystem.TileSystem
             foreach (var phase in Utils.FlagIndexes(coord.Phase))
             {
                 _tiles[phase][coord.x][coord.y].Unit = element;
+                Assert.IsTrue(element.Position.Position == _tiles[phase][coord.x][coord.y].Base.Position.Position);
             }
         }
 
-        
+
         public void SetEnvironment(Environment env)
         {
             foreach (var phase in Utils.FlagIndexes(env.Position.Phase))
             {
-                var tile = this[env.Position.Position,phase];
+                var tile = this[env.Position.Position, phase];
                 if (tile != null)
                 {
                     tile.Base = env;

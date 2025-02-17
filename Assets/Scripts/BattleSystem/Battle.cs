@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using Common;
 using Common.Events;
 using UnitSystem;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace BattleSystem
 {
@@ -15,15 +17,13 @@ namespace BattleSystem
         [SerializeField] private Tilemap _battleElements;
         [SerializeField] private Timeline _timeline;
         public Tilemap Tiles => _battleElements;
-        public Timeline Timeline => _timeline;
         public IEnumerable<Unit> Units => _units;
-
+        public TimelineEvent OnTimelineAction => _timeline.TimeLineUpdated;
         public void Init(BattleInfo info)
         {
             _timeline = new Timeline();
             _timeline.Initialize(new List<Action>());
-            _battleElements = new Tilemap(new Vector2Int(info.Size.x, info.Size.y), 2,
-                new Tile(info.DefaultEnvironment, null));
+            _battleElements = new Tilemap(new Vector2Int(info.Size.x, info.Size.y), 2, info.DefaultEnvironment);
             var specific = info.GetSpecificEnvironments();
             if (specific != null && specific.Any())
             {
@@ -39,6 +39,7 @@ namespace BattleSystem
                 var item = new Unit(info.Squad.Units[i], ETeam.Player, new Vector2Int(i, 0),
                     i == 2 ? EPhase.Both : (i % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
                 _units.Add(item);
+                Assert.IsTrue(item.Position.Phase != EPhase.None);
                 _battleElements.SetUnit(item);
             }
 
@@ -76,7 +77,7 @@ namespace BattleSystem
 
         public bool ConfirmAction(Action action)
         {
-            if (action.CanExecute(_battleElements))
+            if (action !=null && action.CanExecute(_battleElements))
             {
                 _timeline.Append(action);
                 //_timeline.PriorityInsert(action);
@@ -111,6 +112,11 @@ namespace BattleSystem
             }
 
             return sb.ToString();
+        }
+
+        public IEnumerator TurnEnd(bool b, float delay = .1f)
+        {
+            yield return _timeline.Execute(true);
         }
     }
 }

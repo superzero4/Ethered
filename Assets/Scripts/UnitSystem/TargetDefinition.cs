@@ -10,15 +10,13 @@ namespace UnitSystem
     [Serializable]
     public struct TargetDefinition
     {
-        [SerializeField, Range(1, 10)] private int _nbTargets;
         [SerializeField, Range(0, 10)] private int _range;
         [SerializeField] private TargetType _targetType;
         [SerializeField] private ERelativePhase _phase;
 
-        public TargetDefinition(ERelativePhase phase, int nbTargets, int range, TargetType targetType)
+        public TargetDefinition(ERelativePhase phase, int range, TargetType targetType)
         {
             _phase = phase;
-            _nbTargets = nbTargets;
             _range = range;
             _targetType = targetType;
         }
@@ -43,81 +41,109 @@ namespace UnitSystem
         {
             return phase.HasFlag(target.Phase);
         }
-
-        public bool IsValidTarget(IBattleElement origin, params IBattleElement[] targets)
+        
+        public bool AreValidTargets(IBattleElement origin, params IBattleElement[] targets)
         {
-            Assert.IsTrue(origin.Position.Phase.IsOnlyOnOnePhase());
             EPhase phase = _phase.ToPhase(origin.Position.Phase);
-            if (targets.Length > _nbTargets)
-            {
-                return false;
-            }
-
-            if (!CheckForAllTargets(origin, targets, phase)) return false;
-            return true;
-        }
-
-        private bool CheckForAllTargets(IBattleElement origin, IBattleElement[] targets, EPhase phase)
-        {
             foreach (var target in targets)
             {
-                if (target.Position.DistanceTo(origin.Position) > _range)
-                {
-                    return false;
-                }
+                if (IsValidTarget(origin, phase, target, out bool checkForAllTargets)) return checkForAllTargets;
+            }
 
-                if (!IsTargetPhaseValid(phase, target))
-                {
-                    return false;
-                }
+            return false;
+        }
 
-                bool isSelf = origin == target;
-                bool isAlly = origin.Team == target.Team;
-                bool isUnit = !target.IsGround;
-                //TODO implement concrete logic all vs anything and find a batter way than this order dependant if forest
-                if (_targetType.HasFlag(TargetType.Anything))
+        public bool IsValidTarget(IBattleElement origin, EPhase phase, IBattleElement target, out bool checkForAllTargets)
+        {
+            if (target == null || target.Position.DistanceTo(origin.Position) > _range)
+            {
+                checkForAllTargets = false;
+                return true;
+            }
+
+            if (!IsTargetPhaseValid(phase, target))
+            {
+                checkForAllTargets = false;
+                return true;
+            }
+
+            bool isSelf = origin == target;
+            bool isAlly = origin.Team == target.Team;
+            bool isUnit = !target.IsGround;
+            //TODO implement concrete logic all vs anything and find a batter way than this order dependant if forest
+            if (_targetType.HasFlag(TargetType.Anything))
+            {
+                checkForAllTargets = true;
+                return true;
+            }
+
+            if (isUnit)
+            {
+                if (_targetType.HasFlag(TargetType.AnyUnit))
                 {
+                    checkForAllTargets = true;
                     return true;
                 }
 
-                if (isUnit)
+                if (isAlly)
                 {
-                    if (_targetType.HasFlag(TargetType.AnyUnit))
-                        return true;
-                    if (isAlly)
+                    if (_targetType.HasFlag(TargetType.AnyAlly))
                     {
-                        if (_targetType.HasFlag(TargetType.AnyAlly))
-                            return true;
-                        else if (_targetType.HasFlag(TargetType.AllAllies))
-                            return true;
-                        if (isSelf)
+                        checkForAllTargets = true;
+                        return true;
+                    }
+                    else if (_targetType.HasFlag(TargetType.AllAllies))
+                    {
+                        checkForAllTargets = true;
+                        return true;
+                    }
+
+                    if (isSelf)
+                    {
+                        if (_targetType.HasFlag(TargetType.Self))
                         {
-                            if (_targetType.HasFlag(TargetType.Self))
-                                return true;
-                        }
-                        else
-                        {
-                            if (_targetType.HasFlag(TargetType.AnyOtherAlly))
-                                return true;
-                            if (_targetType.HasFlag(TargetType.AllOtherAllies))
-                                return true;
+                            checkForAllTargets = true;
+                            return true;
                         }
                     }
                     else
                     {
-                        if (_targetType.HasFlag(TargetType.AnyEnemy))
+                        if (_targetType.HasFlag(TargetType.AnyOtherAlly))
+                        {
+                            checkForAllTargets = true;
                             return true;
-                        else if (_targetType.HasFlag(TargetType.AllEnemies))
+                        }
+
+                        if (_targetType.HasFlag(TargetType.AllOtherAllies))
+                        {
+                            checkForAllTargets = true;
                             return true;
+                        }
                     }
                 }
                 else
                 {
-                    if (_targetType.HasFlag(TargetType.Ground))
+                    if (_targetType.HasFlag(TargetType.AnyEnemy))
+                    {
+                        checkForAllTargets = true;
                         return true;
+                    }
+                    else if (_targetType.HasFlag(TargetType.AllEnemies))
+                    {
+                        checkForAllTargets = true;
+                        return true;
+                    }
                 }
             }
-
+            else
+            {
+                if (_targetType.HasFlag(TargetType.Ground))
+                {
+                    checkForAllTargets = true;
+                    return true;
+                }
+            }
+            checkForAllTargets = false;
             return false;
         }
     }

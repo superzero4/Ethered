@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BattleSystem;
 using BattleSystem.TileSystem;
+using NUnit.Framework;
 using UnityEngine;
 
 namespace UnitSystem.Actions.Bases
@@ -10,18 +11,24 @@ namespace UnitSystem.Actions.Bases
     public class BasicMovement : ActionInfoBaseSO
     {
         [SerializeField] private EPhase _originPhase;
-        [SerializeField, Range(0, 20)] private int _range = 1;
+
+        [SerializeField, UnityEngine.Range(0, 20)]
+        private int _range = 1;
+
         [SerializeField] private ERelativePhase _targetPhase;
         public override EPhase OriginPhase => _originPhase;
 
-        public override IEnumerable<TargetDefinition> Target
+        public override IEnumerable<TargetDefinition> PossibleTargets
         {
-            get { yield return new TargetDefinition(_targetPhase, 1, _range, TargetDefinition.TargetType.Ground); }
+            get { yield return new TargetDefinition(_targetPhase, _range, TargetDefinition.TargetType.Ground); }
         }
+
+        public override int NbTargets => 1;
 
         public override bool CanExecuteOnMap(Unit origin, TargetCollection targets, Tilemap map)
         {
-            var target = targets.Target[0];
+            Assert.IsTrue(targets.Count == 1);
+            var target = targets.MainTarget;
             //If we are on multiple phases, we need to be able to land on all of them
             var hash = new HashSet<Tile>(map[target.Position]);
             foreach (var tile in hash)
@@ -30,7 +37,8 @@ namespace UnitSystem.Actions.Bases
             }
 
             int count = 0;
-            foreach (var tile in map.InReach(origin.Position.Position, origin.Position.Phase, _range))
+            foreach (var tile in map.InReach(origin.Position.Position,
+                         origin.Position.Phase != target.Position.Phase ? EPhase.Both : origin.Position.Phase, _range))
             {
                 if (hash.Contains(tile))
                 {
@@ -44,7 +52,7 @@ namespace UnitSystem.Actions.Bases
 
         public override void Execute(Unit origin, TargetCollection targetCollection)
         {
-            origin.Move(targetCollection.Target[0].Position);
+            origin.Move(targetCollection.MainTarget.Position);
         }
     }
 }

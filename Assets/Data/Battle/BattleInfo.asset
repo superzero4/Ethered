@@ -16,106 +16,122 @@ MonoBehaviour:
   _enemies:
     _units:
     - _maxHealth: 20
+      _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
       _visualInformations:
-        _sprite: {fileID: 0}
-        _color: {r: 0, g: 0, b: 0, a: 0}
-        _name: 
+        _sprite: {fileID: 21300000, guid: 378d0bd54b25b8a40bdbcae61d117373, type: 3}
+        _grayScale: {fileID: 0}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: David Judy
         _description: 
     - _maxHealth: 20
+      _actionCollection: {fileID: 11400000, guid: 4c8247bf660ca244da997d434a3ceebe, type: 2}
       _visualInformations:
-        _sprite: {fileID: 0}
-        _color: {r: 0, g: 0, b: 0, a: 0}
-        _name: 
+        _sprite: {fileID: 21300000, guid: 26bee45f8b4c0c442b45a98b1ce3addb, type: 3}
+        _grayScale: {fileID: 0}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Walter Jane
         _description: 
     - _maxHealth: 20
+      _actionCollection: {fileID: 11400000, guid: 22e90ac6647f4a346b26a6b349dc417b, type: 2}
       _visualInformations:
-        _sprite: {fileID: 0}
-        _color: {r: 0, g: 0, b: 0, a: 0}
-        _name: 
+        _sprite: {fileID: 21300000, guid: 87a0c0c706c8d0641be7ed6b5b02856e, type: 3}
+        _grayScale: {fileID: 0}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Yvonne Zelda
         _description: 
     - _maxHealth: 20
+      _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
       _visualInformations:
-        _sprite: {fileID: 0}
-        _color: {r: 0, g: 0, b: 0, a: 0}
-        _name: 
+        _sprite: {fileID: 21300000, guid: e0a1b1de11c21584ba6a4e10fbcd1b67, type: 3}
+        _grayScale: {fileID: 0}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Judy Victor
         _description: 
     - _maxHealth: 20
+      _actionCollection: {fileID: 11400000, guid: cd933160a18d72d4eaddebaa473cc57c, type: 2}
       _visualInformations:
-        _sprite: {fileID: 0}
-        _color: {r: 0, g: 0, b: 0, a: 0}
-        _name: 
+        _sprite: {fileID: 21300000, guid: be44345371eb8414ea8a06dac4cee268, type: 3}
+        _grayScale: {fileID: 0}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Zelda Kevin
         _description: 
   _squad:
     _units:
     - _maxHealth: 20
+      _actionCollection: {fileID: 11400000, guid: 793cb790057417548a2d658f49c47785, type: 2}
       _visualInformations:
-        _sprite: {fileID: 0}
-        _color: {r: 0, g: 0, b: 0, a: 0}
-        _name: 
+        _sprite: {fileID: 21300000, guid: 9a6c196d611eade4c9dd6343fd710631, type: 3}
+        _grayScale: {fileID: 0}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Ivan Xander
         _description: 
     - _maxHealth: 20
+      _actionCollection: {fileID: 11400000, guid: cd933160a18d72d4eaddebaa473cc57c, type: 2}
       _visualInformations:
-        _sprite: {fileID: 0}
-        _color: {r: 0, g: 0, b: 0, a: 0}
-        _name: 
+        _sprite: {fileID: 21300000, guid: 53ba999643e0e0945b75e4cbb1676807, type: 3}
+        _grayScale: {fileID: 0}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Alice Linda
         _description: 
     - _maxHealth: 20
+      _actionCollection: {fileID: 11400000, guid: 22e90ac6647f4a346b26a6b349dc417b, type: 2}
       _visualInformations:
-        _sprite: {fileID: 0}
-        _color: {r: 0, g: 0, b: 0, a: 0}
-        _name: 
+        _sprite: {fileID: 21300000, guid: ff1b35d6fc2f42e4e8cee78b5f53b9a6, type: 3}
+        _grayScale: {fileID: 0}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: David Linda
         _description: 
     - _maxHealth: 20
+      _actionCollection: {fileID: 11400000, guid: 4c8247bf660ca244da997d434a3ceebe, type: 2}
       _visualInformations:
-        _sprite: {fileID: 0}
-        _color: {r: 0, g: 0, b: 0, a: 0}
-        _name: 
+        _sprite: {fileID: 21300000, guid: 6b660cea96d3f23449b62d9e015f392b, type: 3}
+        _grayScale: {fileID: 0}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Heidi Victor
         _description: 
     - _maxHealth: 20
+      _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
       _visualInformations:
-        _sprite: {fileID: 0}
-        _color: {r: 0, g: 0, b: 0, a: 0}
-        _name: 
+        _sprite: {fileID: 21300000, guid: bec6d67d3940de44e9a1f1dc03b55fd1, type: 3}
+        _grayScale: {fileID: 0}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Yvonne Mallory
         _description: 
   _defaultUnit:
     _maxHealth: 20
+    _actionCollection: {fileID: 0}
     _visualInformations:
-      _sprite: {fileID: 0}
+      _sprite: {fileID: 21300000, guid: 9a6c196d611eade4c9dd6343fd710631, type: 3}
+      _grayScale: {fileID: 0}
       _color: {r: 0, g: 0, b: 0, a: 0}
       _name: 
       _description: 
   _defaultEnemy:
     _maxHealth: 20
+    _actionCollection: {fileID: 0}
     _visualInformations:
-      _sprite: {fileID: 0}
+      _sprite: {fileID: 21300000, guid: 378d0bd54b25b8a40bdbcae61d117373, type: 3}
+      _grayScale: {fileID: 0}
       _color: {r: 0, g: 0, b: 0, a: 0}
       _name: 
       _description: 
   _defaultEnvironment:
     _visualInformations:
-      _sprite: {fileID: 0}
-      _color: {r: 0, g: 0, b: 0, a: 0}
-      _name: 
-      _description: 
-    _position:
-      _position:
-        position: {x: 0, y: 0}
-      phase: -1
-    _team: 0
-    _movementAllowed: 2
+      _sprite: {fileID: 21300000, guid: 7e4b656897a61f4459756635bc093fc5, type: 3}
+      _grayScale: {fileID: 0}
+      _color: {r: 1, g: 1, b: 1, a: 1}
+      _name: Ground
+      _description: Normal terrain
+    _allowedMovement: 2
   _specificEnvironments:
   - environment:
       _visualInformations:
-        _sprite: {fileID: 0}
-        _color: {r: 0, g: 0, b: 0, a: 0}
-        _name: 
-        _description: 
-      _position:
-        _position:
-          position: {x: 0, y: 0}
-        phase: 0
-      _team: 0
-      _movementAllowed: 0
+        _sprite: {fileID: 21300000, guid: 55e9ab8493bb12f46a2a3e15f1b78b83, type: 3}
+        _grayScale: {fileID: 0}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Debris
+        _description: Impossible to cross in that phase
+      _allowedMovement: 0
     positions:
     - _position:
         position: {x: 0, y: 2}
@@ -137,16 +153,12 @@ MonoBehaviour:
       phase: -1
   - environment:
       _visualInformations:
-        _sprite: {fileID: 0}
-        _color: {r: 0, g: 0, b: 0, a: 0}
-        _name: 
-        _description: 
-      _position:
-        _position:
-          position: {x: 0, y: 0}
-        phase: 0
-      _team: 0
-      _movementAllowed: 1
+        _sprite: {fileID: 21300000, guid: aef67ab844e28a644a110861f1dd85d8, type: 3}
+        _grayScale: {fileID: 0}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Forest
+        _description: You can cross that but cannot stand on
+      _allowedMovement: 1
     positions:
     - _position:
         position: {x: 0, y: 2}

@@ -1,18 +1,21 @@
+using System;
 using BattleSystem;
 using Common.Events;
-using UI.Battle;
+using Common.Visuals;
 using UnityEngine;
 
 namespace UnitSystem
 {
+    [Serializable]
     public class Unit : IBattleElement
     {
         [SerializeField] private UnitInfo _info;
-        private PositionData _position;
-        private ETeam _team;
+        [SerializeField] private PositionData _position;
+        [SerializeField]private ETeam _team;
         [SerializeField] private UnitMovementEvent _onUnitMoves;
         [SerializeField] private UnitHealthEvent _onUnitHealthChange;
-        private int _currentHealth;
+        [SerializeField] private int _currentHealth;
+        public UnitInfo Info => _info;
 
         public Unit(UnitInfo info, ETeam team, Vector2Int position, EPhase phase)
         {
@@ -54,6 +57,7 @@ namespace UnitSystem
         }
 
         public int MaxHealth => _info.MaxHealth;
+
 
         void IHealth.TakeDamageUncapped(int damage)
         {
