@@ -15,7 +15,7 @@ namespace Views.Battle
 
         [SerializeReference] [ReadOnly] protected T _data;
 
-       //[SerializeField] [ReadOnly] protected UnitUI _ui;
+        //[SerializeField] [ReadOnly] protected UnitUI _ui;
 
         public T Data => _data;
 
@@ -29,9 +29,11 @@ namespace Views.Battle
 
         protected void SnapToCorrectPosition(Grid grid, PositionIndexer lookAt)
         {
-            transform.position = grid.GetCellCenterWorld((Vector3Int)_data.Position.Position);
-            float angle = Mathf.Atan2(lookAt.y, lookAt.x)*Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, angle, 0);
+            var pos = grid.GetCellCenterWorld((Vector3Int)_data.Position.Position);
+            pos.y -= grid.cellSize.y / 2;
+            transform.position = pos;
+            float angle = Mathf.Atan2(lookAt.y, lookAt.x) * Mathf.Rad2Deg;
+            transform.localRotation = Quaternion.Euler(0, angle, 0);
         }
 
         protected virtual Color PickColor()
@@ -80,7 +82,8 @@ namespace Views.Battle
 
         protected virtual void Init(Grid grid)
         {
-            SnapToCorrectPosition(grid, _data.Team==ETeam.Player?new PositionIndexer(1,0):new PositionIndexer(-1,0));
+            SnapToCorrectPosition(grid,
+                _data.Team == ETeam.Player ? new PositionIndexer(1, 0) : new PositionIndexer(-1, 0));
         }
 
         //public void UpdateUI()
