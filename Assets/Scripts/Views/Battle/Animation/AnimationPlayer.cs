@@ -65,6 +65,7 @@ namespace Views.Battle.Animation
 
         private IEnumerator Start()
         {
+            yield break;//Testing animations
             while (true)
             {
                 Play(new AnimationPlayData(AnimationType.Attack, false).Append(
@@ -73,10 +74,11 @@ namespace Views.Battle.Animation
             }
         }
 
-        [Obsolete("Use AnimationPlayData instead, will possibly be implemented if we need to queue animations from this call but for now it's not needed, it will play one shot and go back to defaultAnimation")]
+        [Obsolete("Use Play(AnimationType) directly instead, queuing isn't working yet, will possibly be implemented if we need to queue animations from this call but for now it's not needed, it will play one shot and go back to defaultAnimation")]
         public void Play(AnimationPlayData toPlay, PositionIndexer? direction = null)
         {
             Play(toPlay.Type, direction);
+            return;
             if (toPlay.OnEnd != null)
             {
                 StartCoroutine(WaitForAnimationEnd(toPlay.OnEnd));
