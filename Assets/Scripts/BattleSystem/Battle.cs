@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using UnityEngine.Assertions;
 
 namespace BattleSystem
 {
+    [Serializable]
     public class Battle
     {
         [SerializeField] private List<Unit> _units;
