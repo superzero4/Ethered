@@ -1391,6 +1391,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 963194227}
   _phase: {fileID: 1637449964}
+  _lastSelectable: {fileID: 0}
   _hints:
     rid: -2
   _onHoverChanged:
@@ -1402,7 +1403,6 @@ MonoBehaviour:
   _reseted:
     m_PersistentCalls:
       m_Calls: []
-  _lastSelectable: {fileID: 0}
   references:
     version: 2
     RefIds:

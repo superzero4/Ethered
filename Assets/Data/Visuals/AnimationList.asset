@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a5b749f3f7146b89fec7a38c93640d9, type: 3}
+  m_Name: AnimationList
+  m_EditorClassIdentifier: 
+  _animationsList:
+  - _type: 0
+    _animations:
+    - {fileID: 7400000, guid: 806843cceef7cc9468d4ceccd1b7edf3, type: 3}
+    - {fileID: 7400000, guid: 30ab4f0c5e4a5b8479c92f6e3d22ebd0, type: 3}
+    - {fileID: 7400000, guid: c6fcae89c2e3c8a48a1c5b8f55958abe, type: 3}
+    - {fileID: 7400000, guid: 94c75858633b4e04f9e28db3b52b2bba, type: 3}
+  - _type: 1
+    _animations:
+    - {fileID: 7400000, guid: 4209bae04bb8c8844bba85e9c69800c9, type: 3}
+    - {fileID: 7400000, guid: ba724a8c868465148a17f92771c8fc12, type: 3}
+  - _type: 3
+    _animations:
+    - {fileID: 7400000, guid: c76d1cfd3c060f544997cad19424c969, type: 3}
+    - {fileID: 7400000, guid: 6ebbdf2fe19450945a6c19125fd44d26, type: 3}
+    - {fileID: 7400000, guid: f2283fcc1389144489d8a3ed7a005b1c, type: 3}
+    - {fileID: 7400000, guid: 77214854f62866c4db0d2b1999fcdf96, type: 3}
+    - {fileID: 7400000, guid: acbe57a104d8c114c8487055894b3188, type: 3}
+    - {fileID: 7400000, guid: e6b48830c0e82694daca1c0281422e0e, type: 3}
+    - {fileID: 7400000, guid: 4a8c4ee06f0c2c942b970ffc15726000, type: 3}
+  - _type: 4
+    _animations:
+    - {fileID: 7400000, guid: a16cbf1e833a9a245959413aaed82913, type: 3}
+    - {fileID: 7400000, guid: 677509311bebcd54a89ef50613d1cfa7, type: 3}
+    - {fileID: 7400000, guid: 04c07d4ee1c0071498a968073322ea33, type: 3}
+    - {fileID: 7400000, guid: 2a7266b036b749a4fbf490c8e45ce27e, type: 3}
+    - {fileID: 7400000, guid: 9757788373ec8734cb4f7a3db84aef2f, type: 3}
+    - {fileID: 7400000, guid: 9a26352c93a81e947b73b8e47cc931bb, type: 3}
+    - {fileID: 7400000, guid: 560fff7a0d9f462448e4cb7656fc6829, type: 3}
+    - {fileID: 7400000, guid: 85f9e92f60334cd41bd11907b3963d28, type: 3}
+    - {fileID: 7400000, guid: 5e2c83d7c29bbd64cb4e8431239e7313, type: 3}
+    - {fileID: 7400000, guid: 589a11892e95f834dbf23f9e1cc1f090, type: 3}
+  - _type: 5
+    _animations:
+    - {fileID: 7400000, guid: baa66351008bd834e92f7ebe4b1dedd5, type: 3}
+  _search: Death
+  _typeToFillWithSearch: 4
