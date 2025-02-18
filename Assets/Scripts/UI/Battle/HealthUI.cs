@@ -27,11 +27,11 @@ namespace UI.Battle
             UpdateHealth(health.CurrentHealth, health.MaxHealth);
         }
 
-        public void UpdateHealth(UnitHealthData healthData)
+        public void UpdateHealth(UnitHitData hitData)
         {
             //TODO animate from old to new value
             //healthData.oldHealth;
-            UpdateHealth(healthData.unit);
+            UpdateHealth(hitData.unit);
         }
     }
 }

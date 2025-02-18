@@ -70,7 +70,7 @@ namespace BattleSystem
             //TODO link with the tilemap display
         }
 
-        private void RefreshHealth(UnitHealthData arg0)
+        private void RefreshHealth(UnitHitData arg0)
         {
             //TODO link with the health display
         }

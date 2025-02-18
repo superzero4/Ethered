@@ -11,10 +11,11 @@ namespace UnitSystem
     {
         [SerializeField] private UnitInfo _info;
         [SerializeField] private PositionData _position;
-        [SerializeField]private ETeam _team;
+        [SerializeField] private ETeam _team;
         [SerializeField] private UnitMovementEvent _onUnitMoves;
         [SerializeField] private UnitHealthEvent _onUnitHealthChange;
         [SerializeField] private int _currentHealth;
+        private int _health;
         public UnitInfo Info => _info;
 
         public Unit(UnitInfo info, ETeam team, Vector2Int position, EPhase phase)
@@ -49,7 +50,7 @@ namespace UnitSystem
 
         public UnitMovementEvent OnUnitMoves => _onUnitMoves;
         public UnitHealthEvent OnUnitHealthChange => _onUnitHealthChange;
-
+        public IHealth HealthInfo => this;
         int IHealth.CurrentHealth
         {
             get => _currentHealth;
@@ -59,9 +60,11 @@ namespace UnitSystem
         public int MaxHealth => _info.MaxHealth;
 
 
-        void IHealth.TakeDamageUncapped(int damage)
+
+        void IHealth.TakeDamageUncapped(int damage, IBattleElement source)
         {
-            var data = new UnitHealthData() { unit = this, oldHealth = _currentHealth };
+            var data = new UnitHitData()
+                { unit = this, oldHealth = _currentHealth, direction = _position.Position - source.Position.Position };
             _currentHealth -= damage;
             _onUnitHealthChange?.Invoke(data);
         }

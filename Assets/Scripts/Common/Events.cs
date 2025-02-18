@@ -36,7 +36,7 @@ namespace Common.Events
     }
 
     [Serializable]
-    public class UnitHealthEvent : UnityEvent<UnitHealthData>
+    public class UnitHealthEvent : UnityEvent<UnitHitData>
     {
     }
 
@@ -81,8 +81,9 @@ namespace Common.Events
     }
 
     [Serializable]
-    public class UnitHealthData : UnitEventData
+    public class UnitHitData : UnitEventData
     {
+        public PositionIndexer direction;
         public int oldHealth;
     }
 

@@ -41,7 +41,7 @@ namespace UnitSystem.Actions.BaseClass
         {
             foreach (var target in targetCollection.Targets)
             {
-                target.TakeDamage(_damage);
+                target.TakeDamage(_damage,origin);
             }
         }
     }

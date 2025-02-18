@@ -45,7 +45,7 @@ namespace BattleSystem
 
         public EnvironmentInfo Info => _info;
 
-        void IHealth.TakeDamageUncapped(int damage)
+        void IHealth.TakeDamageUncapped(int damage, IBattleElement origin)
         {
             return;
         }
