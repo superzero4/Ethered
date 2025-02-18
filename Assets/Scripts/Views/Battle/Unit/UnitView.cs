@@ -1,3 +1,4 @@
+using BattleSystem;
 using Common.Events;
 using NaughtyAttributes;
 using UI.Battle;
@@ -32,6 +33,31 @@ namespace Views.Battle
             Data.OnUnitHealthChange.AddListener(UpdateHealth);
             Data.OnUnitHealthChange.AddListener(_healthUI.UpdateHealth);
             animationPlayer.Play(_idle, null);
+        }
+
+        protected override Color PickColor()
+        {
+            var color = base.PickColor();
+            if (_data.Team == ETeam.Player)
+            {
+                switch (_data.Position.Phase)
+                {
+                    case EPhase.Normal: color = Color.blue; break;
+                    case EPhase.Ethered: color = Color.cyan; break;
+                    case EPhase.Both: color = Color.green; break;
+                }
+            }
+            else if (_data.Team == ETeam.Enemy)
+            {
+                switch (_data.Position.Phase)
+                {
+                    case EPhase.Normal: color = Color.red; break;
+                    case EPhase.Ethered: color = Color.magenta; break;
+                    case EPhase.Both: color = Color.yellow; break;
+                }
+            }
+
+            return color;
         }
 
         private void UpdateHealth(UnitHitData arg0)

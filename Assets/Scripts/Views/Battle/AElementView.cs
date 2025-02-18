@@ -39,34 +39,6 @@ namespace Views.Battle
         protected virtual Color PickColor()
         {
             Color color = Color.grey;
-            if (_data.Team == ETeam.Player)
-            {
-                switch (_data.Phase)
-                {
-                    case EPhase.Normal: color = Color.blue; break;
-                    case EPhase.Ethered: color = Color.cyan; break;
-                    case EPhase.Both: color = Color.green; break;
-                }
-            }
-            else if (_data.Team == ETeam.Enemy)
-            {
-                switch (_data.Phase)
-                {
-                    case EPhase.Normal: color = Color.red; break;
-                    case EPhase.Ethered: color = Color.magenta; break;
-                    case EPhase.Both: color = Color.yellow; break;
-                }
-            }
-            else if (_data.IsGround)
-            {
-                switch (_data.Phase)
-                {
-                    case EPhase.Normal: color = Color.white; break;
-                    case EPhase.Ethered: color = Color.black; break;
-                    case EPhase.Both: color = Color.grey; break;
-                }
-            }
-
             return color;
         }
 

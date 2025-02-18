@@ -13,12 +13,12 @@ namespace Views.Battle
 {
     public class EnvironmentView : AElementView<Environment>
     {
+        [SerializeField] protected Transform _root;
+        private Renderer[] model = null;
         [SerializeField, ReadOnly] private Tile _tile;
         public Tile Tile => _tile;
         public void SetTile(Tile tile) => _tile = tile;
-        [SerializeField] protected Transform _root;
-        private Renderer[] model = null;
-        
+
         protected override void Init(Grid grid)
         {
             base.Init(grid);
@@ -34,6 +34,18 @@ namespace Views.Battle
             }
         }
 
+        protected override Color PickColor()
+        {
+            var color = base.PickColor();
+            switch (_data.Position.Phase)
+            {
+                case EPhase.Normal: color = Color.white; break;
+                case EPhase.Ethered: color = Color.blue; break;
+                case EPhase.Both: color = (Color.blue)/2f; break;
+            }
+            return color;
+        }
+
         override protected void SetColor(Color color)
         {
             base.SetColor(color);
@@ -42,6 +54,5 @@ namespace Views.Battle
                 renderer.material.color = color;
             }
         }
-
     }
 }
