@@ -28,7 +28,7 @@ namespace Views.Battle.Animation
 
             animationMixer = AnimationMixerPlayable.Create(playableGraph, 2);
             playableOutput.SetSourcePlayable(animationMixer);
-            
+
             playableGraph.GetRootPlayable(0).SetInputWeight(0, 1f);
 
             AnimationClipPlayable idlePlayable = AnimationClipPlayable.Create(playableGraph, idleClip);
@@ -99,8 +99,10 @@ namespace Views.Battle.Animation
 
         void InterruptOneShot()
         {
-            runner.StopCoroutine(blendInHandle);
-            runner.StopCoroutine(blendOutHandle);
+            if (blendInHandle != null)
+                runner.StopCoroutine(blendInHandle);
+            if (blendOutHandle != null)
+                runner.StopCoroutine(blendOutHandle);
 
             SetRelativeWeights(1f);
 
@@ -113,8 +115,9 @@ namespace Views.Battle.Animation
         private void SetRelativeWeights(float weightOfFirstInput)
         {
             animationMixer.SetInputWeight(0, weightOfFirstInput);
-            animationMixer.SetInputWeight(1, 1-weightOfFirstInput);
+            animationMixer.SetInputWeight(1, 1 - weightOfFirstInput);
         }
+
         void DisconnectOneShot()
         {
             animationMixer.DisconnectInput(1);
