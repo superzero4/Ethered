@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using BattleSystem;
-using Common;
 using Common.Events;
 using Common.Visuals;
 using NaughtyAttributes;
@@ -18,19 +17,21 @@ namespace Views.Battle
 {
     public class BattleView : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField]
-        private float _delay = 0.5f;
+        [Header("Settings")] [SerializeField] private float _delay = 0.5f;
+
         [Header("References")]
-        [SerializeField] private BattleInfo _battleInfo;
-        [SerializeField] private Grid _grid;
-        [SerializeField,InfoBox("Just a big reference holder")] private BattleUI _ui;
+        [SerializeField,
+         InfoBox("Component responsible for initialization only to spawn corresponding prefabs and call required init")]
+        private BattleViewInitializer _initializer;
+
+        [SerializeField, InfoBox("Just a big reference holder")]
+        private BattleUI _ui;
+
         [SerializeField] private Selector _selector;
-        [Header("Prefabs")]
-        [SerializeField] private UnitView _unitViewPrefab;
-        [SerializeField] private EnvironmentView _environmentViewPrefab;
-        [Header("Read Only")]
-        [SerializeReference] [ReadOnly] private SelectionState _selectionState;
+
+        [Header("Read Only")] [SerializeReference] [ReadOnly]
+        private SelectionState _selectionState;
+        [SerializeReference] [ReadOnly]
         private BattleSystem.Battle _battle;
 
         public BattleSystem.Battle Battle
@@ -38,36 +39,22 @@ namespace Views.Battle
             get => _battle;
         }
 
+        public BattleViewInitializer Initializer
+        {
+            get { return _initializer; }
+        }
+
         private void Awake()
         {
-            _battle = new BattleSystem.Battle();
-            _battle.Init(_battleInfo);
-            foreach (var unit in _battle.Units)
-            {
-                var unitView = Instantiate(_unitViewPrefab, transform);
-                unitView.Init(unit, _grid);
-            }
-
-            foreach (var t in _battle.Tiles.TilesFlat)
-            {
-                EnvironmentView env = Instantiate(_environmentViewPrefab, transform);
-                env.Init(t.Base, _grid);
-                env.SetTile(t);
-                PhaseSelector.SetLayer(env);
-                env.gameObject.name = "Tile " + t.Base.Position.ToString();
-            }
-
+            _battle = _initializer.Init();
             _selectionState = new SelectionState();
             _ui.Initialize();
             //We set callbacks before initializing the _selector because we basically hook on selectione events and we want everything to be set as the selector initializes
-            _selector.AddResetables(_selectionState,_ui.ConfirmButton);
+            _selector.AddResetables(_selectionState, _ui.ConfirmButton);
             SetCallbacks();
             _selector.Initialize();
             _ui.ConfirmButton.AddListener(OnConfirmed);
-            _ui.EndTurnButton.AddListener(()=>
-            {
-                StartCoroutine(_battle.TurnEnd(true,_delay));
-            });
+            _ui.EndTurnButton.AddListener(() => { StartCoroutine(_battle.TurnEnd(true, _delay)); });
             //_selector.SelectionUpdated.AddListener(s => Debug.Log("Selected: " + s.unit));
         }
 
@@ -81,6 +68,7 @@ namespace Views.Battle
             {
                 _ui.UnitUI.SetUnit(selection.unit);
             }
+
             _ui.TileUI.SetInfo(selection.environment.Info);
         }
 
@@ -93,7 +81,7 @@ namespace Views.Battle
 
             _selector.OnHoverChanged.AddListener(OnHover);
             _selector.SelectionUpdated.AddListener(UpdateSelection);
-            
+
             foreach (var actionUI in _ui.UnitUI.ActionUIs)
             {
                 _selector.AddResetables(actionUI);
