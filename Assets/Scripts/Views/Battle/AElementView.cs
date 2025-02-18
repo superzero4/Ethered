@@ -27,12 +27,14 @@ namespace Views.Battle
             SetColor();
         }
 
-        protected void SnapToCorrectPosition(Grid grid)
+        protected void SnapToCorrectPosition(Grid grid, PositionIndexer lookAt)
         {
             transform.position = grid.GetCellCenterWorld((Vector3Int)_data.Position.Position);
+            float angle = Mathf.Atan2(lookAt.y, lookAt.x)*Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, angle, 0);
         }
 
-        public virtual Color PickColor()
+        protected virtual Color PickColor()
         {
             Color color = Color.grey;
             if (_data.Team == ETeam.Player)
@@ -78,7 +80,7 @@ namespace Views.Battle
 
         protected virtual void Init(Grid grid)
         {
-            SnapToCorrectPosition(grid);
+            SnapToCorrectPosition(grid, _data.Team==ETeam.Player?new PositionIndexer(1,0):new PositionIndexer(-1,0));
         }
 
         //public void UpdateUI()
