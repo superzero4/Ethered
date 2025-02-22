@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e8e29428dee8a5a4eaea5eea913bdccc
+timeCreated: 1491816360
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 89782
+  packageName: Post Processing Volume
+  packageVersion: 1.0
+  assetPath: Assets/PostProcessingVolume/PostProcessing Volume/Example/ExampleScene.unity
+  uploadId: 181184

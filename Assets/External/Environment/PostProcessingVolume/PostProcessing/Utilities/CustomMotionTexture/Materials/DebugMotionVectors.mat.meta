@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d7daeefbca4f14360bac0e1df1bdacd4
+timeCreated: 1479896287
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 89782
+  packageName: Post Processing Volume
+  packageVersion: 1.0
+  assetPath: Assets/PostProcessingVolume/PostProcessing/Utilities/CustomMotionTexture/Materials/DebugMotionVectors.mat
+  uploadId: 181184

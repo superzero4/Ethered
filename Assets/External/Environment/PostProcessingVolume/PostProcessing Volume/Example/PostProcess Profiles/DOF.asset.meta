@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 19a86f03166742b40a07749c1805d786
+timeCreated: 1493901562
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 89782
+  packageName: Post Processing Volume
+  packageVersion: 1.0
+  assetPath: Assets/PostProcessingVolume/PostProcessing Volume/Example/PostProcess
+    Profiles/DOF.asset
+  uploadId: 181184

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 31305b72c1809f24a8c68d2f048606f2
+timeCreated: 1493901562
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 89782
+  packageName: Post Processing Volume
+  packageVersion: 1.0
+  assetPath: Assets/PostProcessingVolume/PostProcessing Volume/Example/PostProcess
+    Profiles/Basic.asset
+  uploadId: 181184

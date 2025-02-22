@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ff3cd4ddbdc62224eab282e7a81b1a67
+timeCreated: 1493902362
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 89782
+  packageName: Post Processing Volume
+  packageVersion: 1.0
+  assetPath: Assets/PostProcessingVolume/PostProcessing Volume/Example/Materials/Grey.mat
+  uploadId: 181184

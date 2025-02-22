@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 8232605976df38540b2b0c5c0dc2fc2a
+timeCreated: 1493901562
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 89782
+  packageName: Post Processing Volume
+  packageVersion: 1.0
+  assetPath: Assets/PostProcessingVolume/PostProcessing Volume/Example/PostProcess
+    Profiles/Darker.asset
+  uploadId: 181184

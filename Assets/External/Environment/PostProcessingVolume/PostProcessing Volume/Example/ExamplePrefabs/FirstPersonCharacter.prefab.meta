@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 12e683ba5994e0b4791846f9231a49d3
+timeCreated: 1495443734
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 89782
+  packageName: Post Processing Volume
+  packageVersion: 1.0
+  assetPath: Assets/PostProcessingVolume/PostProcessing Volume/Example/ExamplePrefabs/FirstPersonCharacter.prefab
+  uploadId: 181184

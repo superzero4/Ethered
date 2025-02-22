@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 477227387bb2fbf46998586410b270d0
+timeCreated: 1493901562
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 89782
+  packageName: Post Processing Volume
+  packageVersion: 1.0
+  assetPath: Assets/PostProcessingVolume/PostProcessing Volume/Example/PostProcess
+    Profiles/Bloom.asset
+  uploadId: 181184

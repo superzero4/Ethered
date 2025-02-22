@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 18476b7981ac9c0499c9c9febf39d245
+timeCreated: 1479180601
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 89782
+  packageName: Post Processing Volume
+  packageVersion: 1.0
+  assetPath: Assets/PostProcessingVolume/PostProcessing/Utilities/Editor/PostProcessingControllerEditor.cs
+  uploadId: 181184

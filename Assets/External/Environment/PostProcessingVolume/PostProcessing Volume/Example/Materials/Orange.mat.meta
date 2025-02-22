@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: fecf8c7a22dd93445bd70a53f04a5ab1
+timeCreated: 1493905202
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 89782
+  packageName: Post Processing Volume
+  packageVersion: 1.0
+  assetPath: Assets/PostProcessingVolume/PostProcessing Volume/Example/Materials/Orange.mat
+  uploadId: 181184
