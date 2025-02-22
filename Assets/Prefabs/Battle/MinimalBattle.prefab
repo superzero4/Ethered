@@ -436,6 +436,7 @@ GameObject:
   - component: {fileID: 328743285070193895}
   - component: {fileID: 3378061498013078182}
   - component: {fileID: 7318556679735103718}
+  - component: {fileID: 6380900376036728676}
   m_Layer: 0
   m_Name: Battle
   m_TagString: Untagged
@@ -472,10 +473,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _delay: 0.5
+  _initializer: {fileID: 3378061498013078182}
   _ui: {fileID: 7886430137672889223}
   _selector: {fileID: 2189047592273750046}
-  _initializer: {fileID: 3378061498013078182}
+  _materialPhaseView: {fileID: 6380900376036728676}
   _selectionState:
+    rid: -2
+  _battle:
     rid: -2
   references:
     version: 2
@@ -510,6 +514,25 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 1
+--- !u!114 &6380900376036728676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4052219919427157630}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72a2e97855e24fc7a8e865351d4d4025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _materials:
+  - {fileID: 2100000, guid: 06d40dc2e1401784eb420a0d2d5d7235, type: 2}
+  - {fileID: 2100000, guid: bdfd86bb68e6e72419cbf417c2a6362d, type: 2}
+  - {fileID: 2100000, guid: 5846f1c3c4e5f1e42b95451831844600, type: 2}
+  - {fileID: 2100000, guid: d29677146096e2e44a5d0dc42b09e592, type: 2}
+  - {fileID: 2100000, guid: 129704b08c93bae4a89513e33c890d5e, type: 2}
+  - {fileID: 2100000, guid: e2a89766ae5b4a74fbe5769d9eb6d77a, type: 2}
 --- !u!1 &4107392604977087763
 GameObject:
   m_ObjectHideFlags: 0

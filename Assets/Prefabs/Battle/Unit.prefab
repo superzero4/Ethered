@@ -695,15 +695,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7290076159236482250, guid: e5a3e0e099a6b5e4daa327710821c080, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.269184
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7290076159236482250, guid: e5a3e0e099a6b5e4daa327710821c080, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.7151756
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7290076159236482250, guid: e5a3e0e099a6b5e4daa327710821c080, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 35.517406
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7290076159236482250, guid: e5a3e0e099a6b5e4daa327710821c080, type: 3}
       propertyPath: m_LocalRotation.w
@@ -766,15 +766,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a6e0a65ca8469aa633ba3c6f479539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainRenderer: {fileID: 8568159115447544712}
   _data:
     rid: -2
   _healthUI: {fileID: 4089582354229372888}
+  _showOnlyOnCorrectPhase: 1
   _skin:
   - {fileID: 7577007341191548382}
   - {fileID: 7940500368723082979}
   _skinIndex: 0
   _grid: {fileID: 0}
+  _idle:
+    rid: -2
   references:
     version: 2
     RefIds:
