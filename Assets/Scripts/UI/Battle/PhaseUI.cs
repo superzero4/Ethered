@@ -2,14 +2,15 @@ using System;
 using BattleSystem;
 using Common.Events;
 using UnityEngine;
+using Views.Battle;
 
 namespace UI.Battle
 {
-    public class PhaseUI : MonoBehaviour
+    public class PhaseUI : MonoBehaviour , IPhaseView
     {
         [SerializeField] private GameObject _normal;
         [SerializeField] private GameObject _ethered;
-        public void DisplayPhase(PhaseEventData data)
+        public void OnPhaseSelected(PhaseEventData data)
         {
             if(data.phase == EPhase.Normal)
             {
