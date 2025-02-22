@@ -16,6 +16,7 @@ namespace Views.Battle
         [SerializeField] protected Transform _root;
         private Renderer[] model = null;
         [SerializeField, ReadOnly] private Tile _tile;
+        private Renderer _mainRenderer1;
         public Tile Tile => _tile;
         public void SetTile(Tile tile) => _tile = tile;
 
@@ -34,9 +35,10 @@ namespace Views.Battle
             }
         }
 
-        protected override Color PickColor()
+
+        protected override Color GetColor()
         {
-            var color = base.PickColor();
+            var color = base.GetColor();
             switch (_data.Position.Phase)
             {
                 case EPhase.Normal: color = Color.white; break;
@@ -46,13 +48,24 @@ namespace Views.Battle
             return color;
         }
 
-        override protected void SetColor(Color color)
+        protected override  void SetColor(Color color)
         {
-            base.SetColor(color);
             foreach (var renderer in model)
             {
                 renderer.material.color = color;
             }
+        }
+
+        public override void ToggleVisibility(bool state)
+        {
+            foreach (var renderer in model)
+                renderer.enabled = state;
+        }
+
+        public override void OnPhaseSelected(PhaseEventData arg0)
+        {
+            base.OnPhaseSelected(arg0);
+            ToggleVisibiltyFromPhase(arg0.phase);
         }
     }
 }

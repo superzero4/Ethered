@@ -9,8 +9,10 @@ namespace Views.Battle
     {
         [SerializeField] private AnimationPlayer _animationPlayer;
         [SerializeField] private SkinnedMeshRenderer[] _helmets;
+        [SerializeField] private SkinnedMeshRenderer _helmet;
         [SerializeField] private SkinnedMeshRenderer[] _renderers;
         private int _highlightMaterialIndex = 0;
+        private int _highlightMaterialIndexHelmet = 1;
 
         public AnimationPlayer AnimationPlayer
         {
@@ -37,15 +39,15 @@ namespace Views.Battle
                 var h = _helmets[i];
                 if (i == helmetIndex)
                 {
+                    _helmet = h;
                     h.gameObject.SetActive(true);
-                    h.materials[_highlightMaterialIndex].color = color;
+                    h.materials[_highlightMaterialIndexHelmet].color = color;
                 }
                 else
                 {
                     h.gameObject.SetActive(false);
                 }
             }
-
             if (_renderers != null)
             {
                 for (int i = 0; i < _renderers.Length; i++)
@@ -53,6 +55,13 @@ namespace Views.Battle
                     _renderers[i].materials[_highlightMaterialIndex].color = color;
                 }
             }
+        }
+
+        public void ToggleVisibility(bool state)
+        {
+            foreach (var renderer in _renderers)
+                renderer.enabled = state;
+           _helmet.enabled = state;
         }
     }
 }

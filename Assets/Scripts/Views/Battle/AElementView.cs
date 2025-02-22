@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using BattleSystem;
+using Common.Events;
 using NaughtyAttributes;
 using UI;
 using UI.Battle;
@@ -8,11 +10,8 @@ using UnityEngine.Serialization;
 
 namespace Views.Battle
 {
-    public abstract class AElementView<T> : MonoBehaviour where T : BattleSystem.IBattleElement
+    public abstract class AElementView<T> : MonoBehaviour, IPhaseView where T : BattleSystem.IBattleElement
     {
-        [FormerlySerializedAs("_renderer")] [Header("View")] [SerializeField]
-        protected Renderer _mainRenderer;
-
         [SerializeReference] [ReadOnly] protected T _data;
 
         //[SerializeField] [ReadOnly] protected UnitUI _ui;
@@ -36,20 +35,20 @@ namespace Views.Battle
             transform.localRotation = Quaternion.Euler(0, angle, 0);
         }
 
-        protected virtual Color PickColor()
+        protected virtual Color GetColor()
         {
             Color color = Color.grey;
             return color;
         }
 
-        protected virtual void SetColor(Color color)
-        {
-            _mainRenderer.material.color = color;
-        }
+        protected abstract void SetColor(Color color);
 
+        public abstract void ToggleVisibility(bool state);
+
+        //protected abstract IEnumerable<Renderer> Renderers { get; }
         public void SetColor()
         {
-            SetColor(PickColor());
+            SetColor(GetColor());
         }
 
         protected virtual void Init(Grid grid)
@@ -58,9 +57,14 @@ namespace Views.Battle
                 _data.Team == ETeam.Player ? new PositionIndexer(1, 0) : new PositionIndexer(-1, 0));
         }
 
-        //public void UpdateUI()
-        //{
-        //    _ui.SetInfo(_data);
-        //}
+        public virtual void OnPhaseSelected(PhaseEventData arg0)
+        {
+            //The default implementation of an element view does nothing, but we could decide to call some other helper methods here
+        }
+
+        protected void ToggleVisibiltyFromPhase(EPhase phase)
+        {
+            ToggleVisibility(_data.Position.Phase.HasFlag(phase));
+        }
     }
 }

@@ -12,19 +12,25 @@ namespace Views.Battle
     public class UnitView : AElementView<Unit>
     {
         [Header("Unit")] [SerializeField] private HealthUI _healthUI;
+        [Header("Visuals")] [SerializeField] private bool _showOnlyOnCorrectPhase = false;
         [SerializeField] private UnitSkin[] _skin;
         [SerializeField, Range(0, 3)] private int _skinIndex;
         private UnitSkin currentSkin => _skin[_skinIndex];
-        [SerializeField] private AnimationPlayer animationPlayer => currentSkin.AnimationPlayer;
-        [SerializeField] [ReadOnly] private Grid _grid;
-        private AnimationPlayData _idle;
+        private AnimationPlayer animationPlayer => currentSkin.AnimationPlayer;
+
+        [Header("ReadOnly")] [SerializeField] [ReadOnly]
+        private Grid _grid;
+
+        [SerializeReference] private AnimationPlayData _idle;
+        [SerializeField] private EPhase _displayedPhase;
 
         protected override void Init(Grid grid)
         {
             _skinIndex = Mathf.Clamp(_skinIndex, 0, _skin.Length - 1);
             for (int i = 0; i < _skin.Length; i++)
                 _skin[i].gameObject.SetActive(i == _skinIndex);
-            currentSkin.SetSkin(PickColor());
+            SetColor();
+            SyncVisibility();
             _idle = new AnimationPlayData(AnimationType.Idle, true);
             Assert.IsNotNull(_healthUI, "No HealthUI assigned");
             base.Init(grid);
@@ -35,9 +41,9 @@ namespace Views.Battle
             animationPlayer.Play(_idle, null);
         }
 
-        protected override Color PickColor()
+        protected override Color GetColor()
         {
-            var color = base.PickColor();
+            var color = base.GetColor();
             if (_data.Team == ETeam.Player)
             {
                 switch (_data.Position.Phase)
@@ -60,6 +66,29 @@ namespace Views.Battle
             return color;
         }
 
+        protected override void SetColor(Color color)
+        {
+            currentSkin.SetSkin(color);
+        }
+
+        public override void ToggleVisibility(bool state)
+        {
+            currentSkin.ToggleVisibility(state);
+        }
+
+        public override void OnPhaseSelected(PhaseEventData arg0)
+        {
+            base.OnPhaseSelected(arg0);
+            _displayedPhase = arg0.phase;
+            SyncVisibility();
+        }
+
+        private void SyncVisibility()
+        {
+            if (_showOnlyOnCorrectPhase)
+                ToggleVisibiltyFromPhase(_displayedPhase);
+        }
+
         private void UpdateHealth(UnitHitData arg0)
         {
             animationPlayer.Play(new AnimationPlayData(
@@ -67,6 +96,7 @@ namespace Views.Battle
                         false)
                     .Append(_idle),
                 arg0.direction);
+            SyncVisibility();
         }
 
         private void Move(UnitMovementData arg0)
@@ -74,6 +104,7 @@ namespace Views.Battle
             animationPlayer.Play(new AnimationPlayData(AnimationType.Move, false).Append(_idle), null);
             SnapToCorrectPosition(_grid, arg0.unit.Position.Position - arg0.oldPosition.Position);
             SetColor();
+            SyncVisibility();
         }
     }
 }
