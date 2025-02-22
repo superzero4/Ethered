@@ -13,7 +13,13 @@ namespace Views.Battle.Selection
         [SerializeField] [ReadOnly] private EPhase _phase;
         
         public PhaseEvent OnSelectedPhaseChanges => _onSelectedPhaseChanges;
-
+        public void Subscribe(params IPhaseView[] view)
+        {
+            foreach (var v in view)
+            {
+                _onSelectedPhaseChanges.AddListener(v.OnPhaseSelected);
+            }
+        }
         public bool Contains(EPhase other)
         {
             return (_phase & other) != 0b0;
@@ -43,7 +49,7 @@ namespace Views.Battle.Selection
             return SelectableLayer;
         }
 
-        public static void SetLayer<T>(AElementView<T> element) where T : IBattleElement
+        public void SetLayer<T>(AElementView<T> element) where T : IBattleElement
         {
             element.gameObject.layer = Layer();
         }
@@ -53,5 +59,6 @@ namespace Views.Battle.Selection
             _phase = initPhase;
             _onSelectedPhaseChanges.Invoke(new PhaseEventData() { phase = _phase });
         }
+        
     }
 }
