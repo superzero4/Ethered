@@ -9,25 +9,20 @@ namespace Views.Battle
         [Header("References")]
         [SerializeField] private BattleInfo _battleInfo;
         [SerializeField] private Grid _grid;
-
+        
         [Header("Prefabs")]
         [SerializeField] private UnitView _unitViewPrefab;
         [SerializeField] private EnvironmentView _environmentViewPrefab;
-
-        public BattleSystem.Battle Init()
+        
+        public BattleSystem.Battle Init(PhaseSelector phaseSelector)
         {
-            var battle =new BattleSystem.Battle();
+            var battle = new BattleSystem.Battle();
             battle.Init(_battleInfo);
-            SpanwPrefabs(battle);
-            return battle;
-        }
-
-        private void SpanwPrefabs(BattleSystem.Battle battle)
-        {
             foreach (var unit in battle.Units)
             {
                 var unitView = Instantiate(_unitViewPrefab, transform);
                 unitView.Init(unit, _grid);
+                phaseSelector.Subscribe(unitView);
             }
 
             foreach (var t in battle.Tiles.TilesFlat)
@@ -35,9 +30,12 @@ namespace Views.Battle
                 EnvironmentView env = Instantiate(_environmentViewPrefab, transform);
                 env.Init(t.Base, _grid);
                 env.SetTile(t);
-                PhaseSelector.SetLayer(env);
+                phaseSelector.Subscribe(env);
+                phaseSelector.SetLayer(env);
                 env.gameObject.name = "Tile " + t.Base.Position.ToString();
             }
+
+            return battle;
         }
     }
 }

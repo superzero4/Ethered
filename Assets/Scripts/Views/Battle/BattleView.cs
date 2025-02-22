@@ -26,13 +26,13 @@ namespace Views.Battle
 
         [SerializeField, InfoBox("Just a big reference holder")]
         private BattleUI _ui;
-
         [SerializeField] private Selector _selector;
+        [SerializeField] private GlobalMaterialPhaseView _materialPhaseView;
 
         [Header("Read Only")] [SerializeReference] [ReadOnly]
         private SelectionState _selectionState;
-        [SerializeReference] [ReadOnly]
-        private BattleSystem.Battle _battle;
+
+        [SerializeReference] [ReadOnly] private BattleSystem.Battle _battle;
 
         public BattleSystem.Battle Battle
         {
@@ -46,7 +46,7 @@ namespace Views.Battle
 
         private void Awake()
         {
-            _battle = _initializer.Init();
+            _battle = _initializer.Init(_selector.Phase);
             _selectionState = new SelectionState();
             _ui.Initialize();
             //We set callbacks before initializing the _selector because we basically hook on selectione events and we want everything to be set as the selector initializes
@@ -77,8 +77,8 @@ namespace Views.Battle
         {
             _battle.OnTimelineAction.AddListener(_ui.TimelineUI1.OnTimelineMemberInserted);
 
-            _selector.Phase.OnSelectedPhaseChanges.AddListener(_ui.PhaseUI.DisplayPhase);
-
+            _selector.Phase.Subscribe(_ui.PhaseUI, _materialPhaseView);
+        
             _selector.OnHoverChanged.AddListener(OnHover);
             _selector.SelectionUpdated.AddListener(UpdateSelection);
 
