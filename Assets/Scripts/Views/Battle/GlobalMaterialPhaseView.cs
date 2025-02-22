@@ -6,22 +6,19 @@ using Views.Battle.Selection;
 
 namespace Views.Battle
 {
-    public class PhaseView : MonoBehaviour
+    public class GlobalMaterialPhaseView : MonoBehaviour, IPhaseView
     {
         [SerializeField] private Material[] _materials;
-        [SerializeField] private PhaseSelector _selector;
-
-        private void Awake()
+        
+        public void OnPhaseSelected(PhaseEventData arg0)
         {
-            _selector.OnSelectedPhaseChanges.AddListener(OnPhaseSelected);
+            if(gameObject.activeInHierarchy && this.isActiveAndEnabled)
+                SetColor(arg0.phase);
+            else
+                Debug.LogWarning("GlobalMaterialPhaseView is not active or enabled, even if it's listening to the event");
         }
 
-        private void OnPhaseSelected(PhaseEventData arg0)
-        {
-            SetColor(arg0.phase);
-        }
-
-        private void SetColor(EPhase arg0)
+        public void SetColor(EPhase arg0)
         {
             foreach (var material in _materials)
             {
@@ -38,7 +35,7 @@ namespace Views.Battle
             }
         }
 
-        private Color PickColor(EPhase arg0Phase, bool isEmmision)
+        public Color PickColor(EPhase arg0Phase, bool isEmmision)
         {
             var color = Color.grey;
             switch (arg0Phase)
