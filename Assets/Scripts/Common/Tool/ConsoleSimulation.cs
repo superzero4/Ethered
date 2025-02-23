@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using BattleSystem;
+using BattleSystem.Actions;
 using UnitSystem;
 using UnitSystem.Actions.Bases;
 using UnityEngine;
@@ -27,56 +28,29 @@ namespace Common.Tool
                 var enemies = units.TakeLast(2);
                 foreach (var unit in allies.Concat(enemies))
                 {
-                    if (QueueAction(battle, unit, _actionsToTest, true))
+                    if (QueueRandomAction(battle, unit))
                     {
                         if (_logStatusToConsole)
                             Debug.Log("Action1 successful, trying action 2");
-                        QueueAction(battle, unit, _actionsToTest2, false);
+                        QueueRandomAction(battle, unit);
                     }
                 }
 
-                yield return battle.TurnEnd(true);
+                yield return battle.NextTurn(-1f);
                 yield return new WaitForSeconds(0.01f);
             }
         }
 
-
-        private bool QueueAction(Battle battle, Unit unit, ActionInfoBaseSO[] actionA, bool targetBase)
+        public static bool QueueRandomAction(Battle battle, Unit unit)
         {
-            var Size = battle.Tiles.Size;
-            IBattleElement target;
-            if (targetBase)
+            if (battle.Tiles.TryGetRandomValidAction(unit,out Action action))
             {
-                var ph = Random.Range(1, 3);
-                var posX = Random.Range(0, Size.x);
-                var posY = Random.Range(0, Size.y);
-                var pos = new PositionData(ph, posX, posY);
-                var tile = battle.Tiles[pos].ToList();
-                target = tile[0].Base;
+                if (battle.ConfirmAction(action))
+                {
+                    return true;
+                }
             }
-            else
-            {
-                target = battle.Units.ToList()[Random.Range(0, battle.Units.Count())];
-            }
-
-            var pickedAction = actionA[Random.Range(0, actionA.Length)];
-            Action action = new Action(unit, pickedAction);
-            var result = action.TrySetTarget(unit, target);
-            if (!targetBase)
-                if (_logStatusToConsole)
-                    Debug.Log($"{result} => {unit.Position} is trying to use {pickedAction.name} on {target.Position}");
-            if (result)
-            {
-                if (!battle.ConfirmAction(action))
-                    if (_logStatusToConsole)
-                        Debug.Log("But couldn't execute on current map");
-            }
-
-            return result;
-        }
-
-        private void Update()
-        {
+            return false;
         }
     }
 }
