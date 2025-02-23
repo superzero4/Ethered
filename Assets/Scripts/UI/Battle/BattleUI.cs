@@ -38,6 +38,7 @@ namespace UI.Battle
         {
             VisualInformations.Default = _default;
             _unitUI.Initialize();
+            _timelineUI.Initialize();
         }
     }
 }

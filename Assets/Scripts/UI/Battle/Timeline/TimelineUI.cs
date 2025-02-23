@@ -12,7 +12,7 @@ namespace UI.Battle
         [SerializeField] private TimelineMemberUI _memberPrefab;
         private DynamicHideAndShow<TimelineMemberUI> _memberPool;
 
-        private void Awake()
+        public void Initialize()
         {
             _memberPool = new DynamicHideAndShow<TimelineMemberUI>(_memberPrefab, 10, transform);
         }
