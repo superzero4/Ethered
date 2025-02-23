@@ -58,7 +58,7 @@ namespace UnitSystem
             if (target == null || target.Position.DistanceTo(origin.Position) > _range)
             {
                 checkForAllTargets = false;
-                return true;
+                return false;
             }
 
             if (!IsTargetPhaseValid(phase, target))
