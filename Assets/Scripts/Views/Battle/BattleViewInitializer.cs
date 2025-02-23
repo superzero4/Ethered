@@ -1,4 +1,5 @@
 using Common;
+using UnitSystem.AI;
 using UnityEngine;
 using Views.Battle.Selection;
 
@@ -6,18 +7,19 @@ namespace Views.Battle
 {
     public class BattleViewInitializer : MonoBehaviour
     {
-        [Header("References")]
-        [SerializeField] private BattleInfo _battleInfo;
+        [Header("References")] [SerializeField]
+        private BattleInfo _battleInfo;
+
+        private IBrainCollection _brains;
         [SerializeField] private Grid _grid;
-        
-        [Header("Prefabs")]
-        [SerializeField] private UnitView _unitViewPrefab;
+
+        [Header("Prefabs")] [SerializeField] private UnitView _unitViewPrefab;
         [SerializeField] private EnvironmentView _environmentViewPrefab;
-        
+
         public BattleSystem.Battle Init(PhaseSelector phaseSelector)
         {
             var battle = new BattleSystem.Battle();
-            battle.Init(_battleInfo);
+            battle.Init(_battleInfo, _brains);
             foreach (var unit in battle.Units)
             {
                 var unitView = Instantiate(_unitViewPrefab, transform);
@@ -34,7 +36,6 @@ namespace Views.Battle
                 phaseSelector.SetLayer(env);
                 env.gameObject.name = "Tile " + t.Base.Position.ToString();
             }
-
             return battle;
         }
     }
