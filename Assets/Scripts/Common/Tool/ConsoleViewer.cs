@@ -11,7 +11,7 @@ namespace Common.Tool
         private void Start()
         {
             var battle = new Battle();
-            battle.Init(_battleInfo);
+            battle.Init(_battleInfo,null);
             _consoleSimulation.StartCoroutine(_consoleSimulation.StartSimulation(battle));
         }
     }
