@@ -39,6 +39,7 @@ namespace Views.Battle
         protected override Color GetColor()
         {
             var color = base.GetColor();
+            return Color.white;
             switch (_data.Position.Phase)
             {
                 case EPhase.Normal: color = Color.white; break;
