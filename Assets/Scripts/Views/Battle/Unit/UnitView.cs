@@ -74,6 +74,7 @@ namespace Views.Battle
         public override void ToggleVisibility(bool state)
         {
             currentSkin.ToggleVisibility(state);
+            _healthUI.ToggleVisibility(state);
         }
 
         public override void OnPhaseSelected(PhaseEventData arg0)

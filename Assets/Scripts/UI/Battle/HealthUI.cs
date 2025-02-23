@@ -11,6 +11,10 @@ namespace UI.Battle
     {
         [SerializeField] private Image _slider;
 
+        [SerializeField] private GameObject _root;
+        //[SerializeField] private Color _normal;
+        //[SerializeField,Tooltip("Account for post processing color correction relative to this phase")] private Color _ethered;
+
         public void Awake()
         {
             Assert.IsTrue(_slider != null && _slider.fillMethod == Image.FillMethod.Horizontal ||
@@ -32,6 +36,11 @@ namespace UI.Battle
             //TODO animate from old to new value
             //healthData.oldHealth;
             UpdateHealth(hitData.unit);
+        }
+
+        public void ToggleVisibility(bool state)
+        {
+            _root.SetActive(state);
         }
     }
 }
