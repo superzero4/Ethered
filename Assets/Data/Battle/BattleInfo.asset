@@ -55,6 +55,7 @@ MonoBehaviour:
         _color: {r: 1, g: 1, b: 1, a: 1}
         _name: Zelda Kevin
         _description: 
+    _upgrades: []
   _squad:
     _units:
     - _maxHealth: 20
@@ -66,7 +67,7 @@ MonoBehaviour:
         _name: Ivan Xander
         _description: 
     - _maxHealth: 20
-      _actionCollection: {fileID: 11400000, guid: cd933160a18d72d4eaddebaa473cc57c, type: 2}
+      _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
       _visualInformations:
         _sprite: {fileID: 21300000, guid: 53ba999643e0e0945b75e4cbb1676807, type: 3}
         _grayScale: {fileID: 0}
@@ -90,13 +91,14 @@ MonoBehaviour:
         _name: Heidi Victor
         _description: 
     - _maxHealth: 20
-      _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
+      _actionCollection: {fileID: 11400000, guid: cd933160a18d72d4eaddebaa473cc57c, type: 2}
       _visualInformations:
         _sprite: {fileID: 21300000, guid: bec6d67d3940de44e9a1f1dc03b55fd1, type: 3}
         _grayScale: {fileID: 0}
         _color: {r: 1, g: 1, b: 1, a: 1}
         _name: Yvonne Mallory
         _description: 
+    _upgrades: []
   _defaultUnit:
     _maxHealth: 20
     _actionCollection: {fileID: 0}
