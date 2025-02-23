@@ -7,11 +7,14 @@ namespace Common.Visuals
     [Serializable]
     public struct VisualInformations
     {
+        [Header("Visuals")]
         [SerializeField] private Sprite _sprite;
-        [SerializeField,ReadOnly] private Sprite _grayScale;
         [SerializeField] private Color _color;
+        [Header("Text")]
         [SerializeField] private string _name;
         [SerializeField] private string _description;
+        [Header("ReadOnly")]
+        [SerializeField,ReadOnly,InfoBox("Generated at runtime on first get")] private Sprite _grayScale;
 
         public Sprite Sprite
         {
