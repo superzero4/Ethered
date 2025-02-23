@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: HealWarpPhased
   m_EditorClassIdentifier: 
   _visualInformations:
-    _sprite: {fileID: 0}
+    _sprite: {fileID: 21300000, guid: 60edb7dedd3ea694292145e8de8e05b8, type: 3}
     _color: {r: 1, g: 1, b: 1, a: 1}
-    _name: 
-    _description: 
+    _name: Phased heal
+    _description: Heal an ally in the same phase as you
+    _grayScale: {fileID: 0}
   _originPhase: -1
   _target:
-  - _nbTargets: 1
-    _range: 0
+  - _range: 7
     _targetType: 2
     _phase: -1
+  _nbTargets: 1
   _damage: -5
   _requireLOS: 0
