@@ -24,12 +24,7 @@ namespace Views.Battle.Selection
         {
             return (_phase & other) != 0b0;
         }
-
-        private void Awake()
-        {
-            _phase = EPhase.Normal;
-        }
-
+        
         private void Update()
         {
             if (Input.mouseScrollDelta.y != 0)

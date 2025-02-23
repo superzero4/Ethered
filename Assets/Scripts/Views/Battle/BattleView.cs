@@ -56,6 +56,7 @@ namespace Views.Battle
             _ui.ConfirmButton.AddListener(OnConfirmed);
             _ui.EndTurnButton.AddListener(() => { StartCoroutine(_battle.TurnEnd(true, _delay)); });
             //_selector.SelectionUpdated.AddListener(s => Debug.Log("Selected: " + s.unit));
+            
         }
 
         private void OnHover(SelectionEventData selection)
