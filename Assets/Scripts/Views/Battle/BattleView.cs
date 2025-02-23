@@ -28,6 +28,7 @@ namespace Views.Battle
         private BattleUI _ui;
         [SerializeField] private Selector _selector;
         [SerializeField] private GlobalMaterialPhaseView _materialPhaseView;
+        [SerializeField] private PostProcessPhaseView _postProcess;
 
         [Header("Read Only")] [SerializeReference] [ReadOnly]
         private SelectionState _selectionState;
@@ -78,7 +79,7 @@ namespace Views.Battle
         {
             _battle.OnTimelineAction.AddListener(_ui.TimelineUI1.OnTimelineMemberInserted);
 
-            _selector.Phase.Subscribe(_ui.PhaseUI, _materialPhaseView);
+            _selector.Phase.Subscribe(_ui.PhaseUI, _materialPhaseView,_postProcess);
         
             _selector.OnHoverChanged.AddListener(OnHover);
             _selector.SelectionUpdated.AddListener(UpdateSelection);
