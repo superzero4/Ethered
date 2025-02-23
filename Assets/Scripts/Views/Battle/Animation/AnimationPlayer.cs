@@ -101,5 +101,10 @@ namespace Views.Battle.Animation
             yield return null;
             Play(after);
         }
+
+        private void OnDestroy()
+        {
+            _animation?.Destroy();
+        }
     }
 }
