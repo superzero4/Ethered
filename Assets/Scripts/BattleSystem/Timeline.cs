@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace BattleSystem
 {
+    [Serializable]
     public class Timeline
     {
         [SerializeField] private List<Action> _actions;
@@ -29,6 +30,7 @@ namespace BattleSystem
         {
             _actions.Clear();
             _timeLineUpdated.Invoke(new TimelineEventData(_actions, null));
+            
         }
 
         public void Initialize(List<Action> actions)
