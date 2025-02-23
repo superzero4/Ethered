@@ -13,15 +13,12 @@ namespace Views.Battle
     public abstract class AElementView<T> : MonoBehaviour, IPhaseView where T : BattleSystem.IBattleElement
     {
         [SerializeReference] [ReadOnly] protected T _data;
-
-        //[SerializeField] [ReadOnly] protected UnitUI _ui;
-
+        [SerializeField] protected Transform _root;
         public T Data => _data;
 
         public void Init(T data, Grid grid)
         {
             _data = data;
-            //_ui = ui;
             Init(grid);
             SetColor();
         }
@@ -30,9 +27,9 @@ namespace Views.Battle
         {
             var pos = grid.GetCellCenterWorld((Vector3Int)_data.Position.Position);
             pos.y -= grid.cellSize.y / 2;
-            transform.position = pos;
+            _root.position = pos;
             float angle = Mathf.Atan2(lookAt.y, lookAt.x) * Mathf.Rad2Deg;
-            transform.localRotation = Quaternion.Euler(0, angle, 0);
+            _root.localRotation = Quaternion.Euler(0, angle, 0);
         }
 
         protected virtual Color GetColor()

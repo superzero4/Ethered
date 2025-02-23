@@ -13,7 +13,6 @@ namespace Views.Battle
 {
     public class EnvironmentView : AElementView<Environment>
     {
-        [SerializeField] protected Transform _root;
         private Renderer[] model = null;
         [SerializeField, ReadOnly] private Tile _tile;
         private Renderer _mainRenderer1;
