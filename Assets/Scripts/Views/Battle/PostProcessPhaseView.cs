@@ -30,7 +30,7 @@ namespace Views.Battle
         {
             var dist = (_camera.transform.position - (transform.position + _collider.center)).magnitude;
             _ppv.blendDistance = dist * blendDistanceMul;
-            _endSize = _startSize + dist*Vector3.one;
+            _endSize = _startSize + dist * Vector3.one;
         }
 
         private void OnValidate()
@@ -52,18 +52,22 @@ namespace Views.Battle
         {
             while (_collider.size.x < _endSize.x)
             {
-                _collider.size += Vector3.one * (step * Time.deltaTime);
                 yield return new WaitForEndOfFrame();
+                _collider.size += Vector3.one * (step * Time.deltaTime);
             }
+
+            _collider.size = _endSize;
         }
 
         private IEnumerator PostProcessShrink()
         {
             while (_collider.size.x > _startSize.x)
             {
-                _collider.size -= (Time.deltaTime *step) * Vector3.one;
                 yield return new WaitForEndOfFrame();
+                _collider.size -= (Time.deltaTime * step) * Vector3.one;
             }
+
+            _collider.size = _startSize;
         }
     }
 }
