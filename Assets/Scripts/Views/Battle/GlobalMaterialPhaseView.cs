@@ -15,7 +15,9 @@ namespace Views.Battle
             if(gameObject.activeInHierarchy && this.isActiveAndEnabled)
                 SetColor(arg0.phase);
             else
-                Debug.LogWarning("GlobalMaterialPhaseView is not active or enabled, even if it's listening to the event");
+            {
+                //Debug.LogWarning("GlobalMaterialPhaseView is not active or enabled, even if it's listening to the event");
+            }
         }
 
         public void SetColor(EPhase arg0)
