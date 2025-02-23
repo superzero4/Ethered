@@ -7,6 +7,8 @@ using BattleSystem.TileSystem;
 using Common;
 using Common.Events;
 using UnitSystem;
+using UnitSystem.AI;
+using UnitSystem.AI.Dev;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -15,41 +17,50 @@ namespace BattleSystem
     [Serializable]
     public class Battle
     {
-        [SerializeField] private List<Unit> _units;
+        [SerializeField] private List<Unit> _allies;
+        [SerializeField] private List<Unit> _ennemies;
         [SerializeField] private Tilemap _battleElements;
-        [SerializeField] private Timeline _timeline;
+        [SerializeReference] private IBrainCollection _brains;
+        [SerializeReference] private Timeline _timeline;
         public Tilemap Tiles => _battleElements;
-        public IEnumerable<Unit> Units => _units;
+        public IEnumerable<Unit> Units => _allies.Concat(_ennemies);
         public TimelineEvent OnTimelineAction => _timeline.TimeLineUpdated;
-        public void Init(BattleInfo info)
+
+        public void Init(BattleInfo info, IBrainCollection brains)
         {
+            //Assert.IsNotNull(brains, "Brains were null, ensure that the caller has a reference to a brain collection so it can work correctly");
+            if (brains == null)
+            {
+                Debug.LogWarning("No actual brains set, falling back to a set of one random brain");
+                brains = new OneBrainCollection(new RandomTryoutsBrain(1000));
+            }
+
+            _brains = brains;
             _timeline = new Timeline();
             _timeline.Initialize(new List<Action>());
             _battleElements = new Tilemap(new Vector2Int(info.Size.x, info.Size.y), 2, info.DefaultEnvironment);
             var specific = info.GetSpecificEnvironments();
             if (specific != null && specific.Any())
-            {
                 foreach (var env in specific)
-                {
                     _battleElements.SetEnvironment(env);
-                }
-            }
 
-            _units = new List<Unit>();
+            _allies = new List<Unit>();
             for (int i = 0; i < info.Squad.Units.Count; i++)
             {
                 var item = new Unit(info.Squad.Units[i], ETeam.Player, new Vector2Int(i, 0),
                     i == 2 ? EPhase.Both : (i % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
-                _units.Add(item);
                 Assert.IsTrue(item.Position.Phase != EPhase.None);
+                _allies.Add(item);
                 _battleElements.SetUnit(item);
             }
 
+            _ennemies = new List<Unit>();
             for (int i = 0; i < info.Enemies.Units.Count; i++)
             {
                 var item = new Unit(info.Enemies.Units[i], ETeam.Enemy, new Vector2Int(i, info.Size.y - 1),
                     i == 2 ? EPhase.Both : (i % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
-                _units.Add(item);
+                Assert.IsTrue(item.Position.Phase != EPhase.None);
+                _ennemies.Add(item);
                 _battleElements.SetUnit(item);
             }
 
@@ -58,10 +69,9 @@ namespace BattleSystem
 
         private void SubscribeToUnitsEvents()
         {
-            foreach (var unit in _units)
+            foreach (var unit in Units)
             {
                 unit.OnUnitMoves?.AddListener(RefreshTileMap);
-                unit.OnUnitHealthChange?.AddListener(RefreshHealth);
             }
         }
 
@@ -69,17 +79,12 @@ namespace BattleSystem
         {
             _battleElements.RemoveUnit(arg0.oldPosition);
             _battleElements.SetUnit(arg0.unit);
-            //TODO link with the tilemap display
         }
 
-        private void RefreshHealth(UnitHitData arg0)
-        {
-            //TODO link with the health display
-        }
 
         public bool ConfirmAction(Action action)
         {
-            if (action !=null && action.CanExecute(_battleElements))
+            if (action != null && action.CanExecute(_battleElements))
             {
                 _timeline.Append(action);
                 //_timeline.PriorityInsert(action);
@@ -116,9 +121,30 @@ namespace BattleSystem
             return sb.ToString();
         }
 
-        public IEnumerator TurnEnd(bool b, float delay = .1f)
+        public IEnumerator TurnEnd(bool b,float delay = .1f)
         {
-            yield return _timeline.Execute(true);
+            yield return _timeline.Execute(true, delay);
+        }
+
+        public IEnumerator NextTurn( float delay = .1f)
+        {
+            yield return TurnEnd(true, delay);
+            if (delay > 0f)
+                yield return new WaitForSeconds(delay);
+            yield return InitNewTurn(delay);
+        }
+
+        public IEnumerator InitNewTurn(float delay = .1f)
+        {
+            foreach (var ennemy in _ennemies)
+            {
+                var action = _brains.RandomBrain().GetDecision(ennemy, _battleElements);
+                Assert.IsTrue(action.CanExecute(_battleElements),
+                    "Action provided by brain cannot execute on current map, fix Brain");
+                Assert.IsTrue(action.HasTargets, "Action provided by brain doesn't have targets, fix Brain");
+                _timeline.Append(action);
+                yield return new WaitForSeconds(delay);
+            }
         }
     }
 }
