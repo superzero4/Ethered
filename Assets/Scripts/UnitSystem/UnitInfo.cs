@@ -11,6 +11,7 @@ namespace UnitSystem
     public class UnitInfo : IIcon
     {
         [SerializeField, Range(1, 100)] private int _maxHealth;
+        [SerializeField] private int _armor;
         private List<IActionInfo> _actions;
         [SerializeField] private ActionCollection _actionCollection;
 
@@ -23,6 +24,7 @@ namespace UnitSystem
         }
 
         public int MaxHealth => _maxHealth;
+        public int Armor => _armor;
         //We build the action list the first time we try to access it, we depend only on the IActioninfo now and not on the scriptable we use to provide thos
         /// <summary>
         /// This return the action list interface, it can be modified suppressed or added to change the action set of character, the base set is the one specified by it's SkillSet

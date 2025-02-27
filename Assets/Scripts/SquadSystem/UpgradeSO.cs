@@ -1,10 +1,11 @@
+using SquadSystem.Enums;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "UpgradeSO", menuName = "Upgrades/UpgradeSO")]
 public class UpgradeSO : ScriptableObject
 {
     [SerializeField] private string _name;
-    [SerializeField] private string _upgradeType; // TODO : Replace string with enum
+    [SerializeField] private EUpgradeType _upgradeType;
     
     [SerializeField, Tooltip("The cost in coins to buy the upgrade")] 
     private int _coinsCost;
