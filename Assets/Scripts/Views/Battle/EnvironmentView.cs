@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BattleSystem;
 using BattleSystem.TileSystem;
 using Common.Events;
+using Common.Events.UserInterface;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Assertions;

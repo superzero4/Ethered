@@ -1,6 +1,7 @@
 using System;
 using BattleSystem;
 using Common.Events;
+using Common.Events.UserInterface;
 using UnityEngine;
 using Views.Battle;
 

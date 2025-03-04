@@ -3,6 +3,7 @@ using BattleSystem;
 using BattleSystem.TileSystem;
 using Common;
 using Common.Events;
+using Common.Events.UserInteraction;
 using JetBrains.Annotations;
 using UnitSystem;
 using UnitSystem.Actions.Bases;

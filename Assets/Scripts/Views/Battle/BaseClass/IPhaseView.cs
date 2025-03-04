@@ -1,4 +1,5 @@
 using Common.Events;
+using Common.Events.UserInterface;
 
 namespace Views.Battle
 {

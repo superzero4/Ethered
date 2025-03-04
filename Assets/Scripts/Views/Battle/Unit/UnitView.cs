@@ -1,5 +1,7 @@
 using BattleSystem;
 using Common.Events;
+using Common.Events.Combat;
+using Common.Events.UserInterface;
 using NaughtyAttributes;
 using UI.Battle;
 using UnitSystem;

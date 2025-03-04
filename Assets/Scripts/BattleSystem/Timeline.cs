@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Common.Events;
+using Common.Events.UserInterface;
 using UnityEngine;
 
 namespace BattleSystem

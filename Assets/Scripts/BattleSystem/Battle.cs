@@ -6,6 +6,8 @@ using System.Text;
 using BattleSystem.TileSystem;
 using Common;
 using Common.Events;
+using Common.Events.Combat;
+using Common.Events.UserInterface;
 using UnitSystem;
 using UnitSystem.AI;
 using UnitSystem.AI.Dev;

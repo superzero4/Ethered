@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BattleSystem;
 using Common.Events;
+using Common.Events.UserInterface;
 using NaughtyAttributes;
 using UI;
 using UI.Battle;

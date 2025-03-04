@@ -88,7 +88,7 @@ namespace BattleSystem
                 }
             }
 
-            Debug.Log("SELECTION target size : " + _targets.Count);
+            //Debug.Log("Target Appending target size : " + _targets.Count);
             return flag;
         }
 

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using BattleSystem;
 using Common;
-using Common.Events;
+using Common.Events.UserInteraction;
 using NaughtyAttributes;
 using NUnit.Framework;
 using UnityEngine;

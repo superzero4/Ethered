@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using BattleSystem;
 using Common.Events;
+using Common.Events.UserInterface;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 

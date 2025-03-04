@@ -1,5 +1,6 @@
 using BattleSystem.TileSystem;
 using Common.Events;
+using Common.Events.UserInteraction;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Serialization;

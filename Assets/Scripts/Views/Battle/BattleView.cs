@@ -2,6 +2,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using BattleSystem;
 using Common.Events;
+using Common.Events.UserInteraction;
+using Common.GlobalFlow;
 using Common.Visuals;
 using NaughtyAttributes;
 using UI;

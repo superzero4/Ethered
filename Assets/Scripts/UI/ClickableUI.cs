@@ -1,6 +1,7 @@
 using System;
 using Common;
 using Common.Events;
+using Common.Events.UserInteraction;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Events;
