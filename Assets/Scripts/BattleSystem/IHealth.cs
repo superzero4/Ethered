@@ -3,6 +3,7 @@ namespace BattleSystem
     public interface IHealth
     {
         int CurrentHealth { get; protected set; }
+        public bool Alive => CurrentHealth > 0;
         int MaxHealth { get; }
         protected void TakeDamageUncapped(int damage, IBattleElement source);
 
