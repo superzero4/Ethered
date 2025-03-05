@@ -14,7 +14,7 @@ namespace Views.Battle
     public abstract class AElementView<T> : MonoBehaviour, IPhaseView where T : BattleSystem.IBattleElement
     {
         [SerializeReference] [ReadOnly] protected T _data;
-        [SerializeField] protected Transform _root;
+        [SerializeField,InfoBox("For movement")] protected Transform _root;
         public T Data => _data;
 
         public void Init(T data, Grid grid)

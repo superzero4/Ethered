@@ -14,6 +14,7 @@ namespace Views.Battle
 {
     public class EnvironmentView : AElementView<Environment>
     {
+        [SerializeField] private Transform _modelsParent = null;
         private Renderer[] model = null;
         [SerializeField, ReadOnly] private Tile _tile;
         private Renderer _mainRenderer1;
@@ -23,14 +24,14 @@ namespace Views.Battle
         protected override void Init(Grid grid)
         {
             base.Init(grid);
-            Assert.IsTrue(_root.childCount == Enum.GetValues(typeof(EAllowedMovement)).Length);
+            Assert.IsTrue(_modelsParent.childCount == Enum.GetValues(typeof(EAllowedMovement)).Length);
             int model = (int)Data.allowedMovement;
-            for (int i = 0; i < _root.childCount; i++)
+            for (int i = 0; i < _modelsParent.childCount; i++)
             {
-                _root.GetChild(i).gameObject.SetActive(model == i);
+                _modelsParent.GetChild(i).gameObject.SetActive(model == i);
                 if (model == i)
                 {
-                    this.model = _root.GetChild(i).GetComponentsInChildren<Renderer>();
+                    this.model = _modelsParent.GetChild(i).GetComponentsInChildren<Renderer>();
                 }
             }
         }
