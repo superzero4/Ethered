@@ -8,6 +8,7 @@ using Common.Visuals;
 using NaughtyAttributes;
 using UI;
 using UI.Battle;
+using UnitSystem;
 using UnitSystem.Actions.Bases;
 using UnityEngine;
 using UnityEngine.Events;
@@ -72,15 +73,20 @@ namespace Views.Battle
             StartCoroutine(_battle.InitNewTurn(_delay));
         }
 
+        public bool CanAct(Unit unit) => unit != null && unit.Team == ETeam.Player && _battle.CanStillAct(unit);
+
         private void OnHover(SelectionEventData selection)
         {
-            if (_selectionState.CanSelectTarget)
+            var unit = selection.unit;
+            if (_selectionState.CanSelectUnit)
             {
-                _ui.TargetUI.SetInfo(selection.unit?.VisualInformations ?? VisualInformations.Default);
+                bool isTeam = unit != null && unit.Team == ETeam.Player;
+                bool canAct = CanAct(unit);
+                _ui.UnitUI.SetUnit(unit, isTeam && canAct, isTeam && !canAct);
             }
-            else if (_selectionState.CanSelectUnit)
+            else if (_selectionState.CanSelectTarget)
             {
-                _ui.UnitUI.SetUnit(selection.unit);
+                _ui.TargetUI.SetInfo(unit?.VisualInformations ?? VisualInformations.Default);
             }
 
             _ui.TileUI.SetInfo(selection.environment.Info);
@@ -134,7 +140,18 @@ namespace Views.Battle
 
         private void UpdateSelection(SelectionEventData s)
         {
-            if (_selectionState.CanSelectTarget)
+            if (_selectionState.CanSelectUnit)
+            {
+                if (s.unit != null && CanAct(s.unit))
+                {
+                    //In theory, already set by the hover event so redundant but as a safe
+                    //_ui.UnitUI.SetUnit(s.unit,false);
+                    _selectionState.SetUnit(s.unit, true);
+                    _selector.UpdateHint = false;
+                    _selector.Hints.Lock();
+                }
+            }
+            else if (_selectionState.CanSelectTarget)
             {
                 bool atLeastOneTarget = _selectionState.AppendTarget(s);
                 if (atLeastOneTarget)
@@ -150,17 +167,6 @@ namespace Views.Battle
                 {
                     //Debug.LogWarning("SELECTION Target not valid");
                     //TODO Show negative feedback showing target wasn't selected
-                }
-            }
-            else if (_selectionState.CanSelectUnit)
-            {
-                if (s.unit != null)
-                {
-                    //In theory, already set by the hover event so redundant but as a safe
-                    _ui.UnitUI.SetUnit(s.unit);
-                    _selectionState.SetUnit(s.unit, true);
-                    _selector.UpdateHint = false;
-                    _selector.Hints.Lock();
                 }
             }
         }

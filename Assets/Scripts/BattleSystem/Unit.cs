@@ -60,6 +60,8 @@ namespace UnitSystem
 
         public int MaxHealth => _info.MaxHealth;
 
+        //TODO implement that using the unit info and upgrade system if it reveals to be used, calling code use this even if it's currently a constant value
+        public int ActionsPerTurn => 1;
 
 
         void IHealth.TakeDamageUncapped(int damage, IBattleElement source)

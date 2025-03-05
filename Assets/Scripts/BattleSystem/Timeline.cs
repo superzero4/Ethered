@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Common.Events;
 using Common.Events.UserInterface;
 using UnityEngine;
@@ -14,6 +15,8 @@ namespace BattleSystem
         [SerializeField] private TimelineEvent _timeLineUpdated = new();
 
         public TimelineEvent TimeLineUpdated => _timeLineUpdated;
+
+        public IEnumerable<IBattleElement> Actors => _actions.Select(action => action.Origin);
 
         public IEnumerator Execute(bool resetAfter, float delay = -1f)
         {
@@ -31,7 +34,6 @@ namespace BattleSystem
         {
             _actions.Clear();
             _timeLineUpdated.Invoke(new TimelineEventData(_actions, null));
-            
         }
 
         public void Initialize(List<Action> actions)

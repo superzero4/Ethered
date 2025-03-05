@@ -22,7 +22,7 @@ namespace BattleSystem
         private Timeline _timeline;
         private Battle _battle;
         private int _currentTurn = 0;
-        
+
         //TODO refactor double coupling by making the BrainCollection have a reference to the tilemap on creation and forwarding it to the brains, (because it's class) and therefore Turns could work withe the brains list directly without necistating the whole Battle/Tilemap
         public Turns(Battle battle)
         {
@@ -71,8 +71,15 @@ namespace BattleSystem
         {
             Init(_battle);
         }
+
+        public bool CanStillAct(Unit unit)
+        {
+            return unit != null && (unit.ActionsPerTurn == 1
+                ? _timeline.Actors.All(a => a != unit)
+                : _timeline.Actors.Count(a => a == unit) < unit.ActionsPerTurn);
+        }
     }
-    
+
     [Serializable]
     public class Battle
     {
@@ -99,6 +106,7 @@ namespace BattleSystem
                 Debug.LogWarning("No actual brains set, falling back to a set of one random brain");
                 brains = new OneBrainCollection(new RandomTryoutsBrain(1000));
             }
+
             _turns = new Turns(this);
             _brains = brains;
             _battleElements = new Tilemap(new Vector2Int(info.Size.x, info.Size.y), 2, info.DefaultEnvironment);
@@ -121,7 +129,7 @@ namespace BattleSystem
             for (int i = 0; i < info.Enemies.Units.Count; i++)
             {
                 var enemy = info.Enemies.Units[i];
-                var pos = new Vector2Int(mid+(i%2==0 ? 1 : -1)*((i+1)/2), info.Size.y - 1);
+                var pos = new Vector2Int(mid + (i % 2 == 0 ? 1 : -1) * ((i + 1) / 2), info.Size.y - 1);
                 var item = new Unit(enemy, ETeam.Enemy, pos,
                     pos.x == mid ? EPhase.Both : (pos.x % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
                 Assert.IsTrue(item.Position.Phase != EPhase.None);
@@ -145,6 +153,7 @@ namespace BattleSystem
             _battleElements.RemoveUnit(arg0.oldPosition);
             _battleElements.SetUnit(arg0.unit);
         }
+
         public IEnumerable<Action> EnemyActions()
         {
             foreach (var ennemy in _ennemies)
@@ -154,6 +163,7 @@ namespace BattleSystem
                 yield return action;
             }
         }
+
         public bool ConfirmAction(Action action)
         {
             if (action != null && action.CanExecute(_battleElements))
@@ -202,7 +212,7 @@ namespace BattleSystem
 
         private void CheckForEnd()
         {
-            var allies = _allies.Any(u=>u.HealthInfo.Alive);
+            var allies = _allies.Any(u => u.HealthInfo.Alive);
             var enemies = _ennemies.Any(u => u.HealthInfo.Alive);
             ETeam winner = ETeam.None;
             switch ((allies, enemies))
@@ -219,11 +229,18 @@ namespace BattleSystem
                     winner = ETeam.None;
                     break;
             }
-            _battleEnd?.Invoke(new BattleEventData(){ winner = winner});
+
+            _battleEnd?.Invoke(new BattleEventData() { winner = winner });
         }
+
         public IEnumerator InitNewTurn(float delay)
         {
             yield return _turns.InitNewTurn(delay);
+        }
+
+        public bool CanStillAct(Unit unit)
+        {
+            return _turns.CanStillAct(unit);
         }
     }
 }

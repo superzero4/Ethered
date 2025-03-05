@@ -22,16 +22,17 @@ namespace UI.Battle
             _dynamicHideAndShow = new DynamicHideAndShow<ActionUI>(_actionUIs);
         }
 
-        public void SetUnit(Unit unit)
+        //TODO implement grayScale by refactoring logic used for action, make it also valid for unit icons
+        public void SetUnit(Unit unit, bool displayAction, bool greyPortrait)
         {
             var unitInfo = unit?.Info;
             (this as IVisualInformationUI).SetIcon(unitInfo);
-            if (unitInfo == null || unitInfo.Actions == null)
+            if (unitInfo == null || unitInfo.Actions == null || !displayAction)
             {
                 _dynamicHideAndShow.Reset();
                 return;
             }
-
+            
             _dynamicHideAndShow.SetPanels(unit.Info.Actions,
                 (action, actionUI) => { actionUI.SetAction(action, action.CouldUnitExecute(unit)); });
         }
