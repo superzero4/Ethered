@@ -28,6 +28,7 @@ namespace Views.Battle
 
         [SerializeField, InfoBox("Just a big reference holder")]
         private BattleUI _ui;
+
         [SerializeField] private Selector _selector;
         [SerializeField] private GlobalMaterialPhaseView _materialPhaseView;
         [SerializeField] private PostProcessPhaseView _postProcess;
@@ -58,6 +59,14 @@ namespace Views.Battle
             _selector.Initialize();
             _ui.ConfirmButton.AddListener(OnConfirmed);
             _ui.EndTurnButton.AddListener(() => { StartCoroutine(_battle.NextTurn(_delay)); });
+            _battle.BattleEnd.AddListener(t =>
+            {
+                Debug.Log($"Battle Ended, won by {t.winner}");
+                SceneFlow.LoadScene(t.winner == ETeam.Player
+                    ? SceneFlow.EScene.SquadMenu
+                    : SceneFlow
+                        .EScene.GameOver);
+            });
             //_selector.SelectionUpdated.AddListener(s => Debug.Log("Selected: " + s.unit));
 
             StartCoroutine(_battle.InitNewTurn(_delay));
@@ -82,8 +91,8 @@ namespace Views.Battle
         {
             _battle.OnTimelineAction.AddListener(_ui.TimelineUI1.OnTimelineMemberInserted);
 
-            _selector.Phase.Subscribe(_ui.PhaseUI, _materialPhaseView,_postProcess);
-        
+            _selector.Phase.Subscribe(_ui.PhaseUI, _materialPhaseView, _postProcess);
+
             _selector.OnHoverChanged.AddListener(OnHover);
             _selector.SelectionUpdated.AddListener(UpdateSelection);
 
