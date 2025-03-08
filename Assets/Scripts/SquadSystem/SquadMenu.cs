@@ -7,32 +7,33 @@ namespace SquadSystem
     public class SquadMenu : MonoBehaviour
     {
         [Header("UI References")]
-        [SerializeField] private TMP_Text _coinsText;
-        [SerializeField] private TMP_Text _etherText;
-        [SerializeField] private GameObject _shopPanel;
-        [SerializeField] private GameObject _upgradePanel;
+        [SerializeField] private TMP_Text coinsText;
+        [SerializeField] private TMP_Text etherText;
+        [SerializeField] private GameObject shopPanel;
+        [SerializeField] private GameObject squadPanel;
+        [SerializeField] private SquadClass squadClass;
         
-        public Squad Squad { get; set; }
+        //public Squad Squad { get; set; }
         public UpgradeList UpgradeList { get; set; }
 
         private void Awake()
         {
-            Squad = CreateSquad(2, new UnitInfo());
+            //Squad = CreateSquad(2, new UnitInfo());
             UpgradeList = gameObject.AddComponent<UpgradeList>();
-            _coinsText.SetText(Squad.Coins.ToString());
-            _etherText.SetText(Squad.Ether.ToString());
+            coinsText.SetText(squadClass.Coins.ToString());
+            etherText.SetText(squadClass.Ether.ToString());
         }
         
-        private Squad CreateSquad(int nbUnits, UnitInfo info)
-        {
-            Squad squad = new()
-            {
-                Coins = 100,
-                Ether = 100
-            };
-            squad.Init(nbUnits, info);
-            return squad;
-        }
+        // private Squad CreateSquad(int nbUnits, UnitInfo info)
+        // {
+        //     Squad squad = new()
+        //     {
+        //         Coins = 100,
+        //         Ether = 100
+        //     };
+        //     squad.Init(nbUnits, info);
+        //     return squad;
+        // }
         
         /// <summary>
         /// Update the coins of the squad and the UI
@@ -40,17 +41,15 @@ namespace SquadSystem
         /// <param name="value"></param>
         public void UpdateCoins(int value)
         {
-            if (value < 0 && Squad.Coins + value < 0)
+            if (value < 0 && squadClass.Coins + value < 0)
             {
                 // TODO : display a message to the player that he doesn't have enough coins
                 return;
             }
             
-            var squad = Squad;
-            squad.Coins += value;
-            Squad = squad;
+            squadClass.Coins += value;
             
-            _coinsText.SetText(Squad.Coins.ToString());
+            coinsText.SetText(squadClass.Coins.ToString());
         }
         
         /// <summary>
@@ -59,17 +58,15 @@ namespace SquadSystem
         /// <param name="value"></param>
         public void UpdateEther(int value)
         {
-            if (value < 0 && Squad.Ether + value < 0)
+            if (value < 0 && squadClass.Ether + value < 0)
             {
                 // TODO : display a message to the player that he doesn't have enough ether
                 return;
             }
             
-            var squad = Squad;
-            squad.Ether += value;
-            Squad = squad;
+            squadClass.Ether += value;
             
-            _etherText.SetText(Squad.Ether.ToString());
+            etherText.SetText(squadClass.Ether.ToString());
         }
     }
 }

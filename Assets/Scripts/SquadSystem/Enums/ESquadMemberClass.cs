@@ -1,6 +1,6 @@
 namespace SquadSystem.Enums
 {
-    public enum ESquadClass
+    public enum ESquadMemberClass
     {
         Melee = 0,
         Ranged = 1,

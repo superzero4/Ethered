@@ -23,8 +23,18 @@ namespace UnitSystem
             set => _visualInformations = value;
         }
 
-        public int MaxHealth => _maxHealth;
-        public int Armor => _armor;
+        public int MaxHealth
+        {
+            get => _maxHealth;
+            set => _maxHealth = value;
+        }
+
+        public int Armor
+        {
+            get => _armor;
+            set => _armor = value;
+        }
+
         //We build the action list the first time we try to access it, we depend only on the IActioninfo now and not on the scriptable we use to provide thos
         /// <summary>
         /// This return the action list interface, it can be modified suppressed or added to change the action set of character, the base set is the one specified by it's SkillSet
@@ -36,6 +46,11 @@ namespace UnitSystem
             get => _actionCollection;
             [Obsolete("This field is only for serialization and initialisation, ignored after Action has been consulted one, use the action getter and modify directly the list",error:true)]
             set => _actionCollection = value;
+        }
+        
+        public UnitInfo()
+        {
+            _actions = new List<IActionInfo>();
         }
     }
 }
