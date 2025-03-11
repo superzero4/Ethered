@@ -43,8 +43,8 @@ namespace UI
             //We forward the event through another event with be uses externally, and we also call a abstract method for OnClick logic internal to this class
             _button.onClick.AddListener(() => _onClick.Invoke(GetArgs()));
             _onClick.AddListener(Clicked);
-            _button.onClick.AddListener(() => Debug.Log("Button Clicked"));
-            _onClick.AddListener(args => Debug.Log("On click event raised with args: " + args));
+            //_button.onClick.AddListener(() => Debug.Log("Button Clicked"));
+            //_onClick.AddListener(args => Debug.Log("On click event raised with args: " + args));
         }
 
         /// <summary>
