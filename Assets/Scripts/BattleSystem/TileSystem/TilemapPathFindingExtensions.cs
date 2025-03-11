@@ -6,13 +6,11 @@ namespace BattleSystem.TileSystem
 {
     public static class TilemapPathFindingExtensions
     {
-        public static IEnumerable<Tile> InRange(this Tilemap map,PositionIndexer position, EPhase phase, int range)
+        public static IEnumerable<Tile> InRange(this Tilemap map, PositionIndexer position, EPhase phase, int range)
         {
             var pos = position.position;
             for (int r = -range; r <= range; r++)
             {
-                if (range == 0)
-                    continue;
                 foreach (var dir in new (int x, int y)[] { (1, 0), (0, 1) })
                 {
                     var p = new PositionData(new PositionIndexer(pos.x + r * dir.x, pos.y + r * dir.y),
@@ -20,13 +18,14 @@ namespace BattleSystem.TileSystem
                     foreach (var tile in map[p])
                     {
                         Assert.IsTrue(tile.Base.Position.DistanceTo(p) <= range);
-                        yield return tile;
+                        if (r != 0 || tile.Phase != phase) //i.e. if we're not on the same tile
+                            yield return tile;
                     }
                 }
             }
         }
 
-        public static IEnumerable<Tile> InReach(this Tilemap map,PositionIndexer position, EPhase phase, int range)
+        public static IEnumerable<Tile> InReach(this Tilemap map, PositionIndexer position, EPhase phase, int range)
         {
             var pos = position.position;
             HashSet<Tile> visited = new HashSet<Tile>();
@@ -40,25 +39,22 @@ namespace BattleSystem.TileSystem
             {
                 (Tile current, int depth) = stack.Dequeue();
                 visited.Add(current);
+                var allowed = current.Base.allowedMovement;
+                //We consider a tile reachable if we can cross it and it's not the last or if we can stop on it
+                if (allowed == EAllowedMovement.Nothing || depth > range)
+                    continue;
+                //We consider a tile reachable if we can cross it and it's not the last or if we can stop on it
+                if (allowed == EAllowedMovement.Stop)
                 {
-                    foreach (var close in map.InRange(current.Base.Position.Position, phase, 1))
+                    yield return current;
+                }
+
+                Assert.IsTrue((int)allowed >= (int)(EAllowedMovement.Cross));
+                foreach (var close in map.InRange(current.Base.Position.Position, phase, 1))
+                {
+                    if (!visited.Contains(close))
                     {
-                        if (!visited.Contains(close))
-                        {
-                            var allowed = close.Base.allowedMovement;
-                            //We consider a tile reachable if we can cross it and it's not the last or if we can stop on it
-                            if (allowed == EAllowedMovement.Nothing)
-                                continue;
-                            var couple = (close, depth + 1);
-                            if ((int)allowed >= (int)(EAllowedMovement.Cross))
-                            {
-                                stack.Enqueue(couple);
-                                if (allowed == EAllowedMovement.Stop)
-                                {
-                                    yield return close;
-                                }
-                            }
-                        }
+                        stack.Enqueue((close, depth + 1));
                     }
                 }
             }
