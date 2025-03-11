@@ -39,7 +39,7 @@ namespace UnitSystem
         /// <summary>
         /// This return the action list interface, it can be modified suppressed or added to change the action set of character, the base set is the one specified by it's SkillSet
         /// </summary>
-        public List<IActionInfo> Actions => _actions ??= _actionCollection.Actions.ToList();
+        public List<IActionInfo> Actions => _actions==null || _actions.Count == 0 ? _actions = _actionCollection.Actions.ToList() : _actions;
 
         private ActionCollection Collection
         {

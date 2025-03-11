@@ -10,7 +10,7 @@ namespace UnitSystem
     [Serializable]
     public class Unit : IBattleElement
     {
-        [SerializeField] private UnitInfo _info;
+        [SerializeReference] private UnitInfo _info;
         [SerializeField] private PositionData _position;
         [SerializeField] private ETeam _team;
         [SerializeField] private UnitMovementEvent _onUnitMoves;
