@@ -1,3 +1,4 @@
+using Common.GlobalFlow;
 using TMPro;
 using UnitSystem;
 using UnityEngine;
@@ -67,6 +68,11 @@ namespace SquadSystem
             squadClass.Ether += value;
             
             etherText.SetText(squadClass.Ether.ToString());
+        }
+
+        public void GoToNextScene()
+        {
+            SceneFlow.LoadScene(SceneFlow.EScene.Battle);
         }
     }
 }
