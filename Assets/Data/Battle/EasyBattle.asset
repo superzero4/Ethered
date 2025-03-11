@@ -16,6 +16,7 @@ MonoBehaviour:
   _enemies:
     _units:
     - _maxHealth: 1
+      _armor: 0
       _actionCollection: {fileID: 11400000, guid: 22e90ac6647f4a346b26a6b349dc417b, type: 2}
       _visualInformations:
         _sprite: {fileID: 21300000, guid: 87a0c0c706c8d0641be7ed6b5b02856e, type: 3}
@@ -27,6 +28,7 @@ MonoBehaviour:
   _squad:
     _units:
     - _maxHealth: 20
+      _armor: 0
       _actionCollection: {fileID: 11400000, guid: 793cb790057417548a2d658f49c47785, type: 2}
       _visualInformations:
         _sprite: {fileID: 21300000, guid: 9a6c196d611eade4c9dd6343fd710631, type: 3}
@@ -35,6 +37,7 @@ MonoBehaviour:
         _description: 
         _grayScale: {fileID: 0}
     - _maxHealth: 20
+      _armor: 0
       _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
       _visualInformations:
         _sprite: {fileID: 21300000, guid: 53ba999643e0e0945b75e4cbb1676807, type: 3}
@@ -43,6 +46,7 @@ MonoBehaviour:
         _description: 
         _grayScale: {fileID: 0}
     - _maxHealth: 20
+      _armor: 0
       _actionCollection: {fileID: 11400000, guid: 22e90ac6647f4a346b26a6b349dc417b, type: 2}
       _visualInformations:
         _sprite: {fileID: 21300000, guid: ff1b35d6fc2f42e4e8cee78b5f53b9a6, type: 3}
@@ -51,6 +55,7 @@ MonoBehaviour:
         _description: 
         _grayScale: {fileID: 0}
     - _maxHealth: 20
+      _armor: 0
       _actionCollection: {fileID: 11400000, guid: 4c8247bf660ca244da997d434a3ceebe, type: 2}
       _visualInformations:
         _sprite: {fileID: 21300000, guid: 6b660cea96d3f23449b62d9e015f392b, type: 3}
@@ -59,6 +64,7 @@ MonoBehaviour:
         _description: 
         _grayScale: {fileID: 0}
     - _maxHealth: 20
+      _armor: 0
       _actionCollection: {fileID: 11400000, guid: cd933160a18d72d4eaddebaa473cc57c, type: 2}
       _visualInformations:
         _sprite: {fileID: 21300000, guid: bec6d67d3940de44e9a1f1dc03b55fd1, type: 3}
@@ -69,6 +75,7 @@ MonoBehaviour:
     _upgrades: []
   _defaultUnit:
     _maxHealth: 20
+    _armor: 0
     _actionCollection: {fileID: 0}
     _visualInformations:
       _sprite: {fileID: 21300000, guid: 9a6c196d611eade4c9dd6343fd710631, type: 3}
@@ -78,7 +85,8 @@ MonoBehaviour:
       _grayScale: {fileID: 0}
   _defaultEnemy:
     _maxHealth: 20
-    _actionCollection: {fileID: 0}
+    _armor: 0
+    _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
     _visualInformations:
       _sprite: {fileID: 21300000, guid: 378d0bd54b25b8a40bdbcae61d117373, type: 3}
       _color: {r: 0, g: 0, b: 0, a: 0}
