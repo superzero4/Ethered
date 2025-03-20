@@ -9,22 +9,34 @@ namespace SquadSystem
          * List of all upgrades currently available in the shop
          * TODO : initialize the list with all tier 1 upgrades
          */
-        public List<Upgrade> AllUpgrades { get; set; } = new();
+        private List<Upgrade> AllUpgrades { get; set; } = new();
+        
+        [SerializeField] private List<Upgrade> upgradeList;
 
         /*
-         * Add an upgrade to the list of all upgrades
+         * Add an upgrade to the upgrade list
          */
         public void AddUpgrade(Upgrade upgrade)
         {
-            AllUpgrades.Add(upgrade);
+            upgradeList.Add(upgrade);
         }
             
         /*
-         * Remove an upgrade from the list of all upgrades
+         * Remove an upgrade from the upgrade list
          */
         public void RemoveUpgrade(Upgrade upgrade)
         {
-            AllUpgrades.Remove(upgrade);
+            upgradeList.Remove(upgrade);
+        }
+        
+        public List<Upgrade> GetUpgradeList()
+        {
+            List<Upgrade> upgrades = new();
+            foreach (var upgrade in upgradeList)
+            {
+                upgrades.Add(upgrade);
+            }
+            return upgrades;
         }
         
         /*
@@ -47,7 +59,7 @@ namespace SquadSystem
         public List<Upgrade> BoughtUpgrades(Squad squad)
         {
             List<Upgrade> boughtUpgrades = new();
-            foreach (var upgrade in AllUpgrades)
+            foreach (var upgrade in upgradeList)
             {
                 if (squad.Upgrades.Contains(upgrade))
                 {

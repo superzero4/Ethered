@@ -13,14 +13,13 @@ namespace SquadSystem
         [SerializeField] private GameObject shopPanel;
         [SerializeField] private GameObject squadPanel;
         [SerializeField] private SquadClass squadClass;
+        [SerializeField] private UpgradeList upgradeList;
         
         //public Squad Squad { get; set; }
-        public UpgradeList UpgradeList { get; set; }
 
         private void Awake()
         {
             //Squad = CreateSquad(2, new UnitInfo());
-            UpgradeList = gameObject.AddComponent<UpgradeList>();
             coinsText.SetText(squadClass.Coins.ToString());
             etherText.SetText(squadClass.Ether.ToString());
         }

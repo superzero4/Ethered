@@ -1,10 +1,12 @@
 using SquadSystem.UI;
+using UnitSystem;
 using UnityEngine;
 
 namespace SquadSystem.Buttons
 {
     public class SquadLoadingButton : MonoBehaviour
     {
+        [Header("Editor References")]
         [SerializeField] private SquadClass squadReference; // Reference to the squad
         [SerializeField] private GameObject squadContainer; // The container that holds the squad members (UI)
         [SerializeField] private GameObject squadMemberPrefab; // The prefab of the squad member (UI)
@@ -15,12 +17,16 @@ namespace SquadSystem.Buttons
         /// </summary>
         public void LoadSquad()
         {
-            foreach (var unit in squadReference.Units)
+            foreach (UnitInfo unit in squadReference.Units)
             {
                 int index = squadReference.Units.IndexOf(unit);
                 GameObject squadMember = Instantiate(squadMemberPrefab, squadContainer.transform);
                 SquadMemberUI squadMemberUI = squadMember.GetComponent<SquadMemberUI>();
-                squadMemberUI.SetParameters(index, unit.MaxHealth, unit.Armor);
+                squadMemberUI.SetParameters(
+                    index, 
+                    unit.MaxHealth, 
+                    unit.Armor
+                    );
             }
         }
         

@@ -5,10 +5,15 @@ namespace SquadSystem.Buttons
 {
     public class GlobalUpgradeButton : MonoBehaviour
     {
-        [SerializeField] private int coinsCost;
-        [SerializeField] private int etherCost;
+        [Header("Editor References")]
         [SerializeField] private SquadClass squadClass;
         [SerializeField] private SquadMenu squadMenu;
+        [SerializeField] private UpgradeList upgradeList;
+        [SerializeField] private Upgrade upgrade;
+        
+        private string UpgradeName => upgrade.upgradeReference.Name;
+        private int CoinsCost => upgrade.upgradeReference.CoinsCost;
+        private int EtherCost => upgrade.upgradeReference.EtherCost;
         
         public void ArmorUpgrade()
         {
@@ -18,19 +23,22 @@ namespace SquadSystem.Buttons
                 return;
             }
             
-            if (squadClass.Coins < coinsCost || squadClass.Ether < etherCost)
+            if (squadClass.Coins < CoinsCost || squadClass.Ether < EtherCost)
             {
                 // TODO : display a message to the player that he doesn't have enough coins or ether
                 return;
             }
             
-            squadMenu.UpdateCoins(-coinsCost);
-            squadMenu.UpdateEther(-etherCost);
+            squadMenu.UpdateCoins(-CoinsCost);
+            squadMenu.UpdateEther(-EtherCost);
             
             foreach (UnitInfo unit in squadClass.Units)
             {
                 unit.Armor += 5;
             }
+
+            // Add the upgrade to the list of upgrades
+            upgradeList.AddUpgrade(upgrade);
         }
     }
 }

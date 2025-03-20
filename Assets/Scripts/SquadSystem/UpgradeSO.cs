@@ -1,20 +1,30 @@
 using SquadSystem.Enums;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "UpgradeSO", menuName = "Upgrades/UpgradeSO")]
-public class UpgradeSO : ScriptableObject
+namespace SquadSystem
 {
-    [SerializeField] private string _name;
-    [SerializeField] private EUpgradeType _upgradeType;
+    [CreateAssetMenu(fileName = "UpgradeSO", menuName = "Upgrades/UpgradeSO")]
+    public class UpgradeSO : ScriptableObject
+    {
+        [SerializeField] private new string name;
+        [SerializeField] private EUpgradeType upgradeType;
     
-    [SerializeField, Tooltip("The cost in coins to buy the upgrade")] 
-    private int _coinsCost;
-    [SerializeField, Tooltip("The cost in ether to buy the upgrade")] 
-    private int _etherCost;
+        [SerializeField, Tooltip("The cost in coins to buy the upgrade")] 
+        private int coinsCost;
+        [SerializeField, Tooltip("The cost in ether to buy the upgrade")] 
+        private int etherCost;
     
-    [SerializeField] private int _currentTier;
-    [SerializeField] private int _maxTier;
+        [SerializeField] private int currentTier;
+        [SerializeField] private int maxTier;
     
-    public int CoinsCost => _coinsCost;
-    public int EtherCost => _etherCost;
+        public int CoinsCost => coinsCost;
+        public int EtherCost => etherCost;
+        
+        public EUpgradeType UpgradeType => upgradeType;
+        
+        public int CurrentTier => currentTier;
+        public int MaxTier => maxTier;
+        
+        public string Name => name;
+    }
 }

@@ -426,9 +426,9 @@ RectTransform:
   - {fileID: 831911478}
   m_Father: {fileID: 2113956539}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 192, y: -143.16666}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 280, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &81028301
@@ -515,6 +515,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1282759786}
+        m_TargetAssemblyTypeName: SquadSystem.Buttons.UpgradeLoadingButton, Assembly-CSharp
+        m_MethodName: ClearUpgradeContainer
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1870,7 +1882,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &505149476
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2060,7 +2072,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &610246083
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2074,6 +2086,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 402731377}
+  - {fileID: 2052889354}
   m_Father: {fileID: 505149476}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2115,6 +2128,7 @@ MonoBehaviour:
   shopPanel: {fileID: 1934184186}
   squadPanel: {fileID: 505149475}
   squadClass: {fileID: 674905509}
+  upgradeList: {fileID: 735048441}
 --- !u!4 &630792111
 Transform:
   m_ObjectHideFlags: 0
@@ -2331,6 +2345,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &735048440
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 735048442}
+  - component: {fileID: 735048441}
+  m_Layer: 0
+  m_Name: UpgradeList
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &735048441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735048440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dd0c830b874c0da3fd8adf021ce89d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeReference: {fileID: 0}
+  upgradeList: []
+--- !u!4 &735048442
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735048440}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &745160416
 GameObject:
   m_ObjectHideFlags: 0
@@ -2479,7 +2539,7 @@ GameObject:
   - component: {fileID: 831911480}
   - component: {fileID: 831911479}
   m_Layer: 5
-  m_Name: CrewButtonText
+  m_Name: SquadButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2524,7 +2584,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CREW
+  m_text: SQUAD
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2843,6 +2903,30 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 81028304}
+        m_TargetAssemblyTypeName: SquadSystem.Buttons.SquadLoadingButton, Assembly-CSharp
+        m_MethodName: ClearSquadContainer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 81028304}
+        m_TargetAssemblyTypeName: SquadSystem.Buttons.SquadLoadingButton, Assembly-CSharp
+        m_MethodName: LoadSquad
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 958901165}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
@@ -3196,9 +3280,9 @@ RectTransform:
   - {fileID: 745160417}
   m_Father: {fileID: 2113956539}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 192, y: -715.83325}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 280, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1039204526
@@ -3280,6 +3364,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1282759786}
+        m_TargetAssemblyTypeName: SquadSystem.Buttons.UpgradeLoadingButton, Assembly-CSharp
+        m_MethodName: ClearUpgradeContainer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 220377284}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
@@ -3423,6 +3519,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1070673469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1070673470}
+  - component: {fileID: 1070673471}
+  m_Layer: 5
+  m_Name: Upgrade
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1070673470
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070673469}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1307410488}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1070673471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070673469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e91ee17f8746f6bcb2554f27e46d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeReference: {fileID: 11400000, guid: 4dd8a8c02bbb9134997b55d90e5c6f40, type: 2}
 --- !u!1 &1080561215
 GameObject:
   m_ObjectHideFlags: 0
@@ -3574,7 +3719,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1144120065
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4109,6 +4254,7 @@ GameObject:
   - component: {fileID: 1282759785}
   - component: {fileID: 1282759784}
   - component: {fileID: 1282759783}
+  - component: {fileID: 1282759786}
   m_Layer: 5
   m_Name: UpgradesButton
   m_TagString: Untagged
@@ -4131,9 +4277,9 @@ RectTransform:
   - {fileID: 1030285532}
   m_Father: {fileID: 2113956539}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 192, y: -429.49997}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 280, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1282759783
@@ -4195,6 +4341,30 @@ MonoBehaviour:
       - m_Target: {fileID: 81028304}
         m_TargetAssemblyTypeName: SquadSystem.Buttons.SquadLoadingButton, Assembly-CSharp
         m_MethodName: ClearSquadContainer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1282759786}
+        m_TargetAssemblyTypeName: SquadSystem.Buttons.UpgradeLoadingButton, Assembly-CSharp
+        m_MethodName: ClearUpgradeContainer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1282759786}
+        m_TargetAssemblyTypeName: SquadSystem.Buttons.UpgradeLoadingButton, Assembly-CSharp
+        m_MethodName: LoadUpgrades
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4266,6 +4436,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1282759781}
   m_CullTransparentMesh: 1
+--- !u!114 &1282759786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282759781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8adfc33e3a64ed1a1d136a78c9b1073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeListReference: {fileID: 735048441}
+  upgradeContainer: {fileID: 2052889352}
+  upgradePrefab: {fileID: 3600913984910018181, guid: 03db1641435af8d4e893398a8575916e, type: 3}
 --- !u!1 &1291276870
 GameObject:
   m_ObjectHideFlags: 0
@@ -4435,6 +4620,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 208067146}
+  - {fileID: 1070673470}
   m_Father: {fileID: 1398293915}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4548,10 +4734,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b8cf0a91d37435dae320b0f9bc486bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinsCost: 10
-  etherCost: 0
   squadClass: {fileID: 674905509}
   squadMenu: {fileID: 630792110}
+  upgradeList: {fileID: 735048441}
+  upgrade: {fileID: 1070673471}
 --- !u!1 &1344071075
 GameObject:
   m_ObjectHideFlags: 0
@@ -4767,7 +4953,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1398293915
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6069,6 +6255,66 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 26.5}
   m_SizeDelta: {x: 1920, y: 853}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2052889352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2052889354}
+  - component: {fileID: 2052889353}
+  m_Layer: 5
+  m_Name: UpgradesContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2052889353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052889352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 350, y: 175}
+  m_Spacing: {x: 25, y: 25}
+  m_Constraint: 0
+  m_ConstraintCount: 2
+--- !u!224 &2052889354
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052889352}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 610246083}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -40}
+  m_SizeDelta: {x: 1486, y: 736}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2053747362
 GameObject:
   m_ObjectHideFlags: 0
@@ -6430,3 +6676,4 @@ SceneRoots:
   - {fileID: 299395547}
   - {fileID: 630792111}
   - {fileID: 674905510}
+  - {fileID: 735048442}
