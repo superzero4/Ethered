@@ -14,6 +14,7 @@ namespace SquadSystem
         [SerializeField] private GameObject squadPanel;
         [SerializeField] private SquadClass squadClass;
         [SerializeField] private UpgradeList upgradeList;
+        [SerializeField] private Inventory inventory;
         
         //public Squad Squad { get; set; }
 
@@ -22,6 +23,7 @@ namespace SquadSystem
             //Squad = CreateSquad(2, new UnitInfo());
             coinsText.SetText(squadClass.Coins.ToString());
             etherText.SetText(squadClass.Ether.ToString());
+            InitInventory();
         }
         
         // private Squad CreateSquad(int nbUnits, UnitInfo info)
@@ -67,6 +69,15 @@ namespace SquadSystem
             squadClass.Ether += value;
             
             etherText.SetText(squadClass.Ether.ToString());
+        }
+        
+        /// <summary>
+        /// Temporary method to initialize the inventory
+        /// </summary>
+        private void InitInventory()
+        {
+            inventory.AddItem("Health Kit", 5);
+            inventory.AddItem("Grenade", 3);
         }
 
         public void GoToNextScene()

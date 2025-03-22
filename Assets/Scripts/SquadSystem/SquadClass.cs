@@ -10,6 +10,7 @@ namespace SquadSystem
         public List<UnitInfo> Units => units;
         
         [SerializeField] private UpgradeList upgrades;
+        [SerializeField] private Inventory inventory;
         
         public int SquadSize => units.Count;
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SquadSystem.Buttons
 {
-    public class SquadLoadingButton : MonoBehaviour
+    public class LoadSquadButton : MonoBehaviour
     {
         [Header("Editor References")]
         [SerializeField] private SquadClass squadReference; // Reference to the squad
