@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be1fcc23db1945d5a3b9653875272df9, type: 3}
+  m_Name: CurrentBattleDynamicSO
+  m_EditorClassIdentifier: 
+  _size: {x: 5, y: 5}
+  _enemies:
+    _units:
+    - _maxHealth: 20
+      _armor: 0
+      _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 378d0bd54b25b8a40bdbcae61d117373, type: 3}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+        _grayScale: {fileID: 0}
+    - _maxHealth: 20
+      _armor: 0
+      _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 378d0bd54b25b8a40bdbcae61d117373, type: 3}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+        _grayScale: {fileID: 0}
+    - _maxHealth: 20
+      _armor: 0
+      _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 378d0bd54b25b8a40bdbcae61d117373, type: 3}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+        _grayScale: {fileID: 0}
+    - _maxHealth: 20
+      _armor: 0
+      _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 378d0bd54b25b8a40bdbcae61d117373, type: 3}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+        _grayScale: {fileID: 0}
+    - _maxHealth: 20
+      _armor: 0
+      _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 378d0bd54b25b8a40bdbcae61d117373, type: 3}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+        _grayScale: {fileID: 0}
+    _upgrades: []
+  _squad:
+    _units:
+    - _maxHealth: 20
+      _armor: 0
+      _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 9a6c196d611eade4c9dd6343fd710631, type: 3}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+        _grayScale: {fileID: 0}
+    - _maxHealth: 20
+      _armor: 0
+      _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 9a6c196d611eade4c9dd6343fd710631, type: 3}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
+        _grayScale: {fileID: 0}
+    _upgrades: []
+  _defaultUnit:
+    _maxHealth: 20
+    _armor: 0
+    _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
+    _visualInformations:
+      _sprite: {fileID: 21300000, guid: 9a6c196d611eade4c9dd6343fd710631, type: 3}
+      _color: {r: 0, g: 0, b: 0, a: 0}
+      _name: 
+      _description: 
+      _grayScale: {fileID: 0}
+  _defaultEnemy:
+    _maxHealth: 20
+    _armor: 0
+    _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
+    _visualInformations:
+      _sprite: {fileID: 21300000, guid: 378d0bd54b25b8a40bdbcae61d117373, type: 3}
+      _color: {r: 0, g: 0, b: 0, a: 0}
+      _name: 
+      _description: 
+      _grayScale: {fileID: 0}
+  _defaultEnvironment:
+    _visualInformations:
+      _sprite: {fileID: 21300000, guid: 7e4b656897a61f4459756635bc093fc5, type: 3}
+      _color: {r: 1, g: 1, b: 1, a: 1}
+      _name: Ground
+      _description: Normal terrain
+      _grayScale: {fileID: 0}
+    _allowedMovement: 2
+  _specificEnvironments:
+  - environment:
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 55e9ab8493bb12f46a2a3e15f1b78b83, type: 3}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Debris
+        _description: Impossible to cross in that phase
+        _grayScale: {fileID: 0}
+      _allowedMovement: 0
+    positions:
+    - _position:
+        position: {x: 0, y: 2}
+      phase: 1
+    - _position:
+        position: {x: 1, y: 2}
+      phase: 1
+    - _position:
+        position: {x: 2, y: 2}
+      phase: 1
+    - _position:
+        position: {x: 3, y: 2}
+      phase: -1
+    - _position:
+        position: {x: 4, y: 2}
+      phase: -1
+    - _position:
+        position: {x: 5, y: 2}
+      phase: -1
+  - environment:
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: aef67ab844e28a644a110861f1dd85d8, type: 3}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Forest
+        _description: You can cross that but cannot stand on
+        _grayScale: {fileID: 0}
+      _allowedMovement: 1
+    positions:
+    - _position:
+        position: {x: 0, y: 2}
+      phase: 2
+    - _position:
+        position: {x: 1, y: 2}
+      phase: 2
+    - _position:
+        position: {x: 2, y: 2}
+      phase: 2

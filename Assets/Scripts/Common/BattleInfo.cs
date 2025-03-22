@@ -42,6 +42,13 @@ namespace Common
 
         public Vector2Int Size => _size;
 
+        public UnitInfo DefaultUnit => _defaultUnit;
+
+        public void Fill(Squad squad)
+        {
+            _squad = squad;
+            CreateDefaultEnemys();
+        }
         [Button]
         private void CreateDefaultSquat()
         {

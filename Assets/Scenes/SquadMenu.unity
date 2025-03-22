@@ -2326,10 +2326,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2bcf52119c048fb808f875c600215c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  units: []
-  upgrades: {fileID: 0}
-  coins: 100
-  ether: 100
+  _squad:
+    _units: []
+    _upgrades: []
+  _battleInfo: {fileID: 11400000, guid: a053559b7c9c69948873daa954ef8e97, type: 2}
+  _startCoins: 100
+  _startEther: 100
+  upgrades: {fileID: 735048441}
 --- !u!4 &674905510
 Transform:
   m_ObjectHideFlags: 0
@@ -2374,7 +2377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9dd0c830b874c0da3fd8adf021ce89d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeReference: {fileID: 0}
+  upgradeReference: {fileID: 11400000, guid: 4dd8a8c02bbb9134997b55d90e5c6f40, type: 2}
   upgradeList: []
 --- !u!4 &735048442
 Transform:
