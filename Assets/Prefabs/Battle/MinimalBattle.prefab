@@ -433,8 +433,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8648784349307391271}
-  - component: {fileID: 328743285070193895}
   - component: {fileID: 3378061498013078182}
+  - component: {fileID: 328743285070193895}
   - component: {fileID: 7318556679735103718}
   - component: {fileID: 6380900376036728676}
   m_Layer: 0
@@ -460,6 +460,22 @@ Transform:
   - {fileID: 6119563003201904443}
   m_Father: {fileID: 3514514236764027131}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3378061498013078182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4052219919427157630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ee48685bb6413f9097836070e29978, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _battleInfo: {fileID: 11400000, guid: a053559b7c9c69948873daa954ef8e97, type: 2}
+  _grid: {fileID: 7318556679735103718}
+  _unitViewPrefab: {fileID: 5605467747687572738, guid: d4f5c55b5e2d08d49bfecf39fc41ff63, type: 3}
+  _environmentViewPrefab: {fileID: 3432936379849700925, guid: b8ac47753fed1694ca66ec2251cdff98, type: 3}
 --- !u!114 &328743285070193895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,10 +489,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _delay: 0.5
+  _goToNextSceneOnEnd: 1
   _initializer: {fileID: 3378061498013078182}
   _ui: {fileID: 7886430137672889223}
   _selector: {fileID: 2189047592273750046}
   _materialPhaseView: {fileID: 6380900376036728676}
+  _postProcess: {fileID: 0}
   _selectionState:
     rid: -2
   _battle:
@@ -486,22 +504,6 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
---- !u!114 &3378061498013078182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4052219919427157630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76ee48685bb6413f9097836070e29978, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _battleInfo: {fileID: 11400000, guid: 73d592778fc517947a7253233d649979, type: 2}
-  _grid: {fileID: 7318556679735103718}
-  _unitViewPrefab: {fileID: 5605467747687572738, guid: d4f5c55b5e2d08d49bfecf39fc41ff63, type: 3}
-  _environmentViewPrefab: {fileID: 3432936379849700925, guid: b8ac47753fed1694ca66ec2251cdff98, type: 3}
 --- !u!156049354 &7318556679735103718
 Grid:
   m_ObjectHideFlags: 0
@@ -784,10 +786,10 @@ MonoBehaviour:
   _endTurnButton: {fileID: 7094726198387318567}
   _default:
     _sprite: {fileID: 0}
-    _grayScale: {fileID: 0}
     _color: {r: 0, g: 0, b: 0, a: 0}
     _name: 
     _description: 
+    _grayScale: {fileID: 0}
 --- !u!223 &6614101593007720600
 Canvas:
   m_ObjectHideFlags: 0

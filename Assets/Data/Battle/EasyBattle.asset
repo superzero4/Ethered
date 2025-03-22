@@ -76,7 +76,7 @@ MonoBehaviour:
   _defaultUnit:
     _maxHealth: 20
     _armor: 0
-    _actionCollection: {fileID: 0}
+    _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
     _visualInformations:
       _sprite: {fileID: 21300000, guid: 9a6c196d611eade4c9dd6343fd710631, type: 3}
       _color: {r: 0, g: 0, b: 0, a: 0}

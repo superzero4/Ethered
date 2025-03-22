@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Linq;
 using BattleSystem;
 using Common.Events;
 using Common.Events.Combat;
@@ -7,12 +9,19 @@ using UI.Battle;
 using UnitSystem;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using Views.Battle.Animation;
 
 namespace Views.Battle
 {
     public class UnitView : AElementView<Unit>
     {
+        [FormerlySerializedAs("_rotationSpeed")] [Header("Settings")] [SerializeField, Range(0.001f, 1f)]
+        private float _rotationTime = 0.5f;
+
+        [FormerlySerializedAs("_moveSpeed")] [SerializeField, Range(0.001f, 4f)]
+        private float _moveTime = 0.5f;
+
         [Header("Unit")] [SerializeField] private HealthUI _healthUI;
         [Header("Visuals")] [SerializeField] private bool _showOnlyOnCorrectPhase = false;
         [SerializeField] private UnitSkin[] _skin;
@@ -40,7 +49,7 @@ namespace Views.Battle
             Data.OnUnitMoves.AddListener(Move);
             Data.OnUnitHealthChange.AddListener(UpdateHealth);
             Data.OnUnitHealthChange.AddListener(_healthUI.UpdateHealth);
-            animationPlayer.Play(_idle, null);
+            animationPlayer.Play(AnimationType.Idle, () => false);
         }
 
         protected override Color GetColor()
@@ -94,20 +103,43 @@ namespace Views.Battle
 
         private void UpdateHealth(UnitHitData arg0)
         {
-            animationPlayer.Play(new AnimationPlayData(
-                        arg0.unit.HealthInfo.CurrentHealth > arg0.oldHealth ? AnimationType.Healed : AnimationType.Hurt,
-                        false)
-                    .Append(_idle),
+            animationPlayer.Play(
+                arg0.unit.HealthInfo.CurrentHealth > arg0.oldHealth ? AnimationType.Healed : AnimationType.Hurt, null,
                 arg0.direction);
             SyncVisibility();
         }
-
+        override protected void RotationChanged(float newRot)
+        {
+            base.RotationChanged(newRot);
+            _healthUI.transform.localRotation = Quaternion.Euler(0, -newRot, 0);
+        }
+        // ReSharper disable Unity.PerformanceAnalysis
         private void Move(UnitMovementData arg0)
         {
-            animationPlayer.Play(new AnimationPlayData(AnimationType.Move, false).Append(_idle), null);
-            SnapToCorrectPosition(_grid, arg0.unit.Position.Position - arg0.oldPosition.Position);
-            SetColor();
-            SyncVisibility();
+            var last = arg0.path.Path[0];
+            Vector2Int lastDir = Vector2Int.zero;
+            bool running = true;
+            var seq = LeanTween.sequence();
+            seq.append(() => animationPlayer.Play(AnimationType.Move, () => !running, null));
+            foreach (var pos in arg0.path.Path.Skip(1))
+            {
+                var dir = pos.Position - last.Position;
+
+                if (dir != lastDir)
+                    seq.append(LeanTween.value(_root.gameObject, d => Rotation = LookAtRotation(d), lastDir, dir,
+                        lastDir == dir ? _rotationTime : 0f));
+                seq.append(() =>
+                {
+                    SetColor();
+                    SyncVisibility();
+                });
+                seq.append(LeanTween.move(_root.gameObject, WorldPosition(_grid, pos), _moveTime));
+                //Safe in case of rounding errors in tween
+                last = pos;
+                lastDir = dir;
+            }
+
+            seq.append(() => running = false);
         }
     }
 }

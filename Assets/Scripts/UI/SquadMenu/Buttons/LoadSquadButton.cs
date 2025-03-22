@@ -17,9 +17,9 @@ namespace SquadSystem.Buttons
         /// </summary>
         public void LoadSquad()
         {
+            int index = 0;
             foreach (UnitInfo unit in squadReference.Units)
             {
-                int index = squadReference.Units.IndexOf(unit);
                 GameObject squadMember = Instantiate(squadMemberPrefab, squadContainer.transform);
                 SquadMemberUI squadMemberUI = squadMember.GetComponent<SquadMemberUI>();
                 squadMemberUI.SetParameters(
@@ -27,6 +27,7 @@ namespace SquadSystem.Buttons
                     unit.MaxHealth, 
                     unit.Armor
                     );
+                index++;
             }
         }
         

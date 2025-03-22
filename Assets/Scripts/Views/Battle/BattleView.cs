@@ -21,6 +21,7 @@ namespace Views.Battle
     public class BattleView : MonoBehaviour
     {
         [Header("Settings")] [SerializeField] private float _delay = 0.5f;
+        [SerializeField] private bool _goToNextSceneOnEnd = true;
 
         [Header("References")]
         [SerializeField,
@@ -63,10 +64,11 @@ namespace Views.Battle
             _battle.BattleEnd.AddListener(t =>
             {
                 Debug.Log($"Battle Ended, won by {t.winner}");
-                SceneFlow.LoadScene(t.winner == ETeam.Player
-                    ? SceneFlow.EScene.SquadMenu
-                    : SceneFlow
-                        .EScene.GameOver);
+                if (_goToNextSceneOnEnd)
+                    SceneFlow.LoadScene(t.winner == ETeam.Player
+                        ? SceneFlow.EScene.SquadMenu
+                        : SceneFlow
+                            .EScene.GameOver);
             });
             //_selector.SelectionUpdated.AddListener(s => Debug.Log("Selected: " + s.unit));
 

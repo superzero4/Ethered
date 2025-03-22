@@ -150,7 +150,7 @@ namespace BattleSystem
 
         private void UnitMoved(UnitMovementData arg0)
         {
-            _battleElements.RemoveUnit(arg0.oldPosition);
+            _battleElements.RemoveUnit(arg0.path.Path[0]);
             _battleElements.SetUnit(arg0.unit);
         }
 

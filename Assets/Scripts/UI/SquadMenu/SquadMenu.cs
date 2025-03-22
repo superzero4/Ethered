@@ -82,6 +82,7 @@ namespace SquadSystem
 
         public void GoToNextScene()
         {
+            squadClass.ForwardToBattle();
             SceneFlow.LoadScene(SceneFlow.EScene.Battle);
         }
     }

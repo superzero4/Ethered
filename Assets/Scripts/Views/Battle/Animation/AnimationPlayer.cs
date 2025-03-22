@@ -68,38 +68,39 @@ namespace Views.Battle.Animation
             yield break;//Testing animations
             while (true)
             {
-                Play(new AnimationPlayData(AnimationType.Attack, false).Append(
-                    new AnimationPlayData(AnimationType.Idle, true)));
+                Play(AnimationType.Attack, null);
                 yield return new WaitForSeconds(1);
             }
         }
 
         [Obsolete("Use Play(AnimationType) directly instead, queuing isn't working yet, will possibly be implemented if we need to queue animations from this call but for now it's not needed, it will play one shot and go back to defaultAnimation")]
-        public void Play(AnimationPlayData toPlay, PositionIndexer? direction = null)
-        {
-            Play(toPlay.Type, direction);
-            return;
-            if (toPlay.OnEnd != null)
-            {
-                StartCoroutine(WaitForAnimationEnd(toPlay.OnEnd));
-            }
-        }
+        //public void Play(AnimationPlayData toPlay, PositionIndexer? direction = null)
+        //{
+        //    Play(toPlay.Type, direction);
+        //    return;
+        //    if (toPlay.OnEnd != null)
+        //    {
+        //        StartCoroutine(WaitForAnimationEnd(toPlay.OnEnd));
+        //    }
+        //}
         /// <summary>
         /// 
         /// </summary>
         /// <param name="type"></param>
         /// <param name="direction">Not used yet, in case we wanna fine grain animations</param>
-        public void Play(AnimationType type, PositionIndexer? direction = null)
+        public void Play(AnimationType type, Func<bool> stopWhen = null,PositionIndexer? direction = null)
         {
             var clip = _animationList[type];
-            _animation.PlayOneShot(clip);
+            bool loop = stopWhen != null;
+            _animation.PlayOneShot(clip,loop);
+            if(loop)
+                StartCoroutine(WaitForAnimationEnd(stopWhen));
         }
 
-        private IEnumerator WaitForAnimationEnd(AnimationPlayData after)
+        private IEnumerator WaitForAnimationEnd(Func<bool> stopWhen)
         {
-            //yield return new WaitWhile(() => _animation.isPlaying);
-            yield return null;
-            Play(after);
+            yield return new WaitUntil(stopWhen);
+            _animation.BlendOutNow();
         }
 
         private void OnDestroy()

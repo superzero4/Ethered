@@ -10,6 +10,7 @@ namespace Views.Battle
         [SerializeField] private AnimationPlayer _animationPlayer;
         [SerializeField] private SkinnedMeshRenderer[] _helmets;
         [SerializeField] private SkinnedMeshRenderer _helmet;
+        private int _helmetIndex;
         [SerializeField] private SkinnedMeshRenderer[] _renderers;
         private int _highlightMaterialIndex = 0;
         private int _highlightMaterialIndexHelmet = 1;
@@ -20,6 +21,10 @@ namespace Views.Battle
             set { _animationPlayer = value; }
         }
 
+        private void Awake()
+        {
+            _helmetIndex = UnityEngine.Random.Range(0, _helmets.Length);
+        }
         public void SetRandomSkin()
         {
             SetSkin(Random.Range(0, _helmets.Length), Random.ColorHSV());
@@ -27,7 +32,7 @@ namespace Views.Battle
 
         public void SetSkin(Color color)
         {
-            SetSkin(Random.Range(0, _helmets.Length), color);
+            SetSkin(_helmetIndex, color);
         }
 
         public void SetSkin(int helmetIndex, Color color)

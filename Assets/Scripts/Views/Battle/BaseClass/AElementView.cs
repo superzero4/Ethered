@@ -14,7 +14,10 @@ namespace Views.Battle
     public abstract class AElementView<T> : MonoBehaviour, IPhaseView where T : BattleSystem.IBattleElement
     {
         [SerializeReference] [ReadOnly] protected T _data;
-        [SerializeField,InfoBox("For movement")] protected Transform _root;
+
+        [SerializeField, InfoBox("For movement")]
+        protected Transform _root;
+
         public T Data => _data;
 
         public void Init(T data, Grid grid)
@@ -26,11 +29,50 @@ namespace Views.Battle
 
         protected void SnapToCorrectPosition(Grid grid, PositionIndexer lookAt)
         {
-            var pos = grid.GetCellCenterWorld((Vector3Int)_data.Position.Position);
+            SnapToPosition(grid, lookAt, _data.Position);
+        }
+
+        protected void SnapToPosition(Grid grid, PositionIndexer lookAt, PositionData dataPos)
+        {
+            SetPosition(grid, dataPos);
+            SetRotation(lookAt);
+        }
+
+        protected void SetPosition(Grid grid, Vector3 positionFloat)
+        {
+            var pos = grid.CellToLocalInterpolated(positionFloat);
             pos.y -= grid.cellSize.y / 2;
             _root.position = pos;
-            float angle = Mathf.Atan2(lookAt.y, lookAt.x) * Mathf.Rad2Deg;
-            _root.localRotation = Quaternion.Euler(0, angle, 0);
+        }
+
+        private void SetPosition(Grid grid, PositionData dataPos)
+        {
+            var pos = WorldPosition(grid, dataPos);
+            _root.position = pos;
+        }
+
+        protected Vector3 WorldPosition(Grid grid, PositionData dataPos)
+        {
+            var pos = grid.GetCellCenterWorld((Vector3Int)dataPos.Position);
+            pos.y -= grid.cellSize.y / 2;
+            return pos;
+        }
+        protected virtual void RotationChanged(float newRot){}
+        protected float Rotation
+        {
+            get => _root.localRotation.eulerAngles.y;
+            set
+            {
+                _root.localRotation = Quaternion.Euler(0, value, 0);
+                RotationChanged(Rotation);
+            }
+        }
+
+        protected float LookAtRotation(PositionIndexer lookAt) => LookAtRotation(new Vector2(lookAt.x, lookAt.y));
+        protected float LookAtRotation(Vector2 lookAt) => Mathf.Atan2(lookAt.x, lookAt.y) * Mathf.Rad2Deg;
+        protected void SetRotation(PositionIndexer lookAt)
+        {
+            Rotation = LookAtRotation(lookAt);
         }
 
         protected virtual Color GetColor()
@@ -52,7 +94,7 @@ namespace Views.Battle
         protected virtual void Init(Grid grid)
         {
             SnapToCorrectPosition(grid,
-                _data.Team == ETeam.Player ? new PositionIndexer(1, 0) : new PositionIndexer(-1, 0));
+                _data.Team == ETeam.Player ? new PositionIndexer(0, 1) : new PositionIndexer(0, -1));
         }
 
         public virtual void OnPhaseSelected(PhaseEventData arg0)

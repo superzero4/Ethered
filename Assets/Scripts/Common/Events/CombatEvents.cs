@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using BattleSystem;
+using BattleSystem.TileSystem;
 using UnitSystem;
 using UnityEngine.Events;
 
@@ -32,7 +34,7 @@ namespace Common.Events.Combat
     [Serializable]
     public class UnitMovementData : UnitEventData
     {
-        public PositionData oldPosition;
+        public PathWrapper path;
     }
 
     [Serializable]

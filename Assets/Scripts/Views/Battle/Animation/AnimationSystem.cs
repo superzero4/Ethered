@@ -39,8 +39,8 @@ namespace Views.Battle.Animation
 
             playableGraph.Play();
         }
-
-        public void PlayOneShot(AnimationClip oneShotClip)
+        
+        public void PlayOneShot(AnimationClip oneShotClip, bool loopUntilExited)
         {
             if (oneShotPlayable.IsValid() && oneShotPlayable.GetAnimationClip() == oneShotClip) return;
 
@@ -51,10 +51,22 @@ namespace Views.Battle.Animation
 
             // Calculate blendDuration as 10% of clip length,
             // but ensure that it's not less than 0.1f or more than half the clip length
-            float blendDuration = Mathf.Clamp(oneShotClip.length * 0.1f, 0.1f, oneShotClip.length * 0.5f);
+            float blendDuration = BlendDuration(oneShotClip);
 
             BlendIn(blendDuration);
-            BlendOut(blendDuration, oneShotClip.length - blendDuration);
+            if (!loopUntilExited)
+                BlendOut(blendDuration, oneShotClip.length - blendDuration);
+        }
+
+        private static float BlendDuration(AnimationClip oneShotClip)
+        {
+            float blendDuration = Mathf.Clamp(oneShotClip.length * 0.1f, 0.1f, oneShotClip.length * 0.5f);
+            return blendDuration;
+        }
+
+        public void BlendOutNow()
+        {
+            BlendOut(BlendDuration(oneShotPlayable.GetAnimationClip()), 0f);
         }
 
         void BlendIn(float duration)
