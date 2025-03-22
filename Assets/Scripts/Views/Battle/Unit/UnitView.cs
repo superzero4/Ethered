@@ -108,7 +108,11 @@ namespace Views.Battle
                 arg0.direction);
             SyncVisibility();
         }
-
+        override protected void RotationChanged(float newRot)
+        {
+            base.RotationChanged(newRot);
+            _healthUI.transform.localRotation = Quaternion.Euler(0, -newRot, 0);
+        }
         // ReSharper disable Unity.PerformanceAnalysis
         private void Move(UnitMovementData arg0)
         {
@@ -120,8 +124,9 @@ namespace Views.Battle
             foreach (var pos in arg0.path.Path.Skip(1))
             {
                 var dir = pos.Position - last.Position;
-                if(dir != lastDir)
-                    seq.append(LeanTween.rotateLocal(_root.gameObject, new Vector3(0, LookAtRotation(dir), 0),
+
+                if (dir != lastDir)
+                    seq.append(LeanTween.value(_root.gameObject, d => Rotation = LookAtRotation(d), lastDir, dir,
                         lastDir == dir ? _rotationTime : 0f));
                 seq.append(() =>
                 {

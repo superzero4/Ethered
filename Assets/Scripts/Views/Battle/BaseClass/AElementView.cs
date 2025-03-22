@@ -57,15 +57,19 @@ namespace Views.Battle
             pos.y -= grid.cellSize.y / 2;
             return pos;
         }
-
+        protected virtual void RotationChanged(float newRot){}
         protected float Rotation
         {
             get => _root.localRotation.eulerAngles.y;
-            set => _root.localRotation = Quaternion.Euler(0, value, 0);
+            set
+            {
+                _root.localRotation = Quaternion.Euler(0, value, 0);
+                RotationChanged(Rotation);
+            }
         }
 
-        protected float LookAtRotation(PositionIndexer lookAt) => Mathf.Atan2(lookAt.x, lookAt.y) * Mathf.Rad2Deg;
-
+        protected float LookAtRotation(PositionIndexer lookAt) => LookAtRotation(new Vector2(lookAt.x, lookAt.y));
+        protected float LookAtRotation(Vector2 lookAt) => Mathf.Atan2(lookAt.x, lookAt.y) * Mathf.Rad2Deg;
         protected void SetRotation(PositionIndexer lookAt)
         {
             Rotation = LookAtRotation(lookAt);
