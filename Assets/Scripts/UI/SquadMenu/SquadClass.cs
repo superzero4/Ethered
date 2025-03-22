@@ -16,7 +16,7 @@ namespace SquadSystem
 
         [FormerlySerializedAs("_ether")] [SerializeField]
         private int _startEther;
-
+        [SerializeField] private Inventory _inventory;
         public List<UnitInfo> Units => _squad.Units;
 
         [SerializeField] private UpgradeList upgrades;
