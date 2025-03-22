@@ -17,6 +17,7 @@ namespace UnitSystem.Actions.Bases
 
         [SerializeField] private ERelativePhase _targetPhase;
         public override EPhase OriginPhase => _originPhase;
+        private PathWrapper _pathToTarget;
 
         public override IEnumerable<TargetDefinition> PossibleTargets
         {
@@ -37,13 +38,17 @@ namespace UnitSystem.Actions.Bases
             }
 
             int count = 0;
-            foreach (var tile in map.InReach(origin.Position.Position,
+            foreach ((Tile tile, PathWrapper path) in map.InReach(origin.Position.Position,
                          origin.Position.Phase != target.Position.Phase ? EPhase.Both : origin.Position.Phase, _range))
             {
                 if (hash.Contains(tile))
                 {
                     count++;
-                    if (count == hash.Count) return true;
+                    if (count == hash.Count)
+                    {
+                        _pathToTarget = path;
+                        return true;
+                    }
                 }
             }
 
@@ -52,7 +57,8 @@ namespace UnitSystem.Actions.Bases
 
         public override void Execute(Unit origin, TargetCollection targetCollection)
         {
-            origin.Move(targetCollection.MainTarget.Position);
+            origin.Move(_pathToTarget);
+            //targetCollection.MainTarget.Position);
         }
     }
 }

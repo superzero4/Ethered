@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using BattleSystem;
+using BattleSystem.TileSystem;
 using Common.Events;
 using Common.Events.Combat;
 using Common.Visuals;
@@ -28,13 +30,10 @@ namespace UnitSystem
             _onUnitMoves = new UnitMovementEvent();
             _onUnitHealthChange = new UnitHealthEvent();
         }
-
-        public void Move(Vector2Int newPosition, EPhase newPhase) => Move(new PositionData(newPosition, newPhase));
-
-        public void Move(PositionData newPosition)
+        public void Move(PathWrapper newPosition)
         {
-            var eventData = new UnitMovementData() { unit = this, oldPosition = _position };
-            _position = newPosition;
+            var eventData = new UnitMovementData() { unit = this, path = newPosition };
+            _position = newPosition.Path[^1];
             _onUnitMoves?.Invoke(eventData);
         }
 
@@ -52,6 +51,7 @@ namespace UnitSystem
         public UnitMovementEvent OnUnitMoves => _onUnitMoves;
         public UnitHealthEvent OnUnitHealthChange => _onUnitHealthChange;
         public IHealth HealthInfo => this;
+
         int IHealth.CurrentHealth
         {
             get => _currentHealth;

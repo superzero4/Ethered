@@ -25,19 +25,29 @@ namespace BattleSystem.TileSystem
             }
         }
 
-        public static IEnumerable<Tile> InReach(this Tilemap map, PositionIndexer position, EPhase phase, int range)
+        public static IEnumerable<(Tile, PathWrapper)> InReach(this Tilemap map, PositionIndexer position, EPhase phase,
+            int range)
         {
             var pos = position.position;
             HashSet<Tile> visited = new HashSet<Tile>();
-            Queue<(Tile, int)> stack = new Queue<(Tile, int)>();
+            Queue<(Tile, PathWrapper)> stack = new Queue<(Tile, PathWrapper)>();
+
+            void Enqueue(Tile tile,PathWrapper predecessor)
+            {
+                var path = new PathWrapper(new List<PositionData>(predecessor.Path));
+                path.Path.Add(tile.Base.Position);
+                stack.Enqueue((tile, path));
+            }
+
             foreach (var start in map[new PositionData(pos.x, pos.y, phase)])
             {
-                stack.Enqueue((start, 0));
+                Enqueue(start, new PathWrapper(new List<PositionData>()));
             }
 
             while (stack.Count > 0)
             {
-                (Tile current, int depth) = stack.Dequeue();
+                (Tile current, PathWrapper path) = stack.Dequeue();
+                var depth = path.Path.Count;
                 visited.Add(current);
                 var allowed = current.Base.allowedMovement;
                 //We consider a tile reachable if we can cross it and it's not the last or if we can stop on it
@@ -46,7 +56,7 @@ namespace BattleSystem.TileSystem
                 //We consider a tile reachable if we can cross it and it's not the last or if we can stop on it
                 if (allowed == EAllowedMovement.Stop)
                 {
-                    yield return current;
+                    yield return (current, path);
                 }
 
                 Assert.IsTrue((int)allowed >= (int)(EAllowedMovement.Cross));
@@ -54,7 +64,7 @@ namespace BattleSystem.TileSystem
                 {
                     if (!visited.Contains(close))
                     {
-                        stack.Enqueue((close, depth + 1));
+                        Enqueue(close,path);
                     }
                 }
             }
