@@ -18,10 +18,7 @@ namespace SquadSystem
         /// <param name="item"></param>
         public void AddItem(string item)
         {
-            if (!inventory.TryAdd(item, 1))
-            {
-                inventory[item]++;
-            }
+            AddItem(item, 1);
         }
         
         /// <summary>
@@ -31,6 +28,7 @@ namespace SquadSystem
         /// <param name="quantity"></param>
         public void AddItem(string item, int quantity)
         {
+            inventory ??= new Dictionary<string, int>();
             if (!inventory.TryAdd(item, quantity))
             {
                 inventory[item] += quantity;
