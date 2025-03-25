@@ -42,11 +42,7 @@ namespace SquadSystem
         public void RemoveItem(string item)
         {
             if (!inventory.ContainsKey(item)) return;
-            inventory[item]--;
-            if (inventory[item] <= 0)
-            {
-                inventory.Remove(item);
-            }
+            inventory.Remove(item);
         }
         
         /// <summary>

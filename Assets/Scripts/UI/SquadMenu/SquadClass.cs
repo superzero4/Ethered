@@ -16,14 +16,14 @@ namespace SquadSystem
 
         [FormerlySerializedAs("_ether")] [SerializeField]
         private int _startEther;
+        
         [SerializeField] private Inventory _inventory;
+        
         public List<UnitInfo> Units => _squad.Units;
-
-        [SerializeField] private UpgradeList upgrades;
-
         public int SquadSize => Units.Count;
 
-
+        [SerializeField] private UpgradeList upgrades;
+        
         public int Coins
         {
             get => _squad.Coins;
@@ -50,6 +50,11 @@ namespace SquadSystem
         public void AddUnit(UnitInfo unitInfo)
         {
             Units.Add(unitInfo);
+        }
+        
+        public Squad GetSquad()
+        {
+            return _squad;
         }
     }
 }

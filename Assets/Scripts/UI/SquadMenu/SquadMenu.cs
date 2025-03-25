@@ -16,26 +16,15 @@ namespace SquadSystem
         [SerializeField] private UpgradeList upgradeList;
         [SerializeField] private Inventory inventory;
         
-        //public Squad Squad { get; set; }
+        private Squad Squad { get; set; }
 
-        private void Awake()
+        private void Start()
         {
-            //Squad = CreateSquad(2, new UnitInfo());
-            coinsText.SetText(squadClass.Coins.ToString());
-            etherText.SetText(squadClass.Ether.ToString());
+            Squad = squadClass.GetSquad();
+            coinsText.SetText(Squad.Coins.ToString());
+            etherText.SetText(Squad.Ether.ToString());
             InitInventory();
         }
-        
-        // private Squad CreateSquad(int nbUnits, UnitInfo info)
-        // {
-        //     Squad squad = new()
-        //     {
-        //         Coins = 100,
-        //         Ether = 100
-        //     };
-        //     squad.Init(nbUnits, info);
-        //     return squad;
-        // }
         
         /// <summary>
         /// Update the coins of the squad and the UI

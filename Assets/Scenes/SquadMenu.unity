@@ -547,6 +547,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1039204529}
+        m_TargetAssemblyTypeName: SquadSystem.Buttons.LoadInventoryButton, Assembly-CSharp
+        m_MethodName: ClearInventoryContainer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &81028302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -891,7 +903,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &220377285
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2133,7 +2145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &610246083
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3609,6 +3621,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1039204529}
+        m_TargetAssemblyTypeName: SquadSystem.Buttons.LoadInventoryButton, Assembly-CSharp
+        m_MethodName: ClearInventoryContainer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1039204529}
+        m_TargetAssemblyTypeName: SquadSystem.Buttons.LoadInventoryButton, Assembly-CSharp
+        m_MethodName: LoadInventory
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 220377284}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -3671,6 +3707,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7cb5464d05c41d893efee584b3ac1bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryReference: {fileID: 669466938}
+  inventoryContainer: {fileID: 943003035}
+  inventoryItemPrefab: {fileID: 5203105859019866534, guid: 6d05f4685e6b3a04da2a876838de46e8, type: 3}
 --- !u!1 &1051547907
 GameObject:
   m_ObjectHideFlags: 0
@@ -4696,6 +4735,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1039204529}
+        m_TargetAssemblyTypeName: SquadSystem.Buttons.LoadInventoryButton, Assembly-CSharp
+        m_MethodName: ClearInventoryContainer
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

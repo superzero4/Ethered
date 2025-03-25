@@ -7,7 +7,7 @@ namespace SquadSystem.Buttons
     public class LoadUpgradesButton : MonoBehaviour
     {
         [Header("Editor References")]
-        [SerializeField] private UpgradeList upgradeListReference; // Reference to the squad
+        [SerializeField] private UpgradeList upgradeListReference; // Reference to the upgrade list
         [SerializeField] private GameObject upgradeContainer; // The container that holds the bought upgrades (UI)
         [SerializeField] private GameObject upgradePrefab; // The prefab of the upgrade (UI)
         
