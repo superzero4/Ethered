@@ -9,7 +9,7 @@ namespace Views.Battle
 {
     public class UnitAnimations : MonoBehaviour
     {
-        [FormerlySerializedAs("_rotationSpeed")] [Header("Settings")] [SerializeField, Range(0.001f, 1f)]
+        [FormerlySerializedAs("_rotationSpeed")] [Header("Settings")] [SerializeField, Range(0.001f, 10f)]
         private float _rotationTime = 0.5f;
 
         [FormerlySerializedAs("_moveSpeed")] [SerializeField, Range(0.001f, 4f)]
@@ -54,6 +54,11 @@ namespace Views.Battle
         public float Delay(float targMagnitude)
         {
             return targMagnitude / _weapon.ProjectileSpeed;
+        }
+
+        public void Turn(bool left,Func<bool> func)
+        {
+            _animationPlayer.Play(left ? AnimationType.TurnL : AnimationType.TurnR, func, null);
         }
     }
 }

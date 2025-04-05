@@ -1138,5 +1138,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotationTime: 0.5
-  _moveTime: 0.5
+  _moveTime: 1
   _skin: {fileID: 0}

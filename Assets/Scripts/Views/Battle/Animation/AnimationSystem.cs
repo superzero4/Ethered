@@ -39,7 +39,7 @@ namespace Views.Battle.Animation
 
             playableGraph.Play();
         }
-        
+
         public void PlayOneShot(AnimationClip oneShotClip, bool loopUntilExited)
         {
             if (oneShotPlayable.IsValid() && oneShotPlayable.GetAnimationClip() == oneShotClip) return;
@@ -51,22 +51,22 @@ namespace Views.Battle.Animation
 
             // Calculate blendDuration as 10% of clip length,
             // but ensure that it's not less than 0.1f or more than half the clip length
-            float blendDuration = BlendDuration(oneShotClip);
+            float blendDuration = BlendDuration(oneShotClip.length);
 
             BlendIn(blendDuration);
             if (!loopUntilExited)
                 BlendOut(blendDuration, oneShotClip.length - blendDuration);
         }
 
-        private static float BlendDuration(AnimationClip oneShotClip)
+        private static float BlendDuration(float oneShotClipDuration)
         {
-            float blendDuration = Mathf.Clamp(oneShotClip.length * 0.1f, 0.01f, oneShotClip.length * 0.5f);
+            float blendDuration = Mathf.Clamp(oneShotClipDuration * 0.1f, 0.1f, oneShotClipDuration * 0.5f);
             return blendDuration;
         }
 
         public void BlendOutNow()
         {
-            BlendOut(BlendDuration(oneShotPlayable.GetAnimationClip()), 0f);
+            BlendOut(BlendDuration(oneShotPlayable.IsValid() ? oneShotPlayable.GetAnimationClip().length : 0f), 0f);
         }
 
         void BlendIn(float duration)
@@ -87,6 +87,7 @@ namespace Views.Battle.Animation
                 SetRelativeWeights(weight);
             }, delay, DisconnectOneShot));
         }
+
         IEnumerator Blend(float duration, Action<float> blendCallback, float delay = 0f,
             Action finishedCallback = null)
         {
@@ -132,7 +133,8 @@ namespace Views.Battle.Animation
         void DisconnectOneShot()
         {
             animationMixer.DisconnectInput(1);
-            playableGraph.DestroyPlayable(oneShotPlayable);
+            if (oneShotPlayable.IsValid())
+                playableGraph.DestroyPlayable(oneShotPlayable);
         }
 
         public void Destroy()

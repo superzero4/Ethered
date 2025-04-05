@@ -111,17 +111,33 @@ namespace Views.Battle
             var last = arg0.path.Path[0];
             Vector2 lastDir = CurrentLookAt();
             bool running = true;
+            bool turning = false;
             var seq = LeanTween.sequence();
-            seq.append(() => _unitAnimations.Move(() => !running));
             foreach (var pos in arg0.path.Path.Skip(1))
             {
-                var dir = pos.Position - last.Position;
+                var dir = (Vector2)pos.Position - last.Position;
 
-                if (dir != lastDir) TweenTurn(seq, lastDir, dir);
+                if (dir != lastDir)
+                {
+                    seq.append(() =>
+                    {
+                        running = false;
+                        turning = true;
+                        _unitAnimations.Turn(LookAtRotation(lastDir) > LookAtRotation(dir), () => !turning);
+                    });
+                    TweenTurn(seq, lastDir, dir);
+                    seq.append(() => { turning = false; });
+                }
+                seq.append(0.01f);
                 seq.append(() =>
                 {
                     SetColor();
                     SyncVisibility();
+                });
+                seq.append(() =>
+                {
+                    running = true;
+                    _unitAnimations.Move(() => !running);
                 });
                 seq.append(LeanTween.move(_root.gameObject, WorldPosition(_grid, pos),
                     _unitAnimations.MoveTime));
@@ -129,8 +145,10 @@ namespace Views.Battle
                 last = pos;
                 lastDir = dir;
             }
-
-            seq.append(() => running = false);
+            seq.append(() =>
+            {
+                running = false;
+            });
         }
 
         private void Attack(UnitAttackData arg0)
@@ -142,7 +160,7 @@ namespace Views.Battle
             //seq.append(() => { Debug.Log($"Attack {origin} {targ}"); });
             TweenTurn(seq, origin, targ);
             //seq.append(() => { Debug.Log($"Attack {origin} {targ}"); });
-            seq.append(() => _unitAnimations.Attack(arg0, ()=>
+            seq.append(() => _unitAnimations.Attack(arg0, () =>
             {
                 seq.append(_unitAnimations.Delay(targ.magnitude));
                 seq.append(EventQueue.ProcessAll);

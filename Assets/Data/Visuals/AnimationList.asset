@@ -93,15 +93,13 @@ MonoBehaviour:
     _animations:
     - _clip: {fileID: 7400000, guid: d9f443632c38fe343a7060d72ab920df, type: 3}
       _triggerTime: 0
-    - _clip: {fileID: 7400000, guid: b855cb202600e2048945193d6f1f7a30, type: 3}
+  - _type: 7
+    _animations:
+    - _clip: {fileID: 7400000, guid: d74077096b6fea94e87a084e1622ac4d, type: 3}
       _triggerTime: 0
-    - _clip: {fileID: 7400000, guid: 4209bae04bb8c8844bba85e9c69800c9, type: 3}
-      _triggerTime: 0
-    - _clip: {fileID: 7400000, guid: ba724a8c868465148a17f92771c8fc12, type: 3}
-      _triggerTime: 0
-    - _clip: {fileID: 7400000, guid: a6e833647d522494f83e25a6e218364b, type: 3}
-      _triggerTime: 0
-    - _clip: {fileID: 7400000, guid: a39489f42d0605645a90e4dd7e5f6356, type: 3}
+  - _type: 8
+    _animations:
+    - _clip: {fileID: 7400000, guid: 0ba5bf390591e8d4ca46c9515e0d2be1, type: 3}
       _triggerTime: 0
   _search: Unarmed\S*Attack-
   _typeToFillWithSearch: 6
