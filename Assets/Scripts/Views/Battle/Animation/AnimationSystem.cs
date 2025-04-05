@@ -60,7 +60,7 @@ namespace Views.Battle.Animation
 
         private static float BlendDuration(AnimationClip oneShotClip)
         {
-            float blendDuration = Mathf.Clamp(oneShotClip.length * 0.1f, 0.1f, oneShotClip.length * 0.5f);
+            float blendDuration = Mathf.Clamp(oneShotClip.length * 0.1f, 0.01f, oneShotClip.length * 0.5f);
             return blendDuration;
         }
 
@@ -87,7 +87,6 @@ namespace Views.Battle.Animation
                 SetRelativeWeights(weight);
             }, delay, DisconnectOneShot));
         }
-
         IEnumerator Blend(float duration, Action<float> blendCallback, float delay = 0f,
             Action finishedCallback = null)
         {

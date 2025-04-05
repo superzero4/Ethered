@@ -39,10 +39,7 @@ namespace UnitSystem.Actions.BaseClass
 
         public override void Execute(Unit origin, TargetCollection targetCollection)
         {
-            foreach (var target in targetCollection.Targets)
-            {
-                target.TakeDamage(_damage,origin);
-            }
+            origin.Attack(targetCollection.Targets, _damage, _requireLOS);
         }
     }
 }

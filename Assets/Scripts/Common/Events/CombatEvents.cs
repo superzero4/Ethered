@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BattleSystem;
 using BattleSystem.TileSystem;
 using UnitSystem;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Common.Events.Combat
@@ -19,6 +20,10 @@ namespace Common.Events.Combat
 
     [Serializable]
     public class UnitHealthEvent : UnityEvent<UnitHitData>
+    {
+    }
+    [Serializable]
+    public class UnitAttackEvent : UnityEvent<UnitAttackData>
     {
     }
 
@@ -42,6 +47,13 @@ namespace Common.Events.Combat
     {
         public PositionIndexer direction;
         public int oldHealth;
+    }
+
+    [Serializable]
+    public class UnitAttackData : UnitEventData
+    {
+        public PositionIndexer direction;
+        public bool needLos;
     }
 
     [Serializable]

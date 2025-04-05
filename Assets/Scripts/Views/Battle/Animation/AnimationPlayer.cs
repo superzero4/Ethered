@@ -5,6 +5,7 @@ using BattleSystem;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Action = System.Action;
 
 namespace Views.Battle.Animation
 {
@@ -60,47 +61,59 @@ namespace Views.Battle.Animation
         private void Awake()
         {
             Assert.IsFalse(_animator.applyRootMotion, "Animator shouldn't have applyRootMotion enabled");
-            _animation = new AnimationSystem(_animationList[AnimationType.Idle], _animator, this);
+            _animation = new AnimationSystem(_animationList[AnimationType.Idle].Clip, _animator, this);
         }
 
         private IEnumerator Start()
         {
-            yield break;//Testing animations
+            yield break; //Testing animations
             while (true)
             {
                 Play(AnimationType.Attack, null);
                 yield return new WaitForSeconds(1);
             }
         }
-
-        [Obsolete("Use Play(AnimationType) directly instead, queuing isn't working yet, will possibly be implemented if we need to queue animations from this call but for now it's not needed, it will play one shot and go back to defaultAnimation")]
-        //public void Play(AnimationPlayData toPlay, PositionIndexer? direction = null)
-        //{
-        //    Play(toPlay.Type, direction);
-        //    return;
-        //    if (toPlay.OnEnd != null)
-        //    {
-        //        StartCoroutine(WaitForAnimationEnd(toPlay.OnEnd));
-        //    }
-        //}
         /// <summary>
         /// 
         /// </summary>
         /// <param name="type"></param>
         /// <param name="direction">Not used yet, in case we wanna fine grain animations</param>
-        public void Play(AnimationType type, Func<bool> stopWhen = null,PositionIndexer? direction = null)
+        public void Play(AnimationType type, Func<bool> stopWhen = null,
+            Action onAnimationEvent = null, PositionIndexer? direction = null)
         {
             var clip = _animationList[type];
-            bool loop = stopWhen != null;
-            _animation.PlayOneShot(clip,loop);
-            if(loop)
+            bool hasStopCondition = stopWhen != null;
+            _animation.PlayOneShot(clip.Clip, hasStopCondition);
+            if (hasStopCondition)
                 StartCoroutine(WaitForAnimationEnd(stopWhen));
+            if (onAnimationEvent != null)
+            {
+                if (clip.TriggerTime > 0)
+                {
+                    StartCoroutine(WaitForTrigger(onAnimationEvent, clip.TriggerTime, clip.Clip.length));
+                }
+                else
+                {
+                    onAnimationEvent?.Invoke();
+                }
+            }
         }
 
         private IEnumerator WaitForAnimationEnd(Func<bool> stopWhen)
         {
             yield return new WaitUntil(stopWhen);
             _animation.BlendOutNow();
+        }
+
+        private IEnumerator WaitForTrigger(System.Action onTrigger, float time, float animationDuration)
+        {
+            float elpasedTime = 0;
+            while ((elpasedTime/animationDuration) < time)
+            {
+                elpasedTime += Time.deltaTime;
+                yield return new WaitForEndOfFrame();
+            }
+            onTrigger?.Invoke();
         }
 
         private void OnDestroy()

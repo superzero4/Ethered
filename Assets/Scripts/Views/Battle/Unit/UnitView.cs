@@ -9,31 +9,22 @@ using UI.Battle;
 using UnitSystem;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Serialization;
-using Views.Battle.Animation;
 
 namespace Views.Battle
 {
     public class UnitView : AElementView<Unit>
     {
-        [FormerlySerializedAs("_rotationSpeed")] [Header("Settings")] [SerializeField, Range(0.001f, 1f)]
-        private float _rotationTime = 0.5f;
-
-        [FormerlySerializedAs("_moveSpeed")] [SerializeField, Range(0.001f, 4f)]
-        private float _moveTime = 0.5f;
-
         [Header("Unit")] [SerializeField] private HealthUI _healthUI;
         [Header("Visuals")] [SerializeField] private bool _showOnlyOnCorrectPhase = false;
         [SerializeField] private UnitSkin[] _skin;
         [SerializeField, Range(0, 3)] private int _skinIndex;
-        private UnitSkin currentSkin => _skin[_skinIndex];
-        private AnimationPlayer animationPlayer => currentSkin.AnimationPlayer;
+        public UnitSkin currentSkin => _skin[_skinIndex];
+
+        [SerializeField] private EPhase _displayedPhase;
+        [SerializeField] private UnitAnimations _unitAnimations;
 
         [Header("ReadOnly")] [SerializeField] [ReadOnly]
         private Grid _grid;
-
-        [SerializeReference] private AnimationPlayData _idle;
-        [SerializeField] private EPhase _displayedPhase;
 
         protected override void Init(Grid grid)
         {
@@ -42,14 +33,18 @@ namespace Views.Battle
                 _skin[i].gameObject.SetActive(i == _skinIndex);
             SetColor();
             SyncVisibility();
-            _idle = new AnimationPlayData(AnimationType.Idle, true);
             Assert.IsNotNull(_healthUI, "No HealthUI assigned");
             base.Init(grid);
             _grid = grid;
-            Data.OnUnitMoves.AddListener(Move);
-            Data.OnUnitHealthChange.AddListener(UpdateHealth);
+            _unitAnimations.Init(currentSkin);
             Data.OnUnitHealthChange.AddListener(_healthUI.UpdateHealth);
-            animationPlayer.Play(AnimationType.Idle, () => false);
+            Data.OnUnitHealthChange.AddListener(d =>
+            {
+                _unitAnimations.UpdateHealth(d);
+                SyncVisibility();
+            });
+            Data.OnUnitMoves.AddListener(Move);
+            Data.OnUnitAttack.AddListener(_unitAnimations.Attack);
         }
 
         protected override Color GetColor()
@@ -90,50 +85,43 @@ namespace Views.Battle
 
         public override void OnPhaseSelected(PhaseEventData arg0)
         {
-            base.OnPhaseSelected(arg0);
             _displayedPhase = arg0.phase;
             SyncVisibility();
         }
 
-        private void SyncVisibility()
+        protected override void RotationChanged(float newRot)
+        {
+            _healthUI.transform.localRotation = Quaternion.Euler(0, -newRot, 0);
+        }
+
+        public void SyncVisibility()
         {
             if (_showOnlyOnCorrectPhase)
                 ToggleVisibiltyFromPhase(_displayedPhase);
         }
 
-        private void UpdateHealth(UnitHitData arg0)
-        {
-            animationPlayer.Play(
-                arg0.unit.HealthInfo.CurrentHealth > arg0.oldHealth ? AnimationType.Healed : AnimationType.Hurt, null,
-                arg0.direction);
-            SyncVisibility();
-        }
-        override protected void RotationChanged(float newRot)
-        {
-            base.RotationChanged(newRot);
-            _healthUI.transform.localRotation = Quaternion.Euler(0, -newRot, 0);
-        }
-        // ReSharper disable Unity.PerformanceAnalysis
-        private void Move(UnitMovementData arg0)
+        public void Move(UnitMovementData arg0)
         {
             var last = arg0.path.Path[0];
             Vector2Int lastDir = Vector2Int.zero;
             bool running = true;
             var seq = LeanTween.sequence();
-            seq.append(() => animationPlayer.Play(AnimationType.Move, () => !running, null));
+            seq.append(() => _unitAnimations.Move(() => !running));
             foreach (var pos in arg0.path.Path.Skip(1))
             {
                 var dir = pos.Position - last.Position;
 
                 if (dir != lastDir)
-                    seq.append(LeanTween.value(_root.gameObject, d => Rotation = LookAtRotation(d), lastDir, dir,
-                        lastDir == dir ? _rotationTime : 0f));
+                    seq.append(LeanTween.value(_root.gameObject,
+                        d => Rotation = LookAtRotation(d), lastDir, dir,
+                        lastDir == dir ? _unitAnimations.RotationTime : 0f));
                 seq.append(() =>
                 {
                     SetColor();
                     SyncVisibility();
                 });
-                seq.append(LeanTween.move(_root.gameObject, WorldPosition(_grid, pos), _moveTime));
+                seq.append(LeanTween.move(_root.gameObject, WorldPosition(_grid, pos),
+                    _unitAnimations.MoveTime));
                 //Safe in case of rounding errors in tween
                 last = pos;
                 lastDir = dir;
@@ -141,5 +129,6 @@ namespace Views.Battle
 
             seq.append(() => running = false);
         }
+        // ReSharper disable Unity.PerformanceAnalysis
     }
 }

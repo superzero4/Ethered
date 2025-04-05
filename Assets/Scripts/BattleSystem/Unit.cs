@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BattleSystem;
 using BattleSystem.TileSystem;
 using Common.Events;
@@ -17,6 +18,7 @@ namespace UnitSystem
         [SerializeField] private ETeam _team;
         [SerializeField] private UnitMovementEvent _onUnitMoves;
         [SerializeField] private UnitHealthEvent _onUnitHealthChange;
+        [SerializeField] private UnitAttackEvent _onUnitAttack;
         [SerializeField] private int _currentHealth;
         private int _health;
         public UnitInfo Info => _info;
@@ -29,7 +31,9 @@ namespace UnitSystem
             _position = new PositionData(position, phase);
             _onUnitMoves = new UnitMovementEvent();
             _onUnitHealthChange = new UnitHealthEvent();
+            _onUnitAttack = new UnitAttackEvent();
         }
+
         public void Move(PathWrapper newPosition)
         {
             var eventData = new UnitMovementData() { unit = this, path = newPosition };
@@ -50,6 +54,7 @@ namespace UnitSystem
 
         public UnitMovementEvent OnUnitMoves => _onUnitMoves;
         public UnitHealthEvent OnUnitHealthChange => _onUnitHealthChange;
+        public UnitAttackEvent OnUnitAttack => _onUnitAttack;
         public IHealth HealthInfo => this;
 
         int IHealth.CurrentHealth
@@ -70,6 +75,20 @@ namespace UnitSystem
                 { unit = this, oldHealth = _currentHealth, direction = _position.Position - source.Position.Position };
             _currentHealth -= damage;
             _onUnitHealthChange?.Invoke(data);
+        }
+
+        public void Attack(IEnumerable<IBattleElement> targetCollectionTargets, int damage, bool requiredLos)
+        {
+            this._onUnitAttack.Invoke(new UnitAttackData()
+            {
+                unit = this,
+                direction = targetCollectionTargets.First().Position.Position - this.Position.Position,
+                needLos = requiredLos,
+            });
+            foreach (var target in targetCollectionTargets)
+            {
+                target.TakeDamage(damage, this);
+            }
         }
     }
 }
