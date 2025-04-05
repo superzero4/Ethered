@@ -9,13 +9,13 @@ namespace BattleSystem.Actions
 {
     public static class TilemapActionsExtensions
     {
-        public static Action GetRandomValidAction(this Tilemap tiles,Unit unit, int maxTries)
+        public static Action GetRandomValidAction(this Tilemap tiles,Unit unit, float unitPriority, int maxTries)
         {
             int i = 0;
             Action action = null;
             for (i = 0; i < maxTries; i++)
             {
-                if (tiles.TryGetRandomValidAction(unit, out action))
+                if (tiles.TryGetRandomValidAction(unit, out action, unitPriority))
                 {
                     if (action.CanExecute(tiles))
                     {
@@ -27,11 +27,11 @@ namespace BattleSystem.Actions
             return null;
         }
 
-        public static bool TryGetRandomValidAction(this Tilemap Tiles, Unit unit, out Action action)
+        public static bool TryGetRandomValidAction(this Tilemap Tiles, Unit unit, out Action action, float probalityOfTargetingUnit = .5f)
         {
             var Size = Tiles.Size;
             IBattleElement target;
-            bool targetTile = UnityEngine.Random.Range(0, 1f) >= .5f;
+            bool targetTile = UnityEngine.Random.Range(0, 1f) >= probalityOfTargetingUnit;
             if (targetTile)
             {
                 var ph = Random.Range(1, 3);

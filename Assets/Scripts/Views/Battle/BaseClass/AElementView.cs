@@ -70,6 +70,13 @@ namespace Views.Battle
 
         protected float LookAtRotation(PositionIndexer lookAt) => LookAtRotation(new Vector2(lookAt.x, lookAt.y));
         protected float LookAtRotation(Vector2 lookAt) => Mathf.Atan2(lookAt.x, lookAt.y) * Mathf.Rad2Deg;
+
+        protected Vector2 CurrentLookAt()
+        {
+            float yRotation = _root.localRotation.eulerAngles.y;
+            float radians = yRotation * Mathf.Deg2Rad;
+            return new Vector2(Mathf.Sin(radians), Mathf.Cos(radians));
+        }
         protected void SetRotation(PositionIndexer lookAt)
         {
             Rotation = LookAtRotation(lookAt);

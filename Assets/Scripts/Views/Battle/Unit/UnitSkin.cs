@@ -12,6 +12,7 @@ namespace Views.Battle
         [SerializeField] private AnimationPlayer _animationPlayer;
         [SerializeField] private SkinnedMeshRenderer[] _helmets;
         [SerializeField] private SkinnedMeshRenderer _helmet;
+        private int _helmetIndex;
         [SerializeField] private Renderer[] _renderers;
         private const int _highlightMaterialIndex = 0;
         private const int _highlightMaterialIndexHelmet = 1;
@@ -42,13 +43,14 @@ namespace Views.Battle
             SetSkin(Random.Range(0, _helmets.Length), Random.ColorHSV(), weapons.Length > 0 ? (WeaponType)weapons.GetValue(Random.Range(0, weapons.Length)) : WeaponType.None);
         }
 
-        public void SetSkin(Color color)
+        public void SetColor(Color color)
         {
-            SetSkin(UnityEngine.Random.Range(0, _helmets.Length), color, WeaponType.Pistol);
+            SetSkin(_helmetIndex, color, WeaponType.Pistol);
         }
 
         public void SetSkin(int helmetIndex, Color color, WeaponType weapon)
         {
+            _helmetIndex = helmetIndex;
             _weaponIndex = (int)weapon;
             Assert.IsTrue(_helmets != null && _helmets.Length > 0, "No helmets assigned");
             Assert.IsTrue(helmetIndex >= 0 && helmetIndex < _helmets.Length, "Invalid helmet index");

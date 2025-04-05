@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e436314f099948deb3dc2f3ccf758ae1, type: 3}
-  m_Name: AttackWarp
+  m_Name: AttackShoot
   m_EditorClassIdentifier: 
   _visualInformations:
-    _sprite: {fileID: 21300000, guid: dbdce2d58a1ba134bad7a6b1e48556bc, type: 3}
+    _sprite: {fileID: 21300000, guid: b42d72a66c3f81644b649164fe3254c7, type: 3}
     _color: {r: 1, g: 1, b: 1, a: 1}
     _name: Distant attack
     _description: Damage an ennemy in the same phase
@@ -24,5 +24,5 @@ MonoBehaviour:
     _targetType: 4
     _phase: 3
   _nbTargets: 1
-  _damage: 5
-  _requireLOS: 0
+  _damage: 9
+  _requireLOS: 1

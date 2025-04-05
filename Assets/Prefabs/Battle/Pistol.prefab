@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 4723037659878064771}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000029802315, y: -0.000000040978183, z: 0.0000000064028414, w: 1}
-  m_LocalPosition: {x: -0.006, y: 0.114, z: -0.782}
+  m_LocalPosition: {x: 0.036, y: 0.129, z: -1.185}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -179,12 +179,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198967364422997856, guid: 9dcb014d594eb40409fe313414f0dc70, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198967364422997856, guid: 9dcb014d594eb40409fe313414f0dc70, type: 3}
       propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198967364422997856, guid: 9dcb014d594eb40409fe313414f0dc70, type: 3}
+      propertyPath: ShapeModule.angle
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198967364422997856, guid: 9dcb014d594eb40409fe313414f0dc70, type: 3}
       propertyPath: EmissionModule.m_BurstCount
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198967364422997856, guid: 9dcb014d594eb40409fe313414f0dc70, type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 0.95
       objectReference: {fileID: 0}
     - target: {fileID: 198967364422997856, guid: 9dcb014d594eb40409fe313414f0dc70, type: 3}
       propertyPath: InitialModule.startSpeed.scalar

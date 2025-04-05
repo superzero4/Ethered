@@ -35,9 +35,13 @@ namespace Views.Battle
                 arg0.direction);
         }
 
-        public void Attack(UnitAttackData arg0)
+        public void Attack(UnitAttackData arg0, Action onLaunched)
         {
-            System.Action weapon = () => _weapon.WeaponShoot(new Vector3(arg0.direction.x, 0, arg0.direction.y));
+            System.Action weapon = () =>
+            {
+                _weapon.WeaponShoot(new Vector3(arg0.direction.x, 0, arg0.direction.y));
+                onLaunched?.Invoke();
+            };
             _animationPlayer.Play(AnimationType.Shoot, null, weapon, arg0.direction);
         }
 
@@ -45,6 +49,11 @@ namespace Views.Battle
         public void Move(Func<bool> func)
         {
             _animationPlayer.Play(AnimationType.Move, func, null);
+        }
+
+        public float Delay(float targMagnitude)
+        {
+            return targMagnitude / _weapon.ProjectileSpeed;
         }
     }
 }

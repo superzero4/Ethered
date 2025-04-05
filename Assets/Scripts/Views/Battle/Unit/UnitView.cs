@@ -37,15 +37,19 @@ namespace Views.Battle
             base.Init(grid);
             _grid = grid;
             _unitAnimations.Init(currentSkin);
-            Data.OnUnitHealthChange.AddListener(_healthUI.UpdateHealth);
             Data.OnUnitHealthChange.AddListener(d =>
             {
-                _unitAnimations.UpdateHealth(d);
-                SyncVisibility();
+                EventQueue.QueueEvent(() =>
+                {
+                    _healthUI.UpdateHealth(d);
+                    _unitAnimations.UpdateHealth(d);
+                    SyncVisibility();
+                });
             });
             Data.OnUnitMoves.AddListener(Move);
-            Data.OnUnitAttack.AddListener(_unitAnimations.Attack);
+            Data.OnUnitAttack.AddListener(Attack);
         }
+
 
         protected override Color GetColor()
         {
@@ -54,18 +58,20 @@ namespace Views.Battle
             {
                 switch (_data.Position.Phase)
                 {
-                    case EPhase.Normal: color = Color.blue; break;
-                    case EPhase.Ethered: color = Color.cyan; break;
-                    case EPhase.Both: color = Color.green; break;
+                    default: color = Color.green; break;
+                    //case EPhase.Normal: color = Color.blue; break;
+                    //case EPhase.Ethered: color = Color.cyan; break;
+                    //case EPhase.Both: color = Color.green; break;
                 }
             }
             else if (_data.Team == ETeam.Enemy)
             {
                 switch (_data.Position.Phase)
                 {
-                    case EPhase.Normal: color = Color.red; break;
-                    case EPhase.Ethered: color = Color.magenta; break;
-                    case EPhase.Both: color = Color.yellow; break;
+                    default: color = Color.red; break;
+                    //case EPhase.Normal: color = Color.red; break;
+                    //case EPhase.Ethered: color = Color.magenta; break;
+                    //case EPhase.Both: color = Color.yellow; break;
                 }
             }
 
@@ -74,7 +80,7 @@ namespace Views.Battle
 
         protected override void SetColor(Color color)
         {
-            currentSkin.SetSkin(color);
+            currentSkin.SetColor(color);
         }
 
         public override void ToggleVisibility(bool state)
@@ -103,7 +109,7 @@ namespace Views.Battle
         public void Move(UnitMovementData arg0)
         {
             var last = arg0.path.Path[0];
-            Vector2Int lastDir = Vector2Int.zero;
+            Vector2 lastDir = CurrentLookAt();
             bool running = true;
             var seq = LeanTween.sequence();
             seq.append(() => _unitAnimations.Move(() => !running));
@@ -111,10 +117,7 @@ namespace Views.Battle
             {
                 var dir = pos.Position - last.Position;
 
-                if (dir != lastDir)
-                    seq.append(LeanTween.value(_root.gameObject,
-                        d => Rotation = LookAtRotation(d), lastDir, dir,
-                        lastDir == dir ? _unitAnimations.RotationTime : 0f));
+                if (dir != lastDir) TweenTurn(seq, lastDir, dir);
                 seq.append(() =>
                 {
                     SetColor();
@@ -128,6 +131,35 @@ namespace Views.Battle
             }
 
             seq.append(() => running = false);
+        }
+
+        private void Attack(UnitAttackData arg0)
+        {
+            bool running = true;
+            var seq = LeanTween.sequence();
+            var origin = CurrentLookAt();
+            var targ = new Vector2(arg0.direction.x, arg0.direction.y);
+            //seq.append(() => { Debug.Log($"Attack {origin} {targ}"); });
+            TweenTurn(seq, origin, targ);
+            //seq.append(() => { Debug.Log($"Attack {origin} {targ}"); });
+            seq.append(() => _unitAnimations.Attack(arg0, ()=>
+            {
+                seq.append(_unitAnimations.Delay(targ.magnitude));
+                seq.append(EventQueue.ProcessAll);
+            }));
+        }
+
+        private void TweenTurn(LTSeq seq, Vector2 origin, Vector2 dest)
+        {
+            if (Mathf.Abs(LookAtRotation(origin) - LookAtRotation(dest)) > 5f)
+            {
+                seq.append(LeanTween.value(_root.gameObject,
+                    d => Rotation = LookAtRotation(d), origin, dest, _unitAnimations.RotationTime));
+            }
+            else
+            {
+                seq.append(() => Rotation = LookAtRotation(dest));
+            }
         }
         // ReSharper disable Unity.PerformanceAnalysis
     }

@@ -17,10 +17,10 @@ public class AnimationTester : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1f);
-            _unit.Attack(new UnitAttackData()
-            {
-                direction = new Vector2Int(0, 1)
-            });
+            //_unit.Attack(new UnitAttackData()
+            //{
+            //    direction = new Vector2Int(0, 1)
+            //});
             //_unit._animationPlayer.Play(AnimationType.Healed,null, ()=>Debug.Log("Trigger"),null);
         }
     }
