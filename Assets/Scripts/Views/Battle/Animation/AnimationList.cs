@@ -20,6 +20,7 @@ namespace Views.Battle.Animation
         Shoot = 6,
         TurnL = 7,
         TurnR = 8,
+        Cast = 9,
     }
 
     [CreateAssetMenu(fileName = "AnimationList", menuName = "AnimationList", order = 0)]

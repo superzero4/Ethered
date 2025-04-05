@@ -51,13 +51,22 @@ namespace Views.Battle
             _root.position = pos;
         }
 
-        protected Vector3 WorldPosition(Grid grid, PositionData dataPos)
+        protected Vector3 WorldPosition(Grid grid, PositionIndexer dataPos)
         {
-            var pos = grid.GetCellCenterWorld((Vector3Int)dataPos.Position);
+            var pos = grid.GetCellCenterWorld((Vector3Int)dataPos.position);
             pos.y -= grid.cellSize.y / 2;
             return pos;
         }
-        protected virtual void RotationChanged(float newRot){}
+
+        protected Vector3 WorldPosition(Grid grid, PositionData dataPos)
+        {
+            return WorldPosition(grid, dataPos.Position);
+        }
+
+        protected virtual void RotationChanged(float newRot)
+        {
+        }
+
         protected float Rotation
         {
             get => _root.localRotation.eulerAngles.y;
@@ -77,6 +86,7 @@ namespace Views.Battle
             float radians = yRotation * Mathf.Deg2Rad;
             return new Vector2(Mathf.Sin(radians), Mathf.Cos(radians));
         }
+
         protected void SetRotation(PositionIndexer lookAt)
         {
             Rotation = LookAtRotation(lookAt);

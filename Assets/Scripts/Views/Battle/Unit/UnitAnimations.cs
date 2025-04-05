@@ -34,14 +34,27 @@ namespace Views.Battle
                 : AnimationType.Hurt);
         }
 
-        public void Attack(UnitAttackData arg0, Action onLaunched)
+        public void Attack(UnitAttackData arg0, Vector3 worldPos, Action onLaunched)
         {
-            System.Action weapon = () =>
+            System.Action weapon;
+            AnimationType animationType;
+            if (arg0.needLos)
             {
-                _weapon.WeaponShoot(new Vector3(arg0.direction.x, 0, arg0.direction.y));
-                onLaunched?.Invoke();
-            };
-            _animationPlayer.Play(AnimationType.Shoot, false, weapon);
+                weapon = () =>
+                {
+                    _weapon.WeaponShoot(new Vector3(arg0.direction.x, 0, arg0.direction.y));
+                    onLaunched?.Invoke();
+                };
+
+                animationType = AnimationType.Shoot;
+            }
+            else
+            {
+                weapon = () => _weapon.Cast(worldPos);
+                animationType = AnimationType.Cast;
+            }
+
+            _animationPlayer.Play(animationType, false, weapon);
         }
 
 

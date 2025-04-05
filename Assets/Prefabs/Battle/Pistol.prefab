@@ -117,6 +117,17 @@ MonoBehaviour:
   _root: {fileID: 2125446706529389046}
   _muzzle: {fileID: 8781884522249758778}
   _particle: {fileID: 5787372905217193767}
+  _shoot:
+    nbParticles: 1
+    speed: 50
+    lifetime: 0.2
+    color: {r: 0, g: 0, b: 0, a: 0}
+  height: 5
+  _cast:
+    nbParticles: 10
+    speed: 25
+    lifetime: 1
+    color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!4 &2125446706529389046 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4157503502006614, guid: 812c997c2a64a2640aa0af37088f29e0, type: 3}
@@ -188,7 +199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 198967364422997856, guid: 9dcb014d594eb40409fe313414f0dc70, type: 3}
       propertyPath: ShapeModule.angle
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 198967364422997856, guid: 9dcb014d594eb40409fe313414f0dc70, type: 3}
       propertyPath: EmissionModule.m_BurstCount
@@ -225,6 +236,10 @@ PrefabInstance:
     - target: {fileID: 198967364422997856, guid: 9dcb014d594eb40409fe313414f0dc70, type: 3}
       propertyPath: EmissionModule.rateOverTime.minMaxState
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198967364422997856, guid: 9dcb014d594eb40409fe313414f0dc70, type: 3}
+      propertyPath: InitialModule.startLifetime.minMaxState
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198967364422997856, guid: 9dcb014d594eb40409fe313414f0dc70, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.m_ColorSpace

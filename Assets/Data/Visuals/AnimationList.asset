@@ -101,5 +101,9 @@ MonoBehaviour:
     _animations:
     - _clip: {fileID: 7400000, guid: ad6bbac1bb3b4af449c00c9080bddac5, type: 3}
       _triggerTime: 0
+  - _type: 9
+    _animations:
+    - _clip: {fileID: 7400000, guid: 94cb399d216f0a345916c993c52fcd64, type: 3}
+      _triggerTime: 1
   _search: Unarmed\S*Attack-
   _typeToFillWithSearch: 6

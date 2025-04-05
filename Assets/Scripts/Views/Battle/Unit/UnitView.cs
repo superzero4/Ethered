@@ -105,6 +105,7 @@ namespace Views.Battle
             if (_showOnlyOnCorrectPhase)
                 ToggleVisibiltyFromPhase(_displayedPhase);
         }
+
         public void Move(UnitMovementData arg0)
         {
             var last = arg0.path.Path[0];
@@ -148,11 +149,12 @@ namespace Views.Battle
             //seq.append(() => { Debug.Log($"Attack {origin} {targ}"); });
             seq.append(TweenTurn(origin, targ, out _, out _));
             //seq.append(() => { Debug.Log($"Attack {origin} {targ}"); });
-            seq.append(() => _unitAnimations.Attack(arg0, () =>
-            {
-                seq.append(_unitAnimations.Delay(targ.magnitude));
-                seq.append(EventQueue.ProcessAll);
-            }));
+            seq.append(() => _unitAnimations.Attack(arg0,
+                WorldPosition(_grid, arg0.unit.Position.Position + arg0.direction), () =>
+                {
+                    seq.append(_unitAnimations.Delay(targ.magnitude));
+                    seq.append(EventQueue.ProcessAll);
+                }));
         }
 
         private LTDescr TweenTurn(Vector2 origin, Vector2 dest, out bool snap, out bool isLeft)

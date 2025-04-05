@@ -26,7 +26,7 @@ namespace UnitSystem.AI.Dev
         }
         public Action GetDecision(Unit source, Tilemap map)
         {
-            return map.GetRandomValidAction(source, .0f,_maxTryouts);
+            return map.GetRandomValidAction(source, 1f,_maxTryouts);
         }
     }
 }
