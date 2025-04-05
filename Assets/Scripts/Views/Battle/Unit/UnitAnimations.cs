@@ -24,15 +24,14 @@ namespace Views.Battle
         public void Init(UnitSkin skin)
         {
             _skin = skin;
-            _animationPlayer.Play(AnimationType.Idle, () => false);
+            _animationPlayer.Play(AnimationType.Idle, true);
         }
 
         public void UpdateHealth(UnitHitData arg0)
         {
-            _animationPlayer.Play(
-                arg0.unit.HealthInfo.CurrentHealth > arg0.oldHealth ? AnimationType.Healed : AnimationType.Hurt, null,
-                null,
-                arg0.direction);
+            _animationPlayer.Play(arg0.unit.HealthInfo.CurrentHealth > arg0.oldHealth
+                ? AnimationType.Healed
+                : AnimationType.Hurt);
         }
 
         public void Attack(UnitAttackData arg0, Action onLaunched)
@@ -42,13 +41,13 @@ namespace Views.Battle
                 _weapon.WeaponShoot(new Vector3(arg0.direction.x, 0, arg0.direction.y));
                 onLaunched?.Invoke();
             };
-            _animationPlayer.Play(AnimationType.Shoot, null, weapon, arg0.direction);
+            _animationPlayer.Play(AnimationType.Shoot, false, weapon);
         }
 
 
-        public void Move(Func<bool> func)
+        public void Move()
         {
-            _animationPlayer.Play(AnimationType.Move, func, null);
+            _animationPlayer.Play(AnimationType.Move, _moveTime);
         }
 
         public float Delay(float targMagnitude)
@@ -56,9 +55,9 @@ namespace Views.Battle
             return targMagnitude / _weapon.ProjectileSpeed;
         }
 
-        public void Turn(bool left,Func<bool> func)
+        public void Turn(bool left)
         {
-            _animationPlayer.Play(left ? AnimationType.TurnL : AnimationType.TurnR, func, null);
+            _animationPlayer.Play(left ? AnimationType.TurnL : AnimationType.TurnR, false);
         }
     }
 }

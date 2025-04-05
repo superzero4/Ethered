@@ -73,19 +73,11 @@ namespace Views.Battle.Animation
                 yield return new WaitForSeconds(1);
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="direction">Not used yet, in case we wanna fine grain animations</param>
-        public void Play(AnimationType type, Func<bool> stopWhen = null,
-            Action onAnimationEvent = null, PositionIndexer? direction = null)
+        Coroutine _currentCoroutine;
+        public void Play(AnimationType type, bool loop = false, Action onAnimationEvent = null)
         {
             var clip = _animationList[type];
-            bool hasStopCondition = stopWhen != null;
-            _animation.PlayOneShot(clip.Clip, hasStopCondition);
-            if (hasStopCondition)
-                StartCoroutine(WaitForAnimationEnd(stopWhen));
+            _animation.PlayOneShot(clip.Clip, loop);
             if (onAnimationEvent != null)
             {
                 if (clip.TriggerTime > 0)
@@ -99,20 +91,41 @@ namespace Views.Battle.Animation
             }
         }
 
-        private IEnumerator WaitForAnimationEnd(Func<bool> stopWhen)
+        public void Play(AnimationType type, Func<bool> stopWhen, Action onAnimationEvent = null)
+        {
+            Play(type, true, onAnimationEvent);
+            if (_currentCoroutine != null)
+                StopCoroutine(_currentCoroutine);
+            _currentCoroutine = StartCoroutine(EndAfter(stopWhen));
+        }
+        public void Play(AnimationType type, float time, Action onAnimationEvent = null)
+        {
+            Play(type, true, onAnimationEvent);
+            if (_currentCoroutine != null)
+                StopCoroutine(_currentCoroutine);
+            _currentCoroutine = StartCoroutine(EndAfter(time));
+        }
+
+        private IEnumerator EndAfter(Func<bool> stopWhen)
         {
             yield return new WaitUntil(stopWhen);
+            _animation.BlendOutNow();
+        }
+        private IEnumerator EndAfter(float time)
+        {
+            yield return new WaitForSeconds(time);
             _animation.BlendOutNow();
         }
 
         private IEnumerator WaitForTrigger(System.Action onTrigger, float time, float animationDuration)
         {
             float elpasedTime = 0;
-            while ((elpasedTime/animationDuration) < time)
+            while ((elpasedTime / animationDuration) < time)
             {
                 elpasedTime += Time.deltaTime;
                 yield return new WaitForEndOfFrame();
             }
+
             onTrigger?.Invoke();
         }
 

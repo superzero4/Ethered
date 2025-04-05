@@ -8,26 +8,28 @@ using Views.Battle.Animation;
 public class AnimationTester : MonoBehaviour
 {
     public UnitAnimations _unit;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     IEnumerator Start()
     {
         var skin = _unit.GetComponentInChildren<UnitSkin>();
-        skin.SetSkin(0,Color.red, UnitSkin.WeaponType.Pistol);
+        skin.SetSkin(0, Color.red, UnitSkin.WeaponType.Pistol);
         _unit.Init(skin);
         while (true)
         {
             yield return new WaitForSeconds(1f);
-            //_unit.Attack(new UnitAttackData()
-            //{
-            //    direction = new Vector2Int(0, 1)
-            //});
-            //_unit._animationPlayer.Play(AnimationType.Healed,null, ()=>Debug.Log("Trigger"),null);
+            bool left = UnityEngine.Random.value > .5f;
+            var sequence = LeanTween.sequence();
+            sequence.append(()=>_unit.Turn(left));
+            sequence.append(
+                LeanTween.rotateLocal(gameObject,
+                    transform.localRotation.eulerAngles + new Vector3(0, left ? 90 : -90, 0), _unit.RotationTime));
+            sequence.append(()=>_unit.Move());
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 }

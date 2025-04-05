@@ -66,11 +66,13 @@ namespace Views.Battle.Animation
 
         public void BlendOutNow()
         {
-            BlendOut(BlendDuration(oneShotPlayable.IsValid() ? oneShotPlayable.GetAnimationClip().length : 0f), 0f);
+            BlendOut(oneShotPlayable.IsValid() ? BlendDuration(oneShotPlayable.GetAnimationClip().length) : 0f, 0f);
         }
 
         void BlendIn(float duration)
         {
+            if (blendInHandle != null)
+                runner.StopCoroutine(blendInHandle);
             blendInHandle = runner.StartCoroutine(Blend(duration, blendTime =>
             {
                 float weight = Mathf.Lerp(1f, 0f, blendTime);
@@ -81,6 +83,8 @@ namespace Views.Battle.Animation
 
         void BlendOut(float duration, float delay)
         {
+            if (blendOutHandle != null)
+                runner.StopCoroutine(blendOutHandle);
             blendOutHandle = runner.StartCoroutine(Blend(duration, blendTime =>
             {
                 float weight = Mathf.Lerp(0f, 1f, blendTime);

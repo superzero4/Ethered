@@ -95,11 +95,11 @@ MonoBehaviour:
       _triggerTime: 0
   - _type: 7
     _animations:
-    - _clip: {fileID: 7400000, guid: d74077096b6fea94e87a084e1622ac4d, type: 3}
+    - _clip: {fileID: 7400000, guid: 584841245581c8e46b01f641fe187a66, type: 3}
       _triggerTime: 0
   - _type: 8
     _animations:
-    - _clip: {fileID: 7400000, guid: 0ba5bf390591e8d4ca46c9515e0d2be1, type: 3}
+    - _clip: {fileID: 7400000, guid: ad6bbac1bb3b4af449c00c9080bddac5, type: 3}
       _triggerTime: 0
   _search: Unarmed\S*Attack-
   _typeToFillWithSearch: 6

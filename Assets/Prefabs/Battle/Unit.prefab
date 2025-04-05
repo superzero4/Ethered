@@ -1137,6 +1137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2662199e631449095c1a990be8c0ff6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotationTime: 0.5
+  _rotationTime: 0.15555556
   _moveTime: 1
   _skin: {fileID: 0}

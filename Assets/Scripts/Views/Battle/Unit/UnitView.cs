@@ -105,39 +105,31 @@ namespace Views.Battle
             if (_showOnlyOnCorrectPhase)
                 ToggleVisibiltyFromPhase(_displayedPhase);
         }
-
         public void Move(UnitMovementData arg0)
         {
             var last = arg0.path.Path[0];
             Vector2 lastDir = CurrentLookAt();
-            bool running = true;
-            bool turning = false;
             var seq = LeanTween.sequence();
             foreach (var pos in arg0.path.Path.Skip(1))
             {
                 var dir = (Vector2)pos.Position - last.Position;
-
-                if (dir != lastDir)
-                {
+                var turn = TweenTurn(lastDir, dir, out bool snap, out bool left);
+                if (!snap)
                     seq.append(() =>
                     {
-                        running = false;
-                        turning = true;
-                        _unitAnimations.Turn(LookAtRotation(lastDir) > LookAtRotation(dir), () => !turning);
+                        Debug.Log("Starting turn animation");
+                        _unitAnimations.Turn(left);
                     });
-                    TweenTurn(seq, lastDir, dir);
-                    seq.append(() => { turning = false; });
-                }
-                seq.append(0.01f);
+                seq.append(turn);
+                //seq.append(() =>
+                //{
+                //    SetColor();
+                //    SyncVisibility();
+                //});
                 seq.append(() =>
                 {
-                    SetColor();
-                    SyncVisibility();
-                });
-                seq.append(() =>
-                {
-                    running = true;
-                    _unitAnimations.Move(() => !running);
+                    Debug.Log("Starting run animation");
+                    _unitAnimations.Move();
                 });
                 seq.append(LeanTween.move(_root.gameObject, WorldPosition(_grid, pos),
                     _unitAnimations.MoveTime));
@@ -145,10 +137,6 @@ namespace Views.Battle
                 last = pos;
                 lastDir = dir;
             }
-            seq.append(() =>
-            {
-                running = false;
-            });
         }
 
         private void Attack(UnitAttackData arg0)
@@ -158,7 +146,7 @@ namespace Views.Battle
             var origin = CurrentLookAt();
             var targ = new Vector2(arg0.direction.x, arg0.direction.y);
             //seq.append(() => { Debug.Log($"Attack {origin} {targ}"); });
-            TweenTurn(seq, origin, targ);
+            seq.append(TweenTurn(origin, targ, out _, out _));
             //seq.append(() => { Debug.Log($"Attack {origin} {targ}"); });
             seq.append(() => _unitAnimations.Attack(arg0, () =>
             {
@@ -167,18 +155,22 @@ namespace Views.Battle
             }));
         }
 
-        private void TweenTurn(LTSeq seq, Vector2 origin, Vector2 dest)
+        private LTDescr TweenTurn(Vector2 origin, Vector2 dest, out bool snap, out bool isLeft)
         {
-            if (Mathf.Abs(LookAtRotation(origin) - LookAtRotation(dest)) > 5f)
+            snap = false;
+            float diff = LookAtRotation(origin) - LookAtRotation(dest);
+            isLeft = diff > 0;
+            if (Mathf.Abs(diff) > 5f)
             {
-                seq.append(LeanTween.value(_root.gameObject,
-                    d => Rotation = LookAtRotation(d), origin, dest, _unitAnimations.RotationTime));
+                return LeanTween.value(_root.gameObject,
+                    d => Rotation = LookAtRotation(d), origin, dest, _unitAnimations.RotationTime);
             }
             else
             {
-                seq.append(() => Rotation = LookAtRotation(dest));
+                snap = true;
+                return LeanTween.delayedCall(0, () => Rotation = LookAtRotation(dest));
             }
         }
-        // ReSharper disable Unity.PerformanceAnalysis
+// ReSharper disable Unity.PerformanceAnalysis
     }
 }
