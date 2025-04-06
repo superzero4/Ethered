@@ -38,7 +38,8 @@ namespace Views.Battle.Selection
         Selectable _previousSelectable;
 
         [InfoBox("Will find all Hints available in scene on startup and use them")] [SerializeReference] [ReadOnly]
-        private ISelectionHintManager _hints;
+        private SimpleSelectionHintManager _hints;
+        public SimpleSelectionHintManager Hints => _hints;
         [SerializeField] [ReadOnly] private RaycastHit[] _results;
         [SerializeField] [ReadOnly] private Dictionary<GameObject, Selectable> _selectables;
         private bool _updateHint = true;
@@ -59,7 +60,6 @@ namespace Views.Battle.Selection
             }
         }
 
-        public ISelectionHintManager Hints => _hints;
 
         public bool UpdateHint
         {
@@ -136,8 +136,8 @@ namespace Views.Battle.Selection
             if (_updateHint)
             {
                 if (_previousSelectable != null)
-                    _hints.Hint(_previousSelectable, false);
-                _hints.Hint(_lastSelectable, true);
+                    _previousSelectable.Hint.Decrement();
+                _lastSelectable.Hint.Increment();
             }
         }
 
@@ -153,7 +153,7 @@ namespace Views.Battle.Selection
         {
             foreach (var selectable in selectables)
             {
-                _hints.Hint(selectable, true);
+                _hints.Hint(selectable, true, false);
             }
         }
     }

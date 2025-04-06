@@ -293,6 +293,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3800587174936846034}
     - target: {fileID: 5962923626308589625, guid: 45f1b2e2ac77a6247852917ff4b8e1d3, type: 3}
+      propertyPath: _selectable
+      value: 
+      objectReference: {fileID: 305076873851241308}
+    - target: {fileID: 5962923626308589625, guid: 45f1b2e2ac77a6247852917ff4b8e1d3, type: 3}
       propertyPath: _modelsParent
       value: 
       objectReference: {fileID: 6399378693740999435}
@@ -329,6 +333,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1037224548684128095}
   m_SourcePrefab: {fileID: 100100000, guid: 45f1b2e2ac77a6247852917ff4b8e1d3, type: 3}
+--- !u!114 &305076873851241308 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8745827542181326168, guid: 45f1b2e2ac77a6247852917ff4b8e1d3, type: 3}
+  m_PrefabInstance: {fileID: 9035542478527966724}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e459536d250a48ac9e4f336107118fe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2535883725326829750 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6797610572751857330, guid: 45f1b2e2ac77a6247852917ff4b8e1d3, type: 3}

@@ -42,8 +42,10 @@ namespace Views.Battle.Animation
 
         public void PlayOneShot(AnimationClip oneShotClip, bool loopUntilExited)
         {
+            if(!playableGraph.IsValid())
+                return;
             if (oneShotPlayable.IsValid() && oneShotPlayable.GetAnimationClip() == oneShotClip) return;
-
+            
             InterruptOneShot();
             oneShotPlayable = AnimationClipPlayable.Create(playableGraph, oneShotClip);
             animationMixer.ConnectInput(1, oneShotPlayable, 0);
@@ -115,9 +117,9 @@ namespace Views.Battle.Animation
 
         void InterruptOneShot()
         {
-            if (blendInHandle != null)
+            if (blendInHandle != null && runner != null)
                 runner.StopCoroutine(blendInHandle);
-            if (blendOutHandle != null)
+            if (blendOutHandle != null && runner != null)
                 runner.StopCoroutine(blendOutHandle);
 
             SetRelativeWeights(1f);
@@ -130,6 +132,8 @@ namespace Views.Battle.Animation
 
         private void SetRelativeWeights(float weightOfFirstInput)
         {
+            if (!animationMixer.IsValid())
+                return;
             animationMixer.SetInputWeight(0, weightOfFirstInput);
             animationMixer.SetInputWeight(1, 1 - weightOfFirstInput);
         }

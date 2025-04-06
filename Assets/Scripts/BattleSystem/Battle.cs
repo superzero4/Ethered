@@ -9,6 +9,7 @@ using Common.Events;
 using Common.Events.Combat;
 using Common.Events.UserInterface;
 using UnitSystem;
+using UnitSystem.Actions.Bases;
 using UnitSystem.AI;
 using UnitSystem.AI.Dev;
 using UnityEngine;
@@ -250,6 +251,15 @@ namespace BattleSystem
         public bool CanStillAct(Unit unit)
         {
             return _turns.CanStillAct(unit);
+        }
+
+        public IEnumerable<PositionData> PossibleTargetPosition(Unit origin, IActionInfo action)
+        {
+            foreach (var target in _battleElements.TilesFlat)
+            {
+                if (action.AreTargetsValid(origin, target.Unit) || action.AreTargetsValid(origin, target.Base))
+                    yield return target.Base.Position;
+            }
         }
     }
 }

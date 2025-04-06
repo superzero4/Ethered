@@ -32,12 +32,13 @@ namespace BattleSystem.TileSystem
             HashSet<Tile> visited = new HashSet<Tile>();
             Queue<(Tile, PathWrapper)> stack = new Queue<(Tile, PathWrapper)>();
 
-            void Enqueue(Tile tile,PathWrapper predecessor)
+            void Enqueue(Tile tile, PathWrapper predecessor)
             {
                 var path = new PathWrapper(new List<PositionData>(predecessor.Path));
                 path.Path.Add(tile.Base.Position);
                 stack.Enqueue((tile, path));
             }
+
             foreach (var start in map[new PositionData(pos.x, pos.y, phase)])
             {
                 Enqueue(start, new PathWrapper(new List<PositionData>()));
@@ -50,7 +51,7 @@ namespace BattleSystem.TileSystem
                 visited.Add(current);
                 var allowed = current.Base.allowedMovement;
                 //We consider a tile reachable if we can cross it and it's not the last or if we can stop on it
-                if (allowed == EAllowedMovement.Nothing || depth > range)
+                if (allowed == EAllowedMovement.Nothing || depth > range + 1)
                     continue;
                 //We consider a tile reachable if we can cross it and it's not the last or if we can stop on it
                 if (allowed == EAllowedMovement.Stop)
@@ -63,7 +64,7 @@ namespace BattleSystem.TileSystem
                 {
                     if (!visited.Contains(close))
                     {
-                        Enqueue(close,path);
+                        Enqueue(close, path);
                     }
                 }
             }

@@ -11,15 +11,7 @@ using UnityEngine;
 
 namespace Views.Battle.Selection
 {
-    public interface ISelectionHintManager
-    {
-        void Clear();
-        void Hint(Selectable s, bool b = true);
-        void Hint(PositionData s, bool b = true);
-        void Lock();
-    }
-
-    public class SimpleSelectionHintManager : ISelectionHintManager
+    public class SimpleSelectionHintManager
     {
         private Dictionary<PositionData, Selectable> _cache;
 
@@ -37,15 +29,11 @@ namespace Views.Battle.Selection
                 s.Hint.Deactivate();
         }
 
-        public void Hint(Selectable s, bool b = true)
-        {
-            s.Hint.Toggle(b);
-        }
 
-        public void Hint(PositionData s, bool b = true)
+        public void Hint(PositionData s, bool b, bool altMaterial)
         {
             if (_cache.TryGetValue(s, out var selectable))
-                Hint(selectable, b);
+                selectable.Hint.Toggle(b, altMaterial);
             else
                 Assert.IsTrue(false);
         }
@@ -123,63 +111,41 @@ namespace Views.Battle.Selection
 
     public class SelectionHint : MonoBehaviour
     {
+        private int level = 0;
         [SerializeField] private Renderer _renderer;
-        [SerializeField] private Material _normal;
-        [SerializeField] private Material _alt;
-        public bool IsActive => _renderer.enabled;
-
-        private void Awake()
-        {
-            //initialColor = _renderer.material.color;
-            //_reference ??= this;
-        }
-
+        [SerializeField] private Material[] _materials;
+        private Material _normal => _materials[0];
+        private Material _alt => _materials[1];
 
         public void Deactivate()
         {
-            Toggle(false);
-            _renderer.material = _normal;
+            level = 0;
+            DisplayBasedOnLevel();
         }
 
-        public void Activate()
-        {
-            Toggle(true);
-            _renderer.material = _normal;
-        }
-
-        private void SetColor(Color color, bool emmision)
-        {
-            _renderer.material.color = color;
-            _renderer.material.SetColor("_Emmision", color);
-            _renderer.material.globalIlluminationFlags = emmision
-                ? MaterialGlobalIlluminationFlags.None
-                : MaterialGlobalIlluminationFlags.EmissiveIsBlack;
-        }
-
-        public void Lock()
-        {
-            _renderer.material = _alt;
-        }
-
-        public void Place(Selectable selectable, bool b = true)
-        {
-            Toggle(b);
-            transform.position = selectable.HintAnchor.position;
-        }
-
-        public void Toggle(bool b)
+        public void Toggle(bool b, bool altMaterial = false)
         {
             _renderer.enabled = b;
+            level = altMaterial ? 2 : 1;
+            DisplayBasedOnLevel();
         }
 
-        public SelectionHint Copy()
+        public void DisplayBasedOnLevel()
         {
-            var go = GameObject.Instantiate(this, transform.parent);
-            //go.SetColor(initialColor, true);
-            go.gameObject.SetActive(gameObject.activeSelf);
-            if (go.IsActive) go.Activate();
-            else go.Deactivate();
-            return go;
+            _renderer.enabled = level > 0;
+            _renderer.material = level > 1 ? _materials[level - 1] : _materials[0];
+        }
+
+        public void Increment()
+        {
+            level++;
+            DisplayBasedOnLevel();
+        }
+
+        public void Decrement()
+        {
+            level--;
+            DisplayBasedOnLevel();
         }
     }
 }

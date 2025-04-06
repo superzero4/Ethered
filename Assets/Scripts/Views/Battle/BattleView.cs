@@ -80,7 +80,7 @@ namespace Views.Battle
             _battle.OnTimelineAction.AddListener(_ui.TimelineUI1.OnTimelineMemberInserted);
 
             _selector.Phase.Subscribe(_ui.PhaseUI);
-            
+
             _selector.OnHoverChanged.AddListener(OnHover);
             _selector.SelectionUpdated.AddListener(UpdateSelection);
 
@@ -92,8 +92,12 @@ namespace Views.Battle
                 {
                     _ui.UnitUI.ResetActionUIs(actionUI);
                     //TODO remove the IEnumerbale logic from selection and put it elsewhere
-                    var targs = _selectionState.SelectActionIfValid(a, _battle.Tiles);
-                    _selector.HintMultiple(targs.Select(t=>t.Position));
+                    var valid = _selectionState.SelectActionIfValid(a);
+                    if (valid)
+                    {
+                        var targs = _battle.PossibleTargetPosition(_selectionState.Origin, a);
+                        _selector.HintMultiple(targs);
+                    }
                 });
                 onClick.AddListener(e =>
                 {

@@ -8,6 +8,7 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
+using Views.Battle.Selection;
 using Environment = BattleSystem.Environment;
 
 namespace Views.Battle
@@ -15,6 +16,7 @@ namespace Views.Battle
     public class EnvironmentView : AElementView<Environment>
     {
         [SerializeField] private Transform _modelsParent = null;
+        [SerializeField] private Selectable _selectable = null;
         private Renderer[] model = null;
         [SerializeField, ReadOnly] private Tile _tile;
         private Renderer _mainRenderer1;
@@ -62,6 +64,7 @@ namespace Views.Battle
         {
             foreach (var renderer in model)
                 renderer.enabled = state;
+            _selectable.Hint.gameObject.SetActive(state);
         }
 
         public override void OnPhaseSelected(PhaseEventData arg0)

@@ -1,15 +1,11 @@
-using System.Collections.Generic;
 using BattleSystem;
-using BattleSystem.TileSystem;
 using Common;
-using Common.Events;
 using Common.Events.UserInteraction;
 using JetBrains.Annotations;
 using UnitSystem;
 using UnitSystem.Actions.Bases;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Serialization;
 
 namespace Views.Battle.Selection
 {
@@ -30,6 +26,8 @@ namespace Views.Battle.Selection
                 return !_action.AreTargetsFull;
             }
         }
+
+        public Unit Origin => _origin;
 
         public SelectionState()
         {
@@ -84,27 +82,23 @@ namespace Views.Battle.Selection
             return _action;
         }
 
-        public IEnumerable<IBattleElement> SelectActionIfValid(IActionInfo action, BattleSystem.TileSystem.Tilemap map)
+        public bool SelectActionIfValid(IActionInfo action)
         {
             if (this.CanSelectAction)
             {
                 if (action.CouldUnitExecute(_origin))
                 {
                     this.SetAction(action);
-                    foreach (var target in map.TilesFlat)
-                    {
-                        if (action.AreTargetsValid(_origin,target.Unit))
-                            yield return target.Unit;
-                        if (action.AreTargetsValid(_origin, target.Base))
-                            yield return target.Base;
-                    }
+                    return true;
                 }
             }
             else
             {
                 _action = null;
                 Debug.LogWarning("SELECTION Action not selected: " + action);
+                return false;
             }
+            return false;
         }
     }
 }
