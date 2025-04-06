@@ -47,7 +47,6 @@ namespace Views.Battle
             //We set callbacks before initializing the _selector because we basically hook on selectione events and we want everything to be set as the selector initializes
             _selector.AddResetables(_selectionState, _ui.ConfirmButton);
             SetCallbacks();
-            _selector.Initialize();
             _ui.ConfirmButton.AddListener(OnConfirmed);
             _ui.EndTurnButton.AddListener(() => { StartCoroutine(_battle.NextTurn(_delay)); });
             //_selector.SelectionUpdated.AddListener(s => Debug.Log("Selected: " + s.unit));
@@ -97,14 +96,43 @@ namespace Views.Battle
                     {
                         var targs = _battle.PossibleTargetPosition(_selectionState.Origin, a);
                         _selector.HintMultiple(targs);
+                        _selector.ShowHints = true;
                     }
                 });
-                onClick.AddListener(e =>
-                {
-                    _selector.UpdateHint = true;
-                    //_selector.Hints.ActivateNew();
-                });
                 //onClick.AddListener(e => Debug.LogWarning(" SELECTION Action selected: " + e));
+            }
+        }
+
+        private void UpdateSelection(SelectionEventData s)
+        {
+            if (_selectionState.CanSelectUnit)
+            {
+                if (s.unit != null && CanAct(s.unit))
+                {
+                    //In theory, already set by the hover event so redundant but as a safe
+                    //_ui.UnitUI.SetUnit(s.unit,false);
+                    _selectionState.SetUnit(s.unit, true);
+                    _selector.ShowHints = false;
+                    _selector.Hints.Lock();
+                }
+            }
+            else if (_selectionState.CanSelectTarget)
+            {
+                bool atLeastOneTarget = _selectionState.AppendTarget(s);
+                if (atLeastOneTarget)
+                {
+                    _ui.TargetUI.SetInfo(s.unit?.VisualInformations ?? s.environment.VisualInformations);
+                    _selector.Hints.Lock();
+                    _selector.ShowHints = _selectionState.AcceptsMoreTargets;
+                    _selector.RaiseCurrentHover();
+                    _ui.ConfirmButton.interactable = true;
+                    //TODO Probably maintain a List of targets and not just a single LastTargetUI
+                }
+                else
+                {
+                    //Debug.LogWarning("SELECTION Target not valid");
+                    //TODO Show negative feedback showing target wasn't selected
+                }
             }
         }
 
@@ -122,40 +150,6 @@ namespace Views.Battle
             else
             {
                 //TODO Show cancel feedback
-            }
-        }
-
-
-        private void UpdateSelection(SelectionEventData s)
-        {
-            if (_selectionState.CanSelectUnit)
-            {
-                if (s.unit != null && CanAct(s.unit))
-                {
-                    //In theory, already set by the hover event so redundant but as a safe
-                    //_ui.UnitUI.SetUnit(s.unit,false);
-                    _selectionState.SetUnit(s.unit, true);
-                    _selector.UpdateHint = false;
-                    _selector.Hints.Lock();
-                }
-            }
-            else if (_selectionState.CanSelectTarget)
-            {
-                bool atLeastOneTarget = _selectionState.AppendTarget(s);
-                if (atLeastOneTarget)
-                {
-                    _ui.TargetUI.SetInfo(s.unit?.VisualInformations ?? s.environment.VisualInformations);
-                    _selector.Hints.Lock();
-                    _selector.UpdateHint = _selectionState.AcceptsMoreTargets;
-                    _selector.RaiseCurrentHover();
-                    _ui.ConfirmButton.interactable = true;
-                    //TODO Probably maintain a List of targets and not just a single LastTargetUI
-                }
-                else
-                {
-                    //Debug.LogWarning("SELECTION Target not valid");
-                    //TODO Show negative feedback showing target wasn't selected
-                }
             }
         }
     }

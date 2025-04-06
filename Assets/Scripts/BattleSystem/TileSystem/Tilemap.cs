@@ -91,14 +91,9 @@ namespace BattleSystem.TileSystem
 
         public void SetEnvironment(Environment env)
         {
-            foreach (var phase in Utils.FlagIndexes(env.Position.Phase))
-            {
-                var tile = this[env.Position.Position, phase];
+            foreach (var tile in this[env.Position])
                 if (tile != null)
-                {
                     tile.Base = env;
-                }
-            }
         }
     }
 }

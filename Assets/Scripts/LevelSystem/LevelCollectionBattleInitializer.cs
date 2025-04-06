@@ -49,12 +49,13 @@ namespace LevelSystem
             var precedent = _levels.Precedent;
 
             _selector.Phase.Subscribe(_postProcess);
-            _postProcess.Init();
-            Battle battle = _battleViewInitializer.Init(current, _selector.Phase);
+            _postProcess.Init(); 
+            _battleViewInitializer.Init(current, _selector.Phase, out var selectables, out var battle);
             _battleView.transform.position = precedent.Position;
             _battleView.transform.eulerAngles = precedent.Rotation;
             _battleView.transform.LeanMove(current.Position, _duration).setEase(_ease);
             _battleView.transform.LeanRotate(current.Rotation, _duration).setEase(_ease);
+            _selector.Initialize(selectables);
             _battleView.Init(battle, _selector);
             battle.BattleEnd.AddListener(t =>
             {

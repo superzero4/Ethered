@@ -1,8 +1,12 @@
+using System.Collections.Generic;
+using BattleSystem;
 using Common;
 using LevelSystem;
+using NUnit.Framework;
 using UnitSystem.AI;
 using UnityEngine;
 using Views.Battle.Selection;
+using Selectable = Views.Battle.Selection.Selectable;
 
 namespace Views.Battle
 {
@@ -16,9 +20,11 @@ namespace Views.Battle
 
         public Grid Grid => _grid;
 
-        public BattleSystem.Battle Init(Level current, PhaseSelector phaseSelector)
+        public void Init(Level current, PhaseSelector phaseSelector, out List<Selectable> selectables,
+            out BattleSystem.Battle battle)
         {
-            var battle = new BattleSystem.Battle();
+            selectables = new();
+            battle = new BattleSystem.Battle();
             battle.Init(current.Battle, _brains);
             _grid.transform.position = current.Position;
             _grid.transform.eulerAngles = current.Rotation;
@@ -27,6 +33,8 @@ namespace Views.Battle
                 var unitView = Instantiate(_unitViewPrefab, transform);
                 unitView.Init(unit, _grid);
                 phaseSelector.Subscribe(unitView);
+                Assert.IsTrue((int)unit.Position.Phase >= 0 && (int)unit.Position.Phase <= (int)EPhase.Both,
+                    " Enum values seems corrupted, probably due to unity automatically converting ticking everything and converting all bit to 1 for a negative value, avoid using everything in serialized fields");
             }
 
             foreach (var t in battle.Tiles.TilesFlat)
@@ -37,8 +45,10 @@ namespace Views.Battle
                 phaseSelector.Subscribe(env);
                 phaseSelector.SetLayer(env);
                 env.gameObject.name = "Tile " + t.Base.Position.ToString();
+                selectables.Add(env.Selectable);
+                Assert.IsTrue((int)t.Base.Position.Phase >= 0 && (int)t.Base.Position.Phase < (int)EPhase.Both,
+                    " Enum values seems corrupted, probably due to unity automatically converting ticking everything and converting all bit to 1 for a negative value, avoid using everything in serialized fields");
             }
-            return battle;
         }
     }
 }

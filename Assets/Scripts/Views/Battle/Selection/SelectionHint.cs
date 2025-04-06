@@ -20,7 +20,8 @@ namespace Views.Battle.Selection
             _cache = new();
             if (selectables != null)
                 foreach (var s in selectables)
-                    _cache.Add(s.Tile.Base.Position, s);
+                    if(!_cache.TryAdd(s.Tile.Base.Position, s))
+                        Assert.IsTrue(s.Tile.Base.Position.Phase!=EPhase.Both && s.Tile.Base.Position.Phase!=EPhase.Normal && s.Tile.Base.Position.Phase!=EPhase.Ethered, "A non-ignored tile has been added twice");
         }
 
         public void Clear()
@@ -114,38 +115,31 @@ namespace Views.Battle.Selection
         private int level = 0;
         [SerializeField] private Renderer _renderer;
         [SerializeField] private Material[] _materials;
-        private Material _normal => _materials[0];
-        private Material _alt => _materials[1];
+        public int Level
+        {
+            get => level;
+            set
+            {
+                level = Mathf.Clamp(value, 0, _materials.Length);
+                DisplayBasedOnLevel();
+            }
+        }
 
         public void Deactivate()
         {
-            level = 0;
-            DisplayBasedOnLevel();
+            Level = 0;
         }
 
         public void Toggle(bool b, bool altMaterial = false)
         {
             _renderer.enabled = b;
-            level = altMaterial ? 2 : 1;
-            DisplayBasedOnLevel();
+            Level = altMaterial ? 2 : 1;
         }
 
-        public void DisplayBasedOnLevel()
+        private void DisplayBasedOnLevel()
         {
             _renderer.enabled = level > 0;
             _renderer.material = level > 1 ? _materials[level - 1] : _materials[0];
-        }
-
-        public void Increment()
-        {
-            level++;
-            DisplayBasedOnLevel();
-        }
-
-        public void Decrement()
-        {
-            level--;
-            DisplayBasedOnLevel();
         }
     }
 }

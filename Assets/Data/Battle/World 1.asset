@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: World 1
   m_EditorClassIdentifier: 
   _levels:
-  - _battle: {fileID: 11400000, guid: 749432e0e5a308d4c92f660ba4007e3b, type: 2}
+  - _battle: {fileID: 11400000, guid: 0b19de715cfc90743a7c112499686383, type: 2}
     _position: {x: 0, y: 0, z: 17}
     _rotation: {x: 0, y: 180, z: 0}
   - _battle: {fileID: 11400000, guid: 749432e0e5a308d4c92f660ba4007e3b, type: 2}

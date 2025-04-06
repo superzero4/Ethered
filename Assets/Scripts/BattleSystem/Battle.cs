@@ -114,7 +114,8 @@ namespace BattleSystem
             var specific = info.GetSpecificEnvironments();
             if (specific != null && specific.Any())
                 foreach (var env in specific)
-                    _battleElements.SetEnvironment(env);
+                    if(env.Position.Phase != EPhase.None)
+                        _battleElements.SetEnvironment(env);
             _allies = new List<Unit>();
             var mid = info.Size.x / 2;
             for (int i = 0; i < info.Squad.Units.Count; i++)

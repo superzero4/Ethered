@@ -21,6 +21,9 @@ namespace Views.Battle
         [SerializeField, ReadOnly] private Tile _tile;
         private Renderer _mainRenderer1;
         public Tile Tile => _tile;
+
+        public Selectable Selectable => _selectable;
+
         public void SetTile(Tile tile) => _tile = tile;
 
         protected override void Init(Grid grid)
