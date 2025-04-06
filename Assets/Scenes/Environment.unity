@@ -16839,7 +16839,7 @@ GameObject:
   - component: {fileID: 246798881}
   - component: {fileID: 246798880}
   m_Layer: 0
-  m_Name: Worlds
+  m_Name: LevelSelector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16864,6 +16864,7 @@ MonoBehaviour:
   _postProcess: {fileID: 1772969843}
   _goToNextSceneOnEnd: 1
   _skipShop: 1
+  _levelSkip: 2
   _duration: 3
   _ease: 7
 --- !u!4 &246798881
@@ -135404,6 +135405,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4150613104633244, guid: 92cda5d9d5371c6458ab649792ba5e60, type: 3}
   m_PrefabInstance: {fileID: 1960980059}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1961446283
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1961446284}
+  m_Layer: 0
+  m_Name: Battle3 Hint (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1961446284
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961446283}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.26, y: 9.85, z: -25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1963226918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -147831,3 +147863,4 @@ SceneRoots:
   - {fileID: 667318081}
   - {fileID: 2119534621}
   - {fileID: 1484052391}
+  - {fileID: 1961446284}

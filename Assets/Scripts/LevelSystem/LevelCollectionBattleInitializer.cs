@@ -1,7 +1,7 @@
 using BattleSystem;
 using Common.GlobalFlow;
-using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 using Views.Battle;
 using Views.Battle.Selection;
@@ -22,8 +22,9 @@ namespace LevelSystem
         [SerializeField] private PostProcessPhaseView _postProcess;
         [Header("Settings")] [SerializeField] private bool _goToNextSceneOnEnd = true;
         [SerializeField] private bool _skipShop = true;
-        [FormerlySerializedAs("duration")]
-        [Header("Intro")] 
+
+        [Header("Intro")]
+        [SerializeField,UnityEngine.Range(0,100)]private int _levelSkip;
         [SerializeField,UnityEngine.Range(0,10f)] private float _duration;
         [SerializeField] private LeanTweenType _ease = LeanTweenType.easeInOutCubic;
         private void Awake()
@@ -35,6 +36,7 @@ namespace LevelSystem
             if (!_flag)
             {
                 _levels.Reset();
+                _levels.Increment(_levelSkip);
                 _flag = true;
             }
 
