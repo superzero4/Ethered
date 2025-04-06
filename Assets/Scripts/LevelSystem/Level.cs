@@ -11,10 +11,14 @@ namespace LevelSystem
         [SerializeField] private BattleInfo _battle;
         [SerializeField] private Vector3 _position;
         [SerializeField] private Vector3 _rotation;
-
+        
         public BattleInfo Battle => _battle;
 
-        public Vector3 Position => _position;
+        public Vector3 Position
+        {
+            get => _position;
+            set => _position = value;
+        }
 
         public Vector3 Rotation => _rotation;
     }

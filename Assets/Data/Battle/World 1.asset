@@ -19,3 +19,7 @@ MonoBehaviour:
   - _battle: {fileID: 11400000, guid: 73d592778fc517947a7253233d649979, type: 2}
     _position: {x: 0, y: 0, z: -22}
     _rotation: {x: 0, y: 180, z: 0}
+  PreludePosition:
+    _battle: {fileID: 0}
+    _position: {x: 0, y: 12, z: 35}
+    _rotation: {x: 45, y: 0, z: 0}

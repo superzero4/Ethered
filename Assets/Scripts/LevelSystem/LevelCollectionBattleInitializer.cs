@@ -22,7 +22,10 @@ namespace LevelSystem
         [SerializeField] private PostProcessPhaseView _postProcess;
         [Header("Settings")] [SerializeField] private bool _goToNextSceneOnEnd = true;
         [SerializeField] private bool _skipShop = true;
-
+        [FormerlySerializedAs("duration")]
+        [Header("Intro")] 
+        [SerializeField,UnityEngine.Range(0,10f)] private float _duration;
+        [SerializeField] private LeanTweenType _ease = LeanTweenType.easeInOutCubic;
         private void Awake()
         {
             // Initialize the level collection
@@ -41,11 +44,15 @@ namespace LevelSystem
         private void SetBattle()
         {
             var current = _levels.Current;
+            var precedent = _levels.Precedent;
+
             _selector.Phase.Subscribe(_postProcess);
             _postProcess.Init();
-            var battle = _battleViewInitializer.Init(current.Battle, _selector.Phase);
-            _battleView.transform.position = current.Position;
-            _battleView.transform.eulerAngles = current.Rotation;
+            Battle battle = _battleViewInitializer.Init(current, _selector.Phase);
+            _battleView.transform.position = precedent.Position;
+            _battleView.transform.eulerAngles = precedent.Rotation;
+            _battleView.transform.LeanMove(current.Position, _duration).setEase(_ease);
+            _battleView.transform.LeanRotate(current.Rotation, _duration).setEase(_ease);
             _battleView.Init(battle, _selector);
             battle.BattleEnd.AddListener(t =>
             {

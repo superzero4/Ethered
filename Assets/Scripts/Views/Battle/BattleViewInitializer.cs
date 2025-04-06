@@ -1,4 +1,5 @@
 using Common;
+using LevelSystem;
 using UnitSystem.AI;
 using UnityEngine;
 using Views.Battle.Selection;
@@ -13,10 +14,14 @@ namespace Views.Battle
         [Header("Prefabs")] [SerializeField] private UnitView _unitViewPrefab;
         [SerializeField] private EnvironmentView _environmentViewPrefab;
 
-        public BattleSystem.Battle Init(BattleInfo info, PhaseSelector phaseSelector)
+        public Grid Grid => _grid;
+
+        public BattleSystem.Battle Init(Level current, PhaseSelector phaseSelector)
         {
             var battle = new BattleSystem.Battle();
-            battle.Init(info, _brains);
+            battle.Init(current.Battle, _brains);
+            _grid.transform.position = current.Position;
+            _grid.transform.eulerAngles = current.Rotation;
             foreach (var unit in battle.Units)
             {
                 var unitView = Instantiate(_unitViewPrefab, transform);
