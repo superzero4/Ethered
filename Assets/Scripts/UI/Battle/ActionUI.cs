@@ -40,7 +40,7 @@ namespace UI.Battle
             }
         }
 
-        public void Reset()
+        public override void Reset()
         {
             _highlight.Reset();
         }

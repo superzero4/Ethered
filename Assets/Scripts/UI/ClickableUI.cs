@@ -53,7 +53,7 @@ namespace UI
         /// <returns>The arguments of specified type that will be raised with the event, typically a status represented by a field or other logic, continaing information about what was pressed</returns>
         protected abstract EventArg GetArgs();
 
-        public void Reset()
+        public virtual void Reset()
         {
             interactable = false;
         }

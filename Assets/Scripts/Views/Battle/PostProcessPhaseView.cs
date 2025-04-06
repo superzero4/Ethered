@@ -16,23 +16,35 @@ namespace Views.Battle
         [SerializeField] private Camera _camera;
         [SerializeField] private PostProcessVolume _ppv;
         [SerializeField] private BoxCollider _collider;
-        private Vector3 _startSize;
+        [SerializeField] private Vector3 _startSize;
         [SerializeField] private Vector3 _endSize;
-        [SerializeField, Range(0.001f, 4f)] private float step = 0.1f;
         [SerializeField, Range(0.001f, 1f)] private float blendDistanceMul = 0.8f;
-        private Coroutine _coroutine;
+        [SerializeField, Range(0, 1f)] private float _progress = 0.5f;
+
+        [Header("Tween")] [SerializeField, Range(0.01f, 10f)]
+        private float _duration;
+
+        [SerializeField] private LeanTweenType _easeType;
+        private LTDescr tween;
 
         public void Init()
         {
-            _startSize = _collider.size;
+            _progress = 0;
             UpdateBlendDistance();
         }
 
         private void UpdateBlendDistance()
         {
-            var dist = (_camera.transform.position - (transform.position + _collider.center)).magnitude;
+            var dist = (_camera.transform.position - (_collider.transform.position + _collider.center)).magnitude;
             _ppv.blendDistance = dist * blendDistanceMul;
-            _endSize = _startSize + dist * Vector3.one;
+            _endSize = 2 * dist * Vector3.one;
+            ColliderSize = _progress;
+        }
+
+        private float ColliderSize
+        {
+            get => Mathf.InverseLerp(_startSize.x, _endSize.y, _collider.size.x);
+            set => _collider.size = Vector3.Lerp(_startSize, _endSize, value);
         }
 
         private void OnValidate()
@@ -42,34 +54,29 @@ namespace Views.Battle
 
         public void OnPhaseSelected(PhaseEventData arg0)
         {
-            if (_coroutine != null)
-                StopCoroutine(_coroutine);
+            LeanTween.cancel(_ppv.gameObject);
             if (arg0.phase == EPhase.Ethered)
-                _coroutine = StartCoroutine(PostProcessGrow());
+                tween = PostProcessGrow();
             else
-                _coroutine = StartCoroutine(PostProcessShrink());
+                tween = PostProcessShrink();
         }
 
-        private IEnumerator PostProcessGrow()
+        private LTDescr PostProcessGrow()
         {
-            while (_collider.size.x < _endSize.x)
+            return LeanTween.value(_ppv.gameObject, ColliderSize, 1f, _duration).setEase(_easeType).setOnUpdate((float val) =>
             {
-                yield return new WaitForEndOfFrame();
-                _collider.size += Vector3.one * (step * Time.deltaTime);
-            }
-
-            _collider.size = _endSize;
+                _progress = val;
+                ColliderSize = _progress;
+            });
         }
 
-        private IEnumerator PostProcessShrink()
+        private LTDescr PostProcessShrink()
         {
-            while (_collider.size.x > _startSize.x)
+            return LeanTween.value(_ppv.gameObject, ColliderSize, 0f, _duration).setEase(_easeType).setOnUpdate((float val) =>
             {
-                yield return new WaitForEndOfFrame();
-                _collider.size -= (Time.deltaTime * step) * Vector3.one;
-            }
-
-            _collider.size = _startSize;
+                _progress = val;
+                ColliderSize = _progress;
+            });
         }
     }
 }

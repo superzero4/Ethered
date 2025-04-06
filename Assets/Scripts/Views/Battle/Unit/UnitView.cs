@@ -134,7 +134,6 @@ namespace Views.Battle
 
         private void Attack(UnitAttackData arg0)
         {
-            bool running = true;
             var seq = LeanTween.sequence();
             var origin = CurrentLookAt();
             var targ = new Vector2(arg0.direction.x, arg0.direction.y);
