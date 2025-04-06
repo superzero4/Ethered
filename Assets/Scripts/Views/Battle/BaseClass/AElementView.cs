@@ -38,17 +38,21 @@ namespace Views.Battle
             SetRotation(lookAt);
         }
 
-        protected void SetPosition(Grid grid, Vector3 positionFloat)
-        {
-            var pos = grid.CellToLocalInterpolated(positionFloat);
-            pos.y -= grid.cellSize.y / 2;
-            _root.position = pos;
-        }
+        //protected void SetPosition(Grid grid, Vector3 positionFloat)
+        //{
+        //    var pos = grid.CellToLocalInterpolated(positionFloat);
+        //    pos.y -= grid.cellSize.y / 2;
+        //    SetPosition(pos);
+        //}
 
         private void SetPosition(Grid grid, PositionData dataPos)
         {
-            var pos = WorldPosition(grid, dataPos);
-            _root.position = pos;
+            SetPosition(WorldPosition(grid, dataPos));
+        }
+
+        private void SetPosition(Vector3 position)
+        {
+            _root.position = position;
         }
 
         protected Vector3 WorldPosition(Grid grid, PositionIndexer dataPos)

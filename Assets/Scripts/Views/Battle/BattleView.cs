@@ -21,22 +21,14 @@ namespace Views.Battle
     public class BattleView : MonoBehaviour
     {
         [Header("Settings")] [SerializeField] private float _delay = 0.5f;
-        [SerializeField] private bool _goToNextSceneOnEnd = true;
 
-        [Header("References")]
-        [SerializeField,
-         InfoBox("Component responsible for initialization only to spawn corresponding prefabs and call required init")]
-        private BattleViewInitializer _initializer;
-
-        [SerializeField, InfoBox("Just a big reference holder")]
+        [Header("References")] [SerializeField, InfoBox("Just a big reference holder")]
         private BattleUI _ui;
-
-        [SerializeField] private Selector _selector;
-        [SerializeField] private GlobalMaterialPhaseView _materialPhaseView;
-        [SerializeField] private PostProcessPhaseView _postProcess;
 
         [Header("Read Only")] [SerializeReference] [ReadOnly]
         private SelectionState _selectionState;
+
+        [SerializeReference] [ReadOnly] private Selector _selector;
 
         [SerializeReference] [ReadOnly] private BattleSystem.Battle _battle;
 
@@ -45,14 +37,11 @@ namespace Views.Battle
             get => _battle;
         }
 
-        public BattleViewInitializer Initializer
-        {
-            get { return _initializer; }
-        }
 
-        private void Awake()
+        public void Init(BattleSystem.Battle battle, Selector selector)
         {
-            _battle = _initializer.Init(_selector.Phase);
+            _selector = selector;
+            _battle = battle;
             _selectionState = new SelectionState();
             _ui.Initialize();
             //We set callbacks before initializing the _selector because we basically hook on selectione events and we want everything to be set as the selector initializes
@@ -61,15 +50,6 @@ namespace Views.Battle
             _selector.Initialize();
             _ui.ConfirmButton.AddListener(OnConfirmed);
             _ui.EndTurnButton.AddListener(() => { StartCoroutine(_battle.NextTurn(_delay)); });
-            _battle.BattleEnd.AddListener(t =>
-            {
-                Debug.Log($"Battle Ended, won by {t.winner}");
-                if (_goToNextSceneOnEnd)
-                    SceneFlow.LoadScene(t.winner == ETeam.Player
-                        ? SceneFlow.EScene.SquadMenu
-                        : SceneFlow
-                            .EScene.GameOver);
-            });
             //_selector.SelectionUpdated.AddListener(s => Debug.Log("Selected: " + s.unit));
 
             StartCoroutine(_battle.InitNewTurn(_delay));
@@ -99,8 +79,8 @@ namespace Views.Battle
         {
             _battle.OnTimelineAction.AddListener(_ui.TimelineUI1.OnTimelineMemberInserted);
 
-            _selector.Phase.Subscribe(_ui.PhaseUI, _materialPhaseView, _postProcess);
-
+            _selector.Phase.Subscribe(_ui.PhaseUI);
+            
             _selector.OnHoverChanged.AddListener(OnHover);
             _selector.SelectionUpdated.AddListener(UpdateSelection);
 

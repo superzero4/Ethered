@@ -215,6 +215,7 @@ namespace BattleSystem
         public IEnumerator NextTurn(float delay)
         {
             yield return _turns.NextTurn(delay);
+            yield return new WaitForSeconds(1f);
             CheckForEnd();
         }
 

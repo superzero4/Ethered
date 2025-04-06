@@ -6,6 +6,7 @@ using Common.Events;
 using Common.Events.UserInterface;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using Views.Battle.Selection;
 
 
 namespace Views.Battle
@@ -21,7 +22,7 @@ namespace Views.Battle
         [SerializeField, Range(0.001f, 1f)] private float blendDistanceMul = 0.8f;
         private Coroutine _coroutine;
 
-        private void Awake()
+        public void Init()
         {
             _startSize = _collider.size;
             UpdateBlendDistance();

@@ -15,9 +15,9 @@ MonoBehaviour:
   _size: {x: 5, y: 3}
   _enemies:
     _units:
-    - _maxHealth: 100
+    - _maxHealth: 1
       _armor: 0
-      _actionCollection: {fileID: 11400000, guid: 33937ba1df54f5f469a48c3c28f9c851, type: 2}
+      _actionCollection: {fileID: 11400000, guid: 9e2569a367920f44ba85dd025769db19, type: 2}
       _visualInformations:
         _sprite: {fileID: 21300000, guid: 87a0c0c706c8d0641be7ed6b5b02856e, type: 3}
         _color: {r: 1, g: 1, b: 1, a: 1}
