@@ -91,12 +91,14 @@ namespace Views.Battle
                 onClick.AddListener(a =>
                 {
                     _ui.UnitUI.ResetActionUIs(actionUI);
-                    _selectionState.SelectActionIfValid(a);
+                    //TODO remove the IEnumerbale logic from selection and put it elsewhere
+                    var targs = _selectionState.SelectActionIfValid(a, _battle.Tiles);
+                    _selector.HintMultiple(targs.Select(t=>t.Position));
                 });
                 onClick.AddListener(e =>
                 {
                     _selector.UpdateHint = true;
-                    _selector.Hints.ActivateNew();
+                    //_selector.Hints.ActivateNew();
                 });
                 //onClick.AddListener(e => Debug.LogWarning(" SELECTION Action selected: " + e));
             }

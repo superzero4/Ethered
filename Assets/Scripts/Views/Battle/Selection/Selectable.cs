@@ -14,10 +14,14 @@ namespace Views.Battle.Selection
         [SerializeField]
         private Transform _hintAnchor;
 
+        [SerializeField] private SelectionHint _hint;
+
         public Tile Tile => _env.Tile;
         public SelectionEventData Selection => new(Tile.Base, Tile.Unit);
 
         public Transform HintAnchor => _hintAnchor;
+
+        public SelectionHint Hint => _hint;
 
         private void Awake()
         {

@@ -17,27 +17,32 @@ namespace Views.Battle.Selection
     public class Selector : MonoBehaviour
     {
         private LayerMask _selectionMask;
+        [Header("References")]
         [SerializeField] private Camera _camera;
         [SerializeField] private PhaseSelector _phase;
 
-        [SerializeField] [ReadOnly] private Selectable _lastSelectable;
         
-        [InfoBox("Will find all Hints available in scene on startup and use them")] [SerializeReference] [ReadOnly]
-        private SelectionHintManager _hints;
 
-        [FormerlySerializedAs("_onHoverChanges")] [SerializeField]
+        [Header("Events")]
+        [SerializeField]
         private SelectionEvent _onHoverChanged = new();
 
-        [FormerlySerializedAs("_onSelectionUpdates")] [SerializeField]
+        [SerializeField]
         private SelectionEvent _selectionUpdated = new();
 
         [SerializeField] private ResetEvent _reseted = new();
 
+        [Header("ReadOnly")]
+        [SerializeField] [ReadOnly] private Selectable _lastSelectable;
+        [SerializeReference,ReadOnly]
+        Selectable _previousSelectable;
 
+        [InfoBox("Will find all Hints available in scene on startup and use them")] [SerializeReference] [ReadOnly]
+        private ISelectionHintManager _hints;
         [SerializeField] [ReadOnly] private RaycastHit[] _results;
         [SerializeField] [ReadOnly] private Dictionary<GameObject, Selectable> _selectables;
         private bool _updateHint = true;
-
+        
         public SelectionEvent OnHoverChanged => _onHoverChanged;
 
         public SelectionEvent SelectionUpdated => _selectionUpdated;
@@ -54,31 +59,27 @@ namespace Views.Battle.Selection
             }
         }
 
-        public SelectionHintManager Hints => _hints;
+        public ISelectionHintManager Hints => _hints;
 
         public bool UpdateHint
         {
             get { return _updateHint; }
-            set
-            {
-                _updateHint = value;
-            }
+            set { _updateHint = value; }
         }
 
         public void Initialize()
         {
             _updateHint = true;
-            var hints = FindObjectsByType<SelectionHint>(FindObjectsSortMode.None);
-            Assert.IsTrue(hints != null && hints.Length >= 1);
-            _hints = new SelectionHintManager(hints);
-            _results = new RaycastHit[4];
+            //var hints = FindObjectsByType<SelectionHint>(FindObjectsSortMode.None);
+            //Assert.IsTrue(hints != null && hints.Length >= 1);
             //We have a quick mapping from a gameObject to it's selectable component without the need of a GetComponent on every selection
             Dictionary<GameObject, Selectable> dictionary = new Dictionary<GameObject, Selectable>();
             foreach (Selectable selectable in FindObjectsByType<Selectable>(FindObjectsSortMode.None))
             {
                 dictionary.Add(selectable.gameObject, selectable);
             }
-
+            _hints = new SimpleSelectionHintManager(dictionary.Values);
+            _results = new RaycastHit[4];
             _selectables = dictionary;
             _lastSelectable = dictionary.First().Value;
             RaiseCurrentHover();
@@ -122,6 +123,7 @@ namespace Views.Battle.Selection
                 var selectable = _selectables[_results[i].transform.gameObject];
                 if ((selectable != _lastSelectable && _phase.Contains(selectable.Tile.Phase)))
                 {
+                    _previousSelectable = _lastSelectable;
                     _lastSelectable = selectable;
                     RaiseCurrentHover();
                 }
@@ -132,16 +134,27 @@ namespace Views.Battle.Selection
         {
             _onHoverChanged.Invoke(_lastSelectable.Selection);
             if (_updateHint)
+            {
+                if (_previousSelectable != null)
+                    _hints.Hint(_previousSelectable, false);
                 _hints.Hint(_lastSelectable, true);
+            }
         }
 
         public void Reset()
         {
             _hints.Clear();
-            _hints.ActivateNew();
+            //_hints.ActivateNew();
             UpdateHint = true;
             RaiseCurrentHover();
             _reseted.Invoke();
+        }
+        public void HintMultiple(IEnumerable<PositionData> selectables)
+        {
+            foreach (var selectable in selectables)
+            {
+                _hints.Hint(selectable, true);
+            }
         }
     }
 }

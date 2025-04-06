@@ -17828,7 +17828,7 @@ MonoBehaviour:
   _postProcess: {fileID: 1772969843}
   _goToNextSceneOnEnd: 1
   _skipShop: 1
-  _levelSkip: 2
+  _levelSkip: 0
   _duration: 3
   _ease: 7
 --- !u!4 &246798881
@@ -35130,14 +35130,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8871753077466022495, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
       propertyPath: blendDistance
-      value: 4.7999997
+      value: 5.9999995
       objectReference: {fileID: 0}
     - target: {fileID: 8902184017334097006, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
       propertyPath: m_Name
       value: MinimalBattle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7198382218506610759, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}

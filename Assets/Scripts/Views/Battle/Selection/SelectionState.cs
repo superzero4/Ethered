@@ -60,18 +60,19 @@ namespace Views.Battle.Selection
                 $"Action is incorrect => Unit doesn't have action {action} in list {_origin.Info.Actions}");
             _action = new Action(_origin, action);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="unit"></param>
-        /// <param name="environment"></param>
-        /// <returns>True if either unit or environment in selection was considered a correct target</returns>
-        public bool AppendTarget(SelectionEventData selection)
+
+        public bool AppendTarget(Unit unit, Environment environment)
         {
             Assert.IsTrue(CanSelectTarget,
                 $"Unit {_origin} or Action {_action} is not set before trying to set targets");
             //Action could either target the environment or the potentally null unit on itself, we pass both, each action will filter them individually and add them to target list if they are valid targets (potentially both or none)
-            return _action.TryAppendTargets(_origin, selection.unit, selection.environment);
+            return _action.TryAppendTargets(_origin, unit, environment);
+        }
+
+        public bool AppendTarget(SelectionEventData selection)
+        {
+            //Action could either target the environment or the potentally null unit on itself, we pass both, each action will filter them individually and add them to target list if they are valid targets (potentially both or none)
+            return AppendTarget(selection.unit, selection.environment);
         }
 
         [CanBeNull]
@@ -83,21 +84,26 @@ namespace Views.Battle.Selection
             return _action;
         }
 
-        public void SelectActionIfValid(IActionInfo action)
+        public IEnumerable<IBattleElement> SelectActionIfValid(IActionInfo action, BattleSystem.TileSystem.Tilemap map)
         {
             if (this.CanSelectAction)
             {
                 if (action.CouldUnitExecute(_origin))
                 {
                     this.SetAction(action);
-                    //return true;
+                    foreach (var target in map.TilesFlat)
+                    {
+                        if (action.AreTargetsValid(_origin,target.Unit))
+                            yield return target.Unit;
+                        if (action.AreTargetsValid(_origin, target.Base))
+                            yield return target.Base;
+                    }
                 }
             }
             else
             {
                 _action = null;
                 Debug.LogWarning("SELECTION Action not selected: " + action);
-                //return false;
             }
         }
     }
