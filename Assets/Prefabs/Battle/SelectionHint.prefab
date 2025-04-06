@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1016705841289278931}
   - component: {fileID: 2571957123013372730}
   m_Layer: 6
-  m_Name: Cube
+  m_Name: Square higlhight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,12 +98,12 @@ GameObject:
   - component: {fileID: 7439496951369833879}
   - component: {fileID: 7156366486634486997}
   m_Layer: 6
-  m_Name: Cube Test
+  m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &259187503771106107
 Transform:
   m_ObjectHideFlags: 0
@@ -285,10 +285,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f2bdd0863e9467ab00a975d6172aac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _renderer: {fileID: 2571957123013372730}
-  _materials:
-  - {fileID: 2100000, guid: 70ee623a0efc8fc4da31e453d50f8dd4, type: 2}
-  - {fileID: 2100000, guid: 64583eb72d6b252428211247bbad9543, type: 2}
+  _renderers:
+  - {fileID: 2571957123013372730}
+  - {fileID: 7156366486634486997}
 --- !u!4 &7882137532016905675 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7290076159236482250, guid: e5a3e0e099a6b5e4daa327710821c080, type: 3}

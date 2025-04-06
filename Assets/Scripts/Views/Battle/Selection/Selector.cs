@@ -155,7 +155,7 @@ namespace Views.Battle.Selection
         {
             foreach (var selectable in selectables)
             {
-                _hints.Hint(selectable, true, false);
+                _hints.Hint(selectable);
             }
         }
     }

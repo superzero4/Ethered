@@ -20,8 +20,10 @@ namespace Views.Battle.Selection
             _cache = new();
             if (selectables != null)
                 foreach (var s in selectables)
-                    if(!_cache.TryAdd(s.Tile.Base.Position, s))
-                        Assert.IsTrue(s.Tile.Base.Position.Phase!=EPhase.Both && s.Tile.Base.Position.Phase!=EPhase.Normal && s.Tile.Base.Position.Phase!=EPhase.Ethered, "A non-ignored tile has been added twice");
+                    if (!_cache.TryAdd(s.Tile.Base.Position, s))
+                        Assert.IsTrue(
+                            s.Tile.Base.Position.Phase != EPhase.Both && s.Tile.Base.Position.Phase != EPhase.Normal &&
+                            s.Tile.Base.Position.Phase != EPhase.Ethered, "A non-ignored tile has been added twice");
         }
 
         public void Clear()
@@ -31,10 +33,10 @@ namespace Views.Battle.Selection
         }
 
 
-        public void Hint(PositionData s, bool b, bool altMaterial)
+        public void Hint(PositionData s)
         {
             if (_cache.TryGetValue(s, out var selectable))
-                selectable.Hint.Toggle(b, altMaterial);
+                selectable.Hint.TogglePartial();
             else
                 Assert.IsTrue(false);
         }
@@ -113,33 +115,47 @@ namespace Views.Battle.Selection
     public class SelectionHint : MonoBehaviour
     {
         private int level = 0;
-        [SerializeField] private Renderer _renderer;
-        [SerializeField] private Material[] _materials;
+
+        [SerializeField] private Renderer[] _renderers;
+
+        //[SerializeField] private Material _materials;
         public int Level
         {
             get => level;
             set
             {
-                level = Mathf.Clamp(value, 0, _materials.Length);
-                DisplayBasedOnLevel();
+                var temp = Mathf.Clamp(value, 0, _renderers.Length);
+                if (temp == level)
+                    return;
+                var diff = Mathf.Abs(temp - level);
+                if (diff == 1)
+                {
+                    if (temp > level)
+                        _renderers[temp - 1].enabled = true;
+                    else
+                        _renderers[level - 1].enabled = false;
+                }
+                else
+                {
+                    for (int i = 0; i < _renderers.Length; i++)
+                        _renderers[i].enabled = i == temp - 1;
+                }
+
+                level = temp;
             }
         }
 
         public void Deactivate()
         {
-            Level = 0;
+            level = 0;
+            foreach (var renderer in _renderers)
+                renderer.enabled = false;
         }
 
-        public void Toggle(bool b, bool altMaterial = false)
+        public void TogglePartial()
         {
-            _renderer.enabled = b;
-            Level = altMaterial ? 2 : 1;
-        }
-
-        private void DisplayBasedOnLevel()
-        {
-            _renderer.enabled = level > 0;
-            _renderer.material = level > 1 ? _materials[level - 1] : _materials[0];
+            level = 1;
+            _renderers[0].enabled = !(_renderers[0].enabled);
         }
     }
 }
