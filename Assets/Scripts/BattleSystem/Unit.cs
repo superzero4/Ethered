@@ -36,7 +36,7 @@ namespace UnitSystem
 
         public void Move(PathWrapper newPosition)
         {
-            var eventData = new UnitMovementData() { unit = this, path = newPosition };
+            var eventData = new UnitMovementData() { oldPosition = _position, unit = this, path = newPosition };
             _position = newPosition.Path[^1];
             _onUnitMoves?.Invoke(eventData);
         }

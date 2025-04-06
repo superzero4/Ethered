@@ -116,22 +116,14 @@ namespace Views.Battle
                 var dir = (Vector2)pos.Position - last.Position;
                 var turn = TweenTurn(lastDir, dir, out bool snap, out bool left);
                 if (!snap)
-                    seq.append(() =>
-                    {
-                        Debug.Log("Starting turn animation");
-                        _unitAnimations.Turn(left);
-                    });
+                    seq.append(() => { _unitAnimations.Turn(left); });
                 seq.append(turn);
-                //seq.append(() =>
-                //{
-                //    SetColor();
-                //    SyncVisibility();
-                //});
                 seq.append(() =>
                 {
-                    Debug.Log("Starting run animation");
-                    _unitAnimations.Move();
+                    SetColor();
+                    SyncVisibility();
                 });
+                seq.append(() => { _unitAnimations.Move(); });
                 seq.append(LeanTween.move(_root.gameObject, WorldPosition(_grid, pos),
                     _unitAnimations.MoveTime));
                 //Safe in case of rounding errors in tween

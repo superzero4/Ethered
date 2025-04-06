@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BattleSystem.TileSystem;
 using Common.Events;
 using Common.Events.UserInterface;
 using UnityEngine;
@@ -18,10 +19,12 @@ namespace BattleSystem
 
         public IEnumerable<IBattleElement> Actors => _actions.Select(action => action.Origin);
 
-        public IEnumerator Execute(bool resetAfter, float delay = -1f)
+        public IEnumerator Execute(bool resetAfter, Tilemap map, float delay = -1f)
         {
             foreach (var action in _actions)
             {
+                if (action.CanExecute(map))
+                    action.Execute();
                 action.Execute();
                 yield return delay > 0 ? new WaitForSeconds(delay) : null;
             }

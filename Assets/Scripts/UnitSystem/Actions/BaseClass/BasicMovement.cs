@@ -10,6 +10,9 @@ namespace UnitSystem.Actions.Bases
     [CreateAssetMenu(fileName = "BasicMovement", menuName = "Actions/Movement/BasicMovement", order = 0)]
     public class BasicMovement : ActionInfoBaseSO
     {
+        private static Dictionary<(Unit, TargetCollection), PathWrapper> _cachedPaths =
+            new();
+
         [SerializeField] private EPhase _originPhase;
 
         [SerializeField, UnityEngine.Range(0, 20)]
@@ -17,7 +20,6 @@ namespace UnitSystem.Actions.Bases
 
         [SerializeField] private ERelativePhase _targetPhase;
         public override EPhase OriginPhase => _originPhase;
-        private PathWrapper _pathToTarget;
 
         public override IEnumerable<TargetDefinition> PossibleTargets
         {
@@ -28,6 +30,11 @@ namespace UnitSystem.Actions.Bases
 
         public override bool CanExecuteOnMap(Unit origin, TargetCollection targets, Tilemap map)
         {
+            return FindPath(origin, targets, map);
+        }
+
+        private bool FindPath(Unit origin, TargetCollection targets, Tilemap map)
+        {
             Assert.IsTrue(targets.Count == 1);
             var target = targets.MainTarget;
             //If we are on multiple phases, we need to be able to land on all of them
@@ -37,6 +44,7 @@ namespace UnitSystem.Actions.Bases
                 if (!tile.Empty) return false;
             }
 
+            bool found = false;
             int count = 0;
             foreach ((Tile tile, PathWrapper path) in map.InReach(origin.Position.Position,
                          origin.Position.Phase != target.Position.Phase ? EPhase.Both : origin.Position.Phase, _range))
@@ -46,18 +54,23 @@ namespace UnitSystem.Actions.Bases
                     count++;
                     if (count == hash.Count)
                     {
-                        _pathToTarget = path;
-                        return true;
+                        if (_cachedPaths.ContainsKey((origin, targets)))
+                            _cachedPaths.Remove((origin, targets));
+                        _cachedPaths.Add((origin, targets), path);
+                        found = true;
                     }
                 }
             }
 
-            return false;
+            return found;
         }
 
         public override void Execute(Unit origin, TargetCollection targetCollection)
         {
-            origin.Move(_pathToTarget);
+            Assert.IsTrue(_cachedPaths.ContainsKey((origin, targetCollection)),
+                "Path not found but was validated earlier");
+            var path = _cachedPaths[(origin, targetCollection)];
+            origin.Move(path);
             //targetCollection.MainTarget.Position);
         }
     }

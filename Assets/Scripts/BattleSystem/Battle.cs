@@ -41,7 +41,7 @@ namespace BattleSystem
 
         public IEnumerator TurnEnd(bool b, float delay = .1f)
         {
-            yield return _timeline.Execute(true, delay);
+            yield return _timeline.Execute(true, _battle.Tiles, delay);
         }
 
         public IEnumerator NextTurn(float delay = .1f)
@@ -150,7 +150,15 @@ namespace BattleSystem
 
         private void UnitMoved(UnitMovementData arg0)
         {
-            _battleElements.RemoveUnit(arg0.path.Path[0]);
+            //foreach (var position in arg0.path.Path.Take(2))
+            //{
+            //    foreach (var t in _battleElements[position])
+            //    {
+            //        if (t.Unit != null && t.Unit == arg0.unit)
+            //            _battleElements.RemoveUnit(position);
+            //    }
+            //}
+            _battleElements.RemoveUnit(arg0.oldPosition);
             _battleElements.SetUnit(arg0.unit);
         }
 

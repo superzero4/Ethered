@@ -38,7 +38,6 @@ namespace BattleSystem.TileSystem
                 path.Path.Add(tile.Base.Position);
                 stack.Enqueue((tile, path));
             }
-
             foreach (var start in map[new PositionData(pos.x, pos.y, phase)])
             {
                 Enqueue(start, new PathWrapper(new List<PositionData>()));

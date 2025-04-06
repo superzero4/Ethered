@@ -40,6 +40,7 @@ namespace Common.Events.Combat
     public class UnitMovementData : UnitEventData
     {
         public PathWrapper path;
+        public PositionData oldPosition;
     }
 
     [Serializable]

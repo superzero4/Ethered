@@ -7,7 +7,7 @@ namespace Common.Tool
     {
         [SerializeField] private BattleView _battleView;
         [SerializeField] private ConsoleSimulation _consoleSimulation;
-
+        
         private void Start()
         {
             _consoleSimulation.StartCoroutine(_consoleSimulation.StartSimulation(_battleView.Battle));

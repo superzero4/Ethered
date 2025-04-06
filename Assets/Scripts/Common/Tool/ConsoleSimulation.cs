@@ -7,6 +7,7 @@ using UnitSystem.Actions.Bases;
 using UnityEngine;
 using Action = BattleSystem.Action;
 using Random = UnityEngine.Random;
+using NaughtyAttributes;
 namespace Common.Tool
 {
     public class ConsoleSimulation : MonoBehaviour
@@ -14,15 +15,17 @@ namespace Common.Tool
         [SerializeField] private bool _logStatusToConsole = false;
         [SerializeField] private ActionInfoBaseSO[] _actionsToTest;
         [SerializeField] private ActionInfoBaseSO[] _actionsToTest2;
-
+        private Battle _battle;
         public IEnumerator StartSimulation(Battle battle)
         {
+            _battle = battle;
+            yield break;
             while (true)
             {
                 //To reset timeline in beetween every round, other way action are stacked in and repeated
                 //_actionsToTest2 = new[] { _actionsToTest2[0] };
                 if (_logStatusToConsole)
-                    Debug.LogWarning(battle.ToString());
+                    LogBattle();
                 var units = battle.Units;
                 var allies = units.Take(2);
                 var enemies = units.TakeLast(2);
@@ -39,6 +42,12 @@ namespace Common.Tool
                 yield return battle.NextTurn(-1f);
                 yield return new WaitForSeconds(0.01f);
             }
+        }
+
+        [Button]
+        public void LogBattle()
+        {
+            Debug.LogWarning(_battle.ToString());
         }
 
         public static bool QueueRandomAction(Battle battle, Unit unit)
