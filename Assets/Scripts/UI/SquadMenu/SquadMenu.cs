@@ -15,6 +15,7 @@ namespace SquadSystem
         [SerializeField] private SquadClass squadClass;
         [SerializeField] private UpgradeList upgradeList;
         [SerializeField] private Inventory inventory;
+        [SerializeField] private Shop shop;
         
         private Squad Squad { get; set; }
 
@@ -24,6 +25,7 @@ namespace SquadSystem
             coinsText.SetText(Squad.Coins.ToString());
             etherText.SetText(Squad.Ether.ToString());
             InitInventory();
+            shop.GenerateSquadMemberShopRandomly();
         }
         
         /// <summary>

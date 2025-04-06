@@ -2345,6 +2345,7 @@ MonoBehaviour:
   squadClass: {fileID: 674905509}
   upgradeList: {fileID: 735048441}
   inventory: {fileID: 669466938}
+  shop: {fileID: 1934184188}
 --- !u!4 &630792111
 Transform:
   m_ObjectHideFlags: 0
@@ -2396,10 +2397,10 @@ RectTransform:
   - {fileID: 1413125939}
   m_Father: {fileID: 1089655432}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 40}
-  m_SizeDelta: {x: 340, y: 160}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &652959316
 MonoBehaviour:
@@ -2942,7 +2943,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &841146977
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4345,7 +4346,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1144120065
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6234,10 +6235,10 @@ RectTransform:
   - {fileID: 1127893670}
   m_Father: {fileID: 470876142}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 930.5, y: -368}
+  m_SizeDelta: {x: 350, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1586104096
 MonoBehaviour:
@@ -7016,6 +7017,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1934184187}
+  - component: {fileID: 1934184188}
   m_Layer: 5
   m_Name: Shop
   m_TagString: Untagged
@@ -7047,6 +7049,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 26.5}
   m_SizeDelta: {x: 1920, y: 853}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1934184188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934184186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 316701c2198e4cd78d046e8cc70b136e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSquadMembersInShop: 1
+  maxSquadMembersInShop: 3
+  squadMembersList: []
+  squadMemberShopContainer: {fileID: 1089655431}
+  squadMemberShopPrefab: {fileID: 3578436452276982036, guid: 7e7863cd987ab6d44bf38eb5b239b29c, type: 3}
 --- !u!1 &2052889352
 GameObject:
   m_ObjectHideFlags: 0
@@ -7428,10 +7447,10 @@ RectTransform:
   - {fileID: 554068847}
   m_Father: {fileID: 470876142}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 555.5, y: -368}
+  m_SizeDelta: {x: 350, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2117243942
 MonoBehaviour:
