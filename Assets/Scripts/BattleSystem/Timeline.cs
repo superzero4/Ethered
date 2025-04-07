@@ -25,7 +25,6 @@ namespace BattleSystem
             {
                 if (action.CanExecute(map))
                     action.Execute();
-                action.Execute();
                 yield return delay > 0 ? new WaitForSeconds(delay) : null;
             }
 
