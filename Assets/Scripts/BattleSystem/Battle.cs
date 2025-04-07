@@ -100,6 +100,7 @@ namespace BattleSystem
 
         public void Init(BattleInfo info, IBrainCollection brains)
         {
+            TilemapPathFindingExtensions.ClearCache();
             //Assert.IsNotNull(brains, "Brains were null, ensure that the caller has a reference to a brain collection so it can work correctly");
             _battleEnd = new BattleEvent();
             if (brains == null)
@@ -114,7 +115,7 @@ namespace BattleSystem
             var specific = info.GetSpecificEnvironments();
             if (specific != null && specific.Any())
                 foreach (var env in specific)
-                    if(env.Position.Phase != EPhase.None)
+                    if (env.Position.Phase != EPhase.None)
                         _battleElements.SetEnvironment(env);
             _allies = new List<Unit>();
             var mid = info.Size.x / 2;
@@ -138,7 +139,6 @@ namespace BattleSystem
                 _ennemies.Add(item);
                 _battleElements.SetUnit(item);
             }
-
             SubscribeToUnitsEvents();
         }
 
@@ -162,6 +162,8 @@ namespace BattleSystem
             //}
             _battleElements.RemoveUnit(arg0.oldPosition);
             _battleElements.SetUnit(arg0.unit);
+            //TODO see in basic movement how we should handle the changes of the map in beetween because
+            //TilemapPathFindingExtensions.ClearCache();
         }
 
         public IEnumerable<Action> EnemyActions()
@@ -246,6 +248,7 @@ namespace BattleSystem
 
         public IEnumerator InitNewTurn(float delay)
         {
+            //TilemapPathFindingExtensions.ClearCache();
             yield return _turns.InitNewTurn(delay);
         }
 
@@ -257,10 +260,14 @@ namespace BattleSystem
         public IEnumerable<PositionData> PossibleTargetPosition(Unit origin, IActionInfo action)
         {
             foreach (var target in _battleElements.TilesFlat)
-            {
-                if (action.AreTargetsValid(origin, target.Unit) || action.AreTargetsValid(origin, target.Base))
+                if (TargetPreshot(action, origin, target.Unit) || TargetPreshot(action, origin, target.Base))
                     yield return target.Base.Position;
-            }
+        }
+
+        private bool TargetPreshot(IActionInfo action, Unit origin, IBattleElement target)
+        {
+            return action.AreTargetsValid(origin, target) &&
+                   action.CanExecuteOnMap(origin, new TargetCollection(target), _battleElements);
         }
     }
 }
