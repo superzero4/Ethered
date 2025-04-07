@@ -30,17 +30,16 @@ namespace UI.Battle
 
         public ClickableUI ConfirmButton => _confirmButton;
 
-        public TimelineUI TimelineUI1 => _timelineUI;
+        public TimelineUI TimelineUI => _timelineUI;
 
         public PhaseUI PhaseUI => _phaseUI;
 
         public ClickableUI EndTurnButton => _endTurnButton;
 
-        public void Initialize(UnityAction<ActionEventData> onHoverAction)
+        public void Initialize()
         {
             VisualInformations.Default = _default;
             _unitUI.Initialize();
-            _timelineUI.Initialize(onHoverAction);
         }
     }
 }

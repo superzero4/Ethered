@@ -30,29 +30,32 @@ namespace Views.Battle.Selection
 
         [SerializeField] private ResetEvent _reseted = new();
 
-        [FormerlySerializedAs("_lastSelectable")] [Header("ReadOnly")] [SerializeField] [ReadOnly]
+        [Header("ReadOnly")] [SerializeField] [ReadOnly]
         private Selectable _current;
 
-        [FormerlySerializedAs("_previousSelectable")] [SerializeReference, ReadOnly]
-        int previousSelectedLevel;
+        [SerializeReference, ReadOnly] int previousSelectedLevel;
 
         [InfoBox("Will find all Hints available in scene on startup and use them")] [SerializeReference] [ReadOnly]
         private IHints _hints;
-        [SerializeField] [ReadOnly] private RaycastHit[] _results;
-        [SerializeField] [ReadOnly] private Dictionary<GameObject, Selectable> _selectables;
-        private int _hintLevel = 0;
+
+        [SerializeField] [ReadOnly] private int _hintLevel = 0;
+
+        private RaycastHit[] _results;
+        private Dictionary<GameObject, Selectable> _selectables;
 
         public SelectionEvent HoverChanged => _hoverChanged;
 
         public SelectionEvent SelectionUpdated => _selectionUpdated;
 
         public PhaseSelector Phase => _phase;
+        public IHints Hints => _hints;
 
         public bool ShowHints
         {
             get => _hintLevel > 0;
             set { _hintLevel = value ? 2 : 0; }
         }
+
 
         private void AddResetableElement(IReset resetable) => _reseted.AddListener(resetable.Reset);
 
@@ -68,19 +71,11 @@ namespace Views.Battle.Selection
         public void Initialize(IEnumerable<Selectable> selectables)
         {
             ShowHints = true;
-            //var hints = FindObjectsByType<SelectionHint>(FindObjectsSortMode.None);
-            //Assert.IsTrue(hints != null && hints.Length >= 1);
             //We have a quick mapping from a gameObject to it's selectable component without the need of a GetComponent on every selection
-            Dictionary<GameObject, Selectable> dictionary = new Dictionary<GameObject, Selectable>();
-            foreach (var selectable in selectables)
-            {
-                dictionary.Add(selectable.gameObject, selectable);
-            }
-
-            _hints = new TileHints(dictionary.Values);
+            _selectables = new(selectables.Select(s => new KeyValuePair<GameObject, Selectable>(s.gameObject, s)));
+            _hints = new TileHints(_selectables.Values);
             _results = new RaycastHit[4];
-            _selectables = dictionary;
-            _current = dictionary.First().Value;
+            _current = _selectables.First().Value;
             RaiseCurrentHover();
             _phase.Initialize(EPhase.Normal);
             _selectionMask = _phase.GetLayerMask();
@@ -92,27 +87,23 @@ namespace Views.Battle.Selection
         {
             if (_current != null && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) ||
                                      Input.GetKeyDown(KeyCode.Return)))
-            {
                 _selectionUpdated.Invoke(_current.Selection);
-            }
 
             if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Escape))
-            {
                 Reset();
-            }
         }
 
         private IEnumerator CheckSelection(float delay = 0.016f)
         {
             while (true)
             {
-                Cast();
+                CastRays();
                 yield return new WaitForSeconds(delay);
             }
         }
 
 
-        private void Cast()
+        private void CastRays()
         {
             int result = Physics.RaycastNonAlloc(_camera.ScreenPointToRay(Input.mousePosition), _results,
                 Mathf.Infinity, _selectionMask);
@@ -147,14 +138,6 @@ namespace Views.Battle.Selection
             previousSelectedLevel = 0;
             RaiseCurrentHover();
             _reseted.Invoke();
-        }
-
-        public void HintMultiple(IEnumerable<PositionData> selectables)
-        {
-            foreach (var selectable in selectables)
-            {
-                _hints.Hint(selectable);
-            }
         }
     }
 }
