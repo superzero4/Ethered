@@ -25901,7 +25901,7 @@ GameObject:
   m_Component:
   - component: {fileID: 358908443}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35036,6 +35036,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 328743285070193895, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: _timelineView
+      value: 
+      objectReference: {fileID: 1299627671}
+    - target: {fileID: 328743285070193895, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
       propertyPath: _timelineInfoHints
       value: 
       objectReference: {fileID: 1299627668}
@@ -35167,6 +35171,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4052219919427157630, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: m_Name
+      value: BattleView
+      objectReference: {fileID: 0}
     - target: {fileID: 8871753077466022495, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
       propertyPath: blendDistance
       value: 5.9999995
@@ -35175,7 +35183,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: MinimalBattle
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6380900376036728676, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
     m_RemovedGameObjects:
     - {fileID: 7198382218506610759, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
     m_AddedGameObjects:
@@ -94699,9 +94708,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1299627669}
+  - component: {fileID: 1299627671}
   - component: {fileID: 1299627670}
   m_Layer: 0
-  m_Name: AdditionalHints
+  m_Name: TimelineView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94738,7 +94748,27 @@ MonoBehaviour:
   _phased: 0
   _grid: {fileID: 1556576421}
   _prefab: {fileID: 3911681077726942120, guid: 47dcfaefea442f140930a2d6eb4ee63c, type: 3}
-  _parent: {fileID: 1299627669}
+  _parent: {fileID: 358908443}
+  _hints:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+--- !u!114 &1299627671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299627668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3373329d618c40b8a9bf7c315d39cd08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timelineInfoHints: {fileID: 1299627668}
 --- !u!1001 &1300048000
 PrefabInstance:
   m_ObjectHideFlags: 0
