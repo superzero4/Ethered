@@ -17823,10 +17823,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelsHolder: {fileID: 11400000, guid: 955afbda22b9fbe4695a9980c505a26b, type: 2}
-  _bindings: {fileID: 246798882}
+  _userInput: {fileID: 246798882}
   _battleViewInitializer: {fileID: 1556576419}
   _battleView: {fileID: 2103798996}
   _selector: {fileID: 800712904}
+  _phaseSelector: {fileID: 1087323827}
   _postProcess: {fileID: 1772969843}
   _goToNextSceneOnEnd: 1
   _skipShop: 1
@@ -78995,6 +78996,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4637485734221438, guid: f69b151d9adb0c545be71e702cc68745, type: 3}
   m_PrefabInstance: {fileID: 1086962389}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1087323827 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6468900299471563656, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+  m_PrefabInstance: {fileID: 490565863}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45ac9d30974d47139a278682d507b2dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1087585857
 PrefabInstance:
   m_ObjectHideFlags: 0
