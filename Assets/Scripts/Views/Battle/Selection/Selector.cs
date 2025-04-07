@@ -77,7 +77,7 @@ namespace Views.Battle.Selection
                 dictionary.Add(selectable.gameObject, selectable);
             }
 
-            _hints = new SimpleSelectionHintManager(dictionary.Values);
+            _hints = new TileHints(dictionary.Values);
             _results = new RaycastHit[4];
             _selectables = dictionary;
             _current = dictionary.First().Value;

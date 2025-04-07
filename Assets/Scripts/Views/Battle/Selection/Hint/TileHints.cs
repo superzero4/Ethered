@@ -4,11 +4,11 @@ using NUnit.Framework;
 
 namespace Views.Battle.Selection
 {
-    public class SimpleSelectionHintManager : IHints
+    public class TileHints : IHints
     {
         private Dictionary<PositionData, Selectable> _cache;
 
-        public SimpleSelectionHintManager(IEnumerable<Selectable> selectables = null)
+        public TileHints(IEnumerable<Selectable> selectables = null)
         {
             _cache = new();
             if (selectables != null)
