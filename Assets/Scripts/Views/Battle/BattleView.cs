@@ -23,6 +23,7 @@ namespace Views.Battle
     {
         [Header("Settings")] [SerializeField] private float _delay = 0.5f;
         [SerializeField] private bool _unitActionsPreviewShowEmptyTiles = true;
+        [SerializeField] private bool _allowActionChangeAfterUnitSelected = true;
 
         [Header("References")] [SerializeField, InfoBox("Just a big reference holder")]
         private BattleUI _ui;
@@ -50,7 +51,7 @@ namespace Views.Battle
             _userInput = userInput;
             _selector = selector;
             _battle = battle;
-            _selectionState = new SelectionState();
+            _selectionState = new SelectionState(_allowActionChangeAfterUnitSelected);
 
             //Event linkage
             //SelectionEvents
@@ -105,7 +106,7 @@ namespace Views.Battle
         {
             userInput.Action0.AddListener(i =>
             {
-                if (i >= 0 && i < _ui.UnitUI.ActionUIRead.Length)
+                if (_selectionState.CanSelectAction && i >= 0 && i < _ui.UnitUI.ActionUIRead.Length)
                     _ui.UnitUI.ActionUIRead[i].Click();
             });
             foreach (var actionUI in _ui.UnitUI.ActionUIRead)

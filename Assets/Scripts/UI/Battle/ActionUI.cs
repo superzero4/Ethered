@@ -14,7 +14,7 @@ namespace UI.Battle
 
         protected override void Clicked(IActionInfo args)
         {
-            if(_isActive)
+            if(_isActive && interactable)
                 _highlight.Highlight();
         }
 

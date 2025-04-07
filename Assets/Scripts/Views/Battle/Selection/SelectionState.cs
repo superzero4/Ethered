@@ -16,8 +16,8 @@ namespace Views.Battle.Selection
         [SerializeReference] private Unit _origin;
         [SerializeReference] private Action _action;
         public bool CanSelectUnit => _origin == null;
-        public bool CanSelectAction => !CanSelectUnit && _action == null;
-        public bool CanSelectTarget => !CanSelectUnit && !CanSelectAction;
+        public bool CanSelectAction => !CanSelectUnit && (_allowReplace || _action == null);
+        public bool CanSelectTarget => !CanSelectUnit && _action!=null;
 
         public bool AcceptsMoreTargets
         {
@@ -29,9 +29,10 @@ namespace Views.Battle.Selection
         }
 
         public Unit Origin => _origin;
-
-        public SelectionState()
+        private bool _allowReplace = false;
+        public SelectionState(bool allowReplace)
         {
+            _allowReplace = allowReplace;
             Reset();
         }
 
@@ -54,7 +55,7 @@ namespace Views.Battle.Selection
 
         public void SetAction(IActionInfo action)
         {
-            //Assert.IsTrue(CanSelectAction, "Unit is not set before trying to set action");
+            Assert.IsTrue(CanSelectAction, "Unit is not set before trying to set action");
             Assert.IsTrue(action != null && _origin.Info.Actions != null && _origin.Info.Actions.Contains(action),
                 $"Action is incorrect => Unit doesn't have action {action} in list {_origin.Info.Actions}");
             _action = new Action(_origin, action);
@@ -80,7 +81,7 @@ namespace Views.Battle.Selection
 
         public bool SelectActionIfValid(IActionInfo action, bool allowReplace = false)
         {
-            if (this.CanSelectAction || (!CanSelectUnit && allowReplace))
+            if (this.CanSelectAction)
             {
                 if (action.CouldUnitExecute(_origin))
                 {
