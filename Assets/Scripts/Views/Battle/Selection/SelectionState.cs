@@ -1,4 +1,5 @@
 using BattleSystem;
+using BattleSystem.TileSystem;
 using Common;
 using Common.Events.UserInteraction;
 using JetBrains.Annotations;
@@ -59,18 +60,13 @@ namespace Views.Battle.Selection
             _action = new Action(_origin, action);
         }
 
-        public bool AppendTarget(Unit unit, Environment environment)
+
+        public bool TryAppendTarget(SelectionEventData selection, Tilemap map)
         {
+            //Action could either target the environment or the potentally null unit on itself, we pass both, each action will filter them individually and add them to target list if they are valid targets (potentially both or none)
             Assert.IsTrue(CanSelectTarget,
                 $"Unit {_origin} or Action {_action} is not set before trying to set targets");
-            //Action could either target the environment or the potentally null unit on itself, we pass both, each action will filter them individually and add them to target list if they are valid targets (potentially both or none)
-            return _action.TryAppendTargets(_origin, unit, environment);
-        }
-
-        public bool AppendTarget(SelectionEventData selection)
-        {
-            //Action could either target the environment or the potentally null unit on itself, we pass both, each action will filter them individually and add them to target list if they are valid targets (potentially both or none)
-            return AppendTarget(selection.unit, selection.environment);
+            return _action.TryAppendTargets(_origin, selection.unit, selection.environment) && _action.CanExecute(map);
         }
 
         [CanBeNull]
@@ -98,6 +94,7 @@ namespace Views.Battle.Selection
                 Debug.LogWarning("SELECTION Action not selected: " + action);
                 return false;
             }
+
             return false;
         }
     }

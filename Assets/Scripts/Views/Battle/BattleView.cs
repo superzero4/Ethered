@@ -60,10 +60,12 @@ namespace Views.Battle
             //UI Events
             _timelineView.Init(_ui.TimelineUI, _battle);
             _ui.Initialize();
+            _ui.ConfirmButton.AddListener(()=>Debug.Log("Confirm"));
             _ui.ConfirmButton.AddListener(OnConfirmed);
             _ui.EndTurnButton.AddListener(() => StartCoroutine(_battle.NextTurn(_delay)));
             SetActionUIsCallback(OnActionClicked);
-
+                
+            _selector.Reset();
             StartCoroutine(_battle.InitNewTurn(_delay));
         }
 
@@ -102,7 +104,8 @@ namespace Views.Battle
             var valid = _selectionState.SelectActionIfValid(a);
             if (valid)
             {
-                var targs = _battle.PossibleTargetPosition(_selectionState.Origin, a, _unitActionsPreviewShowEmptyTiles);
+                var targs = _battle.PossibleTargetPosition(_selectionState.Origin, a,
+                    _unitActionsPreviewShowEmptyTiles);
                 _selector.Hints.HintMultiple(targs);
                 _selector.ShowHints = true;
             }
@@ -118,9 +121,9 @@ namespace Views.Battle
                     _selector.ShowHints = false;
                 }
             }
-            else if (_selectionState.CanSelectTarget)
+            else if (_selectionState.CanSelectTarget && _selectionState.AcceptsMoreTargets)
             {
-                bool atLeastOneTarget = _selectionState.AppendTarget(s);
+                bool atLeastOneTarget = _selectionState.TryAppendTarget(s, _battle.Tiles);
                 if (atLeastOneTarget)
                 {
                     _ui.TargetUI.SetInfo(s.unit?.VisualInformations ?? s.environment.VisualInformations);
@@ -128,6 +131,11 @@ namespace Views.Battle
                     _selector.RaiseCurrentHover();
                     _ui.ConfirmButton.interactable = true;
                     //TODO Probably maintain a List of targets and not just a single LastTargetUI
+                }
+                else
+                {
+                    Debug.LogWarning("Reseting on target couldn't append isn't really a good thing, we should try append AND validate the execution on map and then append instead of TryAppend then confirm execution after appending has been made and then reset to compensate that as we do currently");
+                    _selector.Reset();
                 }
             }
         }

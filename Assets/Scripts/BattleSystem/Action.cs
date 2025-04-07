@@ -25,7 +25,6 @@ namespace BattleSystem
             true)]
         private TargetCollection Targets
         {
-            set => _targets = value;
             get => _targets;
         }
 
@@ -59,7 +58,6 @@ namespace BattleSystem
         {
             get { return _targets.Count >= _info.NbTargets; }
         }
-
         /// <summary>
         /// 
         /// </summary>

@@ -42,13 +42,13 @@ namespace UnitSystem
             return phase.HasFlag(target.Phase);
         }
 
-        public bool AreValidTargets(IBattleElement origin, bool contraintTargetType = true,
+        public bool AreValidTargets(IBattleElement origin,
             params IBattleElement[] targets)
         {
             int cnt = 0;
             foreach (var target in targets)
             {
-                bool isValid = IsValidTarget(origin, target, out bool checkForAllTargets, !contraintTargetType);
+                bool isValid = IsValidTarget(origin, target, out bool checkForAllTargets, false);
                 if (!checkForAllTargets)
                     return isValid;
                 else if (isValid)

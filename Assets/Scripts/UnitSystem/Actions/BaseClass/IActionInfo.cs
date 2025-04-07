@@ -29,7 +29,7 @@ namespace UnitSystem.Actions.Bases
             }
 
             return targets.All(t =>
-                PossibleTargets.Any(targetDefinition => targetDefinition.AreValidTargets(origin, false, t)));
+                PossibleTargets.Any(targetDefinition => targetDefinition.AreValidTargets(origin, t)));
         }
 
         public bool IsTargetPositionValid(Unit origin, IBattleElement target)
