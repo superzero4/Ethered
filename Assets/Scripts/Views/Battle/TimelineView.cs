@@ -14,7 +14,7 @@ namespace Views.Battle
 
         public void Init(TimelineUI timelineUI, BattleSystem.Battle battle)
         {
-            _timelineInfoHints.GetComponent<IHints>();
+            _timelineHints = _timelineInfoHints.GetComponent<IHints>();
             timelineUI.Initialize(OnHoverAction);
             battle.OnTimelineAction.AddListener(timelineUI.OnTimelineMemberInserted);
         }
