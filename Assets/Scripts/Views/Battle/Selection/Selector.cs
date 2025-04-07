@@ -24,7 +24,7 @@ namespace Views.Battle.Selection
         [SerializeField] private PhaseSelector _phase;
 
 
-        [Header("Events")] [SerializeField] private SelectionEvent _onHoverChanged = new();
+        [Header("Events")] [SerializeField] private SelectionEvent _hoverChanged = new();
 
         [SerializeField] private SelectionEvent _selectionUpdated = new();
 
@@ -42,7 +42,7 @@ namespace Views.Battle.Selection
         [SerializeField] [ReadOnly] private Dictionary<GameObject, Selectable> _selectables;
         private int _hintLevel = 0;
 
-        public SelectionEvent OnHoverChanged => _onHoverChanged;
+        public SelectionEvent HoverChanged => _hoverChanged;
 
         public SelectionEvent SelectionUpdated => _selectionUpdated;
 
@@ -136,7 +136,7 @@ namespace Views.Battle.Selection
 
         public void RaiseCurrentHover()
         {
-            _onHoverChanged.Invoke(_current.Selection);
+            _hoverChanged.Invoke(_current.Selection);
         }
 
         public void Reset()

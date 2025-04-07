@@ -22,9 +22,11 @@ namespace Views.Battle
     public class BattleView : MonoBehaviour
     {
         [Header("Settings")] [SerializeField] private float _delay = 0.5f;
+        [SerializeField] private bool _unitActionsPreviewShowEmptyTiles = true;
 
         [Header("References")] [SerializeField, InfoBox("Just a big reference holder")]
         private BattleUI _ui;
+
         [SerializeField] private GameObject _timelineInfoHints;
 
 
@@ -44,17 +46,26 @@ namespace Views.Battle
 
         public void Init(BattleSystem.Battle battle, Selector selector)
         {
+            //Creation
             _timelineHints = _timelineInfoHints.GetComponent<IHints>();
             _selector = selector;
             _battle = battle;
             _selectionState = new SelectionState();
-            _ui.Initialize(OnHoverAction);
-            //We set callbacks before initializing the _selector because we basically hook on selectione events and we want everything to be set as the selector initializes
+
+            //Event linkage
+            _battle.OnTimelineAction.AddListener(_ui.TimelineUI1.OnTimelineMemberInserted);
+
+            //SelectionEvents
+            _selector.Phase.Subscribe(_ui.PhaseUI);
             _selector.AddResetables(_selectionState, _ui.ConfirmButton);
-            SetCallbacks();
+            _selector.HoverChanged.AddListener(OnHoverChanged);
+            _selector.SelectionUpdated.AddListener(OnSelectionUpdated);
+
+            //UI Events
+            _ui.Initialize(OnHoverAction);
             _ui.ConfirmButton.AddListener(OnConfirmed);
-            _ui.EndTurnButton.AddListener(() => { StartCoroutine(_battle.NextTurn(_delay)); });
-            //_selector.SelectionUpdated.AddListener(s => Debug.Log("Selected: " + s.unit));
+            _ui.EndTurnButton.AddListener(() => StartCoroutine(_battle.NextTurn(_delay)));
+            SetActionUIsCallback(OnActionClicked);
 
             StartCoroutine(_battle.InitNewTurn(_delay));
         }
@@ -63,18 +74,15 @@ namespace Views.Battle
         {
             var action = arg0.action;
             if (action != null)
-            {
-                _timelineHints.HintMultiple(action.TargetsEnumerable.Select(t => t.Position).Append(action.Origin.Position));
-            }
+                _timelineHints.HintMultiple(action.TargetsEnumerable.Select(t => t.Position)
+                    .Append(action.Origin.Position));
             else
-            {
                 _timelineHints.Clear();
-            }
         }
 
         public bool CanAct(Unit unit) => unit != null && unit.Team == ETeam.Player && _battle.CanStillAct(unit);
 
-        private void OnHover(SelectionEventData selection)
+        private void OnHoverChanged(SelectionEventData selection)
         {
             var unit = selection.unit;
             if (_selectionState.CanSelectUnit)
@@ -92,36 +100,30 @@ namespace Views.Battle
         }
 
         [SuppressMessage("ReSharper", "ConvertClosureToMethodGroup")]
-        private void SetCallbacks()
+        private void SetActionUIsCallback(UnityAction<IActionInfo> onClick)
         {
-            _battle.OnTimelineAction.AddListener(_ui.TimelineUI1.OnTimelineMemberInserted);
-
-            _selector.Phase.Subscribe(_ui.PhaseUI);
-
-            _selector.OnHoverChanged.AddListener(OnHover);
-            _selector.SelectionUpdated.AddListener(UpdateSelection);
-
             foreach (var actionUI in _ui.UnitUI.ActionUIs)
             {
                 _selector.AddResetables(actionUI);
-                UnityEvent<IActionInfo> onClick = actionUI.OnClick;
-                onClick.AddListener(a =>
-                {
-                    _ui.UnitUI.ResetActionUIs(actionUI);
-                    //TODO remove the IEnumerbale logic from selection and put it elsewhere
-                    var valid = _selectionState.SelectActionIfValid(a);
-                    if (valid)
-                    {
-                        var targs = _battle.PossibleTargetPosition(_selectionState.Origin, a);
-                        _selector.HintMultiple(targs);
-                        _selector.ShowHints = true;
-                    }
-                });
+                actionUI.OnClick.AddListener(a => _ui.UnitUI.ResetActionUIs(actionUI));
+                actionUI.OnClick.AddListener(onClick);
                 //onClick.AddListener(e => Debug.LogWarning(" SELECTION Action selected: " + e));
             }
         }
 
-        private void UpdateSelection(SelectionEventData s)
+        private void OnActionClicked(IActionInfo a)
+        {
+            //TODO remove the IEnumerbale logic from selection and put it elsewhere
+            var valid = _selectionState.SelectActionIfValid(a);
+            if (valid)
+            {
+                var targs = _battle.PossibleTargetPosition(_selectionState.Origin, a);
+                _selector.HintMultiple(targs);
+                _selector.ShowHints = true;
+            }
+        }
+
+        private void OnSelectionUpdated(SelectionEventData s)
         {
             if (_selectionState.CanSelectUnit)
             {
