@@ -13,13 +13,13 @@ namespace UI.Battle
     {
         [SerializeField] private List<ActionUI> _actionUIs;
         [SerializeField] private InfoUI _unitUI;
-        private DynamicHideAndShow<ActionUI> _dynamicHideAndShow;
+        [SerializeReference] private Pool<ActionUI> _pool;
 
         public IEnumerable<ActionUI> ActionUIs => _actionUIs;
 
         public void Initialize()
         {
-            _dynamicHideAndShow = new DynamicHideAndShow<ActionUI>(_actionUIs);
+            _pool = new Pool<ActionUI>(_actionUIs);
         }
 
         //TODO implement grayScale by refactoring logic used for action, make it also valid for unit icons
@@ -29,11 +29,11 @@ namespace UI.Battle
             (this as IVisualInformationUI).SetIcon(unitInfo);
             if (unitInfo == null || unitInfo.Actions == null || !displayAction)
             {
-                _dynamicHideAndShow.Reset();
+                _pool.Reset();
                 return;
             }
             
-            _dynamicHideAndShow.SetPanels(unit.Info.Actions,
+            _pool.SetElements(unit.Info.Actions,
                 (action, actionUI) => { actionUI.SetAction(action, action.CouldUnitExecute(unit)); });
         }
 

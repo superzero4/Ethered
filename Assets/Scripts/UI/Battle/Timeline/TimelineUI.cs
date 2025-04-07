@@ -13,11 +13,11 @@ namespace UI.Battle
     public class TimelineUI : MonoBehaviour, IReset
     {
         [SerializeField] private TimelineMemberUI _memberPrefab;
-        private DynamicHideAndShow<TimelineMemberUI> _memberPool;
+        [SerializeReference]private Pool<TimelineMemberUI> _memberPool;
         private UnityAction<ActionEventData> _onHover;
         public void Initialize(UnityAction<ActionEventData> onHover)
         {
-            _memberPool = new DynamicHideAndShow<TimelineMemberUI>(_memberPrefab, 10, transform);
+            _memberPool = new Pool<TimelineMemberUI>(_memberPrefab, 10, transform);
             _onHover = onHover;
         }
 
