@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using BattleSystem;
+using Common;
 using Common.Events;
 using Common.Events.UserInteraction;
 using Common.GlobalFlow;
@@ -31,7 +32,7 @@ namespace Views.Battle
 
         [Header("Read Only")] [SerializeReference] [ReadOnly]
         private SelectionState _selectionState;
-
+        private UserInput _userInput;
         [SerializeField] [ReadOnly] private Selector _selector;
 
         [SerializeReference] [ReadOnly] private BattleSystem.Battle _battle;
@@ -42,30 +43,40 @@ namespace Views.Battle
         }
 
 
-        public void Init(BattleSystem.Battle battle, Selector selector)
+        public void Init(BattleSystem.Battle battle, Selector selector, PhaseSelector phase, UserInput userInput)
         {
             //Creation
+            _userInput = userInput;
             _selector = selector;
             _battle = battle;
             _selectionState = new SelectionState();
 
             //Event linkage
-
             //SelectionEvents
-            _selector.Phase.Subscribe(_ui.PhaseUI);
-            _selector.AddResetables(_selectionState, _ui.ConfirmButton);
-            _selector.HoverChanged.AddListener(OnHoverChanged);
-            _selector.SelectionUpdated.AddListener(OnSelectionUpdated);
+            userInput.AddResetables(_selectionState, _ui.ConfirmButton);
+            selector.HoverChanged.AddListener(OnHoverChanged);
+            selector.SelectionUpdated.AddListener(OnSelectionUpdated);
 
             //UI Events
-            _timelineView.Init(_ui.TimelineUI, _battle);
-            _ui.Initialize();
-            _ui.ConfirmButton.AddListener(()=>Debug.Log("Confirm"));
+            _timelineView.Init(_ui.TimelineUI, battle);
+            phase.Subscribe(_ui.PhaseUI);
+            _ui.Initialize(userInput);
+            userInput.Confirm.AddListener(() =>
+            {
+                if(!_ui.ConfirmButton.interactable)
+                    _userInput.ForceMouse();
+                else
+                    _ui.ConfirmButton.Click();
+            });
             _ui.ConfirmButton.AddListener(OnConfirmed);
-            _ui.EndTurnButton.AddListener(() => StartCoroutine(_battle.NextTurn(_delay)));
-            SetActionUIsCallback(OnActionClicked);
-                
-            _selector.Reset();
+            _ui.EndTurnButton.AddListener(() =>
+            {
+                userInput.ForceReset();
+                StartCoroutine(battle.NextTurn(_delay));
+            });
+            SetActionUIsCallback(OnActionClicked, userInput);
+
+            userInput.ForceReset();
             StartCoroutine(_battle.InitNewTurn(_delay));
         }
 
@@ -89,11 +100,17 @@ namespace Views.Battle
         }
 
         [SuppressMessage("ReSharper", "ConvertClosureToMethodGroup")]
-        private void SetActionUIsCallback(UnityAction<IActionInfo> onClick)
+        private void SetActionUIsCallback(UnityAction<IActionInfo> onClick, UserInput userInput)
         {
-            foreach (var actionUI in _ui.UnitUI.ActionUIs)
+            int i = 0;
+            userInput.Action0.AddListener(a =>
             {
-                _selector.AddResetables(actionUI);
+                if (i < _ui.UnitUI.ActionUIRead.Length)
+                    _ui.UnitUI.ActionUIRead[i].Click();
+            });
+            foreach (var actionUI in _ui.UnitUI.ActionUIRead)
+            {
+                userInput.AddResetables(actionUI);
                 actionUI.OnClick.AddListener(a => _ui.UnitUI.ResetActionUIs(actionUI));
                 actionUI.OnClick.AddListener(onClick);
             }
@@ -134,8 +151,9 @@ namespace Views.Battle
                 }
                 else
                 {
-                    Debug.LogWarning("Reseting on target couldn't append isn't really a good thing, we should try append AND validate the execution on map and then append instead of TryAppend then confirm execution after appending has been made and then reset to compensate that as we do currently");
-                    _selector.Reset();
+                    Debug.LogWarning(
+                        "Reseting on target couldn't append isn't really a good thing, we should try append AND validate the execution on map and then append instead of TryAppend then confirm execution after appending has been made and then reset to compensate that as we do currently");
+                    _userInput.ForceReset();
                 }
             }
         }
@@ -144,7 +162,7 @@ namespace Views.Battle
         {
             var action = _selectionState.Confirm();
             var confirmed = _battle.ConfirmAction(action);
-            _selector.Reset();
+            _userInput.ForceReset();
             if (!confirmed)
             {
                 //TODO Show cancel feedback

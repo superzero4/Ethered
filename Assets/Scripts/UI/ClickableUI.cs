@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Common;
 using Common.Events;
 using Common.Events.UserInteraction;
@@ -25,6 +26,12 @@ namespace UI
         }
 
         public UnityEvent<EventArg> OnClick => _onClick;
+
+        public void Click()
+        {
+            if (interactable)
+                OnClick.Invoke(GetArgs());
+        }
 
         /// <summary>
         /// This is supposed to handle any internal logic/changes that should happen on click, it has the same information than the external that would subscribe to the method, possibly empty

@@ -16,5 +16,9 @@ namespace BattleSystem
             //Is power of 2
             return (phase & (phase - 1)) == 0;
         }
+        public static bool Contains(this EPhase _phase, EPhase other)
+        {
+            return (_phase & other) != 0b0;
+        }
     }
 }

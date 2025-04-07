@@ -21,10 +21,7 @@ namespace Views.Battle.Selection
                 _onSelectedPhaseChanges.AddListener(v.OnPhaseSelected);
             }
         }
-        public bool Contains(EPhase other)
-        {
-            return (_phase & other) != 0b0;
-        }
+        
         
         private void Update()
         {

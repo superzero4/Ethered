@@ -15,7 +15,7 @@ namespace UI.Battle
         [SerializeField] private InfoUI _unitUI;
         [SerializeReference] private Pool<ActionUI> _pool;
 
-        public IEnumerable<ActionUI> ActionUIs => _actionUIs;
+        public ActionUI[] ActionUIRead => _actionUIs.ToArray();
 
         public void Initialize()
         {

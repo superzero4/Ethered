@@ -1,4 +1,6 @@
 using BattleSystem;
+using Common;
+using Common.Events.Combat;
 using Common.GlobalFlow;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -16,17 +18,23 @@ namespace LevelSystem
         [Header("References")] [SerializeField]
         private Object _levelsHolder;
 
+        [FormerlySerializedAs("_bindings")] [SerializeField] private UserInput _userInput;
         [SerializeField] private BattleViewInitializer _battleViewInitializer;
         [SerializeField] private BattleView _battleView;
         [SerializeField] private Selector _selector;
+        [SerializeField] private PhaseSelector _phaseSelector;
         [SerializeField] private PostProcessPhaseView _postProcess;
         [Header("Settings")] [SerializeField] private bool _goToNextSceneOnEnd = true;
         [SerializeField] private bool _skipShop = true;
 
-        [Header("Intro")]
-        [SerializeField,UnityEngine.Range(0,100)]private int _levelSkip;
-        [SerializeField,UnityEngine.Range(0,10f)] private float _duration;
+        [Header("Intro")] [SerializeField, UnityEngine.Range(0, 100)]
+        private int _levelSkip;
+
+        [SerializeField, UnityEngine.Range(0, 10f)]
+        private float _duration;
+
         [SerializeField] private LeanTweenType _ease = LeanTweenType.easeInOutCubic;
+
         private void Awake()
         {
             // Initialize the level collection
@@ -48,38 +56,54 @@ namespace LevelSystem
             var current = _levels.Current;
             var precedent = _levels.Precedent;
 
-            _selector.Phase.Subscribe(_postProcess);
-            _postProcess.Init(); 
-            _battleViewInitializer.Init(current, _selector.Phase, out var selectables, out var battle);
+            _postProcess.Init();
+
+            _phaseSelector.Subscribe(_postProcess);
+            _phaseSelector.Subscribe(_selector);
+            _phaseSelector.Subscribe();
+
+            _userInput.AddResetables(_selector);
+            _userInput.MouseButton.AddListener(_selector.Select);
+
+            _battleViewInitializer.Init(current, _phaseSelector, out var selectables, out var battle);
+            _selector.Initialize(selectables, _phaseSelector.GetLayerMask());
+            _battleView.Init(battle, _selector, _phaseSelector, _userInput);
+            _userInput.Reset.Invoke();
+            _phaseSelector.Initialize(EPhase.Normal);
+            battle.BattleEnd.AddListener(OnBattleEnd);
+            AnimateBattleView(precedent, current);
+        }
+
+        private void OnBattleEnd(BattleEventData t)
+        {
+            Debug.Log($"Battle Ended, won by {t.winner}");
+            if (_goToNextSceneOnEnd)
+            {
+                if (t.winner == ETeam.Enemy)
+                {
+                    _levels.Reset();
+                    SceneFlow.LoadScene(SceneFlow.EScene.GameOver);
+                }
+                else
+                {
+                    _levels.Increment();
+                    if (_skipShop)
+                    {
+                        //TODO hot reload scene intelligently instead if needed
+                        SceneFlow.LoadScene(SceneFlow.EScene.Battle);
+                    }
+                    else
+                        SceneFlow.LoadScene(SceneFlow.EScene.SquadMenu);
+                }
+            }
+        }
+
+        private void AnimateBattleView(Level precedent, Level current)
+        {
             _battleView.transform.position = precedent.Position;
             _battleView.transform.eulerAngles = precedent.Rotation;
             _battleView.transform.LeanMove(current.Position, _duration).setEase(_ease);
             _battleView.transform.LeanRotate(current.Rotation, _duration).setEase(_ease);
-            _selector.Initialize(selectables);
-            _battleView.Init(battle, _selector);
-            battle.BattleEnd.AddListener(t =>
-            {
-                Debug.Log($"Battle Ended, won by {t.winner}");
-                if (_goToNextSceneOnEnd)
-                {
-                    if (t.winner == ETeam.Enemy)
-                    {
-                        _levels.Reset();
-                        SceneFlow.LoadScene(SceneFlow.EScene.GameOver);
-                    }
-                    else
-                    {
-                        _levels.Increment();
-                        if (_skipShop)
-                        {
-                            //TODO hot reload scene intelligently instead if needed
-                            SceneFlow.LoadScene(SceneFlow.EScene.Battle);
-                        }
-                        else
-                            SceneFlow.LoadScene(SceneFlow.EScene.SquadMenu);
-                    }
-                }
-            });
         }
     }
 }

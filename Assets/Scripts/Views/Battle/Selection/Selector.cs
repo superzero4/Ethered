@@ -6,6 +6,7 @@ using System.Linq;
 using BattleSystem;
 using Common;
 using Common.Events.UserInteraction;
+using Common.Events.UserInterface;
 using NaughtyAttributes;
 using NUnit.Framework;
 using UnityEngine;
@@ -14,24 +15,21 @@ using ReadOnly = NaughtyAttributes.ReadOnlyAttribute;
 
 namespace Views.Battle.Selection
 {
-    public class Selector : MonoBehaviour
+    public class Selector : MonoBehaviour, IReset, IPhaseView
     {
         private LayerMask _selectionMask;
 
         [Header("References")] [SerializeField]
         private Camera _camera;
 
-        [SerializeField] private PhaseSelector _phase;
-
-
         [Header("Events")] [SerializeField] private SelectionEvent _hoverChanged = new();
 
         [SerializeField] private SelectionEvent _selectionUpdated = new();
 
-        [SerializeField] private ResetEvent _reseted = new();
+        [Header("ReadOnly")] [SerializeField, ReadOnly]
+        private EPhase _phase;
 
-        [Header("ReadOnly")] [SerializeField] [ReadOnly]
-        private Selectable _current;
+        [SerializeField] [ReadOnly] private Selectable _current;
 
         [SerializeReference, ReadOnly] int previousSelectedLevel;
 
@@ -42,12 +40,8 @@ namespace Views.Battle.Selection
 
         private RaycastHit[] _results;
         private Dictionary<GameObject, Selectable> _selectables;
-
         public SelectionEvent HoverChanged => _hoverChanged;
-
         public SelectionEvent SelectionUpdated => _selectionUpdated;
-
-        public PhaseSelector Phase => _phase;
         public IHints Hints => _hints;
 
         public bool ShowHints
@@ -56,19 +50,7 @@ namespace Views.Battle.Selection
             set { _hintLevel = value ? 2 : 0; }
         }
 
-
-        private void AddResetableElement(IReset resetable) => _reseted.AddListener(resetable.Reset);
-
-        public void AddResetables(params IReset[] resetable)
-        {
-            foreach (var resetable1 in resetable)
-            {
-                AddResetableElement(resetable1);
-            }
-        }
-
-
-        public void Initialize(IEnumerable<Selectable> selectables)
+        public void Initialize(IEnumerable<Selectable> selectables, LayerMask mask)
         {
             ShowHints = true;
             //We have a quick mapping from a gameObject to it's selectable component without the need of a GetComponent on every selection
@@ -77,20 +59,14 @@ namespace Views.Battle.Selection
             _results = new RaycastHit[4];
             _current = _selectables.First().Value;
             RaiseCurrentHover();
-            _phase.Initialize(EPhase.Normal);
-            _selectionMask = _phase.GetLayerMask();
+            _selectionMask = mask;
             StartCoroutine(CheckSelection());
-            Reset();
         }
 
-        private void Update()
+        public void Select()
         {
-            if (_current != null && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) ||
-                                     Input.GetKeyDown(KeyCode.Return)))
-                _selectionUpdated.Invoke(_current.Selection);
-
-            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Escape))
-                Reset();
+            if (_current == null) return;
+            _selectionUpdated.Invoke(_current.Selection);
         }
 
         private IEnumerator CheckSelection(float delay = 0.016f)
@@ -133,11 +109,14 @@ namespace Views.Battle.Selection
         public void Reset()
         {
             _hints.Clear();
-            //_hints.ActivateNew();
             ShowHints = true;
             previousSelectedLevel = 0;
             RaiseCurrentHover();
-            _reseted.Invoke();
+        }
+
+        public void OnPhaseSelected(PhaseEventData arg0)
+        {
+            _phase = arg0.phase;
         }
     }
 }

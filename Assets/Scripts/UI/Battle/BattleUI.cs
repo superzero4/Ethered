@@ -1,3 +1,4 @@
+using Common;
 using Common.Events.Combat;
 using Common.Visuals;
 using NaughtyAttributes;
@@ -36,8 +37,9 @@ namespace UI.Battle
 
         public ClickableUI EndTurnButton => _endTurnButton;
 
-        public void Initialize()
+        public void Initialize(UserInput userInput)
         {
+            userInput.EndTurn.AddListener(_endTurnButton.Click);
             VisualInformations.Default = _default;
             _unitUI.Initialize();
         }
