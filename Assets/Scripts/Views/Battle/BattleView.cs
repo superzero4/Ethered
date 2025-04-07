@@ -32,6 +32,7 @@ namespace Views.Battle
 
         [Header("Read Only")] [SerializeReference] [ReadOnly]
         private SelectionState _selectionState;
+
         private UserInput _userInput;
         [SerializeField] [ReadOnly] private Selector _selector;
 
@@ -63,7 +64,7 @@ namespace Views.Battle
             _ui.Initialize(userInput);
             userInput.Confirm.AddListener(() =>
             {
-                if(!_ui.ConfirmButton.interactable)
+                if (!_ui.ConfirmButton.interactable)
                     _userInput.ForceMouse();
                 else
                     _ui.ConfirmButton.Click();
@@ -102,10 +103,9 @@ namespace Views.Battle
         [SuppressMessage("ReSharper", "ConvertClosureToMethodGroup")]
         private void SetActionUIsCallback(UnityAction<IActionInfo> onClick, UserInput userInput)
         {
-            int i = 0;
-            userInput.Action0.AddListener(a =>
+            userInput.Action0.AddListener(i =>
             {
-                if (i < _ui.UnitUI.ActionUIRead.Length)
+                if (i >= 0 && i < _ui.UnitUI.ActionUIRead.Length)
                     _ui.UnitUI.ActionUIRead[i].Click();
             });
             foreach (var actionUI in _ui.UnitUI.ActionUIRead)
@@ -115,14 +115,14 @@ namespace Views.Battle
                 actionUI.OnClick.AddListener(onClick);
             }
         }
-
         private void OnActionClicked(IActionInfo a)
         {
-            var valid = _selectionState.SelectActionIfValid(a);
+            var valid = _selectionState.SelectActionIfValid(a, true);
             if (valid)
             {
                 var targs = _battle.PossibleTargetPosition(_selectionState.Origin, a,
                     _unitActionsPreviewShowEmptyTiles);
+                _selector.Reset();
                 _selector.Hints.HintMultiple(targs);
                 _selector.ShowHints = true;
             }

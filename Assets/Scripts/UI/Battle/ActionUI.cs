@@ -18,11 +18,6 @@ namespace UI.Battle
                 _highlight.Highlight();
         }
 
-        protected override void AfterAwake()
-        {
-            base.AfterAwake();
-        }
-
         protected override IActionInfo GetArgs()
         {
             return _action;

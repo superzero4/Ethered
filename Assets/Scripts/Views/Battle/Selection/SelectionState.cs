@@ -54,7 +54,7 @@ namespace Views.Battle.Selection
 
         public void SetAction(IActionInfo action)
         {
-            Assert.IsTrue(CanSelectAction, "Unit is not set before trying to set action");
+            //Assert.IsTrue(CanSelectAction, "Unit is not set before trying to set action");
             Assert.IsTrue(action != null && _origin.Info.Actions != null && _origin.Info.Actions.Contains(action),
                 $"Action is incorrect => Unit doesn't have action {action} in list {_origin.Info.Actions}");
             _action = new Action(_origin, action);
@@ -78,9 +78,9 @@ namespace Views.Battle.Selection
             return _action;
         }
 
-        public bool SelectActionIfValid(IActionInfo action)
+        public bool SelectActionIfValid(IActionInfo action, bool allowReplace = false)
         {
-            if (this.CanSelectAction)
+            if (this.CanSelectAction || (!CanSelectUnit && allowReplace))
             {
                 if (action.CouldUnitExecute(_origin))
                 {

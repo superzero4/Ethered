@@ -93,8 +93,6 @@ namespace Views.Battle.Selection
                     {
                         _current.Hint.Level = previousSelectedLevel;
                         _current = selectable;
-                        previousSelectedLevel = _current.Hint.Level;
-                        _current.Hint.Level = _hintLevel;
                         RaiseCurrentHover();
                     }
                 }
@@ -103,6 +101,8 @@ namespace Views.Battle.Selection
 
         public void RaiseCurrentHover()
         {
+            previousSelectedLevel = _current.Hint.Level;
+            _current.Hint.Level = _hintLevel;
             _hoverChanged.Invoke(_current.Selection);
         }
 
