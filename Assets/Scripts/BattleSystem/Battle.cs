@@ -221,6 +221,7 @@ namespace BattleSystem
             yield return _turns.NextTurn(delay);
             yield return new WaitForSeconds(1f);
             CheckForEnd();
+            TilemapPathFindingExtensions.ClearCache();
         }
 
         private void CheckForEnd()
