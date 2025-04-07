@@ -102,7 +102,7 @@ namespace Views.Battle
             var valid = _selectionState.SelectActionIfValid(a);
             if (valid)
             {
-                var targs = _battle.PossibleTargetPosition(_selectionState.Origin, a);
+                var targs = _battle.PossibleTargetPosition(_selectionState.Origin, a, _unitActionsPreviewShowEmptyTiles);
                 _selector.Hints.HintMultiple(targs);
                 _selector.ShowHints = true;
             }

@@ -139,6 +139,7 @@ namespace BattleSystem
                 _ennemies.Add(item);
                 _battleElements.SetUnit(item);
             }
+
             SubscribeToUnitsEvents();
         }
 
@@ -258,16 +259,18 @@ namespace BattleSystem
             return _turns.CanStillAct(unit);
         }
 
-        public IEnumerable<PositionData> PossibleTargetPosition(Unit origin, IActionInfo action)
+        public IEnumerable<PositionData> PossibleTargetPosition(Unit origin, IActionInfo action, bool absolute)
         {
             foreach (var target in _battleElements.TilesFlat)
-                if (TargetPreshot(action, origin, target.Unit) || TargetPreshot(action, origin, target.Base))
+                if (TargetPreshot(action, origin, target.Unit, absolute) ||
+                    TargetPreshot(action, origin, target.Base, absolute))
                     yield return target.Base.Position;
         }
 
-        private bool TargetPreshot(IActionInfo action, Unit origin, IBattleElement target)
+        private bool TargetPreshot(IActionInfo action, Unit origin, IBattleElement target, bool checkPositionOnly)
         {
-            return action.AreTargetsValid(origin, target) &&
+            return ((checkPositionOnly && action.IsTargetPositionValid(origin, target)) ||
+                    action.AreTargetsValid(origin, target)) &&
                    action.CanExecuteOnMap(origin, new TargetCollection(target), _battleElements);
         }
     }
