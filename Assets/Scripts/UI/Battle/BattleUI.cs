@@ -1,6 +1,8 @@
+using Common.Events.Combat;
 using Common.Visuals;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 namespace UI.Battle
@@ -34,11 +36,11 @@ namespace UI.Battle
 
         public ClickableUI EndTurnButton => _endTurnButton;
 
-        public void Initialize()
+        public void Initialize(UnityAction<ActionEventData> onHoverAction)
         {
             VisualInformations.Default = _default;
             _unitUI.Initialize();
-            _timelineUI.Initialize();
+            _timelineUI.Initialize(onHoverAction);
         }
     }
 }

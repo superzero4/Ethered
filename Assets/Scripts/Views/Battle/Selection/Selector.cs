@@ -37,9 +37,7 @@ namespace Views.Battle.Selection
         int previousSelectedLevel;
 
         [InfoBox("Will find all Hints available in scene on startup and use them")] [SerializeReference] [ReadOnly]
-        private SimpleSelectionHintManager _hints;
-
-        public SimpleSelectionHintManager Hints => _hints;
+        private IHints _hints;
         [SerializeField] [ReadOnly] private RaycastHit[] _results;
         [SerializeField] [ReadOnly] private Dictionary<GameObject, Selectable> _selectables;
         private int _hintLevel = 0;

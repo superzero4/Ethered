@@ -1,16 +1,24 @@
 using BattleSystem;
+using Common.Events.Combat;
+using Common.Events.UserInterface;
 using Common.Visuals;
 using UnitSystem;
 using UnitSystem.Actions.Bases;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace UI.Battle
 {
-    public class TimelineMemberUI : MonoBehaviour, IVisualInformationUI
+    public class TimelineMemberUI : MonoBehaviour, IVisualInformationUI, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private InfoUI _unitUI;
         [SerializeField] private InfoUI _actionUI;
         [SerializeField] private InfoUI[] _targetUI;
+        [SerializeField] private UnityEngine.UI.Selectable _selectable;
+        private Action _action;
+        [SerializeField] private ActionEvent _actionEvent = new();
+
+        public ActionEvent ActionEvent => _actionEvent;
 
         public void SetInfo(VisualInformations info)
         {
@@ -19,6 +27,7 @@ namespace UI.Battle
 
         public void SetAction(Action a)
         {
+            _action = a;
             _unitUI.SetInfo(a.Origin);
             _actionUI.SetInfo(a.Info);
             int i = 0;
@@ -29,11 +38,26 @@ namespace UI.Battle
                 _targetUI[i].SetInfo(target);
                 i++;
             }
-            for(;i<_targetUI.Length;i++)
+
+            for (; i < _targetUI.Length; i++)
                 _targetUI[i].gameObject.SetActive(false);
         }
-        public void SetAction(Unit origin, IActionInfo action, IBattleElement target)
+
+        public void OnPointerEnter(PointerEventData eventData)
         {
+            if (_action == null)
+                return;
+            _actionEvent.Invoke(new ActionEventData
+            {
+                action = _action
+            });
+        }
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            _actionEvent.Invoke(new ActionEventData
+            {
+                action = null
+            });
         }
     }
 }

@@ -28,6 +28,8 @@ namespace Common
             }
         }
 
+        public List<Panel> Panels => _panels;
+
         private void CreateNewPanel(Transform transform)
         {
             var actionUI = GameObject.Instantiate(_prefab, transform);

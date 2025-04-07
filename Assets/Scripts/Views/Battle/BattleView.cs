@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using BattleSystem;
 using Common.Events;
+using Common.Events.Combat;
 using Common.Events.UserInteraction;
 using Common.GlobalFlow;
 using Common.Visuals;
@@ -24,11 +25,14 @@ namespace Views.Battle
 
         [Header("References")] [SerializeField, InfoBox("Just a big reference holder")]
         private BattleUI _ui;
+        [SerializeField] private GameObject _timelineInfoHints;
+
 
         [Header("Read Only")] [SerializeReference] [ReadOnly]
         private SelectionState _selectionState;
 
-        [SerializeReference] [ReadOnly] private Selector _selector;
+        [SerializeField] [ReadOnly] private Selector _selector;
+        [SerializeField] [ReadOnly] private IHints _timelineHints;
 
         [SerializeReference] [ReadOnly] private BattleSystem.Battle _battle;
 
@@ -40,10 +44,11 @@ namespace Views.Battle
 
         public void Init(BattleSystem.Battle battle, Selector selector)
         {
+            _timelineHints = _timelineInfoHints.GetComponent<IHints>();
             _selector = selector;
             _battle = battle;
             _selectionState = new SelectionState();
-            _ui.Initialize();
+            _ui.Initialize(OnHoverAction);
             //We set callbacks before initializing the _selector because we basically hook on selectione events and we want everything to be set as the selector initializes
             _selector.AddResetables(_selectionState, _ui.ConfirmButton);
             SetCallbacks();
@@ -52,6 +57,19 @@ namespace Views.Battle
             //_selector.SelectionUpdated.AddListener(s => Debug.Log("Selected: " + s.unit));
 
             StartCoroutine(_battle.InitNewTurn(_delay));
+        }
+
+        private void OnHoverAction(ActionEventData arg0)
+        {
+            var action = arg0.action;
+            if (action != null)
+            {
+                _timelineHints.HintMultiple(action.TargetsEnumerable.Select(t => t.Position).Append(action.Origin.Position));
+            }
+            else
+            {
+                _timelineHints.Clear();
+            }
         }
 
         public bool CanAct(Unit unit) => unit != null && unit.Team == ETeam.Player && _battle.CanStillAct(unit);
@@ -113,7 +131,6 @@ namespace Views.Battle
                     //_ui.UnitUI.SetUnit(s.unit,false);
                     _selectionState.SetUnit(s.unit, true);
                     _selector.ShowHints = false;
-                    _selector.Hints.Lock();
                 }
             }
             else if (_selectionState.CanSelectTarget)
@@ -122,7 +139,6 @@ namespace Views.Battle
                 if (atLeastOneTarget)
                 {
                     _ui.TargetUI.SetInfo(s.unit?.VisualInformations ?? s.environment.VisualInformations);
-                    _selector.Hints.Lock();
                     _selector.ShowHints = _selectionState.AcceptsMoreTargets;
                     _selector.RaiseCurrentHover();
                     _ui.ConfirmButton.interactable = true;

@@ -47,7 +47,7 @@ namespace Views.Battle
 
         private void SetPosition(Grid grid, PositionData dataPos)
         {
-            SetPosition(WorldPosition(grid, dataPos));
+            SetPosition(grid.PhasedCellToWorld(dataPos));
         }
 
         private void SetPosition(Vector3 position)
@@ -55,17 +55,6 @@ namespace Views.Battle
             _root.position = position;
         }
 
-        protected Vector3 WorldPosition(Grid grid, PositionIndexer dataPos)
-        {
-            var pos = grid.GetCellCenterWorld((Vector3Int)dataPos.position);
-            pos.y -= grid.cellSize.y / 2;
-            return pos;
-        }
-
-        protected Vector3 WorldPosition(Grid grid, PositionData dataPos)
-        {
-            return WorldPosition(grid, dataPos.Position);
-        }
 
         protected virtual void RotationChanged(float newRot)
         {

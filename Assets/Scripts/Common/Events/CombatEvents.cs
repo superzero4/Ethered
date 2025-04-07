@@ -5,6 +5,7 @@ using BattleSystem.TileSystem;
 using UnitSystem;
 using UnityEngine;
 using UnityEngine.Events;
+using Action = BattleSystem.Action;
 
 namespace Common.Events.Combat
 {
@@ -34,6 +35,7 @@ namespace Common.Events.Combat
     [Serializable]
     public struct ActionEventData
     {
+        public Action action;
     }
 
     [Serializable]

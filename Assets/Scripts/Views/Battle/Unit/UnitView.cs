@@ -124,7 +124,7 @@ namespace Views.Battle
                     SyncVisibility();
                 });
                 seq.append(() => { _unitAnimations.Move(); });
-                seq.append(LeanTween.move(_root.gameObject, WorldPosition(_grid, pos),
+                seq.append(LeanTween.move(_root.gameObject, _grid.PhasedCellToWorld(pos),
                     _unitAnimations.MoveTime));
                 //Safe in case of rounding errors in tween
                 last = pos;
@@ -141,7 +141,7 @@ namespace Views.Battle
             seq.append(TweenTurn(origin, targ, out _, out _));
             //seq.append(() => { Debug.Log($"Attack {origin} {targ}"); });
             seq.append(() => _unitAnimations.Attack(arg0,
-                WorldPosition(_grid, arg0.unit.Position.Position + arg0.direction), () =>
+                _grid.PhasedCellToWorld(arg0.unit.Position.Position + arg0.direction), () =>
                 {
                     seq.append(_unitAnimations.Delay(targ.magnitude));
                     seq.append(EventQueue.ProcessAll);

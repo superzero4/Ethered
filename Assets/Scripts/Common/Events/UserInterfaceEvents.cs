@@ -39,4 +39,5 @@ namespace Common.Events.UserInterface
         public int? InsertIndex => _insertIndex;
         public Action Action => _insertIndex.HasValue ? _actions[_insertIndex.Value] : null;
     }
+
 }
