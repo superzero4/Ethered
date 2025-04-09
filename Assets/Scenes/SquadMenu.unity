@@ -7063,7 +7063,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minSquadMembersInShop: 1
   maxSquadMembersInShop: 3
-  squadMembersList: []
+  squadMembersList:
+  - _maxHealth: 20
+    _armor: 10
+    _actionCollection: {fileID: 0}
+    _visualInformations:
+      _sprite: {fileID: 0}
+      _color: {r: 0, g: 0, b: 0, a: 0}
+      _name: 
+      _description: 
+      _grayScale: {fileID: 0}
+  - _maxHealth: 30
+    _armor: 15
+    _actionCollection: {fileID: 0}
+    _visualInformations:
+      _sprite: {fileID: 0}
+      _color: {r: 0, g: 0, b: 0, a: 0}
+      _name: 
+      _description: 
+      _grayScale: {fileID: 0}
+  - _maxHealth: 40
+    _armor: 20
+    _actionCollection: {fileID: 0}
+    _visualInformations:
+      _sprite: {fileID: 0}
+      _color: {r: 0, g: 0, b: 0, a: 0}
+      _name: 
+      _description: 
+      _grayScale: {fileID: 0}
+  - _maxHealth: 50
+    _armor: 25
+    _actionCollection: {fileID: 0}
+    _visualInformations:
+      _sprite: {fileID: 0}
+      _color: {r: 0, g: 0, b: 0, a: 0}
+      _name: 
+      _description: 
+      _grayScale: {fileID: 0}
   squadMemberShopContainer: {fileID: 1089655431}
   squadMemberShopPrefab: {fileID: 3578436452276982036, guid: 7e7863cd987ab6d44bf38eb5b239b29c, type: 3}
 --- !u!1 &2052889352

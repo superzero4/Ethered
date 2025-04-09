@@ -23,9 +23,33 @@ namespace SquadSystem
         /// Generates the squad member tab from the shop.
         /// This method uses the squadMembersList to add the squad members in the shop.
         /// </summary>
-        public void GenerateSquadMemberShopWithTheList()
+        /// <param name="squadMembersInShop"></param>
+        public void GenerateSquadMemberShopWithTheList(int squadMembersInShop)
         {
-            // TODO : generate the squad member tab based on the squadMembersList
+            for (int i = 0; i < squadMembersInShop; i++)
+            {
+                int squadMemberPicked = Random.Range(0, squadMembersList.Count);
+                
+                GameObject squadMember = Instantiate(squadMemberShopPrefab, squadMemberShopContainer.transform);
+                SquadMemberShopUI squadMemberShopUI = squadMember.GetComponent<SquadMemberShopUI>();
+                squadMemberShopUI.SetParameters(
+                    i.ToString(), 
+                    squadMembersList[squadMemberPicked].MaxHealth, 
+                    squadMembersList[squadMemberPicked].Armor,
+                    10,
+                    0
+                    );
+                
+                SquadMemberButton squadMemberButton = squadMember.GetComponent<SquadMemberButton>();
+                squadMemberButton.SetParameters(
+                    squadMembersList[squadMemberPicked].MaxHealth, 
+                    squadMembersList[squadMemberPicked].Armor,
+                    10,
+                    0
+                    );
+                
+                squadMembersList.RemoveAt(squadMemberPicked); // Remove the squad member from the list to avoid duplicates
+            }
         }
 
         /// <summary>

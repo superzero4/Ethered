@@ -25,7 +25,8 @@ namespace SquadSystem
             coinsText.SetText(Squad.Coins.ToString());
             etherText.SetText(Squad.Ether.ToString());
             InitInventory();
-            shop.GenerateSquadMemberShopRandomly();
+            //shop.GenerateSquadMemberShopRandomly();
+            shop.GenerateSquadMemberShopWithTheList(2);
         }
         
         /// <summary>
