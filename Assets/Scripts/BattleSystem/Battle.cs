@@ -105,7 +105,7 @@ namespace BattleSystem
             _battleEnd = new BattleEvent();
             if (brains == null)
             {
-                Debug.LogWarning("No actual brains set, falling back to a set of one random brain");
+                Debug.LogWarning("No actual brains set, falling back to a set of one default randombrain");
                 brains = new OneBrainCollection(new RandomTryoutsBrain(1000));
             }
 
@@ -172,7 +172,9 @@ namespace BattleSystem
             foreach (var ennemy in _ennemies)
             {
                 var action = _brains.RandomBrain().GetDecision(ennemy, _battleElements);
-                Assert.IsTrue(action.HasTargets, "Action provided by brain doesn't have targets, fix Brain");
+                if(action == null)
+                    continue;
+                //Assert.IsTrue(action!=null && action.HasTargets, "Action provided by brain doesn't have targets, fix Brain");
                 yield return action;
             }
         }

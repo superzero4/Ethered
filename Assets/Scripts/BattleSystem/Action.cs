@@ -19,7 +19,7 @@ namespace BattleSystem
         [SerializeField] private IActionInfo _info;
         public bool HasTargets => _targets != null && _targets.Count > 0;
         public IEnumerable<IBattleElement> TargetsEnumerable => _targets.Targets;
-
+        public IBattleElement MainTarget => _targets.MainTarget;
         [Obsolete(
             "Private setter, targets shouldn't be accessed nor modiified directly, use methods that try to set them instead",
             true)]
