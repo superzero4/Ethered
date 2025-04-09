@@ -15,7 +15,7 @@ MonoBehaviour:
   _size: {x: 5, y: 5}
   _enemies:
     _units:
-    - _maxHealth: 1
+    - _maxHealth: 50
       _armor: 0
       _actionCollection: {fileID: 11400000, guid: 9e2569a367920f44ba85dd025769db19, type: 2}
       _visualInformations:

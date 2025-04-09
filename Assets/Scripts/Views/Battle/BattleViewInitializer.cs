@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using BattleSystem;
 using Common;
 using LevelSystem;
 using NUnit.Framework;
 using UnitSystem.AI;
+using UnitSystem.AI.Dev;
 using UnityEngine;
 using Views.Battle.Selection;
 using Selectable = Views.Battle.Selection.Selectable;
@@ -25,7 +27,7 @@ namespace Views.Battle
         {
             selectables = new();
             battle = new BattleSystem.Battle();
-            battle.Init(current.Battle, _brains);
+            battle.Init(current.Battle, new RandomBrainCollection(GetComponentsInChildren<IComparer<Action>>().Select(comp => new UtilityBasedBrain(comp)).ToArray()));
             _grid.transform.position = current.Position;
             _grid.transform.eulerAngles = current.Rotation;
             foreach (var unit in battle.Units)
