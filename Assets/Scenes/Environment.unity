@@ -35301,6 +35301,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: BattleView
       objectReference: {fileID: 0}
+    - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: _defaultEnvironment._allowedMovement
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: _defaultEnvironment._visualInformations._name
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: _defaultEnvironment._visualInformations._sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7e4b656897a61f4459756635bc093fc5, type: 3}
+    - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: _defaultEnvironment._visualInformations._color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: _defaultEnvironment._visualInformations._color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: _defaultEnvironment._visualInformations._color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: _defaultEnvironment._visualInformations._color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6124970497057605568, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
       propertyPath: m_Enabled
       value: 0
