@@ -42,7 +42,6 @@ namespace BattleSystem.TileSystem
                 //Just a fancy permutation
                 (origin.x, origin.y) = (origin.y, origin.x);
                 (deltaX, deltaY) = (deltaY, deltaX);
-                Debug.LogWarning("Flip");
             }
             //Straight line case
             if (deltaX == 0)

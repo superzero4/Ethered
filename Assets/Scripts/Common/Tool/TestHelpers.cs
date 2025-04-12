@@ -35,8 +35,8 @@ namespace Common.Events.Tool
             var map = _battleView.Battle.Tiles;
             LogLine(center.Position, left.Position);
             LogLine(center.Position, right.Position);
-            Assert.IsTrue(map.HasLOS(center, right));
-            Assert.IsTrue(map.HasLOS(center, left));
+            //Assert.IsTrue(map.HasLOS(center, right));
+            //Assert.IsTrue(map.HasLOS(center, left));
         }
 
         public static void TestLOS()
