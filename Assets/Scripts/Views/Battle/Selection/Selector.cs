@@ -123,7 +123,7 @@ namespace Views.Battle.Selection
         {
             set
             {
-                //TODO }
+                //No continuous updates required, this object works only with the discrete event to fetch the target phase
             }
         }
     }

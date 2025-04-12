@@ -19,7 +19,7 @@ namespace Views.Battle
         [SerializeField] private Vector3 _startSize;
         [SerializeField] private Vector3 _endSize;
         [SerializeField, Range(0.001f, 1f)] private float blendDistanceMul = 0.8f;
-        [SerializeField, Range(0, 1f)] private float _progress = 0.5f;
+        [SerializeField, Range(0, 1f),Tooltip("For editor test purpose only, isn't reaquired to process the data, the progress is passed by the event")] private float _progress = 0.5f;
 
         public void Init()
         {
@@ -37,18 +37,16 @@ namespace Views.Battle
 
         public float Progress
         {
-            set => _collider.size = Vector3.Lerp(_startSize, _endSize, value);
+            set
+            {
+                _progress = value;
+                _collider.size = Vector3.Lerp(_startSize, _endSize, value);
+            }
         }
 
         private void OnValidate()
         {
             UpdateBlendDistance();
-        }
-
-        public void OnPhaseSelected(PhaseEventData arg0)
-        {
-            _progress = arg0.progress;
-            Progress = arg0.progress;
         }
     }
 }
