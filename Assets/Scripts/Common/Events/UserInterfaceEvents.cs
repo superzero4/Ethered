@@ -20,6 +20,7 @@ namespace Common.Events.UserInterface
 
         public PhaseEventData(EPhase targetPhase)
         {
+            this.targetPhase = targetPhase;
             progress = targetPhase == EPhase.Ethered ? 1 : 0;
         }
     }
