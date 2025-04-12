@@ -7,22 +7,27 @@ using UI;
 using UI.Battle;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Views.Phase;
 
 
 namespace Views.Battle
 {
-    public abstract class AElementView<T> : MonoBehaviour, IPhaseView where T : BattleSystem.IBattleElement
+    public abstract class AElementView<T> : MonoBehaviour where T : BattleSystem.IBattleElement
     {
         [SerializeReference] [ReadOnly] protected T _data;
 
         [SerializeField, InfoBox("For movement")]
         protected Transform _root;
 
+        [SerializeField] private ScalingPhaseView _scalingPhaseView;
         public T Data => _data;
+        public IPhaseView[] phaseViews => new[] { _scalingPhaseView };
 
         public void Init(T data, Grid grid)
         {
             _data = data;
+            _scalingPhaseView.Root = _root;
+            SyncPhase();
             Init(grid);
             SetColor();
         }
@@ -37,13 +42,6 @@ namespace Views.Battle
             SetPosition(grid, dataPos);
             SetRotation(lookAt);
         }
-
-        //protected void SetPosition(Grid grid, Vector3 positionFloat)
-        //{
-        //    var pos = grid.CellToLocalInterpolated(positionFloat);
-        //    pos.y -= grid.cellSize.y / 2;
-        //    SetPosition(pos);
-        //}
 
         private void SetPosition(Grid grid, PositionData dataPos)
         {
@@ -101,39 +99,15 @@ namespace Views.Battle
             SetColor(GetColor());
         }
 
+        protected void SyncPhase()
+        {
+            _scalingPhaseView.Phase = _data.Position.Phase;
+        }
+
         protected virtual void Init(Grid grid)
         {
             SnapToCorrectPosition(grid,
                 _data.Team == ETeam.Player ? new PositionIndexer(0, 1) : new PositionIndexer(0, -1));
-        }
-
-        private EPhase phase;
-
-        public void OnPhaseSelected(PhaseEventData data)
-        {
-            phase = data.targetPhase;
-        }
-
-        public virtual float Progress
-        {
-            set
-            {
-                bool isIn = _data.Position.Phase.HasFlag(phase);
-                switch (_data.Position.Phase)
-                {
-                    case EPhase.Normal:
-                        value = Mathf.Clamp01((-value + .5f) * 2);
-                        break;
-                    case EPhase.Ethered:
-                        value = Mathf.Clamp01((value - .5f) * 2);
-                        break;
-                    default:
-                        return;//If in both phase or non we don't alter the view
-                        break;
-                }
-                //It animates out in half of the time and in in the other half
-                _root.localScale = Vector3.one * value;
-            }
         }
     }
 }

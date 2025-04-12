@@ -6,10 +6,11 @@ using Common.Events;
 using Common.Events.UserInterface;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using Views.Battle;
 using Views.Battle.Selection;
 
 
-namespace Views.Battle
+namespace Views.Phase
 {
     public class PostProcessPhaseView : MonoBehaviour, IPhaseView
     {
