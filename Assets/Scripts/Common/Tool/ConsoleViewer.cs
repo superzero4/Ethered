@@ -13,7 +13,7 @@ namespace Common.Tool
         {
             var battle = new Battle();
             var level = _battleInfo.Current;
-            battle.Init(level.Battle, level.Map, _battleInfo.DynamicSquad);
+            battle.Init(level.Battle, level.Map, _battleInfo.DynamicSquad, new EnvironmentInfo());
             _consoleSimulation.StartCoroutine(_consoleSimulation.StartSimulation(battle));
         }
     }
