@@ -5,6 +5,11 @@ namespace Views.Battle
 {
     public interface IPhaseView
     {
-        void OnPhaseSelected(PhaseEventData arg0);
+        void OnPhaseSelected(PhaseEventData arg0)
+        {
+            
+        }
+
+        float Progress { set; }
     }
 }
