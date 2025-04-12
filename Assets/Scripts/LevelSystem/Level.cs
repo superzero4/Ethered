@@ -8,12 +8,11 @@ namespace LevelSystem
     [Serializable]
     public struct Level
     {
-        [SerializeField] private BattleInfo _battle;
+        [SerializeField] private EncounterInfo _battle;
+        [SerializeField] private MapInfo _map;
         [SerializeField] private Vector3 _position;
         [SerializeField] private Vector3 _rotation;
         
-        public BattleInfo Battle => _battle;
-
         public Vector3 Position
         {
             get => _position;
@@ -21,5 +20,9 @@ namespace LevelSystem
         }
 
         public Vector3 Rotation => _rotation;
+
+        public EncounterInfo Battle => _battle;
+
+        public MapInfo Map => _map;
     }
 }

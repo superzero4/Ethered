@@ -18,7 +18,9 @@ namespace LevelSystem
         [Header("References")] [SerializeField]
         private Object _levelsHolder;
 
-        [FormerlySerializedAs("_bindings")] [SerializeField] private UserInput _userInput;
+        [FormerlySerializedAs("_bindings")] [SerializeField]
+        private UserInput _userInput;
+
         [SerializeField] private BattleViewInitializer _battleViewInitializer;
         [SerializeField] private BattleView _battleView;
         [SerializeField] private Selector _selector;
@@ -65,7 +67,8 @@ namespace LevelSystem
             _userInput.AddResetables(_selector);
             _userInput.MouseButton.AddListener(_selector.Select);
 
-            _battleViewInitializer.Init(current, _phaseSelector, out var selectables, out var battle);
+            _battleViewInitializer.Init(current, _levels.DynamicSquad, _phaseSelector, out var selectables,
+                out var battle);
             _selector.Initialize(selectables, _phaseSelector.GetLayerMask());
             _battleView.Init(battle, _selector, _phaseSelector, _userInput);
             _userInput.Reset.Invoke();

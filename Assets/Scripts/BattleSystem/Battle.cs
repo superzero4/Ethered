@@ -97,8 +97,7 @@ namespace BattleSystem
 
         public BattleEvent BattleEnd => _battleEnd;
 
-
-        public void Init(BattleInfo info, IBrainCollection brains)
+        public void Init(EncounterInfo info, MapInfo map, EncounterInfo squad, IBrainCollection brains=null)
         {
             TilemapPathFindingExtensions.ClearCache();
             //Assert.IsNotNull(brains, "Brains were null, ensure that the caller has a reference to a brain collection so it can work correctly");
@@ -111,17 +110,17 @@ namespace BattleSystem
 
             _turns = new Turns(this);
             _brains = brains;
-            _battleElements = new Tilemap(new Vector2Int(info.Size.x, info.Size.y), 2, info.DefaultEnvironment);
-            var specific = info.GetSpecificEnvironments();
+            _battleElements = new Tilemap(new Vector2Int(map.Size.x, map.Size.y), 2, map.DefaultEnvironment);
+            var specific = map.GetSpecificEnvironments();
             if (specific != null && specific.Any())
                 foreach (var env in specific)
                     if (env.Position.Phase != EPhase.None)
                         _battleElements.SetEnvironment(env);
             _allies = new List<Unit>();
-            var mid = info.Size.x / 2;
-            for (int i = 0; i < info.Squad.Units.Count; i++)
+            var mid = map.Size.x / 2;
+            for (int i = 0; i < squad.Units.Units.Count; i++)
             {
-                var item = new Unit(info.Squad.Units[i], ETeam.Player, new Vector2Int(i, 0),
+                var item = new Unit(squad.Units.Units[i], ETeam.Player, new Vector2Int(i, 0),
                     i == 2 ? EPhase.Both : (i % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
                 Assert.IsTrue(item.Position.Phase != EPhase.None);
                 _allies.Add(item);
@@ -129,10 +128,10 @@ namespace BattleSystem
             }
 
             _ennemies = new List<Unit>();
-            for (int i = 0; i < info.Enemies.Units.Count; i++)
+            for (int i = 0; i < info.Units.Units.Count; i++)
             {
-                var enemy = info.Enemies.Units[i];
-                var pos = new Vector2Int(mid + (i % 2 == 0 ? 1 : -1) * ((i + 1) / 2), info.Size.y - 1);
+                var enemy = info.Units.Units[i];
+                var pos = new Vector2Int(mid + (i % 2 == 0 ? 1 : -1) * ((i + 1) / 2), map.Size.y - 1);
                 var item = new Unit(enemy, ETeam.Enemy, pos,
                     pos.x == mid ? EPhase.Both : (pos.x % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
                 Assert.IsTrue(item.Position.Phase != EPhase.None);

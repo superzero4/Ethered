@@ -22,12 +22,12 @@ namespace Views.Battle
 
         public Grid Grid => _grid;
 
-        public void Init(Level current, PhaseSelector phaseSelector, out List<Selectable> selectables,
+        public void Init(Level current,EncounterInfo squad, PhaseSelector phaseSelector, out List<Selectable> selectables,
             out BattleSystem.Battle battle)
         {
             selectables = new();
             battle = new BattleSystem.Battle();
-            battle.Init(current.Battle, new RandomBrainCollection(GetComponentsInChildren<IComparer<Action>>().Select(comp => new UtilityBasedBrain(comp)).ToArray()));
+            battle.Init(current.Battle,current.Map,squad, new RandomBrainCollection(GetComponentsInChildren<IComparer<Action>>().Select(comp => new UtilityBasedBrain(comp)).ToArray()));
             _grid.transform.position = current.Position;
             _grid.transform.eulerAngles = current.Rotation;
             foreach (var unit in battle.Units)
