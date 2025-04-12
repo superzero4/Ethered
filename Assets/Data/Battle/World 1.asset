@@ -15,19 +15,23 @@ MonoBehaviour:
   _dynamicSquad: {fileID: 11400000, guid: a053559b7c9c69948873daa954ef8e97, type: 2}
   _levels:
   - _battle: {fileID: 11400000, guid: 749432e0e5a308d4c92f660ba4007e3b, type: 2}
-    _map: {fileID: 11400000, guid: 6c2ac608803be3847960d99266af9161, type: 2}
+    _map: {fileID: 11400000, guid: c722095bbb3b0e8419ad302d9d07ddf1, type: 2}
+    _showTileModels: 0
     _position: {x: 0, y: 0, z: 17}
     _rotation: {x: 0, y: 180, z: 0}
   - _battle: {fileID: 11400000, guid: 749432e0e5a308d4c92f660ba4007e3b, type: 2}
     _map: {fileID: 11400000, guid: 6c2ac608803be3847960d99266af9161, type: 2}
+    _showTileModels: 0
     _position: {x: 0, y: 0, z: -22}
     _rotation: {x: 0, y: 180, z: 0}
   - _battle: {fileID: 11400000, guid: 749432e0e5a308d4c92f660ba4007e3b, type: 2}
     _map: {fileID: 11400000, guid: 6c2ac608803be3847960d99266af9161, type: 2}
+    _showTileModels: 0
     _position: {x: 7.26, y: 9.85, z: -25}
     _rotation: {x: 0, y: 0, z: 0}
   PreludePosition:
     _battle: {fileID: 0}
     _map: {fileID: 0}
+    _showTileModels: 0
     _position: {x: 0, y: 12, z: 35}
     _rotation: {x: 45, y: 0, z: 0}

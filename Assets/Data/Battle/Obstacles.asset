@@ -31,7 +31,7 @@ MonoBehaviour:
       phase: 1
     - _position:
         position: {x: 2, y: 2}
-      phase: -1
+      phase: 2
     - _position:
         position: {x: 3, y: 2}
       phase: 1
