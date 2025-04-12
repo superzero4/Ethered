@@ -41,7 +41,6 @@ namespace Views.Battle
                 {
                     _healthUI.UpdateHealth(d);
                     _unitAnimations.UpdateHealth(d);
-                    //SyncVisibility();
                 });
             });
             Data.OnUnitMoves.AddListener(Move);
@@ -109,7 +108,7 @@ namespace Views.Battle
                 seq.append(() =>
                 {
                     SetColor();
-                    //SyncVisibility();
+                    SyncPhase();
                 });
                 seq.append(() => { _unitAnimations.Move(); });
                 seq.append(LeanTween.move(_root.gameObject, _grid.PhasedCellToWorld(pos),

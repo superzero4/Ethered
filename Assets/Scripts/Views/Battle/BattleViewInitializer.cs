@@ -37,7 +37,7 @@ namespace Views.Battle
             {
                 var unitView = Instantiate(_unitViewPrefab, transform);
                 unitView.Init(unit, _grid);
-                phaseSelector.Subscribe(unitView);
+                phaseSelector.Subscribe(unitView.phaseViews);
                 Assert.IsTrue((int)unit.Position.Phase >= 0 && (int)unit.Position.Phase <= (int)EPhase.Both,
                     " Enum values seems corrupted, probably due to unity automatically converting ticking everything and converting all bit to 1 for a negative value, avoid using everything in serialized fields");
             }
@@ -49,7 +49,7 @@ namespace Views.Battle
                 env.SetTile(t);
                 if (!level.ShowTileModels)
                     env.DisableModels();
-                phaseSelector.Subscribe(env);
+                phaseSelector.Subscribe(env.phaseViews);
                 phaseSelector.SetLayer(env);
                 env.gameObject.name = "Tile " + t.Base.Position.ToString();
                 selectables.Add(env.Selectable);
