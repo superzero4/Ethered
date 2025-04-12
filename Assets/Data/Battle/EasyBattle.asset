@@ -110,16 +110,7 @@ MonoBehaviour:
         _description: Impossible to cross in that phase
         _grayScale: {fileID: 0}
       _allowedMovement: 0
-    positions:
-    - _position:
-        position: {x: 1, y: 2}
-      phase: 0
-    - _position:
-        position: {x: 2, y: 2}
-      phase: 0
-    - _position:
-        position: {x: 3, y: 2}
-      phase: 0
+    positions: []
   - environment:
       _visualInformations:
         _sprite: {fileID: 21300000, guid: aef67ab844e28a644a110861f1dd85d8, type: 3}
@@ -128,10 +119,4 @@ MonoBehaviour:
         _description: You can cross that but cannot stand on
         _grayScale: {fileID: 0}
       _allowedMovement: 1
-    positions:
-    - _position:
-        position: {x: 0, y: 2}
-      phase: 0
-    - _position:
-        position: {x: 1, y: 2}
-      phase: 0
+    positions: []
