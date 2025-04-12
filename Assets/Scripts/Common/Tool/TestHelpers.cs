@@ -20,11 +20,10 @@ namespace Common.Events.Tool
             {
                 Debug.LogWarning("---------Tests---------");
                 TestLOS();
+                yield return new WaitForSeconds(1);
+                TestInLos();
+                Debug.LogWarning("-------Tests ended-----");
             }
-
-            yield return new WaitForSeconds(1);
-            TestInLos();
-            Debug.LogWarning("-------Tests ended-----");
         }
 
         public void TestInLos()
@@ -70,9 +69,9 @@ namespace Common.Events.Tool
             Debug.LogWarning(
                 "---Testing lines on all distinct couples of a 5 sized squard and it's center on (2,2)---");
 
-            TestAllCouples(new []
+            TestAllCouples(new[]
             {
-                (2, 2), (0,0), (4,4), (0,4), (4,0)
+                (2, 2), (0, 0), (4, 4), (0, 4), (4, 0)
             });
         }
 
