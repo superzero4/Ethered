@@ -7,22 +7,24 @@ using Views.Battle;
 
 namespace UI.Battle
 {
-    public class PhaseUI : MonoBehaviour , IPhaseView
+    public class PhaseUI : MonoBehaviour, IPhaseView
     {
-        [SerializeField] private GameObject _normal;
-        [SerializeField] private GameObject _ethered;
-        public void OnPhaseSelected(PhaseEventData data)
+        [SerializeField] private UnityEngine.UI.Image _normal;
+        [SerializeField] private UnityEngine.UI.Image _ethered;
+
+        public float Progress
         {
-            if(data.phase == EPhase.Normal)
+            set
             {
-                _normal.SetActive(true);
-                _ethered.SetActive(false);
+                _normal.color = SetAlpha(_normal.color, 1 - value);
+                _ethered.color = SetAlpha(_ethered.color, value);
             }
-            else
-            {
-                _normal.SetActive(false);
-                _ethered.SetActive(true);
-            }
+        }
+
+        private Color SetAlpha(Color color, float alpha)
+        {
+            color.a = alpha;
+            return color;
         }
     }
 }

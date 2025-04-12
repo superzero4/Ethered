@@ -107,14 +107,33 @@ namespace Views.Battle
                 _data.Team == ETeam.Player ? new PositionIndexer(0, 1) : new PositionIndexer(0, -1));
         }
 
-        public virtual void OnPhaseSelected(PhaseEventData arg0)
+        private EPhase phase;
+
+        public void OnPhaseSelected(PhaseEventData data)
         {
-            //The default implementation of an element view does nothing, but we could decide to call some other helper methods here
+            phase = data.targetPhase;
         }
 
-        protected void ToggleVisibiltyFromPhase(EPhase phase)
+        public virtual float Progress
         {
-            ToggleVisibility(_data.Position.Phase.HasFlag(phase));
+            set
+            {
+                bool isIn = _data.Position.Phase.HasFlag(phase);
+                switch (_data.Position.Phase)
+                {
+                    case EPhase.Normal:
+                        value = Mathf.Clamp01((-value + .5f) * 2);
+                        break;
+                    case EPhase.Ethered:
+                        value = Mathf.Clamp01((value - .5f) * 2);
+                        break;
+                    default:
+                        return;//If in both phase or non we don't alter the view
+                        break;
+                }
+                //It animates out in half of the time and in in the other half
+                _root.localScale = Vector3.one * value;
+            }
         }
     }
 }

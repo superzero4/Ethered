@@ -116,7 +116,15 @@ namespace Views.Battle.Selection
 
         public void OnPhaseSelected(PhaseEventData arg0)
         {
-            _phase = arg0.phase;
+            _phase = arg0.targetPhase;
+        }
+
+        public float Progress
+        {
+            set
+            {
+                //TODO }
+            }
         }
     }
 }

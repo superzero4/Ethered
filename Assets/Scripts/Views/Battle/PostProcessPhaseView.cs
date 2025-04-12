@@ -21,12 +21,6 @@ namespace Views.Battle
         [SerializeField, Range(0.001f, 1f)] private float blendDistanceMul = 0.8f;
         [SerializeField, Range(0, 1f)] private float _progress = 0.5f;
 
-        [Header("Tween")] [SerializeField, Range(0.01f, 10f)]
-        private float _duration;
-
-        [SerializeField] private LeanTweenType _easeType;
-        private LTDescr tween;
-
         public void Init()
         {
             _progress = 0;
@@ -38,12 +32,11 @@ namespace Views.Battle
             var dist = (_camera.transform.position - (_collider.transform.position + _collider.center)).magnitude;
             _ppv.blendDistance = dist * blendDistanceMul;
             _endSize = 2 * dist * Vector3.one;
-            ColliderSize = _progress;
+            Progress = _progress;
         }
 
-        private float ColliderSize
+        public float Progress
         {
-            get => Mathf.InverseLerp(_startSize.x, _endSize.y, _collider.size.x);
             set => _collider.size = Vector3.Lerp(_startSize, _endSize, value);
         }
 
@@ -54,29 +47,8 @@ namespace Views.Battle
 
         public void OnPhaseSelected(PhaseEventData arg0)
         {
-            LeanTween.cancel(_ppv.gameObject);
-            if (arg0.phase == EPhase.Ethered)
-                tween = PostProcessGrow();
-            else
-                tween = PostProcessShrink();
-        }
-
-        private LTDescr PostProcessGrow()
-        {
-            return LeanTween.value(_ppv.gameObject, ColliderSize, 1f, _duration).setEase(_easeType).setOnUpdate((float val) =>
-            {
-                _progress = val;
-                ColliderSize = _progress;
-            });
-        }
-
-        private LTDescr PostProcessShrink()
-        {
-            return LeanTween.value(_ppv.gameObject, ColliderSize, 0f, _duration).setEase(_easeType).setOnUpdate((float val) =>
-            {
-                _progress = val;
-                ColliderSize = _progress;
-            });
+            _progress = arg0.progress;
+            Progress = arg0.progress;
         }
     }
 }

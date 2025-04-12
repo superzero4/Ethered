@@ -20,7 +20,6 @@ namespace Views.Battle
         [SerializeField, Range(0, 3)] private int _skinIndex;
         public UnitSkin currentSkin => _skin[_skinIndex];
 
-        [SerializeField] private EPhase _displayedPhase;
         [SerializeField] private UnitAnimations _unitAnimations;
 
         [Header("ReadOnly")] [SerializeField] [ReadOnly]
@@ -32,7 +31,6 @@ namespace Views.Battle
             for (int i = 0; i < _skin.Length; i++)
                 _skin[i].gameObject.SetActive(i == _skinIndex);
             SetColor();
-            SyncVisibility();
             Assert.IsNotNull(_healthUI, "No HealthUI assigned");
             base.Init(grid);
             _grid = grid;
@@ -43,7 +41,7 @@ namespace Views.Battle
                 {
                     _healthUI.UpdateHealth(d);
                     _unitAnimations.UpdateHealth(d);
-                    SyncVisibility();
+                    //SyncVisibility();
                 });
             });
             Data.OnUnitMoves.AddListener(Move);
@@ -89,22 +87,12 @@ namespace Views.Battle
             _healthUI.ToggleVisibility(state);
         }
 
-        public override void OnPhaseSelected(PhaseEventData arg0)
-        {
-            _displayedPhase = arg0.phase;
-            SyncVisibility();
-        }
-
         protected override void RotationChanged(float newRot)
         {
             _healthUI.transform.localRotation = Quaternion.Euler(0, -newRot, 0);
         }
 
-        public void SyncVisibility()
-        {
-            if (_showOnlyOnCorrectPhase)
-                ToggleVisibiltyFromPhase(_displayedPhase);
-        }
+        
 
         public void Move(UnitMovementData arg0)
         {
@@ -121,7 +109,7 @@ namespace Views.Battle
                 seq.append(() =>
                 {
                     SetColor();
-                    SyncVisibility();
+                    //SyncVisibility();
                 });
                 seq.append(() => { _unitAnimations.Move(); });
                 seq.append(LeanTween.move(_root.gameObject, _grid.PhasedCellToWorld(pos),

@@ -43,7 +43,7 @@ namespace Views.Battle
 
         public void DisableModels()
         {
-            foreach(Transform models in _modelsParent)
+            foreach (Transform models in _modelsParent)
                 models.gameObject.SetActive(false);
         }
 
@@ -56,12 +56,13 @@ namespace Views.Battle
             {
                 case EPhase.Normal: color = Color.white; break;
                 case EPhase.Ethered: color = Color.blue; break;
-                case EPhase.Both: color = (Color.blue)/2f; break;
+                case EPhase.Both: color = (Color.blue) / 2f; break;
             }
+
             return color;
         }
 
-        protected override  void SetColor(Color color)
+        protected override void SetColor(Color color)
         {
             foreach (var renderer in model)
             {
@@ -74,12 +75,6 @@ namespace Views.Battle
             foreach (var renderer in model)
                 renderer.enabled = state;
             _selectable.Hint.gameObject.SetActive(state);
-        }
-
-        public override void OnPhaseSelected(PhaseEventData arg0)
-        {
-            base.OnPhaseSelected(arg0);
-            ToggleVisibiltyFromPhase(arg0.phase);
         }
     }
 }
