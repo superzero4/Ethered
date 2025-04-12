@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BattleSystem;
+using Common.Visuals;
 using UnityEngine;
 using Environment = BattleSystem.Environment;
 
@@ -11,7 +12,6 @@ namespace Common
     public class MapInfo : ScriptableObject
     {
         [SerializeField] private Vector2Int _size;
-        [SerializeField] private EnvironmentInfo _defaultEnvironment;
         [SerializeField] private List<EnvironmentGroup> _specificEnvironments;
         
         [Serializable]
@@ -20,7 +20,6 @@ namespace Common
             [SerializeField] public EnvironmentInfo environment;
             [SerializeField] public PositionData[] positions;
         }
-        public EnvironmentInfo DefaultEnvironment => _defaultEnvironment;
 
         public IEnumerable<Environment> GetSpecificEnvironments()
         {

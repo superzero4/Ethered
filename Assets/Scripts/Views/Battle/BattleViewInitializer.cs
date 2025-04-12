@@ -16,20 +16,23 @@ namespace Views.Battle
     {
         private IBrainCollection _brains;
         [SerializeField] private Grid _grid;
-
+        [SerializeField] private EnvironmentInfo _defaultEnvironment;
         [Header("Prefabs")] [SerializeField] private UnitView _unitViewPrefab;
         [SerializeField] private EnvironmentView _environmentViewPrefab;
 
         public Grid Grid => _grid;
 
-        public void Init(Level current,EncounterInfo squad, PhaseSelector phaseSelector, out List<Selectable> selectables,
+        public void Init(Level level, EncounterInfo squad, PhaseSelector phaseSelector,
+            out List<Selectable> selectables,
             out BattleSystem.Battle battle)
         {
             selectables = new();
             battle = new BattleSystem.Battle();
-            battle.Init(current.Battle,current.Map,squad, new RandomBrainCollection(GetComponentsInChildren<IComparer<Action>>().Select(comp => new UtilityBasedBrain(comp)).ToArray()));
-            _grid.transform.position = current.Position;
-            _grid.transform.eulerAngles = current.Rotation;
+            battle.Init(level.Battle, level.Map, squad, _defaultEnvironment,
+                new RandomBrainCollection(GetComponentsInChildren<IComparer<Action>>()
+                    .Select(comp => new UtilityBasedBrain(comp)).ToArray()));
+            _grid.transform.position = level.Position;
+            _grid.transform.eulerAngles = level.Rotation;
             foreach (var unit in battle.Units)
             {
                 var unitView = Instantiate(_unitViewPrefab, transform);
@@ -44,6 +47,8 @@ namespace Views.Battle
                 EnvironmentView env = Instantiate(_environmentViewPrefab, transform);
                 env.Init(t.Base, _grid);
                 env.SetTile(t);
+                if (!level.ShowTileModels)
+                    env.DisableModels();
                 phaseSelector.Subscribe(env);
                 phaseSelector.SetLayer(env);
                 env.gameObject.name = "Tile " + t.Base.Position.ToString();

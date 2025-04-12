@@ -97,7 +97,7 @@ namespace BattleSystem
 
         public BattleEvent BattleEnd => _battleEnd;
 
-        public void Init(EncounterInfo info, MapInfo map, EncounterInfo squad, IBrainCollection brains=null)
+        public void Init(EncounterInfo info, MapInfo map, EncounterInfo squad,EnvironmentInfo defaultEnvironment, IBrainCollection brains=null)
         {
             TilemapPathFindingExtensions.ClearCache();
             //Assert.IsNotNull(brains, "Brains were null, ensure that the caller has a reference to a brain collection so it can work correctly");
@@ -110,7 +110,7 @@ namespace BattleSystem
 
             _turns = new Turns(this);
             _brains = brains;
-            _battleElements = new Tilemap(new Vector2Int(map.Size.x, map.Size.y), 2, map.DefaultEnvironment);
+            _battleElements = new Tilemap(new Vector2Int(map.Size.x, map.Size.y), 2, defaultEnvironment);
             var specific = map.GetSpecificEnvironments();
             if (specific != null && specific.Any())
                 foreach (var env in specific)

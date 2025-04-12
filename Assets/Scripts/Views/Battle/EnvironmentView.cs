@@ -41,6 +41,12 @@ namespace Views.Battle
             }
         }
 
+        public void DisableModels()
+        {
+            foreach(Transform models in _modelsParent)
+                models.gameObject.SetActive(false);
+        }
+
 
         protected override Color GetColor()
         {
