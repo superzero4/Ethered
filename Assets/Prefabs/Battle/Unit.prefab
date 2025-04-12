@@ -372,6 +372,17 @@ MonoBehaviour:
   _root: {fileID: 1934997592655570094}
   _muzzle: {fileID: 0}
   _particle: {fileID: 0}
+  _shoot:
+    nbParticles: 0
+    speed: 0
+    lifetime: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+  height: 0
+  _cast:
+    nbParticles: 0
+    speed: 0
+    lifetime: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &5871885064238084101
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,6 +505,17 @@ MonoBehaviour:
   _root: {fileID: 7829043144046337722}
   _muzzle: {fileID: 0}
   _particle: {fileID: 0}
+  _shoot:
+    nbParticles: 0
+    speed: 0
+    lifetime: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+  height: 0
+  _cast:
+    nbParticles: 0
+    speed: 0
+    lifetime: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1001 &5640094959623982027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1085,6 +1107,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5992904491264964503, guid: e5a3e0e099a6b5e4daa327710821c080, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5229143338843726291}
+    - targetCorrespondingSourceObject: {fileID: 5992904491264964503, guid: e5a3e0e099a6b5e4daa327710821c080, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1565532374859959357}
   m_SourcePrefab: {fileID: 100100000, guid: e5a3e0e099a6b5e4daa327710821c080, type: 3}
 --- !u!4 &1215949531438466833 stripped
 Transform:
@@ -1111,13 +1136,13 @@ MonoBehaviour:
   _data:
     rid: -2
   _root: {fileID: 7474745413176875894}
+  _scalingPhaseView: {fileID: 1565532374859959357}
   _healthUI: {fileID: 4089582354229372888}
   _showOnlyOnCorrectPhase: 1
   _skin:
   - {fileID: 7577007341191548382}
   - {fileID: 7940500368723082979}
   _skinIndex: 0
-  _displayedPhase: 0
   _unitAnimations: {fileID: 5229143338843726291}
   _grid: {fileID: 0}
   references:
@@ -1140,3 +1165,17 @@ MonoBehaviour:
   _rotationTime: 0.3111112
   _moveTime: 1
   _skin: {fileID: 0}
+--- !u!114 &1565532374859959357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2801086060683334732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae828834a1bb4a3e9d753c2305a13600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _phase: 0
+  _root: {fileID: 0}
