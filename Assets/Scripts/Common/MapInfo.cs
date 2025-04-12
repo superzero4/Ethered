@@ -7,7 +7,7 @@ using Environment = BattleSystem.Environment;
 
 namespace Common
 {
-    [CreateAssetMenu(fileName = "Map", menuName = "Battle", order = 1)]
+    [CreateAssetMenu(fileName = "New map", menuName = "Battle/Map", order = 1)]
     public class MapInfo : ScriptableObject
     {
         [SerializeField] private Vector2Int _size;
