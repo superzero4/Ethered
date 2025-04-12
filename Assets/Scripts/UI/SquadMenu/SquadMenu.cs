@@ -27,6 +27,8 @@ namespace SquadSystem
             InitInventory();
             //shop.GenerateSquadMemberShopRandomly();
             shop.GenerateSquadMemberShopWithTheList(2);
+            //shop.GenerateGlobalUpgradesShopWithTheList(2);
+            shop.GenerateItemsShopWithTheList(2);
         }
         
         /// <summary>

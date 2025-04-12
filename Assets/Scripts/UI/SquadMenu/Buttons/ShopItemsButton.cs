@@ -29,5 +29,22 @@ namespace SquadSystem.Buttons
             
             inventoryRef.AddItem(itemName, quantity);
         }
+
+        /// <summary>
+        /// Set the parameters of the shop item button
+        /// </summary>
+        /// <param name="itemName"></param>
+        /// <param name="coinsCost"></param>
+        /// <param name="etherCost"></param>
+        public void SetParameters(string itemName, int coinsCost, int etherCost)
+        {
+            this.itemName = itemName;
+            this.coinsCost = coinsCost;
+            this.etherCost = etherCost;
+            quantity = 1; // Default quantity is 1
+            inventoryRef = FindFirstObjectByType<Inventory>();
+            squadClass = FindFirstObjectByType<SquadClass>();
+            squadMenu = FindFirstObjectByType<SquadMenu>();
+        }
     }
 }

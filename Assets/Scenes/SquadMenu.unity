@@ -2397,10 +2397,10 @@ RectTransform:
   - {fileID: 1413125939}
   m_Father: {fileID: 1089655432}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 743, y: -368}
+  m_SizeDelta: {x: 350, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &652959316
 MonoBehaviour:
@@ -2943,7 +2943,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &841146977
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4346,7 +4346,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1144120065
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5246,7 +5246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1307410488
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6219,7 +6219,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1586104095
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7102,6 +7102,20 @@ MonoBehaviour:
       _grayScale: {fileID: 0}
   squadMemberShopContainer: {fileID: 1089655431}
   squadMemberShopPrefab: {fileID: 3578436452276982036, guid: 7e7863cd987ab6d44bf38eb5b239b29c, type: 3}
+  minGlobalUpgradesInShop: 1
+  maxGlobalUpgradesInShop: 3
+  globalUpgradesList: []
+  globalUpgradesShopContainer: {fileID: 856935135}
+  globalUpgradesShopPrefab: {fileID: 8534144254036084288, guid: 5436f5e8919ac2540852bc4bd912fe67, type: 3}
+  minItemsInShop: 1
+  maxItemsInShop: 3
+  itemsList:
+  - Bandage
+  - Grenade
+  - Health Kit
+  - Landmine
+  itemsShopContainer: {fileID: 470876141}
+  itemsShopPrefab: {fileID: 1554183888920187881, guid: b73e3f44355159e42880c20b8363ca68, type: 3}
 --- !u!1 &2052889352
 GameObject:
   m_ObjectHideFlags: 0
@@ -7467,7 +7481,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2117243941
 RectTransform:
   m_ObjectHideFlags: 0
