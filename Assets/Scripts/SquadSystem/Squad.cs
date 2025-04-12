@@ -13,18 +13,18 @@ namespace SquadSystem
     {
         [SerializeField] private List<UnitInfo> _units;
         public List<UnitInfo> Units => _units;
-        
+
         [SerializeField] private List<Upgrade> _upgrades;
         public List<Upgrade> Upgrades => _upgrades;
-        
+
         public int SquadSize => Units.Count;
-        
+
         public int Coins { get; set; } // Basic currency
         public int Ether { get; set; } // Alternative currency
-        
+
         public void Init(int nbUnits, UnitInfo info)
         {
-            _units = new List<UnitInfo>(Enumerable.Repeat(info, nbUnits));
+            _units = new List<UnitInfo>(Enumerable.Range(0, nbUnits).Select(i => new UnitInfo(info)));
         }
     }
 }

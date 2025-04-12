@@ -12,10 +12,10 @@ namespace UnitSystem
     {
         [SerializeField, Range(1, 100)] private int _maxHealth;
         [SerializeField] private int _armor;
-        private List<IActionInfo> _actions;
         [SerializeField] private ActionCollection _actionCollection;
-
         [SerializeField] private VisualInformations _visualInformations;
+
+        private List<IActionInfo> _actions;
 
         public VisualInformations VisualInformations
         {
@@ -51,6 +51,14 @@ namespace UnitSystem
         public UnitInfo()
         {
             _actions = new List<IActionInfo>();
+        }
+
+        public UnitInfo(UnitInfo other) : this()
+        {
+            _maxHealth = other.MaxHealth;
+            _armor = other.Armor;
+            _visualInformations = other.VisualInformations;
+            _actionCollection = other.Collection;
         }
     }
 }
