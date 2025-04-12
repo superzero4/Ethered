@@ -16,7 +16,6 @@ namespace Common.Events.Tool
 
         public IEnumerator Start()
         {
-            LogLine(new(2,2), new(0,4));
             if (_runTests)
             {
                 Debug.LogWarning("---------Tests---------");
