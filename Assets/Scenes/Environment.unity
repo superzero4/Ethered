@@ -8370,7 +8370,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2801086060683334732, guid: d4f5c55b5e2d08d49bfecf39fc41ff63, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22330,7 +22330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _battleView: {fileID: 2103798996}
-  _runTests: 1
+  _runTests: 0
 --- !u!4 &301837856
 Transform:
   m_ObjectHideFlags: 0
@@ -27466,7 +27466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 197871000000482703, guid: b8ac47753fed1694ca66ec2251cdff98, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3800587174936846034, guid: b8ac47753fed1694ca66ec2251cdff98, type: 3}
       propertyPath: m_LocalPosition.x
@@ -35312,6 +35312,10 @@ PrefabInstance:
     - target: {fileID: 8902184017334097006, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
       propertyPath: m_Name
       value: MinimalBattle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8902184017334097006, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6380900376036728676, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
