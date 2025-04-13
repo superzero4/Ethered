@@ -15,6 +15,7 @@ namespace Views.Battle
     public class BattleViewInitializer : MonoBehaviour
     {
         private IBrainCollection _brains;
+        [SerializeField] private EnvironmentProps _props;
         [SerializeField] private Grid _grid;
         [SerializeField] private EnvironmentInfo _defaultEnvironment;
         [Header("Prefabs")] [SerializeField] private UnitView _unitViewPrefab;
@@ -29,6 +30,7 @@ namespace Views.Battle
             selectables = new();
             battle = new BattleSystem.Battle();
             battle.Init(level.Battle, level.Map, squad, _defaultEnvironment,
+                // ReSharper disable once CoVariantArrayConversion
                 new RandomBrainCollection(GetComponentsInChildren<IComparer<Action>>()
                     .Select(comp => new UtilityBasedBrain(comp)).ToArray()));
             _grid.transform.position = level.Position;
@@ -55,6 +57,21 @@ namespace Views.Battle
                 selectables.Add(env.Selectable);
                 Assert.IsTrue((int)t.Base.Position.Phase >= 0 && (int)t.Base.Position.Phase < (int)EPhase.Both,
                     " Enum values seems corrupted, probably due to unity automatically converting ticking everything and converting all bit to 1 for a negative value, avoid using everything in serialized fields");
+            }
+
+            foreach (var env in level.Map.Environments())
+            {
+                var size = env.max.position - env.min.position + Vector2Int.one;
+                var prefab = _props[size];
+                var pos = _grid.PhasedCellToWorld(env.center);
+                var go = Instantiate(prefab, pos,
+                    Quaternion.identity,
+                    _grid.transform);
+                if (size.x > size.y)
+                    go.transform.localRotation = Quaternion.Euler(0, 90, 0);
+                go.name = "Prop " + env.center.ToString() + ", " + size.ToString();
+                go.Phase = env.center.Phase;
+                phaseSelector.Subscribe(go);
             }
         }
     }
