@@ -19,7 +19,7 @@ MonoBehaviour:
       _actionCollection: {fileID: 11400000, guid: e0927b309688d7e4c86939d12d43d9bd, type: 2}
       _visualInformations:
         _sprite: {fileID: 21300000, guid: e96f572c1ab9dfa4cab49c484765973b, type: 3}
-        _color: {r: 0, g: 0, b: 0, a: 0}
+        _color: {r: 1, g: 1, b: 1, a: 1}
         _name: Turret
         _description: Steady but deadly
         _grayScale: {fileID: 0}
