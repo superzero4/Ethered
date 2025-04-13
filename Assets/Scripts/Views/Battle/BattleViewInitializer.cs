@@ -61,7 +61,7 @@ namespace Views.Battle
 
             foreach (var env in level.Map.Environments())
             {
-                var size = env.max.position - env.min.position + Vector2Int.one;
+                var size = env.max - env.min + Vector2Int.one;
                 var prefab = _props[size];
                 var pos = _grid.PhasedCellToWorld(env.center);
                 var go = Instantiate(prefab, pos,

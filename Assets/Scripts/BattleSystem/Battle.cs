@@ -8,6 +8,7 @@ using Common;
 using Common.Events;
 using Common.Events.Combat;
 using Common.Events.UserInterface;
+using SquadSystem;
 using UnitSystem;
 using UnitSystem.Actions.Bases;
 using UnitSystem.AI;
@@ -97,7 +98,8 @@ namespace BattleSystem
 
         public BattleEvent BattleEnd => _battleEnd;
 
-        public void Init(EncounterInfo info, MapInfo map, EncounterInfo squad,EnvironmentInfo defaultEnvironment, IBrainCollection brains=null)
+        public void Init(EncounterInfo info, MapInfo map, EncounterInfo squad, EnvironmentInfo defaultEnvironment,
+            IBrainCollection brains = null)
         {
             TilemapPathFindingExtensions.ClearCache();
             //Assert.IsNotNull(brains, "Brains were null, ensure that the caller has a reference to a brain collection so it can work correctly");
@@ -116,30 +118,34 @@ namespace BattleSystem
                 foreach (var env in specific)
                     if (env.Position.Phase != EPhase.None)
                         _battleElements.SetEnvironment(env);
-            _allies = new List<Unit>();
             var mid = map.Size.x / 2;
-            for (int i = 0; i < squad.Units.Units.Count; i++)
-            {
-                var item = new Unit(squad.Units.Units[i], ETeam.Player, new Vector2Int(i, 0),
-                    i == 2 ? EPhase.Both : (i % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
-                Assert.IsTrue(item.Position.Phase != EPhase.None);
-                _allies.Add(item);
-                _battleElements.SetUnit(item);
-            }
-
-            _ennemies = new List<Unit>();
-            for (int i = 0; i < info.Units.Units.Count; i++)
-            {
-                var enemy = info.Units.Units[i];
-                var pos = new Vector2Int(mid + (i % 2 == 0 ? 1 : -1) * ((i + 1) / 2), map.Size.y - 1);
-                var item = new Unit(enemy, ETeam.Enemy, pos,
-                    pos.x == mid ? EPhase.Both : (pos.x % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
-                Assert.IsTrue(item.Position.Phase != EPhase.None);
-                _ennemies.Add(item);
-                _battleElements.SetUnit(item);
-            }
-
+            _allies = AddUnits(map.PlayerSpawns, squad.Units, ETeam.Player);
+            _ennemies = AddUnits(map.EnemySpawns, info.Units, ETeam.Enemy);
             SubscribeToUnitsEvents();
+        }
+
+        private List<Unit> AddUnits(PositionData[] spawns, Squad squad, ETeam team)
+        {
+            List<Unit> list = new List<Unit>();
+            int min = Math.Min(squad.Units.Count, spawns.Length);
+            if (min != squad.Units.Count)
+            {
+                Debug.LogWarning(
+                    "The number of units exceeded the number of available spawn points, ensure the map has enough spawn points for the corresponding ecounter");
+            }
+
+            for (int i = 0; i < min; i++)
+            {
+                var pos = spawns[i];
+                var item = new Unit(squad.Units[i], team, pos.Position,
+                    pos.Phase);
+                list.Add(item);
+                _battleElements.SetUnit(item);
+                Assert.IsTrue((int)item.Position.Phase >= 0 && (int)item.Position.Phase < (int)EPhase.Both,
+                    " Enum values seems corrupted, probably due to unity automatically converting ticking everything and converting all bit to 1 for a negative value, avoid using everything in serialized fields");
+            }
+
+            return list;
         }
 
         private void SubscribeToUnitsEvents()
@@ -171,7 +177,7 @@ namespace BattleSystem
             foreach (var ennemy in _ennemies)
             {
                 var action = _brains.RandomBrain().GetDecision(ennemy, _battleElements);
-                if(action == null)
+                if (action == null)
                     continue;
                 //Assert.IsTrue(action!=null && action.HasTargets, "Action provided by brain doesn't have targets, fix Brain");
                 yield return action;

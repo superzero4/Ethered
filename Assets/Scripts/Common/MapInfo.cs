@@ -13,6 +13,8 @@ namespace Common
     public class MapInfo : ScriptableObject
     {
         [SerializeField] private Vector2Int _size;
+        [SerializeField] private PositionData[] _playerSpawns;
+        [SerializeField] private PositionData[] _enemySpawns;
         [SerializeField] private List<EnvironmentGroup> _specificEnvironments;
 
         [Serializable]
@@ -23,8 +25,9 @@ namespace Common
             [FormerlySerializedAs("positions")] [SerializeField]
             public PositionData center;
 
-            [SerializeField] public PositionIndexer min;
-            [SerializeField] public PositionIndexer max;
+            [SerializeField] public Vector2Int min;
+            [SerializeField] public Vector2Int max;
+            [SerializeField] public PositionData[] hollow;
         }
 
         public IEnumerable<EnvironmentGroup> Environments()
@@ -33,7 +36,7 @@ namespace Common
             foreach (var env in _specificEnvironments)
             {
                 var k = dic.Keys.FirstOrDefault(x =>
-                    x.center.Position == env.center.Position && x.min.position == env.max.position && x.max.position == env.max.position);
+                    x.center.Position == env.center.Position && x.min.position == env.max && x.max.position == env.max);
                 if (!k.Equals(default))
                 {
                     var info = dic[k];
@@ -46,7 +49,7 @@ namespace Common
                 }
                 else
                 {
-                    dic.Add((env.center, env.min,env.max), env.environment);
+                    dic.Add((env.center, env.min, env.max), env.environment);
                 }
             }
 
@@ -66,14 +69,14 @@ namespace Common
                 .SelectMany<EnvironmentGroup, Environment>(ep =>
                 {
                     List<Environment> environments = new();
-                    for (int i = ep.min.position.x; i <= ep.max.position.x; i++)
+                    for (int i = ep.min.x; i <= ep.max.x; i++)
                     {
-                        for (int j = ep.min.position.y; j <= ep.max.position.y; j++)
+                        for (int j = ep.min.y; j <= ep.max.y; j++)
                         {
                             var pos = new PositionData(ep.center.Position.x + i,
-                                ep.center.Position.y + j ,
+                                ep.center.Position.y + j,
                                 ep.center.Phase);
-                            if (pos.Phase == EPhase.None)
+                            if (pos.Phase == EPhase.None || ep.hollow.Contains(pos))
                                 continue;
                             var env = new Environment(ep.environment, pos);
                             environments.Add(env);
@@ -85,5 +88,9 @@ namespace Common
         }
 
         public Vector2Int Size => _size;
+
+        public PositionData[] PlayerSpawns => _playerSpawns;
+
+        public PositionData[] EnemySpawns => _enemySpawns;
     }
 }

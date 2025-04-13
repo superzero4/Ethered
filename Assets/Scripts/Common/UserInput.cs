@@ -24,6 +24,9 @@ namespace Common
         [SerializeField, Range(1, 4)] private int ResetMouseButton = 1;
         private ResetEvent _reset = new();
         public ResetEvent Reset => _reset;
+        [SerializeField] private KeyCode _devKey = KeyCode.F;
+        private ResetEvent _dev = new();
+        public ResetEvent Dev => _dev;
         public void ForceReset()
         {
             _reset.Invoke();
@@ -47,6 +50,8 @@ namespace Common
             for (var i = 0; i < resetKey.Length; i++)
                 if (Input.GetKeyDown(resetKey[i]))
                     _reset.Invoke();
+            if(Input.GetKeyDown(_devKey))
+                _dev.Invoke();
             if (Input.GetMouseButtonDown(_principalMouseButton))
                 _mouseButton.Invoke();
         }

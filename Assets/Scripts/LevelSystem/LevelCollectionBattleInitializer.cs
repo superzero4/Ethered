@@ -1,3 +1,4 @@
+using System;
 using BattleSystem;
 using Common;
 using Common.Events.Combat;
@@ -8,6 +9,7 @@ using UnityEngine.Serialization;
 using Views.Battle;
 using Views.Battle.Selection;
 using Views.Phase;
+using Object = UnityEngine.Object;
 
 namespace LevelSystem
 {
@@ -30,9 +32,11 @@ namespace LevelSystem
         [Header("Settings")] [SerializeField] private bool _goToNextSceneOnEnd = true;
         [SerializeField] private bool _skipShop = true;
 
-        [Header("Intro")] [SerializeField, UnityEngine.Range(0, 100)]
+        [Header("Dev")] [SerializeField] private bool _autoEnd;
+        [SerializeField, UnityEngine.Range(0, 100)]
         private int _levelSkip;
 
+        [Header("Intro")] 
         [SerializeField, UnityEngine.Range(0, 10f)]
         private float _duration;
 
@@ -75,9 +79,17 @@ namespace LevelSystem
             _userInput.Reset.Invoke();
             _phaseSelector.Initialize(EPhase.Normal);
             battle.BattleEnd.AddListener(OnBattleEnd);
+            if (_autoEnd)
+                _userInput.Dev.AddListener(e=>ForceEnd());
             AnimateBattleView(precedent, current);
         }
 
+        public void ForceEnd()
+        {
+            OnBattleEnd(new BattleEventData(){
+                winner = ETeam.Player
+            });
+        }
         private void OnBattleEnd(BattleEventData t)
         {
             Debug.Log($"Battle Ended, won by {t.winner}");
