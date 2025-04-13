@@ -15,11 +15,26 @@ namespace Views.Phase
         private EPhase _shownPhase;
         [SerializeField] private Transform _root;
 
+        //On the displayed phase changed
         public void OnPhaseChanged(PhaseEventData data)
         {
             _shownPhase = data.targetPhase;
+            //We cancel any running tween that would be working on the scale for this specific object, when this method is call we update all globally the objects that depends on a phase
+            LeanTween.cancel(gameObject);
         }
-
+        //When we change the phase where the view lives in
+        public EPhase Phase
+        {
+            set
+            {
+                if (_phase == value)
+                    return;
+                _phase = value;
+                float start = _phase.Intersects(_shownPhase) || _shownPhase == EPhase.None ? 0 : 1;
+                IPhaseView.Tween(gameObject, _phase, _phase == EPhase.Both ? Progress : start, 1 - start, RawSet);
+            }
+            get { return _phase; }
+        }
         private float Remap(float value, bool invert)
         {
             //It animates out in half of the time and in in the other half
@@ -33,9 +48,11 @@ namespace Views.Phase
                 switch (_phase)
                 {
                     case EPhase.Normal:
+                        //value = Mathf.Min(value, _progress);
                         value = Remap(value, true);
                         break;
                     case EPhase.Ethered:
+                        //value = Mathf.Max(value, _progress);
                         value = Remap(value, false);
                         break;
                     default:
@@ -49,6 +66,7 @@ namespace Views.Phase
 
         private void RawSet(float value)
         {
+            _progress = value;
             _root.localScale = Vector3.one * value;
         }
 
@@ -58,17 +76,7 @@ namespace Views.Phase
             get { return _root; }
         }
 
-        public EPhase Phase
-        {
-            set
-            {
-                if (_phase == value)
-                    return;
-                _phase = value;
-                float start = _phase.Intersects(_shownPhase) || _shownPhase==EPhase.None ? 0 : 1;
-                IPhaseView.Tween(gameObject, _phase, _phase == EPhase.Both ? Progress : start, 1 - start, RawSet);
-            }
-            get { return _phase; }
-        }
+        private float _progress;
+        
     }
 }
