@@ -17868,7 +17868,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 970d180661994837a5c85bba3715a64c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelsHolder: {fileID: 11400000, guid: 955afbda22b9fbe4695a9980c505a26b, type: 2}
+  _levelsHolder: {fileID: 11400000, guid: 18601d894683fe942a20760f78183739, type: 2}
   _userInput: {fileID: 246798882}
   _battleViewInitializer: {fileID: 1556576419}
   _battleView: {fileID: 2103798996}
@@ -17877,7 +17877,8 @@ MonoBehaviour:
   _postProcess: {fileID: 1772969843}
   _goToNextSceneOnEnd: 1
   _skipShop: 1
-  _levelSkip: 0
+  _autoEnd: 1
+  _levelSkip: 3
   _duration: 3
   _ease: 7
 --- !u!4 &246798881
@@ -114168,12 +114169,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _props:
-  - _prefab: {fileID: 4553689113964129, guid: 04e45b4fd05099d4bb8863806e42c037, type: 3}
+  - _prefab: {fileID: 150126861911629311, guid: 8e71e4e287b5cf047b5be94a9ce8dc7b, type: 3}
     _size: {x: 1, y: 1}
   - _prefab: {fileID: 8440432698273571734, guid: 8de814417f264ca4382137cb468172b7, type: 3}
     _size: {x: 2, y: 1}
   - _prefab: {fileID: 8140765063797568737, guid: 59644ee3187ac3849857792399da1b65, type: 3}
     _size: {x: 3, y: 1}
+  - _prefab: {fileID: 3462732942221521064, guid: 62d6c5536e424f248acdc5bb8a4108ed, type: 3}
+    _size: {x: 3, y: 3}
   - _prefab: {fileID: 9137022840000931266, guid: 0f1d46211a31b3c41a4c3d611f7e9763, type: 3}
     _size: {x: 4, y: 2}
   - _prefab: {fileID: 2343624242254435361, guid: b0118df87d82bef4eae4be2ea531c191, type: 3}
