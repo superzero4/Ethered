@@ -7,14 +7,21 @@ namespace Common.Visuals
     [Serializable]
     public struct VisualInformations
     {
-        [Header("Visuals")]
-        [SerializeField] private Sprite _sprite;
+        public bool IsDefault => this._sprite == null && this._color == Color.clear &&
+                                 string.IsNullOrEmpty(this._name) && string.IsNullOrEmpty(this._description);
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_sprite, _color, _name, _description);
+        }
+
+        [Header("Visuals")] [SerializeField] private Sprite _sprite;
         [SerializeField] private Color _color;
-        [Header("Text")]
-        [SerializeField] private string _name;
+        [Header("Text")] [SerializeField] private string _name;
         [SerializeField] private string _description;
-        [Header("ReadOnly")]
-        [SerializeField,ReadOnly,InfoBox("Generated at runtime on first get")] private Sprite _grayScale;
+
+        [Header("ReadOnly")] [SerializeField, ReadOnly, InfoBox("Generated at runtime on first get")]
+        private Sprite _grayScale;
 
         public Sprite Sprite
         {

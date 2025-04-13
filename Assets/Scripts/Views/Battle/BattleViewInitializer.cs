@@ -18,6 +18,7 @@ namespace Views.Battle
         [SerializeField] private EnvironmentProps _props;
         [SerializeField] private Grid _grid;
         [SerializeField] private EnvironmentInfo _defaultEnvironment;
+        [SerializeField] private EnvironmentInfo _defaultObstacle;
         [Header("Prefabs")] [SerializeField] private UnitView _unitViewPrefab;
         [SerializeField] private EnvironmentView _environmentViewPrefab;
 
@@ -29,7 +30,7 @@ namespace Views.Battle
         {
             selectables = new();
             battle = new BattleSystem.Battle();
-            battle.Init(level.Battle, level.Map, squad, _defaultEnvironment,
+            battle.Init(level.Battle, level.Map, squad, _defaultEnvironment,_defaultObstacle,
                 // ReSharper disable once CoVariantArrayConversion
                 new RandomBrainCollection(GetComponentsInChildren<IComparer<Action>>()
                     .Select(comp => new UtilityBasedBrain(comp)).ToArray()));

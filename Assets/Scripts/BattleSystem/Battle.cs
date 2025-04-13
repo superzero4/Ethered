@@ -8,6 +8,7 @@ using Common;
 using Common.Events;
 using Common.Events.Combat;
 using Common.Events.UserInterface;
+using Common.Visuals;
 using SquadSystem;
 using UnitSystem;
 using UnitSystem.Actions.Bases;
@@ -99,6 +100,7 @@ namespace BattleSystem
         public BattleEvent BattleEnd => _battleEnd;
 
         public void Init(EncounterInfo info, MapInfo map, EncounterInfo squad, EnvironmentInfo defaultEnvironment,
+            EnvironmentInfo defaultObstacle,
             IBrainCollection brains = null)
         {
             TilemapPathFindingExtensions.ClearCache();
@@ -117,7 +119,11 @@ namespace BattleSystem
             if (specific != null && specific.Any())
                 foreach (var env in specific)
                     if (env.Position.Phase != EPhase.None)
-                        _battleElements.SetEnvironment(env);
+                        _battleElements.SetEnvironment(
+                            env.VisualInformations.IsDefault &&
+                            env.allowedMovement == defaultObstacle.AllowedMovement
+                                ? new Environment(defaultObstacle, env.Position)
+                                : env);
             var mid = map.Size.x / 2;
             _allies = AddUnits(map.PlayerSpawns, squad.Units, ETeam.Player);
             _ennemies = AddUnits(map.EnemySpawns, info.Units, ETeam.Enemy);

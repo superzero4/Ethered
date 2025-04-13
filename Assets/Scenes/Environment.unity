@@ -17878,7 +17878,7 @@ MonoBehaviour:
   _goToNextSceneOnEnd: 1
   _skipShop: 1
   _autoEnd: 1
-  _levelSkip: 4
+  _levelSkip: 5
   _duration: 3
   _ease: 7
 --- !u!4 &246798881
@@ -35320,8 +35320,32 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: _defaultObstacle._visualInformations._name
+      value: Obstacle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: _defaultObstacle._visualInformations._sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1f7828c76d2da404ebfa866745cc435d, type: 3}
+    - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
       propertyPath: _defaultEnvironment._visualInformations._name
       value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: _defaultObstacle._visualInformations._color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: _defaultObstacle._visualInformations._color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: _defaultObstacle._visualInformations._color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: _defaultObstacle._visualInformations._color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
       propertyPath: _defaultEnvironment._visualInformations._sprite
@@ -35342,6 +35366,10 @@ PrefabInstance:
     - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
       propertyPath: _defaultEnvironment._visualInformations._color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351250457321833479, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
+      propertyPath: _defaultObstacle._visualInformations._description
+      value: You can't go or shoot through this
       objectReference: {fileID: 0}
     - target: {fileID: 6124970497057605568, guid: bf627f4f31635e143aac5ac9b67d0cfe, type: 3}
       propertyPath: m_Enabled
