@@ -40,9 +40,14 @@ namespace Views.Battle.Selection
         {
             if (Input.mouseScrollDelta.y != 0)
             {
-                _phase = _phase == EPhase.Ethered ? EPhase.Normal : EPhase.Ethered;
-                Invoke();
+                TogglePhase();
             }
+        }
+
+        public void TogglePhase()
+        {
+            _phase = _phase == EPhase.Ethered ? EPhase.Normal : EPhase.Ethered;
+            Invoke();
         }
 
         private void Invoke()

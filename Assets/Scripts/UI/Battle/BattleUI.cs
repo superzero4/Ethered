@@ -42,6 +42,7 @@ namespace UI.Battle
             userInput.EndTurn.AddListener(_endTurnButton.Click);
             VisualInformations.Default = _default;
             _unitUI.Initialize();
+            _phaseUI.Initialize();
         }
     }
 }

@@ -63,6 +63,7 @@ namespace Views.Battle
             _timelineView.Init(_ui.TimelineUI, battle);
             phase.Subscribe(_ui.PhaseUI);
             _ui.Initialize(userInput);
+            _ui.PhaseUI.OnClick.AddListener(phase.TogglePhase);
             userInput.Confirm.AddListener(() =>
             {
                 if (!_ui.ConfirmButton.interactable)
@@ -116,6 +117,7 @@ namespace Views.Battle
                 actionUI.OnClick.AddListener(onClick);
             }
         }
+
         private void OnActionClicked(IActionInfo a)
         {
             var valid = _selectionState.SelectActionIfValid(a, true);
