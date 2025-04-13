@@ -91,26 +91,26 @@ namespace Views.Battle
             _healthUI.transform.localRotation = Quaternion.Euler(0, -newRot, 0);
         }
 
-        
 
         public void Move(UnitMovementData arg0)
         {
-            var last = arg0.path.Path[0];
+            var last = arg0.oldPosition;
             Vector2 lastDir = CurrentLookAt();
             var seq = LeanTween.sequence();
-            foreach (var pos in arg0.path.Path.Skip(1))
+            foreach (var pos in arg0.path.Path)
             {
                 var dir = (Vector2)pos.Position - last.Position;
+                Assert.IsTrue(dir.magnitude == 1 || (dir.magnitude == 0 && pos.Phase != last.Phase),
+                    $"Invalid movement {dir} {pos.Position} {last.Position} with a magnitude higher than 1 or switching phase with a magnitude higher than 0");
                 var turn = TweenTurn(lastDir, dir, out bool snap, out bool left);
                 if (!snap)
                     seq.append(() => { _unitAnimations.Turn(left); });
                 seq.append(turn);
-                seq.append(() =>
-                {
-                    SetColor();
-                    SyncPhase();
-                });
-                seq.append(() => { _unitAnimations.Move(); });
+                seq.append(() => { SetColor(); });
+                if (pos.Phase != last.Phase)
+                    seq.append(() => SyncPhase());
+                else
+                    seq.append(() => { _unitAnimations.Move(); });
                 seq.append(LeanTween.move(_root.gameObject, _grid.PhasedCellToWorld(pos),
                     _unitAnimations.MoveTime));
                 //Safe in case of rounding errors in tween

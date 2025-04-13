@@ -17,14 +17,20 @@ namespace Views.Battle.Selection
         private float _duration;
 
         [SerializeField] private LeanTweenType _easeType;
-        private float _progress;
-        private LTDescr tween;
 
+        public void Initialize(EPhase initPhase)
+        {
+            IPhaseView.ease = _easeType;
+            IPhaseView.duration = _duration;
+            _phase = initPhase;
+            Invoke();
+        }
+        
         public void Subscribe(params IPhaseView[] view)
         {
             foreach (var v in view)
             {
-                _onSelectedPhaseChanges.AddListener(v.OnPhaseSelected);
+                _onSelectedPhaseChanges.AddListener(v.OnPhaseChanged);
                 _onSelectedPhaseChanges.AddListener(arg => v.Progress = arg.progress);
             }
         }
@@ -41,26 +47,7 @@ namespace Views.Battle.Selection
 
         private void Invoke()
         {
-            LeanTween.cancel(gameObject);
-            var data = new PhaseEventData() { targetPhase = _phase };
-            if (_phase == EPhase.Ethered)
-                Tween(_progress, 1f);
-            else
-                Tween(_progress, 0);
-        }
-
-
-        public LTDescr Tween(float start, float end)
-        {
-            //We have a constant speed, which will make the whole animation duration of _duration when the distance beetween start and end is 1, but will scale down if the distance is less to guarantee same speed (in case we change the p$hase in beetween an existing phase change)
-            float dur = _duration * (Mathf.Abs(start - end));
-            return LeanTween.value(gameObject, start, end, dur).setEase(_easeType)
-                .setOnUpdate(val =>
-                {
-                    _progress = val;
-                    var data = new PhaseEventData() { targetPhase = _phase, progress = _progress };
-                    _onSelectedPhaseChanges.Invoke(data);
-                });
+            IPhaseView.Invoke(gameObject, _phase, _onSelectedPhaseChanges.Invoke);
         }
 
         public LayerMask GetLayerMask()
@@ -76,12 +63,6 @@ namespace Views.Battle.Selection
         public void SetLayer<T>(AElementView<T> element) where T : IBattleElement
         {
             element.gameObject.layer = Layer();
-        }
-
-        public void Initialize(EPhase initPhase)
-        {
-            _phase = initPhase;
-            _onSelectedPhaseChanges.Invoke(new PhaseEventData(_phase));
         }
     }
 }

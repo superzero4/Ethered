@@ -87,7 +87,7 @@ namespace Views.Battle.Selection
             for (int i = 0; i < result; i++)
             {
                 var selectable = _selectables[_results[i].transform.gameObject];
-                if ((selectable != _current && _phase.Contains(selectable.Tile.Phase)))
+                if ((selectable != _current && _phase.Intersects(selectable.Tile.Phase)))
                 {
                     if (ShowHints)
                     {
@@ -114,7 +114,7 @@ namespace Views.Battle.Selection
             RaiseCurrentHover();
         }
 
-        public void OnPhaseSelected(PhaseEventData arg0)
+        public void OnPhaseChanged(PhaseEventData arg0)
         {
             _phase = arg0.targetPhase;
         }
