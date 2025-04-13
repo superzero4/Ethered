@@ -100,8 +100,8 @@ namespace Views.Battle
             foreach (var pos in arg0.path.Path)
             {
                 var dir = (Vector2)pos.Position - last.Position;
-                Assert.IsTrue(dir.magnitude == 1 || (dir.magnitude == 0 && pos.Phase != last.Phase),
-                    $"Invalid movement {dir} {pos.Position} {last.Position} with a magnitude higher than 1 or switching phase with a magnitude higher than 0");
+                Assert.IsTrue((dir.magnitude == 1 && pos.Phase == last.Phase) || dir.magnitude == 0,
+                $"Invalid movement {dir} {last} to {pos}  with a magnitude higher than 1 or switching phase with a magnitude higher than 0");
                 var turn = TweenTurn(lastDir, dir, out bool snap, out bool left);
                 if (!snap)
                     seq.append(() => { _unitAnimations.Turn(left); });

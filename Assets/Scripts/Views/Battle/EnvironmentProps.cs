@@ -11,10 +11,8 @@ namespace Views.Battle
         [Serializable]
         public struct Prop
         {
-            [SerializeField]
-            private ScalingPhaseView _prefab;
-            [SerializeField]
-            private Vector2Int _size;
+            [SerializeField] private ScalingPhaseView _prefab;
+            [SerializeField] private Vector2Int _size;
 
             public ScalingPhaseView Prefab => _prefab;
 
@@ -29,7 +27,7 @@ namespace Views.Battle
             get
             {
                 _prefabs ??= _props.ToDictionary(x => x.Size, x => x.Prefab);
-                return _prefabs[index];
+                return _prefabs[new Vector2Int(Math.Max(index.x, index.y), Math.Min(index.x, index.y))];
             }
         }
     }

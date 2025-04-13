@@ -62,13 +62,14 @@ namespace Views.Battle
             foreach (var env in level.Map.Environments())
             {
                 var size = env.max - env.min + Vector2Int.one;
+                bool turn = size.x < size.y;
                 var prefab = _props[size];
                 var pos = _grid.PhasedCellToWorld(env.center);
                 var go = Instantiate(prefab, pos,
                     Quaternion.identity,
                     _grid.transform);
-                if (size.x > size.y)
-                    go.transform.localRotation = Quaternion.Euler(0, 90, 0);
+                if (turn)
+                    go.transform.localRotation = Quaternion.Euler(0, -90, 0);
                 go.name = "Prop " + env.center.ToString() + ", " + size.ToString();
                 go.Phase = env.center.Phase;
                 phaseSelector.Subscribe(go);
