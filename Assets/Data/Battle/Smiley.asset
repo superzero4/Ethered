@@ -21,7 +21,7 @@ MonoBehaviour:
       position: {x: 1, y: 0}
     phase: 1
   - _position:
-      position: {x: 0, y: 1}
+      position: {x: 3, y: 0}
     phase: 1
   _enemySpawns:
   - _position:
@@ -44,7 +44,7 @@ MonoBehaviour:
         position: {x: 2, y: 1}
       phase: 1
     min: {x: -1, y: 0}
-    max: {x: -1, y: 0}
+    max: {x: 1, y: 0}
     hollow: []
   - environment:
       _visualInformations:
@@ -59,7 +59,7 @@ MonoBehaviour:
         position: {x: 2, y: 1}
       phase: 2
     min: {x: -1, y: 0}
-    max: {x: -1, y: 0}
+    max: {x: 1, y: 0}
     hollow: []
   - environment:
       _visualInformations:

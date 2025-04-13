@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Obstacles
   m_EditorClassIdentifier: 
   _size: {x: 6, y: 6}
-  _enemySpawns: []
   _playerSpawns: []
+  _enemySpawns: []
   _specificEnvironments:
   - environment:
       _visualInformations:
-        _sprite: {fileID: 21300000, guid: 1f7828c76d2da404ebfa866745cc435d, type: 3}
-        _color: {r: 1, g: 1, b: 1, a: 1}
-        _name: Obstacle
-        _description: You can't go or shoot through this
+        _sprite: {fileID: 0}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
         _grayScale: {fileID: 0}
       _allowedMovement: 0
     center:
@@ -30,12 +30,13 @@ MonoBehaviour:
       phase: 1
     min: {x: -1, y: 0}
     max: {x: 1, y: 0}
+    hollow: []
   - environment:
       _visualInformations:
-        _sprite: {fileID: 21300000, guid: 1f7828c76d2da404ebfa866745cc435d, type: 3}
-        _color: {r: 1, g: 1, b: 1, a: 1}
-        _name: Obstacle
-        _description: You can't go or shoot through this
+        _sprite: {fileID: 0}
+        _color: {r: 0, g: 0, b: 0, a: 0}
+        _name: 
+        _description: 
         _grayScale: {fileID: 0}
       _allowedMovement: 0
     center:
@@ -44,3 +45,4 @@ MonoBehaviour:
       phase: 2
     min: {x: 0, y: 0}
     max: {x: 0, y: 0}
+    hollow: []
