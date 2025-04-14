@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be1fcc23db1945d5a3b9653875272df9, type: 3}
-  m_Name: EasyBattle
+  m_Name: DummyBattle
   m_EditorClassIdentifier: 
   _units:
     _units:
@@ -18,10 +18,10 @@ MonoBehaviour:
       _armor: 0
       _actionCollection: {fileID: 11400000, guid: e0927b309688d7e4c86939d12d43d9bd, type: 2}
       _visualInformations:
-        _sprite: {fileID: 21300000, guid: e96f572c1ab9dfa4cab49c484765973b, type: 3}
+        _sprite: {fileID: 21300000, guid: 852a52076e29c08488f785a7b2071b5c, type: 3}
         _color: {r: 1, g: 1, b: 1, a: 1}
-        _name: Turret
-        _description: Steady but deadly
+        _name: Dummy
+        _description: Target practice
         _grayScale: {fileID: 0}
     _upgrades: []
   _defaultUnit:
