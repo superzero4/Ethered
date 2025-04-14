@@ -19,7 +19,7 @@ namespace Views.Battle.Selection
     {
         private LayerMask _selectionMask;
 
-        [Header("References")] [SerializeField]
+        //[Header("References")] [SerializeField]
         private Camera _camera;
 
         [Header("Events")] [SerializeField] private SelectionEvent _hoverChanged = new();
@@ -50,8 +50,9 @@ namespace Views.Battle.Selection
             set { _hintLevel = value ? 2 : 0; }
         }
 
-        public void Initialize(IEnumerable<Selectable> selectables, LayerMask mask)
+        public void Initialize(IEnumerable<Selectable> selectables, LayerMask mask, Camera camera)
         {
+            _camera = camera;
             ShowHints = true;
             //We have a quick mapping from a gameObject to it's selectable component without the need of a GetComponent on every selection
             _selectables = new(selectables.Select(s => new KeyValuePair<GameObject, Selectable>(s.gameObject, s)));

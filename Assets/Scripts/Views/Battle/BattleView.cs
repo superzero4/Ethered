@@ -27,7 +27,6 @@ namespace Views.Battle
 
         [Header("References")] [SerializeField, InfoBox("Just a big reference holder")]
         private BattleUI _ui;
-
         [SerializeField] private TimelineView _timelineView;
 
 

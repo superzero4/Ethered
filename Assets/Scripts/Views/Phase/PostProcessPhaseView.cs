@@ -14,7 +14,7 @@ namespace Views.Phase
 {
     public class PostProcessPhaseView : MonoBehaviour, IPhaseView
     {
-        [SerializeField] private Camera _camera;
+        private Camera _camera;
         [SerializeField] private PostProcessVolume _ppv;
         [SerializeField] private BoxCollider _collider;
         [SerializeField] private Vector3 _startSize;
@@ -22,8 +22,9 @@ namespace Views.Phase
         [SerializeField, Range(0.001f, 1f)] private float blendDistanceMul = 0.8f;
         [SerializeField, Range(0, 1f),Tooltip("For editor test purpose only, isn't reaquired to process the data, the progress is passed by the event")] private float _progress = 0.5f;
 
-        public void Init()
+        public void Init(Camera camera)
         {
+            _camera = camera;
             _progress = 0;
             UpdateBlendDistance();
         }
@@ -45,8 +46,12 @@ namespace Views.Phase
             }
         }
 
+        public Camera Camera1 => _camera;
+
         private void OnValidate()
         {
+            if(_camera == null)
+                _camera = Camera.main;
             UpdateBlendDistance();
         }
     }
