@@ -31,6 +31,8 @@ namespace Views.Phase
 
         private void UpdateBlendDistance()
         {
+            if (_camera == null || _collider == null)
+                return;
             var dist = (_camera.transform.position - (_collider.transform.position + _collider.center)).magnitude;
             _ppv.blendDistance = dist * blendDistanceMul;
             _endSize = 2 * dist * Vector3.one;
