@@ -69,8 +69,7 @@ namespace Views.Battle
                 var go = Instantiate(prefab, pos,
                     Quaternion.identity,
                     _grid.transform);
-                if (turn)
-                    go.transform.localRotation = Quaternion.Euler(0, -90, 0);
+                    go.transform.localRotation = Quaternion.Euler(0, turn ? -90 : 0, 0);
                 go.name = "Prop " + env.center.ToString() + ", " + size.ToString();
                 go.Phase = env.center.Phase;
                 phaseSelector.Subscribe(go);
