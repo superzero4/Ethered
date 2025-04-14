@@ -27,7 +27,7 @@ namespace Common
 
             [SerializeField] public Vector2Int min;
             [SerializeField] public Vector2Int max;
-            [SerializeField] public PositionData[] hollow;
+            [SerializeField] public Vector2Int[] hollow;
         }
 
         public IEnumerable<EnvironmentGroup> Environments()
@@ -76,7 +76,7 @@ namespace Common
                             var pos = new PositionData(ep.center.Position.x + i,
                                 ep.center.Position.y + j,
                                 ep.center.Phase);
-                            if (pos.Phase == EPhase.None || ep.hollow.Contains(pos))
+                            if (pos.Phase == EPhase.None || ep.hollow.Contains(new Vector2Int(i, j)))
                                 continue;
                             var env = new Environment(ep.environment, pos);
                             environments.Add(env);

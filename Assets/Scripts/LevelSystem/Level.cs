@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using Common;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -14,14 +16,17 @@ namespace LevelSystem
         [Header("Placement")]
         [SerializeField] private Vector3 _position;
         [SerializeField] private Vector3 _rotation;
-        
         public Vector3 Position
         {
             get => _position;
             set => _position = value;
         }
 
-        public Vector3 Rotation => _rotation;
+        public Vector3 Rotation
+        {
+            set => _rotation = value;
+            get { return _rotation; }
+        }
 
         public EncounterInfo Battle => _battle;
 

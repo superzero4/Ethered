@@ -50,6 +50,12 @@ namespace LevelSystem
             _levels = _levelsHolder as ILevelCollection;
             if (!_flag)
             {
+#if UNITY_EDITOR
+                if (_levelsHolder is WorldSO world)
+                {
+                    world.SetPositionFromMarkerName();
+                }
+#endif
                 _levels.Reset();
                 _levels.Increment(_levelSkip);
                 _flag = true;
@@ -80,13 +86,14 @@ namespace LevelSystem
             _phaseSelector.Initialize(EPhase.Normal);
             battle.BattleEnd.AddListener(OnBattleEnd);
             if (_autoEnd)
-                _userInput.Dev.AddListener(e=>ForceEnd());
+                _userInput.Dev.AddListener(e => ForceEnd());
             AnimateBattleView(precedent, current);
         }
 
         public void ForceEnd()
         {
-            OnBattleEnd(new BattleEventData(){
+            OnBattleEnd(new BattleEventData()
+            {
                 winner = ETeam.Player
             });
         }
