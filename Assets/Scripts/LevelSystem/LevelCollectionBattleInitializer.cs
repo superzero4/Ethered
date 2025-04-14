@@ -23,21 +23,22 @@ namespace LevelSystem
 
         [FormerlySerializedAs("_bindings")] [SerializeField]
         private UserInput _userInput;
-
+        
         [SerializeField] private BattleViewInitializer _battleViewInitializer;
         [SerializeField] private BattleView _battleView;
         [SerializeField] private Selector _selector;
         [SerializeField] private PhaseSelector _phaseSelector;
         [SerializeField] private PostProcessPhaseView _postProcess;
+        [SerializeField] private Camera _camera;
         [Header("Settings")] [SerializeField] private bool _goToNextSceneOnEnd = true;
         [SerializeField] private bool _skipShop = true;
 
         [Header("Dev")] [SerializeField] private bool _autoEnd;
+
         [SerializeField, UnityEngine.Range(0, 100)]
         private int _levelSkip;
 
-        [Header("Intro")] 
-        [SerializeField, UnityEngine.Range(0, 10f)]
+        [Header("Intro")] [SerializeField, UnityEngine.Range(0, 10f)]
         private float _duration;
 
         [SerializeField] private LeanTweenType _ease = LeanTweenType.easeInOutCubic;
@@ -68,8 +69,8 @@ namespace LevelSystem
         {
             var current = _levels.Current;
             var precedent = _levels.Precedent;
-
-            _postProcess.Init();
+            
+            _postProcess.Init(_camera);
 
             _phaseSelector.Subscribe(_postProcess);
             _phaseSelector.Subscribe(_selector);
@@ -80,7 +81,7 @@ namespace LevelSystem
 
             _battleViewInitializer.Init(current, _levels.DynamicSquad, _phaseSelector, out var selectables,
                 out var battle);
-            _selector.Initialize(selectables, _phaseSelector.GetLayerMask());
+            _selector.Initialize(selectables, _phaseSelector.GetLayerMask(),_camera);
             _battleView.Init(battle, _selector, _phaseSelector, _userInput);
             _userInput.Reset.Invoke();
             _phaseSelector.Initialize(EPhase.Normal);
@@ -97,6 +98,7 @@ namespace LevelSystem
                 winner = ETeam.Player
             });
         }
+
         private void OnBattleEnd(BattleEventData t)
         {
             Debug.Log($"Battle Ended, won by {t.winner}");
@@ -127,6 +129,7 @@ namespace LevelSystem
             _battleView.transform.eulerAngles = precedent.Rotation;
             _battleView.transform.LeanMove(current.Position, _duration).setEase(_ease);
             _battleView.transform.LeanRotate(current.Rotation, _duration).setEase(_ease);
+            _camera.transform.LeanMoveLocalX( _battleViewInitializer.Grid.cellSize.x * current.Map.Size.x/2f,_duration);
         }
     }
 }
