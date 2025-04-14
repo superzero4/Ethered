@@ -38,10 +38,11 @@ namespace LevelSystem
 
         public EncounterInfo StartingSquad => _dynamicSquad;
 
-        public void Increment(int value = 1)
+        public void Increment(int value, out bool reset)
         {
             _currentLevelIndex += value;
             _currentLevelIndex %= _levels.Length;
+            reset = _currentLevelIndex == 0;
         }
 
         public void Reset()

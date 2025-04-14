@@ -55,10 +55,9 @@ namespace LevelSystem
             if (!_flag)
             {
 #if UNITY_EDITOR
-                if (_levelsHolder is WorldSO world)
-                {
-                    world.SetPositionFromMarkerName();
-                }
+                if (_levelsHolder is WorldCollection worldCollection)
+                    foreach (var world in worldCollection.Worlds)
+                        world.SetPositionFromMarkerName();
 #endif
                 _levels.Reset();
                 _levels.Increment(_levelSkip);

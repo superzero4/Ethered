@@ -7,7 +7,11 @@ namespace LevelSystem
         public Level Current { get; }
         public Level Precedent { get; }
         EncounterInfo StartingSquad { get; }
-        public void Increment(int value = 1);
+        public void Increment(int value, out bool reset);
+        public void Increment(int value = 1)
+        {
+            Increment(value, out bool _);
+        }
         public void Reset();
     }
 }
