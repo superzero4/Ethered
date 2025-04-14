@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e436314f099948deb3dc2f3ccf758ae1, type: 3}
-  m_Name: AttackShoot
+  m_Name: AttackWarpOffPhase
   m_EditorClassIdentifier: 
   _visualInformations:
     _sprite: {fileID: 21300000, guid: b42d72a66c3f81644b649164fe3254c7, type: 3}
     _color: {r: 1, g: 1, b: 1, a: 1}
-    _name: Distant attack
-    _description: Damage an ennemy in the same phase
+    _name: Invisible shot
+    _description: Damage an ennemy in the opposite phase
     _grayScale: {fileID: 0}
   _originPhase: -1
   _target:
   - _range: 5
     _targetType: 4
-    _phase: 3
+    _phase: -2
   _nbTargets: 1
   _damage: 9
-  _requireLOS: 1
+  _requireLOS: 0

@@ -15,13 +15,14 @@ MonoBehaviour:
   _visualInformations:
     _sprite: {fileID: 21300000, guid: 92e0c0f669f64e2478a6a0b755965ea9, type: 3}
     _color: {r: 1, g: 1, b: 1, a: 1}
-    _name: Invisible attack
+    _name: Invisible slash
     _description: Attack a close enemy from the opposite phase
+    _grayScale: {fileID: 0}
   _originPhase: -1
   _target:
-  - _nbTargets: 1
-    _range: 1
+  - _range: 1
     _targetType: 4
     _phase: -2
+  _nbTargets: 1
   _damage: 10
   _requireLOS: 0
