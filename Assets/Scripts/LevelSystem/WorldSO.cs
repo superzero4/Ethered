@@ -36,7 +36,7 @@ namespace LevelSystem
         public Level Current => _levels[_currentLevelIndex];
         public Level Precedent => _currentLevelIndex > 0 ? _levels[_currentLevelIndex - 1] : PreludePosition;
 
-        public EncounterInfo DynamicSquad => _dynamicSquad;
+        public EncounterInfo StartingSquad => _dynamicSquad;
 
         public void Increment(int value = 1)
         {

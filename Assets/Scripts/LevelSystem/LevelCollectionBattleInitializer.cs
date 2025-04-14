@@ -1,8 +1,11 @@
 using System;
+using System.Linq;
 using BattleSystem;
 using Common;
 using Common.Events.Combat;
 using Common.GlobalFlow;
+using SquadSystem;
+using UnitSystem;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
@@ -23,7 +26,7 @@ namespace LevelSystem
 
         [FormerlySerializedAs("_bindings")] [SerializeField]
         private UserInput _userInput;
-        
+
         [SerializeField] private BattleViewInitializer _battleViewInitializer;
         [SerializeField] private BattleView _battleView;
         [SerializeField] private Selector _selector;
@@ -69,7 +72,7 @@ namespace LevelSystem
         {
             var current = _levels.Current;
             var precedent = _levels.Precedent;
-            
+
             _postProcess.Init(_camera);
 
             _phaseSelector.Subscribe(_postProcess);
@@ -78,10 +81,17 @@ namespace LevelSystem
 
             _userInput.AddResetables(_selector);
             _userInput.MouseButton.AddListener(_selector.Select);
+            Squad squad = new Squad(_levels.StartingSquad.Units);
+            if (current.PlayerActionsOverride != null && current.PlayerActionsOverride.Length > 0)
+            {
+                squad.Trim(current.PlayerActionsOverride.Length);
+                for (int i = 0; i < squad.Units.Count; i++)
+                    squad.Units[i] = new UnitInfo(squad.Units[i], current.PlayerActionsOverride);
+            }
 
-            _battleViewInitializer.Init(current, _levels.DynamicSquad, _phaseSelector, out var selectables,
+            _battleViewInitializer.Init(current, squad, _phaseSelector, out var selectables,
                 out var battle);
-            _selector.Initialize(selectables, _phaseSelector.GetLayerMask(),_camera);
+            _selector.Initialize(selectables, _phaseSelector.GetLayerMask(), _camera);
             _battleView.Init(battle, _selector, _phaseSelector, _userInput);
             _userInput.Reset.Invoke();
             _phaseSelector.Initialize(EPhase.Normal);
@@ -129,7 +139,8 @@ namespace LevelSystem
             _battleView.transform.eulerAngles = precedent.Rotation;
             _battleView.transform.LeanMove(current.Position, _duration).setEase(_ease);
             _battleView.transform.LeanRotate(current.Rotation, _duration).setEase(_ease);
-            _camera.transform.LeanMoveLocalX( _battleViewInitializer.Grid.cellSize.x * current.Map.Size.x/2f,_duration);
+            _camera.transform.LeanMoveLocalX(_battleViewInitializer.Grid.cellSize.x * current.Map.Size.x / 2f,
+                _duration);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace LevelSystem
     {
         public Level Current { get; }
         public Level Precedent { get; }
-        EncounterInfo DynamicSquad { get; }
+        EncounterInfo StartingSquad { get; }
         public void Increment(int value = 1);
         public void Reset();
     }

@@ -99,7 +99,7 @@ namespace BattleSystem
 
         public BattleEvent BattleEnd => _battleEnd;
 
-        public void Init(EncounterInfo info, MapInfo map, EncounterInfo squad, EnvironmentInfo defaultEnvironment,
+        public void Init(EncounterInfo info, MapInfo map, Squad squad, EnvironmentInfo defaultEnvironment,
             EnvironmentInfo defaultObstacle,
             IBrainCollection brains = null)
         {
@@ -125,7 +125,7 @@ namespace BattleSystem
                                 ? new Environment(defaultObstacle, env.Position)
                                 : env);
             var mid = map.Size.x / 2;
-            _allies = AddUnits(map.PlayerSpawns, squad.Units, ETeam.Player);
+            _allies = AddUnits(map.PlayerSpawns, squad, ETeam.Player);
             _ennemies = AddUnits(map.EnemySpawns, info.Units, ETeam.Enemy);
             SubscribeToUnitsEvents();
         }

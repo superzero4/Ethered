@@ -60,5 +60,9 @@ namespace UnitSystem
             _visualInformations = other.VisualInformations;
             _actionCollection = other.Collection;
         }
+        public UnitInfo(UnitInfo other, IEnumerable<IActionInfo> actions) : this(other)
+        {
+            _actions = actions.ToList();
+        }
     }
 }

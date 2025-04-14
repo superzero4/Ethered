@@ -4,6 +4,7 @@ using BattleSystem;
 using Common;
 using LevelSystem;
 using NUnit.Framework;
+using SquadSystem;
 using UnitSystem.AI;
 using UnitSystem.AI.Dev;
 using UnityEngine;
@@ -24,7 +25,7 @@ namespace Views.Battle
 
         public Grid Grid => _grid;
 
-        public void Init(Level level, EncounterInfo squad, PhaseSelector phaseSelector,
+        public void Init(Level level, Squad squad, PhaseSelector phaseSelector,
             out List<Selectable> selectables,
             out BattleSystem.Battle battle)
         {
