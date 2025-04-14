@@ -12,9 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f5f9a12dbfd431ea864789c8089bef7, type: 3}
   m_Name: Obstacles
   m_EditorClassIdentifier: 
-  _size: {x: 6, y: 6}
-  _playerSpawns: []
-  _enemySpawns: []
+  _size: {x: 5, y: 5}
+  _playerSpawns:
+  - _position:
+      position: {x: 2, y: 0}
+    phase: 1
+  - _position:
+      position: {x: 1, y: 0}
+    phase: 2
+  - _position:
+      position: {x: 3, y: 0}
+    phase: 2
+  _enemySpawns:
+  - _position:
+      position: {x: 2, y: 4}
+    phase: 1
+  - _position:
+      position: {x: 1, y: 4}
+    phase: 2
+  - _position:
+      position: {x: 3, y: 4}
+    phase: 2
+  - _position:
+      position: {x: 0, y: 4}
+    phase: 1
+  - _position:
+      position: {x: 4, y: 4}
+    phase: 1
   _specificEnvironments:
   - environment:
       _visualInformations:
