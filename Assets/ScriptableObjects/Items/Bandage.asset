@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e3d5a7e813a48aa807e115934c317e1, type: 3}
   m_Name: Bandage
   m_EditorClassIdentifier: 
-  name: 
-  coinsPrice: 0
+  name: Bandage
+  coinsPrice: 3
   etherPrice: 0
