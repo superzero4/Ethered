@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using SquadSystem.Buttons;
+using SquadSystem.Items;
 using SquadSystem.UI;
 using UnitSystem;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace SquadSystem
         [Header("Items Shop Settings")]
         [SerializeField] private int minItemsInShop = 1;
         [SerializeField] private int maxItemsInShop = 3;
-        [SerializeField] private List<string> itemsList;
+        [SerializeField] private List<Item> itemsList;
         [SerializeField] private GameObject itemsShopContainer; // The container where the items will be displayed (UI)
         [SerializeField] private GameObject itemsShopPrefab; // The prefab of the item button in the shop (UI)
 
@@ -145,16 +146,20 @@ namespace SquadSystem
             {
                 int itemPicked = Random.Range(0, itemsList.Count);
                 
+                string itemName = itemsList[itemPicked].GetItemName();
+                int itemCoinsCost = itemsList[itemPicked].GetItemCoinsCost();
+                int itemEtherCost = itemsList[itemPicked].GetItemEtherCost();
+                
                 GameObject item = Instantiate(itemsShopPrefab, itemsShopContainer.transform);
                 ItemShopUI itemShopUI = item.GetComponent<ItemShopUI>();
                 itemShopUI.SetParameters(
-                    itemsList[itemPicked], 
-                    10,
-                    0
+                    itemName, 
+                    itemCoinsCost,
+                    itemEtherCost
                     );
                 
                 ShopItemsButton itemButton = item.GetComponent<ShopItemsButton>();
-                itemButton.SetParameters(itemsList[itemPicked], 10, 0);
+                itemButton.SetParameters(itemsList[itemPicked]);
                 
                 itemsList.RemoveAt(itemPicked); // Remove the item from the list to avoid duplicates
             }
