@@ -149,7 +149,6 @@ GameObject:
   - component: {fileID: 7582123556518457109}
   - component: {fileID: 6684426638011124126}
   - component: {fileID: 3764603093610086596}
-  - component: {fileID: 4598588711895722518}
   - component: {fileID: 1624414505856117344}
   - component: {fileID: 7982765557509310034}
   m_Layer: 5
@@ -216,53 +215,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _unitUI: {fileID: 7952127624333298766}
   _actionUI: {fileID: 650228185871153100}
-  _selectable: {fileID: 4598588711895722518}
   _next: {fileID: 1232715356415545990}
   _targetUIPrefab: {fileID: 6430122756512899674}
   _actionEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4598588711895722518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6808876491559663063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a98125502f715b4b83cfb77b434e436, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 0
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 7982765557509310034}
 --- !u!222 &1624414505856117344
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -407,7 +364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4498193299314624251, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
-      value: 6.9
+      value: 6.05
       objectReference: {fileID: 0}
     - target: {fileID: 4985886274660131049, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_AnchorMax.y
@@ -560,7 +517,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4498193299314624251, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
-      value: 7.7
+      value: 6.75
       objectReference: {fileID: 0}
     - target: {fileID: 4985886274660131049, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_AnchorMax.y
@@ -721,7 +678,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4498193299314624251, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
-      value: 7.7
+      value: 6.75
       objectReference: {fileID: 0}
     - target: {fileID: 4985886274660131049, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_AnchorMax.y
