@@ -20,9 +20,9 @@ namespace UI.Battle
 
         public ActionEvent ActionEvent => _actionEvent;
 
-        public void SetInfo(VisualInformations info)
+        public void SetInfo(VisualInformations info, params IIcon.IconText[] additionalInformations)
         {
-            _actionUI.SetInfo(info);
+            _actionUI.SetInfo(info, additionalInformations);
         }
 
         public void SetAction(Action a)
@@ -52,6 +52,7 @@ namespace UI.Battle
                 action = _action
             });
         }
+
         public void OnPointerExit(PointerEventData eventData)
         {
             _actionEvent.Invoke(new ActionEventData

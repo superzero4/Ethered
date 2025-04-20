@@ -21,5 +21,6 @@ namespace UnitSystem.Actions.Bases
 
         public abstract bool CanExecuteOnMap(Unit origin, TargetCollection targets, Tilemap map);
         public abstract void Execute(Unit origin, TargetCollection targetCollection);
+        public abstract IIcon.IconText additionalInfo { get; }
     }
 }

@@ -209,9 +209,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3485508951604352003, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 3508989113751386768, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
-      value: 36.25
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 3953969151851714605, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
+      propertyPath: m_fontSize
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 4453362436874587840, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_Enabled
@@ -219,7 +227,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4498193299314624251, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
-      value: 20.25
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344941567006805335, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
+      propertyPath: m_fontSize
+      value: 72
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5991409560239726532, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
@@ -355,6 +367,7 @@ MonoBehaviour:
   _image: {fileID: 6970175697918544169}
   _nameText: {fileID: 5304750332588497095}
   _descriptionText: {fileID: 5134358295108084908}
+  _additionalTextPrefab: {fileID: 5134358295108084908}
   _button: {fileID: 1586427773468968988}
   _onClick:
     m_PersistentCalls:

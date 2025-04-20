@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UI.Battle;
 using UnityEngine;
 using Common.Visuals;
@@ -22,5 +24,10 @@ namespace BattleSystem
 
         [Obsolete("Not very OOP, find another way")]
         public bool IsGround => Team == ETeam.None;
+
+        IEnumerable<IconText> IIcon.IconTexts => Enumerable.Empty<IconText>()
+            .Append(new IconText("Phase", Position.Phase.ToString())).Concat(AdditionalIconTexts());
+
+        public IEnumerable<IconText> AdditionalIconTexts();
     }
 }

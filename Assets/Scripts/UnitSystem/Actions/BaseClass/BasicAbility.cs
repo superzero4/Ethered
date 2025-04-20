@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BattleSystem;
 using BattleSystem.TileSystem;
+using Common.Visuals;
 using NaughtyAttributes;
 using UnitSystem.Actions.Bases;
 using UnityEngine;
@@ -41,5 +42,8 @@ namespace UnitSystem.Actions.BaseClass
         {
             origin.Attack(targetCollection.Targets, _damage, _requireLOS);
         }
+
+        public override IIcon.IconText additionalInfo =>
+            new IIcon.IconText(_damage > 0 ? "Deals" : "Heals", _damage.ToString());
     }
 }

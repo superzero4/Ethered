@@ -37,6 +37,10 @@ namespace UnitSystem
             AllAllies = 33
         }
 
+        public int Range => _range;
+
+        public ERelativePhase Phase => _phase;
+
         public bool IsTargetPhaseValid(EPhase phase, IBattleElement target)
         {
             return phase.HasFlag(target.Phase);

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BattleSystem;
 using BattleSystem.TileSystem;
+using Common.Visuals;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -56,5 +57,7 @@ namespace UnitSystem.Actions.Bases
             origin.Move(cached[targetCollection.MainTarget.Position]);
             //targetCollection.MainTarget.Position);
         }
+
+        public override IIcon.IconText additionalInfo => default;
     }
 }

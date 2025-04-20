@@ -90,5 +90,9 @@ namespace UnitSystem
                 target.TakeDamage(damage, this);
             }
         }
+
+        public IEnumerable<IIcon.IconText> AdditionalIconTexts() => _info.IconTexts.Append(new IIcon.IconText(
+            "Health",
+            _currentHealth.ToString() + "/" + MaxHealth.ToString()));
     }
 }

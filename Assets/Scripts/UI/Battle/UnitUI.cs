@@ -37,9 +37,9 @@ namespace UI.Battle
                 (action, actionUI) => { actionUI.SetAction(action, action.CouldUnitExecute(unit)); });
         }
 
-        public void SetInfo(VisualInformations info)
+        public void SetInfo(VisualInformations info, params IIcon.IconText[] additionalInformations)
         {
-            _unitUI.SetInfo(info);
+            _unitUI.SetInfo(info, additionalInformations);
         }
 
         public void ResetActionUIs(ActionUI except = null)
