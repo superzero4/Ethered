@@ -192,6 +192,13 @@ MonoBehaviour:
   - {fileID: 1898975152604442636}
   - {fileID: 2440565390110837115}
   _unitUI: {fileID: 2614218729655028127}
+  _pool:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1001 &6279237215027464418
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -202,7 +209,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5134358295108084908, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_fontSize
-      value: 20.25
+      value: 21.6
       objectReference: {fileID: 0}
     - target: {fileID: 5304750332588497095, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_fontSize
@@ -323,7 +330,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5134358295108084908, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_fontSize
-      value: 20.25
+      value: 21.6
       objectReference: {fileID: 0}
     - target: {fileID: 5304750332588497095, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_fontSize
@@ -444,7 +451,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5134358295108084908, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_fontSize
-      value: 20.25
+      value: 21.6
       objectReference: {fileID: 0}
     - target: {fileID: 5304750332588497095, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_fontSize
@@ -565,7 +572,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5134358295108084908, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_fontSize
-      value: 20.25
+      value: 21.6
       objectReference: {fileID: 0}
     - target: {fileID: 5304750332588497095, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_fontSize
@@ -774,7 +781,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4498193299314624251, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
-      value: 40.5
+      value: 38.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

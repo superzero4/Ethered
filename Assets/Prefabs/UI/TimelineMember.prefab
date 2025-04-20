@@ -160,6 +160,10 @@ MonoBehaviour:
   - {fileID: 2435695787109697020}
   - {fileID: 2387847556472396498}
   - {fileID: 3271814228244932634}
+  _selectable: {fileID: 0}
+  _actionEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4598588711895722518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -937,11 +941,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4393215313804606264, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4498193299314624251, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
-      value: 17.4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6014069084151081651, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1223,11 +1227,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4393215313804606264, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4498193299314624251, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
-      value: 17.4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6014069084151081651, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_AnchorMax.x
