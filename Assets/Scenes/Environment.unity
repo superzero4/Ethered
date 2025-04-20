@@ -157222,7 +157222,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1097429897235208874, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_Name
-      value: Right
+      value: Targe(Unused if disabled)
       objectReference: {fileID: 0}
     - target: {fileID: 1097429897235208874, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_IsActive
@@ -157290,7 +157290,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1422762527478226717, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -260.45
       objectReference: {fileID: 0}
     - target: {fileID: 1422762527478226717, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_AnchoredPosition.y

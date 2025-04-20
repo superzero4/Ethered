@@ -39,6 +39,8 @@ namespace UI.Battle
 
         public void Initialize(UserInput userInput)
         {
+            if (!_targetUI.isActiveAndEnabled)
+                _targetUI = null;
             userInput.EndTurn.AddListener(_endTurnButton.Click);
             VisualInformations.Default = _default;
             _unitUI.Initialize();

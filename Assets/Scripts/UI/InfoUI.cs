@@ -74,8 +74,8 @@ namespace UI
                     (iconText, text) =>
                     {
                         text.gameObject.SetActive(true);
-                        text.rectTransform.anchorMin = new Vector2(0, -.2f * (i + 1) + .05f);
-                        text.rectTransform.anchorMax = new Vector2(1, -.2f * (i));
+                        text.rectTransform.anchorMin = new Vector2(0, -.2f * (i + 1));
+                        text.rectTransform.anchorMax = new Vector2(1, -.2f * (i) - .05f);
                         text.SetInfo(iconText);
                         i++;
                     });

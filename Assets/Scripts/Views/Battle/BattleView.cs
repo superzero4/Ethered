@@ -27,6 +27,7 @@ namespace Views.Battle
 
         [Header("References")] [SerializeField, InfoBox("Just a big reference holder")]
         private BattleUI _ui;
+
         [SerializeField] private TimelineView _timelineView;
 
 
@@ -87,18 +88,22 @@ namespace Views.Battle
         private void OnHoverChanged(SelectionEventData selection)
         {
             var unit = selection.unit;
+            bool displayed = false;
             if (_selectionState.CanSelectUnit)
             {
                 bool isTeam = unit != null && unit.Team == ETeam.Player;
                 bool canAct = CanAct(unit);
                 _ui.UnitUI.SetUnit(unit, isTeam && canAct, isTeam && !canAct);
+                displayed = true;
             }
             else if (_selectionState.CanSelectTarget)
             {
-                _ui.TargetUI.SetInfo(unit?.VisualInformations, new IIcon.IconText[]{});
+                _ui.TargetUI?.SetInfo(unit?.VisualInformations, new IIcon.IconText[] { });
             }
 
-            _ui.TileUI.SetInfo(selection.environment.Info);
+            _ui.TileUI.SetInfo(!displayed && unit != null
+                ? unit
+                : selection.environment);
         }
 
         [SuppressMessage("ReSharper", "ConvertClosureToMethodGroup")]
@@ -145,7 +150,8 @@ namespace Views.Battle
                 bool atLeastOneTarget = _selectionState.TryAppendTarget(s, _battle.Tiles);
                 if (atLeastOneTarget)
                 {
-                    _ui.TargetUI.SetInfo(s.unit?.VisualInformations ?? s.environment.VisualInformations, new IIcon.IconText[]{});
+                    _ui.TargetUI.SetInfo(s.unit?.VisualInformations ?? s.environment.VisualInformations,
+                        new IIcon.IconText[] { });
                     _selector.ShowHints = _selectionState.AcceptsMoreTargets;
                     _selector.RaiseCurrentHover();
                     _ui.ConfirmButton.interactable = true;
