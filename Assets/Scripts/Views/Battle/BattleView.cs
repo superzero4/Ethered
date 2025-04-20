@@ -95,7 +95,7 @@ namespace Views.Battle
             }
             else if (_selectionState.CanSelectTarget)
             {
-                _ui.TargetUI.SetInfo(unit?.VisualInformations ?? VisualInformations.Default);
+                _ui.TargetUI.SetInfo(unit?.VisualInformations, new IIcon.IconText[]{});
             }
 
             _ui.TileUI.SetInfo(selection.environment.Info);
@@ -145,7 +145,7 @@ namespace Views.Battle
                 bool atLeastOneTarget = _selectionState.TryAppendTarget(s, _battle.Tiles);
                 if (atLeastOneTarget)
                 {
-                    _ui.TargetUI.SetInfo(s.unit?.VisualInformations ?? s.environment.VisualInformations);
+                    _ui.TargetUI.SetInfo(s.unit?.VisualInformations ?? s.environment.VisualInformations, new IIcon.IconText[]{});
                     _selector.ShowHints = _selectionState.AcceptsMoreTargets;
                     _selector.RaiseCurrentHover();
                     _ui.ConfirmButton.interactable = true;

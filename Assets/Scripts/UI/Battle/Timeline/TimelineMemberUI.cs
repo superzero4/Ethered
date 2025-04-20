@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using BattleSystem;
 using Common.Events.Combat;
 using Common.Events.UserInterface;
@@ -20,7 +21,7 @@ namespace UI.Battle
 
         public ActionEvent ActionEvent => _actionEvent;
 
-        public void SetInfo(VisualInformations info, params IIcon.IconText[] additionalInformations)
+        public void SetInfo(VisualInformations? info, IEnumerable<IIcon.IconText> additionalInformations)
         {
             _actionUI.SetInfo(info, additionalInformations);
         }

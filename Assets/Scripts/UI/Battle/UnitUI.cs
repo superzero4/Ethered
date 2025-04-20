@@ -26,18 +26,18 @@ namespace UI.Battle
         public void SetUnit(Unit unit, bool displayAction, bool greyPortrait)
         {
             var unitInfo = unit?.Info;
-            (this as IVisualInformationUI).SetIcon(unitInfo);
+            (this as IVisualInformationUI).SetIcon(unit);
             if (unitInfo == null || unitInfo.Actions == null || !displayAction)
             {
                 _pool.Reset();
                 return;
             }
-            
+
             _pool.SetElements(unit.Info.Actions,
                 (action, actionUI) => { actionUI.SetAction(action, action.CouldUnitExecute(unit)); });
         }
 
-        public void SetInfo(VisualInformations info, params IIcon.IconText[] additionalInformations)
+        public void SetInfo(VisualInformations? info, IEnumerable<IIcon.IconText> additionalInformations)
         {
             _unitUI.SetInfo(info, additionalInformations);
         }
