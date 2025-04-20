@@ -67,11 +67,6 @@ namespace Common
 
         public void Reset()
         {
-            foreach (var panel in _elements)
-            {
-                //panel.Reset();
-            }
-
             DisableAllFrom(0);
         }
 

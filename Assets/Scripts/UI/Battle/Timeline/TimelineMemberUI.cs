@@ -18,7 +18,6 @@ namespace UI.Battle
     {
         [SerializeField] private InfoUI _unitUI;
         [SerializeField] private InfoUI _actionUI;
-        [SerializeField] private UnityEngine.UI.Selectable _selectable;
         [SerializeField] private Image _next;
         [SerializeField] private InfoUI _targetUIPrefab;
         [SerializeField] private ActionEvent _actionEvent = new();
