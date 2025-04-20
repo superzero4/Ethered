@@ -1,5 +1,6 @@
+using System;
 using System.Collections.Generic;
-using BattleSystem;
+using Common;
 using Common.Events.Combat;
 using Common.Events.UserInterface;
 using Common.Visuals;
@@ -7,6 +8,9 @@ using UnitSystem;
 using UnitSystem.Actions.Bases;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
+using Action = BattleSystem.Action;
 
 namespace UI.Battle
 {
@@ -14,34 +18,40 @@ namespace UI.Battle
     {
         [SerializeField] private InfoUI _unitUI;
         [SerializeField] private InfoUI _actionUI;
-        [SerializeField] private InfoUI[] _targetUI;
         [SerializeField] private UnityEngine.UI.Selectable _selectable;
-        private Action _action;
+        [SerializeField] private Image _next;
+        [SerializeField] private InfoUI _targetUIPrefab;
         [SerializeField] private ActionEvent _actionEvent = new();
+        private Pool<InfoUI> _targetUIPool;
+        private Action _action;
+
+        public void Awake()
+        {
+            _targetUIPool = new(_targetUIPrefab, 5, _targetUIPrefab.transform.parent);
+        }
 
         public ActionEvent ActionEvent => _actionEvent;
+
+        public bool IsLast
+        {
+            get { return !_next.isActiveAndEnabled; }
+            set { _next.gameObject.SetActive(!value); }
+        }
 
         public void SetInfo(VisualInformations? info, IEnumerable<IIcon.IconText> additionalInformations)
         {
             _actionUI.SetInfo(info, additionalInformations);
         }
 
-        public void SetAction(Action a)
+        public void SetAction(Action a, bool isLast = false)
         {
             _action = a;
             _unitUI.SetInfo(a.Origin);
-            _actionUI.SetInfo(a.Info);
-            int i = 0;
-            //TODO refactor this in dedicated DynamicDisplay component with pooling, to also be used with the variable number of actions
-            foreach (var target in a.TargetsEnumerable)
-            {
-                _targetUI[i].gameObject.SetActive(true);
-                _targetUI[i].SetInfo(target);
-                i++;
-            }
-
-            for (; i < _targetUI.Length; i++)
-                _targetUI[i].gameObject.SetActive(false);
+            var visualOverride = a.Info.VisualInformations;
+            visualOverride.ClearDescription();
+            _actionUI.SetInfo(visualOverride, a.Info.IconTexts);
+            _targetUIPool.SetElements(a.TargetsEnumerable, (target, targetUI) => targetUI.SetInfo(target));
+            _next.gameObject.SetActive(!isLast);
         }
 
         public void OnPointerEnter(PointerEventData eventData)

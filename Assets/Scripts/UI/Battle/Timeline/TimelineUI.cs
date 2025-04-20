@@ -13,8 +13,9 @@ namespace UI.Battle
     public class TimelineUI : MonoBehaviour, IReset
     {
         [SerializeField] private TimelineMemberUI _memberPrefab;
-        [SerializeReference]private Pool<TimelineMemberUI> _memberPool;
+        [SerializeReference] private Pool<TimelineMemberUI> _memberPool;
         private UnityAction<ActionEventData> _onHover;
+
         public void Initialize(UnityAction<ActionEventData> onHover)
         {
             _memberPool = new Pool<TimelineMemberUI>(_memberPrefab, 10, transform);
@@ -25,10 +26,13 @@ namespace UI.Battle
         {
             if (t.InsertIndex.HasValue)
             {
-                var member = _memberPool.At(t.InsertIndex.Value);
+                int index = t.InsertIndex.Value;
+                var member = _memberPool.At(index);
                 member.gameObject.SetActive(true);
-                member.SetAction(t.Action);
+                member.SetAction(t.Action, t.IsLast);
                 member.ActionEvent.AddListener(_onHover);
+                if (t.IsLast && index > 0)
+                    _memberPool.Elements[index - 1].IsLast = false;
             }
             else
             {

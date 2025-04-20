@@ -87,5 +87,11 @@ namespace Common.Visuals
 
         //Dynamic default that will be use as a real cohrent default when fallbacking from a null or C# default
         public static VisualInformations Default;
+
+        [Button]
+        public void ClearDescription()
+        {
+            _description = string.Empty;
+        }
     }
 }

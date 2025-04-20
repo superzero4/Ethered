@@ -11,7 +11,9 @@ namespace Common
     {
         [SerializeField] private Pooled _prefab;
         [SerializeField, Range(0, 200)] private int _initialCount = 4;
-        [FormerlySerializedAs("_panels")] [SerializeField] private List<Pooled> _elements;
+
+        [FormerlySerializedAs("_panels")] [SerializeField]
+        private List<Pooled> _elements;
 
         public Pool(List<Pooled> elements)
         {
@@ -24,7 +26,9 @@ namespace Common
             _prefab = prefab;
             _initialCount = initialCount;
             _elements = new List<Pooled>(_initialCount);
-            for (int i = 0; i < _initialCount; i++)
+            if (_prefab.transform.parent == root)//i.e if the object is alrady in scene as part of the child group and should be reused
+                _elements.Add(_prefab);
+            while (_elements.Count < _initialCount)
             {
                 InstantiateNew(root);
             }
