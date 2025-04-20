@@ -66,8 +66,10 @@ namespace UI
             _image.sprite = info.Sprite;
             _image.color = info.Color;
             _nameText.text = info.Name;
-            if (string.IsNullOrEmpty(info.Description))
-                additionalInformations.Prepend(new IIcon.IconText(info.Description));
+            if (additionalInformations == null)
+                additionalInformations = Enumerable.Empty<IIcon.IconText>();
+            if (!string.IsNullOrEmpty(info.Description))
+                additionalInformations = additionalInformations.Prepend(new IIcon.IconText(info.Description));
             int i = 0;
             if (_pool != null)
                 _pool.SetElements(additionalInformations,
