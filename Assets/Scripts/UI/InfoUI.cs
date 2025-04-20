@@ -79,7 +79,7 @@ namespace UI
         {
             int i = 0;
             IEnumerable<IIcon.IconText> toSet = _cachedInformations ?? Enumerable.Empty<IIcon.IconText>();
-            if (includeDescription)
+            if (includeDescription && !string.IsNullOrEmpty(_cachedDescription.text))
                 toSet = toSet.Append(_cachedDescription);
             if (_pool != null)
                 _pool.SetElements(toSet,
