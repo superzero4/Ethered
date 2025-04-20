@@ -18,7 +18,7 @@ MonoBehaviour:
     _name: Standard shot
     _description: Damage an ennemy that you can see in the same phase
     _grayScale: {fileID: 0}
-  _originPhase: -1
+  _originPhase: 3
   _target:
   - _range: 5
     _targetType: 4

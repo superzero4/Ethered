@@ -18,7 +18,7 @@ MonoBehaviour:
     _name: Heal ally
     _description: Heal any ally
     _grayScale: {fileID: 0}
-  _originPhase: -1
+  _originPhase: 3
   _target:
   - _range: 5
     _targetType: 2

@@ -18,6 +18,6 @@ MonoBehaviour:
     _name: Standard movement
     _description: Move in your phase
     _grayScale: {fileID: 0}
-  _originPhase: -1
+  _originPhase: 3
   _range: 3
   _targetPhase: -1

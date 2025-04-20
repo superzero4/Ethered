@@ -18,7 +18,7 @@ MonoBehaviour:
     _name: Slash
     _description: Close quarter attack in your phase
     _grayScale: {fileID: 0}
-  _originPhase: -1
+  _originPhase: 3
   _target:
   - _range: 1
     _targetType: 4
