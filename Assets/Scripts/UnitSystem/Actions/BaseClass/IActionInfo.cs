@@ -63,13 +63,13 @@ namespace UnitSystem.Actions.Bases
         /// <summary>
         /// Something like damage text/info, dynamic based on the override or dynamic state of the action information
         /// </summary>
-        public IIcon.IconText additionalInfo { get; }
+        public IIcon.IconText AdditionalInfo { get; }
 
         IEnumerable<IconText> IIcon.IconTexts => Enumerable.Empty<IconText>()
             .Append(new IconText("From", OriginPhase.ToString()))
             //.Append(new IconText("Targets", NbTargets.ToString()))
             .Append(new IconText("To", PossibleTargets.First().Phase.ToString()))
             .Append(new IconText("Range", PossibleTargets.Max(t => t.Range).ToString()))
-            .Append(additionalInfo);
+            .Append(AdditionalInfo);
     }
 }

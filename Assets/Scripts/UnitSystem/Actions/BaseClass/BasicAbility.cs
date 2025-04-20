@@ -43,7 +43,7 @@ namespace UnitSystem.Actions.BaseClass
             origin.Attack(targetCollection.Targets, _damage, _requireLOS);
         }
 
-        public override IIcon.IconText additionalInfo =>
+        public override IIcon.IconText AdditionalInfo =>
             new IIcon.IconText(_damage > 0 ? "Deals" : "Heals", _damage.ToString());
     }
 }

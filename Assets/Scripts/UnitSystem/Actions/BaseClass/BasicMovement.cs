@@ -58,6 +58,6 @@ namespace UnitSystem.Actions.Bases
             //targetCollection.MainTarget.Position);
         }
 
-        public override IIcon.IconText additionalInfo => default;
+        public override IIcon.IconText AdditionalInfo => default;
     }
 }
