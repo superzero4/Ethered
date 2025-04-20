@@ -5,13 +5,15 @@ using NUnit.Framework;
 using TMPro;
 using Common.Visuals;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 using Views.Battle.Selection;
+using Image = UnityEngine.UI.Image;
 
 namespace UI
 {
-    public class InfoUI : MonoBehaviour, IVisualInformationUI
+    public class InfoUI : MonoBehaviour, IVisualInformationUI, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] protected bool _startHidden = true;
 
@@ -20,6 +22,8 @@ namespace UI
 
         [SerializeField] protected TextMeshProUGUI _nameText;
         [SerializeField] protected IconTextUI _descriptionText;
+        private IIcon.IconText _cachedDescription;
+        private List<IIcon.IconText> _cachedInformations;
         private Pool<IconTextUI> _pool;
 
         private void Awake()
@@ -66,18 +70,42 @@ namespace UI
             _image.sprite = info.Sprite;
             _image.color = info.Color;
             _nameText.text = info.Name;
-            if (additionalInformations == null)
-                additionalInformations = Enumerable.Empty<IIcon.IconText>();
-            if (!string.IsNullOrEmpty(info.Description))
-                additionalInformations = additionalInformations.Prepend(new IIcon.IconText(info.Description));
+            _cachedDescription = new IIcon.IconText(info.Description);
+            _cachedInformations = additionalInformations?.ToList() ?? new List<IIcon.IconText>();
+            SetInfos(false);
+        }
+
+        private void SetInfos(bool includeDescription)
+        {
             int i = 0;
+            IEnumerable<IIcon.IconText> toSet = _cachedInformations ?? Enumerable.Empty<IIcon.IconText>();
+            if (includeDescription)
+                toSet = toSet.Append(_cachedDescription);
             if (_pool != null)
-                _pool.SetElements(additionalInformations,
+                _pool.SetElements(toSet,
                     (iconText, text) =>
                     {
                         text.gameObject.SetActive(true);
-                        text.rectTransform.anchorMin = new Vector2(0, 1 - .2f * (i + 1));
-                        text.rectTransform.anchorMax = new Vector2(1, 1 - .2f * (i) - .05f);
+                        // we check if it's corde informations or optional ones
+                        Vector2 anchorMin;
+                        Vector2 anchorMax;
+                        int imax = _cachedInformations.Count;
+                        if (i >= imax)
+                        {
+                            int aboveI = i - imax;
+                            anchorMin = new Vector2(0, 1 - (.2f * imax + .5f * (aboveI + 1)));
+                            anchorMax = new Vector2(1, 1 - (.2f * (imax) + .05f + .5f * aboveI));
+                        }
+                        else
+                        {
+                            anchorMin = new Vector2(0, 1 - .2f * (i + 1));
+                            anchorMax = new Vector2(1, 1 - .2f * (i) - .05f);
+                        }
+
+                        text.rectTransform.anchorMin = anchorMin;
+                        text.rectTransform.anchorMax = anchorMax;
+
+
                         text.SetInfo(iconText);
                         i++;
                     });
@@ -86,6 +114,16 @@ namespace UI
         public void SetInfo(IIcon iconProvider)
         {
             (this as IVisualInformationUI).SetIcon(iconProvider);
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            SetInfos(true);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            SetInfos(false);
         }
     }
 }
