@@ -31,7 +31,8 @@ namespace UI.Battle
         public void Initialize()
         {
             _normal.onClick.AddListener(_onClick.Invoke);
-            _ethered.onClick.AddListener(_onClick.Invoke);
+            if (_normal != _ethered)
+                _ethered.onClick.AddListener(_onClick.Invoke);
         }
 
         public float Progress
