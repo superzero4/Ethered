@@ -106,8 +106,8 @@ namespace UI
                             float yMax = 1 - .2f * (iHalf) - .05f;
                             bool expand = forceExpanded || (isOdd && i == imax - 1);
                             //On each row, 2 side by side expect for the last one if is odd
-                            anchorMin = new Vector2(i % 2 == 0 || expand ? 0 : .51f, yMin);
-                            anchorMax = new Vector2(i % 2 == 1 || expand ? 1 : .49f, yMax);
+                            anchorMin = new Vector2(expand ? .245f : (i % 2 == 0 ? 0 : .51f), yMin);
+                            anchorMax = new Vector2(expand ? .755f : (i % 2 == 1 ? 1 : .49f), yMax);
                         }
 
                         text.rectTransform.anchorMin = anchorMin;

@@ -11,13 +11,22 @@ namespace BattleSystem
         Normal = 1,
         Ethered = 2,
         Both = Normal | Ethered,
-        
+
         Max = 128, //This way "everyting" is 7!= both and we can use serialized both correctly
     }
 
     public static class EnumExtensions
     {
         public static EPhase Both => EPhase.Normal | EPhase.Ethered;
+
+        public static string ToFancyString(this EPhase phase, bool bothIsAny = false)
+        {
+            if (phase == EPhase.Both && bothIsAny)
+                return "Any";
+            if (phase == EPhase.Normal)
+                return "Real";
+            return phase.ToString();
+        }
 
         public static bool IsOnlyOnOnePhase(this EPhase phase)
         {
