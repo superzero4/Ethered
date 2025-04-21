@@ -161,9 +161,7 @@ namespace Views.Battle
                 }
                 else
                 {
-                    Debug.LogWarning(
-                        "Reseting on target couldn't append isn't really a good thing, we should try append AND validate the execution on map and then append instead of TryAppend then confirm execution after appending has been made and then reset to compensate that as we do currently");
-                    _userInput.ForceReset();
+                    //_userInput.ForceReset();
                 }
             }
         }
