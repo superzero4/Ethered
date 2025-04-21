@@ -159147,6 +159147,10 @@ MonoBehaviour:
     icon:
       icon: {fileID: 381300419, guid: 132358e9bf26b60458b731bf001e31db, type: 3}
       color: {r: 1, g: 1, b: 1, a: 1}
+  - iconType: 7
+    icon:
+      icon: {fileID: 394714750, guid: 132358e9bf26b60458b731bf001e31db, type: 3}
+      color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!222 &7990404418195678957
 CanvasRenderer:
   m_ObjectHideFlags: 0
