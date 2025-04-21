@@ -47,5 +47,6 @@ namespace Common.Events.UserInterface
         public int? InsertIndex => _insertIndex;
         public Action Action => _insertIndex.HasValue ? _actions[_insertIndex.Value] : null;
         public bool IsLast => _insertIndex.HasValue && _insertIndex.Value == _actions.Count - 1;
+        public int Count => _actions.Count;
     }
 }
