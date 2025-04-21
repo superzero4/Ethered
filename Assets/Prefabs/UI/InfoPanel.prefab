@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1422762527478226717}
   - component: {fileID: 5991409560239726532}
+  - component: {fileID: 142618045856324738}
   m_Layer: 5
   m_Name: InfoPanel
   m_TagString: Untagged
@@ -56,6 +57,20 @@ MonoBehaviour:
   smallInterval: 0.3
   bigInterval: 0.4
   padding: 0.05
+--- !u!114 &142618045856324738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097429897235208874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 2
+  m_AspectRatio: 1
 --- !u!1 &1434966843796293777
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,7 +806,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6225234440120586404, guid: 0758fa9d8990c8a4e80f982632512f8d, type: 3}
       propertyPath: m_fontSize
-      value: 20
+      value: 17.95
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
