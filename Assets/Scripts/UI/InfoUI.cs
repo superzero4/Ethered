@@ -1,14 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using NUnit.Framework;
 using TMPro;
 using Common.Visuals;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
-using UnityEngine.UIElements;
-using Views.Battle.Selection;
 using Image = UnityEngine.UI.Image;
 
 namespace UI
@@ -26,12 +24,18 @@ namespace UI
         private List<IIcon.IconText> _cachedInformations;
         private Pool<IconTextUI> _pool;
 
+        [Header("In % of parent y")] [SerializeField, Range(0, 1f)]
+        private float smallInterval = .2f;
+
+        [SerializeField, Range(0, 1f)] private float bigInterval = .5f;
+
+        [SerializeField, Range(0, 1f)] private float padding = .05f;
+
         private void Awake()
         {
             //Assert.IsTrue(_image != null);
             //Assert.IsTrue(_nameText != null);
             //Assert.IsTrue(_descriptionText != null);
-            _image.preserveAspect = true;
             if (_startHidden)
             {
                 _image.sprite = null;
@@ -76,13 +80,14 @@ namespace UI
             SetInfos(false);
         }
 
+
         private void SetInfos(bool includeDescription)
         {
             int i = 0;
             IEnumerable<IIcon.IconText> toSet = _cachedInformations ?? Enumerable.Empty<IIcon.IconText>();
             if (includeDescription && !string.IsNullOrEmpty(_cachedDescription.text))
                 toSet = toSet.Append(_cachedDescription);
-            int imax = _cachedInformations.Count;
+            int imax = _cachedInformations?.Count ?? 0;
             bool forceExpanded = imax < 3;
             bool isOdd = imax % 2 == 1;
             if (_pool != null)
@@ -97,17 +102,20 @@ namespace UI
                         if (i >= imax)
                         {
                             int aboveI = i - imax;
-                            anchorMin = new Vector2(0, 1 - (.2f * (iHalf + (isOdd ? 1 : 0)) + .5f * (aboveI + 1)));
-                            anchorMax = new Vector2(1, 1 - (.2f * (iHalf + (isOdd ? 1 : 0)) + .05f + .5f * aboveI));
+                            anchorMin = new Vector2(0,
+                                1 - (smallInterval * (iHalf + (isOdd ? 1 : 0)) + bigInterval * (aboveI + 1)));
+                            anchorMax = new Vector2(1,
+                                1 - (smallInterval * (iHalf + (isOdd ? 1 : 0)) + padding + bigInterval * aboveI));
                         }
                         else
                         {
-                            float yMin = 1 - .2f * (iHalf + 1);
-                            float yMax = 1 - .2f * (iHalf) - .05f;
-                            bool expand = forceExpanded || (isOdd && i == imax - 1);
+                            bool expand = (isOdd && i == imax - 1);
+                            float yMin = 1 - smallInterval / (expand || forceExpanded || true ? 1 : 2) * (iHalf + 1);
+                            float yMax = 1 - smallInterval / (expand || forceExpanded || true ? 1 : 2) * (iHalf) -
+                                         padding;
                             //On each row, 2 side by side expect for the last one if is odd
-                            anchorMin = new Vector2(expand ? .245f : (i % 2 == 0 ? 0 : .51f), yMin);
-                            anchorMax = new Vector2(expand ? .755f : (i % 2 == 1 ? 1 : .49f), yMax);
+                            anchorMin = new Vector2(forceExpanded ? 0 : expand ? .245f : (i % 2 == 0 ? 0 : .51f), yMin);
+                            anchorMax = new Vector2(forceExpanded ? 1 : expand ? .755f : (i % 2 == 1 ? 1 : .49f), yMax);
                         }
 
                         text.rectTransform.anchorMin = anchorMin;

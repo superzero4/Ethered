@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace UI.Battle
 {
@@ -14,11 +15,12 @@ namespace UI.Battle
     {
         [SerializeField] private TimelineMemberUI _memberPrefab;
         [SerializeReference] private Pool<TimelineMemberUI> _memberPool;
+        [SerializeField] private LayoutGroup _layoutGroup;
         private UnityAction<ActionEventData> _onHover;
 
         public void Initialize(UnityAction<ActionEventData> onHover)
         {
-            _memberPool = new Pool<TimelineMemberUI>(_memberPrefab, 10, transform);
+            _memberPool = new Pool<TimelineMemberUI>(_memberPrefab, 10, _layoutGroup.transform);
             _onHover = onHover;
         }
 

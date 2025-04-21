@@ -13,11 +13,6 @@ namespace UI
 
         public RectTransform rectTransform => transform as RectTransform;
 
-        public void Awake()
-        {
-            _image.preserveAspect = true;
-        }
-
         public void SetInfo(IIcon.IconText info)
         {
             //gameObject.SetActive(!string.IsNullOrEmpty(info.text));
