@@ -55,7 +55,7 @@ namespace Views.Battle
 
             //Event linkage
             //SelectionEvents
-            userInput.AddResetables(_selectionState, _ui.ConfirmButton);
+            userInput.AddResetables(_selectionState, _ui.ConfirmButton, _ui.UnitUI);
             selector.HoverChanged.AddListener(OnHoverChanged);
             selector.SelectionUpdated.AddListener(OnSelectionUpdated);
 

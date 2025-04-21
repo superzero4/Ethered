@@ -38,8 +38,7 @@ namespace UI
             //Assert.IsTrue(_descriptionText != null);
             if (_startHidden)
             {
-                _image.sprite = null;
-                _image.color = new Color(0, 0, 0, 0);
+                gameObject.SetActive(false);
             }
 
             if (_nameText != null)

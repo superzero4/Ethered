@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Common;
 using UnitSystem;
@@ -9,7 +10,7 @@ using UnityEngine.Serialization;
 
 namespace UI.Battle
 {
-    public class UnitUI : MonoBehaviour, IVisualInformationUI
+    public class UnitUI : MonoBehaviour, IVisualInformationUI, IReset
     {
         [SerializeField] private List<ActionUI> _actionUIs;
         [SerializeField] private InfoUI _unitUI;
@@ -40,6 +41,12 @@ namespace UI.Battle
         public void SetInfo(VisualInformations? info, IEnumerable<IIcon.IconText> additionalInformations)
         {
             _unitUI.SetInfo(info, additionalInformations);
+        }
+
+        public void Reset()
+        {
+            _pool.Reset();
+            ResetActionUIs();
         }
 
         public void ResetActionUIs(ActionUI except = null)
