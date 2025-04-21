@@ -92,7 +92,7 @@ namespace UnitSystem
         }
 
         public IEnumerable<IIcon.IconText> AdditionalIconTexts() => _info.IconTexts.Append(new IIcon.IconText(
-            "Health",
+            IIcon.IconType.Health,
             _currentHealth.ToString() + "/" + MaxHealth.ToString()));
     }
 }

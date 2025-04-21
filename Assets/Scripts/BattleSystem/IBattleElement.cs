@@ -26,7 +26,7 @@ namespace BattleSystem
         public bool IsGround => Team == ETeam.None;
 
         IEnumerable<IconText> IIcon.IconTexts => Enumerable.Empty<IconText>()
-            .Append(new IconText("Phase", Position.Phase.ToString())).Concat(AdditionalIconTexts());
+            .Append(new IconText(IconType.Phase, Position.Phase.ToString())).Concat(AdditionalIconTexts());
 
         public IEnumerable<IconText> AdditionalIconTexts();
     }

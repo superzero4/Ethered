@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Common;
 using Common.Events.Combat;
 using Common.Visuals;
@@ -10,8 +13,9 @@ namespace UI.Battle
 {
     public class BattleUI : MonoBehaviour
     {
-        [Header("References")]
-        [SerializeField] private UnitUI _unitUI;
+        [Header("References")] [SerializeField]
+        private UnitUI _unitUI;
+
         [SerializeField] private InfoUI _tileUI;
         [SerializeField] private InfoUI _targetUI;
         [SerializeField] private TimelineUI _timelineUI;
@@ -19,10 +23,19 @@ namespace UI.Battle
 
         [SerializeField, InfoBox("Reusable, changable and event reassignable action button")]
         private ClickableUI _confirmButton;
-        [SerializeField]
-        private ClickableUI _endTurnButton;
 
-        [SerializeField] private VisualInformations _default;
+        [SerializeField] private ClickableUI _endTurnButton;
+        [Header("Global")] [SerializeField] private VisualInformations _default;
+
+        [Serializable]
+        private struct Icons
+        {
+            public IIcon.IconType iconType;
+            public IIcon.IconText icon;
+        }
+
+        [SerializeField] private List<Icons> _icons;
+
         public UnitUI UnitUI => _unitUI;
 
         public InfoUI TileUI => _tileUI;
@@ -43,6 +56,7 @@ namespace UI.Battle
                 _targetUI = null;
             userInput.EndTurn.AddListener(_endTurnButton.Click);
             VisualInformations.Default = _default;
+            IIcon.Icons = _icons.ToDictionary(i => i.iconType, i => i.icon);
             _unitUI.Initialize();
             _phaseUI.Initialize();
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using BattleSystem;
@@ -44,6 +45,6 @@ namespace UnitSystem.Actions.BaseClass
         }
 
         public override IIcon.IconText AdditionalInfo =>
-            new IIcon.IconText(_damage > 0 ? "Deals" : "Heals", _damage.ToString());
+            new IIcon.IconText(IIcon.IconType.Power, (_damage > 0 ? "+" : "-") + " " + Math.Abs(_damage));
     }
 }
