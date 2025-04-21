@@ -215,7 +215,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3508989113751386768, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
-      value: 18
+      value: 21.15
       objectReference: {fileID: 0}
     - target: {fileID: 3953969151851714605, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
@@ -363,6 +363,9 @@ MonoBehaviour:
   _image: {fileID: 6970175697918544169}
   _nameText: {fileID: 5304750332588497095}
   _descriptionText: {fileID: 5399311890240609890}
+  smallInterval: 0.3
+  bigInterval: 0.5
+  padding: 0.05
   _button: {fileID: 1586427773468968988}
   _onClick:
     m_PersistentCalls:
