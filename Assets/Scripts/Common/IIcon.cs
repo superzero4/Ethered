@@ -18,6 +18,7 @@ namespace Common.Visuals
             RelativePhase = 4,
             Distance = 5,
             Health = 6,
+            Text = 7,
         }
 
         public static Dictionary<IconType, IconText> Icons = null;

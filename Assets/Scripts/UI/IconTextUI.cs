@@ -20,7 +20,7 @@ namespace UI
 
         public void SetInfo(IIcon.IconText info)
         {
-            gameObject.SetActive(!string.IsNullOrEmpty(info.text));
+            //gameObject.SetActive(!string.IsNullOrEmpty(info.text));
             _text.text = info.text;
             _image.sprite = info.icon;
             _image.color = info.color;

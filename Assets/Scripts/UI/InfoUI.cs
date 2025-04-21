@@ -70,8 +70,9 @@ namespace UI
             _image.sprite = info.Sprite;
             _image.color = info.Color;
             _nameText.text = info.Name;
-            _cachedDescription = new IIcon.IconText(info.Description);
-            _cachedInformations = additionalInformations?.ToList() ?? new List<IIcon.IconText>();
+            _cachedDescription = new IIcon.IconText(IIcon.IconType.Text, info.Description);
+            _cachedInformations = additionalInformations?.Where(v => !string.IsNullOrEmpty(v.text))?.ToList() ??
+                                  new List<IIcon.IconText>();
             SetInfos(false);
         }
 
@@ -81,6 +82,9 @@ namespace UI
             IEnumerable<IIcon.IconText> toSet = _cachedInformations ?? Enumerable.Empty<IIcon.IconText>();
             if (includeDescription && !string.IsNullOrEmpty(_cachedDescription.text))
                 toSet = toSet.Append(_cachedDescription);
+            int imax = _cachedInformations.Count;
+            bool forceExpanded = imax < 3;
+            bool isOdd = imax % 2 == 1;
             if (_pool != null)
                 _pool.SetElements(toSet,
                     (iconText, text) =>
@@ -89,17 +93,21 @@ namespace UI
                         // we check if it's corde informations or optional ones
                         Vector2 anchorMin;
                         Vector2 anchorMax;
-                        int imax = _cachedInformations.Count;
+                        int iHalf = forceExpanded ? i : i / 2;
                         if (i >= imax)
                         {
                             int aboveI = i - imax;
-                            anchorMin = new Vector2(0, 1 - (.2f * imax + .5f * (aboveI + 1)));
-                            anchorMax = new Vector2(1, 1 - (.2f * (imax) + .05f + .5f * aboveI));
+                            anchorMin = new Vector2(0, 1 - (.2f * (iHalf + (isOdd ? 1 : 0)) + .5f * (aboveI + 1)));
+                            anchorMax = new Vector2(1, 1 - (.2f * (iHalf + (isOdd ? 1 : 0)) + .05f + .5f * aboveI));
                         }
                         else
                         {
-                            anchorMin = new Vector2(0, 1 - .2f * (i + 1));
-                            anchorMax = new Vector2(1, 1 - .2f * (i) - .05f);
+                            float yMin = 1 - .2f * (iHalf + 1);
+                            float yMax = 1 - .2f * (iHalf) - .05f;
+                            bool expand = forceExpanded || (isOdd && i == imax - 1);
+                            //On each row, 2 side by side expect for the last one if is odd
+                            anchorMin = new Vector2(i % 2 == 0 || expand ? 0 : .51f, yMin);
+                            anchorMax = new Vector2(i % 2 == 1 || expand ? 1 : .49f, yMax);
                         }
 
                         text.rectTransform.anchorMin = anchorMin;
