@@ -23,6 +23,17 @@ MonoBehaviour:
         _name: Dummy
         _description: Target practice
         _grayScale: {fileID: 0}
+      _unitSpecificAdditionalInfos: []
+    - _maxHealth: 1
+      _armor: 0
+      _actionCollection: {fileID: 11400000, guid: e0927b309688d7e4c86939d12d43d9bd, type: 2}
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 852a52076e29c08488f785a7b2071b5c, type: 3}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Dummy 2
+        _description: Target practice
+        _grayScale: {fileID: 0}
+      _unitSpecificAdditionalInfos: []
     _upgrades: []
   _defaultUnit:
     _maxHealth: 20
@@ -34,3 +45,4 @@ MonoBehaviour:
       _name: 
       _description: 
       _grayScale: {fileID: 0}
+    _unitSpecificAdditionalInfos: []
