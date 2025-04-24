@@ -29,9 +29,15 @@ namespace Views.Battle
 
         public void UpdateHealth(UnitHitData arg0)
         {
-            _animationPlayer.Play(arg0.unit.HealthInfo.CurrentHealth > arg0.oldHealth
-                ? AnimationType.Healed
-                : AnimationType.Hurt);
+            AnimationType val;
+            var curr = arg0.unit.HealthInfo.CurrentHealth;
+            if (curr == 0)
+                val = AnimationType.Death;
+            else if (curr > arg0.oldHealth)
+                val = AnimationType.Healed;
+            else
+                val = AnimationType.Hurt;
+            _animationPlayer.Play(val);
         }
 
         public void Attack(UnitAttackData arg0, Vector3 worldPos, Action onLaunched)

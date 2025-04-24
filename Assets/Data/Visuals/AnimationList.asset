@@ -99,11 +99,19 @@ MonoBehaviour:
       _triggerTime: 0
   - _type: 8
     _animations:
-    - _clip: {fileID: 7400000, guid: ad6bbac1bb3b4af449c00c9080bddac5, type: 3}
+    - _clip: {fileID: 7400000, guid: 4566fd34f5eadf5469f71ba1169566b1, type: 3}
       _triggerTime: 0
   - _type: 9
     _animations:
     - _clip: {fileID: 7400000, guid: 94cb399d216f0a345916c993c52fcd64, type: 3}
       _triggerTime: 1
+  - _type: 10
+    _animations:
+    - _clip: {fileID: 7400000, guid: 105c6ce049078f244beeaeb06ba354d8, type: 3}
+      _triggerTime: 0
+  - _type: 11
+    _animations:
+    - _clip: {fileID: 7400000, guid: c7c507f81ea2cbc479ad2f04d082f3ee, type: 3}
+      _triggerTime: 0
   _search: Unarmed\S*Attack-
   _typeToFillWithSearch: 6

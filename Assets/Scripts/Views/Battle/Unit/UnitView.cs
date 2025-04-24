@@ -9,6 +9,7 @@ using UI.Battle;
 using UnitSystem;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Views.Battle.Animation;
 
 namespace Views.Battle
 {
@@ -45,6 +46,15 @@ namespace Views.Battle
             });
             Data.OnUnitMoves.AddListener(Move);
             Data.OnUnitAttack.AddListener(Attack);
+            Data.OnCancel.AddListener(Cancel);
+        }
+
+        private void Cancel(UnitCancelEventData arg0)
+        {
+            if (arg0.isCancelTarget)
+                _unitAnimations._animationPlayer.Play(AnimationType.Cancel);
+            else
+                _unitAnimations._animationPlayer.Play(AnimationType.Celebrate);
         }
 
 
@@ -99,9 +109,12 @@ namespace Views.Battle
             var seq = LeanTween.sequence();
             foreach (var pos in arg0.path.Path)
             {
+                if (pos == arg0.oldPosition) //If we are on the start
+                    continue;
                 var dir = (Vector2)pos.Position - last.Position;
-                Assert.IsTrue((dir.magnitude == 1 && pos.Phase == last.Phase) || dir.magnitude == 0,
-                $"Invalid movement {dir} {last} to {pos}  with a magnitude higher than 1 or switching phase with a magnitude higher than 0");
+                Assert.IsTrue(
+                    (dir.magnitude == 1 && pos.Phase == last.Phase) || (dir.magnitude == 0 && pos.Phase != last.Phase),
+                    $"Invalid movement {dir} {last} to {pos}  with a magnitude higher than 1 or switching phase with a magnitude higher than 0");
                 var turn = TweenTurn(lastDir, dir, out bool snap, out bool left);
                 if (!snap)
                     seq.append(() => { _unitAnimations.Turn(left); });

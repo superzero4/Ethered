@@ -28,5 +28,6 @@ namespace BattleSystem
             .Append(new IconText(IconType.Phase, Position.Phase.ToFancyString())).Concat(AdditionalIconTexts());
 
         public IEnumerable<IconText> AdditionalIconTexts();
+        void CancelAction(bool isCancelTarget);
     }
 }

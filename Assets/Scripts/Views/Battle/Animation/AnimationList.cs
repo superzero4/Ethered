@@ -21,6 +21,8 @@ namespace Views.Battle.Animation
         TurnL = 7,
         TurnR = 8,
         Cast = 9,
+        Cancel = 10,
+        Celebrate = 11,
     }
 
     [CreateAssetMenu(fileName = "AnimationList", menuName = "AnimationList", order = 0)]

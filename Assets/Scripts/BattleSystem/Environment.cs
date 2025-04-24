@@ -42,6 +42,11 @@ namespace BattleSystem
             yield break;
         }
 
+        public void CancelAction(bool isCancelTarget)
+        {
+            
+        }
+
         int IHealth.CurrentHealth
         {
             get => 0;

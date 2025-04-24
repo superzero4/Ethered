@@ -19,6 +19,7 @@ namespace UnitSystem
         [SerializeField] private UnitMovementEvent _onUnitMoves;
         [SerializeField] private UnitHealthEvent _onUnitHealthChange;
         [SerializeField] private UnitAttackEvent _onUnitAttack;
+        [SerializeField] private UnitCancelEvent _onCancel;
         [SerializeField] private int _currentHealth;
         private int _health;
         public UnitInfo Info => _info;
@@ -32,6 +33,7 @@ namespace UnitSystem
             _onUnitMoves = new UnitMovementEvent();
             _onUnitHealthChange = new UnitHealthEvent();
             _onUnitAttack = new UnitAttackEvent();
+            _onCancel = new UnitCancelEvent();
         }
 
         public void Move(PathWrapper newPosition)
@@ -68,6 +70,8 @@ namespace UnitSystem
         //TODO implement that using the unit info and upgrade system if it reveals to be used, calling code use this even if it's currently a constant value
         public int ActionsPerTurn => 1;
 
+        public UnitCancelEvent OnCancel => _onCancel;
+
 
         void IHealth.TakeDamageUncapped(int damage, IBattleElement source)
         {
@@ -94,5 +98,10 @@ namespace UnitSystem
         public IEnumerable<IIcon.IconText> AdditionalIconTexts() => _info.IconTexts.Append(new IIcon.IconText(
             IIcon.IconType.Health,
             _currentHealth.ToString() + "/" + MaxHealth.ToString()));
+
+        public void CancelAction(bool isCancelTarget)
+        {
+            _onCancel.Invoke(new UnitCancelEventData(isCancelTarget));
+        }
     }
 }

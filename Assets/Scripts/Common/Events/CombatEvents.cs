@@ -23,6 +23,7 @@ namespace Common.Events.Combat
     public class UnitHealthEvent : UnityEvent<UnitHitData>
     {
     }
+
     [Serializable]
     public class UnitAttackEvent : UnityEvent<UnitAttackData>
     {
@@ -36,6 +37,22 @@ namespace Common.Events.Combat
     public struct ActionEventData
     {
         public Action action;
+    }
+
+    [Serializable]
+    public class UnitCancelEvent : UnityEvent<UnitCancelEventData>
+    {
+    }
+
+    [Serializable]
+    public struct UnitCancelEventData
+    {
+        public UnitCancelEventData(bool isCancelTarget)
+        {
+            this.isCancelTarget = isCancelTarget;
+        }
+
+        public bool isCancelTarget;
     }
 
     [Serializable]
@@ -69,12 +86,14 @@ namespace Common.Events.Combat
             return new UnitEventData { unit = unit };
         }
     }
+
     /// <summary>
     /// ETeam.None => battle still running
     /// </summary>
     public class BattleEvent : UnityEvent<BattleEventData>
     {
     }
+
     public struct BattleEventData
     {
         public ETeam winner;

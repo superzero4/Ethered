@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using BattleSystem.TileSystem;
 using Common.Events;
+using Common.Events.Combat;
 using Common.Events.UserInterface;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace BattleSystem
 {
@@ -19,12 +21,20 @@ namespace BattleSystem
 
         public IEnumerable<IBattleElement> Actors => _actions.Select(action => action.Origin);
 
+
         public IEnumerator Execute(bool resetAfter, Tilemap map, float delay = -1f)
         {
             foreach (var action in _actions)
             {
                 if (action.CanExecute(map))
                     action.Execute();
+                else
+                {
+                    action.Origin.CancelAction(true);
+                    foreach (var target in action.TargetsEnumerable)
+                        target.CancelAction(false);
+                }
+
                 yield return delay > 0 ? new WaitForSeconds(delay) : null;
             }
 
