@@ -17,6 +17,9 @@ MonoBehaviour:
   - _position:
       position: {x: 2, y: 0}
     phase: 1
+  - _position:
+      position: {x: 1, y: 0}
+    phase: 1
   _enemySpawns:
   - _position:
       position: {x: 2, y: 4}

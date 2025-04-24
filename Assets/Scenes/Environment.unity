@@ -18355,7 +18355,7 @@ MonoBehaviour:
   _goToNextSceneOnEnd: 1
   _skipShop: 1
   _autoEnd: 1
-  _levelSkip: 6
+  _levelSkip: 0
   _duration: 3
   _ease: 7
 --- !u!4 &246798881
