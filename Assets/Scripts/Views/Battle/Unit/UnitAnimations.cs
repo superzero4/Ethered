@@ -52,7 +52,7 @@ namespace Views.Battle
             _animationPlayer.Play(val, !backToIdle, onComplete);
         }
 
-        public void Attack(UnitAttackData arg0, Vector3 worldPos, Action onArrived)
+        public void Attack(UnitAttackData arg0, Vector3 worldPos, float delay, Action onArrived)
         {
             System.Action onTrigger = onArrived;
             AnimationType animationType;
@@ -62,9 +62,8 @@ namespace Views.Battle
             }
             else if (arg0.needLos)
             {
-                onTrigger += () => { _weapon.WeaponShoot(new Vector3(arg0.direction.x, 0, arg0.direction.y)); };
-
                 animationType = AnimationType.Shoot;
+                onTrigger += () => { _weapon.WeaponShoot(worldPos, delay); };
             }
             else
             {

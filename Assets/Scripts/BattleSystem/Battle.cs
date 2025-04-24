@@ -78,7 +78,7 @@ namespace BattleSystem
 
         public bool CanStillAct(Unit unit)
         {
-            return unit != null && (unit.ActionsPerTurn == 1
+            return unit != null && unit.HealthInfo.Alive && (unit.ActionsPerTurn == 1
                 ? _timeline.Actors.All(a => a != unit)
                 : _timeline.Actors.Count(a => a == unit) < unit.ActionsPerTurn);
         }

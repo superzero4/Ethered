@@ -50,7 +50,7 @@ namespace UnitSystem
 
         public ETeam Team => _team;
 
-        public EAllowedMovement allowedMovement => EAllowedMovement.Cross;
+        public EAllowedMovement allowedMovement => HealthInfo.Alive ? EAllowedMovement.Cross : EAllowedMovement.Stop;
 
         public VisualInformations VisualInformations => _info.VisualInformations;
 

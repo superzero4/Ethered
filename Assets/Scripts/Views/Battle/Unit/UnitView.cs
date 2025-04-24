@@ -41,7 +41,7 @@ namespace Views.Battle
                 EventQueue.QueueEvent(() =>
                 {
                     _healthUI.UpdateHealth(d);
-                    _unitAnimations.UpdateHealth(d,_root);
+                    _unitAnimations.UpdateHealth(d, _root);
                 });
             });
             Data.OnUnitMoves.AddListener(Move);
@@ -136,16 +136,21 @@ namespace Views.Battle
         {
             var seq = LeanTween.sequence();
             var origin = CurrentLookAt();
-            var targ = new Vector2(arg0.direction.x, arg0.direction.y);
+            var dir = new Vector2(arg0.direction.x, arg0.direction.y);
             //seq.append(() => { Debug.Log($"Attack {origin} {targ}"); });
-            seq.append(TweenTurn(origin, targ, out _, out _));
+            seq.append(TweenTurn(origin, dir, out _, out _));
             //seq.append(() => { Debug.Log($"Attack {origin} {targ}"); });
-            seq.append(() => _unitAnimations.Attack(arg0,
-                _grid.PhasedCellToWorld(arg0.unit.Position.Position + arg0.direction), () =>
-                {
-                    seq.append(_unitAnimations.Delay(targ.magnitude));
-                    seq.append(EventQueue.ProcessAll);
-                }));
+            seq.append(() =>
+            {
+                var del = _unitAnimations.Delay(dir.magnitude);
+                _unitAnimations.Attack(arg0,
+                    _grid.PhasedCellToWorld(arg0.unit.Position.Position + arg0.direction, 1f), del, () =>
+                    {
+                        seq.append(del);
+                        seq.append(EventQueue.ProcessAll);
+                    }
+                );
+            });
         }
 
         private LTDescr TweenTurn(Vector2 origin, Vector2 dest, out bool snap, out bool isLeft)
