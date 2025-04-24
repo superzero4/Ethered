@@ -31,23 +31,30 @@ namespace Views.Battle.Animation
         [Serializable]
         public struct AnimationWithTrigger
         {
+            [SerializeField] private bool _disable;
             [SerializeField] private AnimationClip _clip;
             [SerializeField, Range(0, 1f)] private float _triggerTime;
-            public AnimationWithTrigger(AnimationClip clip, float triggerTime = 0f)
+
+            public AnimationWithTrigger(AnimationClip clip, float triggerTime = 0f, bool disable = false)
             {
                 _clip = clip;
                 _triggerTime = triggerTime;
+                this._disable = disable;
             }
+
             public AnimationClip Clip => _clip;
 
             public float TriggerTime => _triggerTime;
+
+            public bool Disable => _disable;
         }
+
         [Serializable]
         private struct AnimationKV
         {
             [SerializeField] private AnimationType _type;
             [SerializeField] private List<AnimationWithTrigger> _animations;
-        
+
             public AnimationKV(AnimationType type, List<AnimationWithTrigger> animations)
             {
                 _type = type;
@@ -79,8 +86,8 @@ namespace Views.Battle.Animation
                     return default;
                 }
 
-                var l = _animations[t];
-                return l[UnityEngine.Random.Range(0, l.Count)];
+                var l = _animations[t].Where(t => !t.Disable).ToArray();
+                return l[UnityEngine.Random.Range(0, l.Length)];
             }
         }
 

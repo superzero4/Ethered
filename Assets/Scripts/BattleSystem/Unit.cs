@@ -83,11 +83,13 @@ namespace UnitSystem
 
         public void Attack(IEnumerable<IBattleElement> targetCollectionTargets, int damage, bool requiredLos)
         {
+            var direction = targetCollectionTargets.First().Position.Position - this.Position.Position;
             this._onUnitAttack.Invoke(new UnitAttackData()
             {
                 unit = this,
-                direction = targetCollectionTargets.First().Position.Position - this.Position.Position,
+                direction = direction,
                 needLos = requiredLos,
+                distance = (int)direction.magnitude,
             });
             foreach (var target in targetCollectionTargets)
             {

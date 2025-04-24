@@ -74,6 +74,8 @@ namespace Common.Events.Combat
     {
         public PositionIndexer direction;
         public bool needLos;
+        public int distance;
+        public bool IsCloseQuarter => distance == 1;
     }
 
     [Serializable]

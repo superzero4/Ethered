@@ -52,27 +52,27 @@ namespace Views.Battle
             _animationPlayer.Play(val, !backToIdle, onComplete);
         }
 
-        public void Attack(UnitAttackData arg0, Vector3 worldPos, Action onLaunched)
+        public void Attack(UnitAttackData arg0, Vector3 worldPos, Action onArrived)
         {
-            System.Action weapon;
+            System.Action onTrigger = onArrived;
             AnimationType animationType;
-            if (arg0.needLos)
+            if (arg0.IsCloseQuarter)
             {
-                weapon = () =>
-                {
-                    _weapon.WeaponShoot(new Vector3(arg0.direction.x, 0, arg0.direction.y));
-                    onLaunched?.Invoke();
-                };
+                animationType = AnimationType.Attack;
+            }
+            else if (arg0.needLos)
+            {
+                onTrigger += () => { _weapon.WeaponShoot(new Vector3(arg0.direction.x, 0, arg0.direction.y)); };
 
                 animationType = AnimationType.Shoot;
             }
             else
             {
-                weapon = () => _weapon.Cast(worldPos);
+                onTrigger += () => _weapon.Cast(worldPos);
                 animationType = AnimationType.Cast;
             }
 
-            _animationPlayer.Play(animationType, false, weapon);
+            _animationPlayer.Play(animationType, false, onTrigger);
         }
 
 
