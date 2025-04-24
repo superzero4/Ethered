@@ -107,7 +107,7 @@ MonoBehaviour:
       _triggerTime: 1
   - _type: 10
     _animations:
-    - _clip: {fileID: 7400000, guid: 105c6ce049078f244beeaeb06ba354d8, type: 3}
+    - _clip: {fileID: 7400000, guid: 86545d35bde0a5e4f97ca475044bc3de, type: 3}
       _triggerTime: 0
   - _type: 11
     _animations:

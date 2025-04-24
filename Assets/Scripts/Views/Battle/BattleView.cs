@@ -21,7 +21,7 @@ namespace Views.Battle
 {
     public class BattleView : MonoBehaviour
     {
-        [Header("Settings")] [SerializeField] private float _delay = 0.5f;
+        [Header("Settings")] [SerializeField,Range(0,4f)] private float _delay = 0.5f;
         [SerializeField] private bool _unitActionsPreviewShowEmptyTiles = true;
         [SerializeField] private bool _allowActionChangeAfterUnitSelected = true;
 

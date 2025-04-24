@@ -158041,7 +158041,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c94d35e1f3ec64382d600d745c4bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delay: 0
+  _delay: 2
   _unitActionsPreviewShowEmptyTiles: 1
   _allowActionChangeAfterUnitSelected: 1
   _ui: {fileID: 7886430137452856160}
@@ -160020,30 +160020,37 @@ MonoBehaviour:
     icon:
       icon: {fileID: -1730254177, guid: 132358e9bf26b60458b731bf001e31db, type: 3}
       color: {r: 1, g: 1, b: 1, a: 1}
+      forceExpand: 0
   - iconType: 2
     icon:
       icon: {fileID: 1870898176, guid: 132358e9bf26b60458b731bf001e31db, type: 3}
       color: {r: 1, g: 1, b: 1, a: 1}
+      forceExpand: 0
   - iconType: 3
     icon:
       icon: {fileID: 276966819, guid: 132358e9bf26b60458b731bf001e31db, type: 3}
       color: {r: 1, g: 1, b: 1, a: 1}
+      forceExpand: 0
   - iconType: 4
     icon:
       icon: {fileID: 276966819, guid: 132358e9bf26b60458b731bf001e31db, type: 3}
       color: {r: 1, g: 1, b: 1, a: 1}
+      forceExpand: 0
   - iconType: 5
     icon:
       icon: {fileID: -1730254177, guid: 132358e9bf26b60458b731bf001e31db, type: 3}
       color: {r: 1, g: 1, b: 1, a: 1}
+      forceExpand: 0
   - iconType: 6
     icon:
       icon: {fileID: 381300419, guid: 132358e9bf26b60458b731bf001e31db, type: 3}
       color: {r: 1, g: 1, b: 1, a: 1}
+      forceExpand: 0
   - iconType: 7
     icon:
       icon: {fileID: 394714750, guid: 132358e9bf26b60458b731bf001e31db, type: 3}
       color: {r: 1, g: 1, b: 1, a: 1}
+      forceExpand: 0
 --- !u!222 &7990404418195678957
 CanvasRenderer:
   m_ObjectHideFlags: 0
