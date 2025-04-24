@@ -17,7 +17,7 @@ MonoBehaviour:
   _levels:
   - _playerActionsOverride: []
     _battle: {fileID: 11400000, guid: 749432e0e5a308d4c92f660ba4007e3b, type: 2}
-    _map: {fileID: 11400000, guid: 6c2ac608803be3847960d99266af9161, type: 2}
+    _map: {fileID: 11400000, guid: ddc8345433f902c4abb1dbd2e7128645, type: 2}
     _showTileModels: 0
     _position: {x: 0, y: 0, z: 17}
     _rotation: {x: 0, y: 180, z: 0}
