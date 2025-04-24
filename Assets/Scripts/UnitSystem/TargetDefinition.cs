@@ -87,8 +87,8 @@ namespace UnitSystem
             }
 
             bool isSelf = origin == target;
-            bool isAlly = origin.Team == target.Team;
-            bool isUnit = !target.IsGround;
+            bool isAlly = origin.Team == target.Team && target.Alive;
+            bool isUnit = !target.IsGround && target.Alive;
             //TODO implement concrete logic all vs anything and find a batter way than this order dependant "if forest"
             if (_targetType.HasFlag(TargetType.Anything))
             {

@@ -24,7 +24,7 @@ namespace BattleSystem.TileSystem
         public EAllowedMovement AllowedMovement =>
             _unit == null ? _base.allowedMovement : _base.allowedMovement & _unit.allowedMovement;
 
-        public bool Empty => _unit == null;
+        public bool Empty => _unit == null || !(_unit as IBattleElement).Alive;
 
         public Tile(Environment baseElement, Unit unit)
         {
