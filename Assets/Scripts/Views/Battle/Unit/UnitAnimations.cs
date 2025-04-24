@@ -15,6 +15,8 @@ namespace Views.Battle
         [FormerlySerializedAs("_moveSpeed")] [SerializeField, Range(0.001f, 4f)]
         private float _moveTime = 0.5f;
 
+        [SerializeField, Range(0.001f, 4f)] private float _deathTime = 0.5f;
+
         [SerializeField, ReadOnly] private UnitSkin _skin;
         public AnimationPlayer _animationPlayer => _skin.AnimationPlayer;
         private WeaponView _weapon => _skin.Weapon;
@@ -27,17 +29,27 @@ namespace Views.Battle
             _animationPlayer.Play(AnimationType.Idle, true);
         }
 
-        public void UpdateHealth(UnitHitData arg0)
+        public void UpdateHealth(UnitHitData arg0, Transform root)
         {
             AnimationType val;
             var curr = arg0.unit.HealthInfo.CurrentHealth;
+            Action onComplete = null;
+            bool backToIdle = true;
             if (curr == 0)
+            {
                 val = AnimationType.Death;
+                onComplete = () =>
+                {
+                    //LeanTween.scale(root.gameObject, Vector3.zero, _deathTime).setOnComplete(() => _skin.gameObject.SetActive(false));
+                };
+                backToIdle = false;
+            }
             else if (curr > arg0.oldHealth)
                 val = AnimationType.Healed;
             else
                 val = AnimationType.Hurt;
-            _animationPlayer.Play(val);
+
+            _animationPlayer.Play(val, !backToIdle, onComplete);
         }
 
         public void Attack(UnitAttackData arg0, Vector3 worldPos, Action onLaunched)

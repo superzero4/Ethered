@@ -41,14 +41,13 @@ namespace LevelSystem
         public void Increment(int value, out bool reset)
         {
             _currentLevelIndex += value;
+            reset = _currentLevelIndex >= _levels.Length;
             _currentLevelIndex %= _levels.Length;
-            reset = _currentLevelIndex == 0;
         }
 
         public void Reset()
         {
             _currentLevelIndex = 0;
         }
-
     }
 }

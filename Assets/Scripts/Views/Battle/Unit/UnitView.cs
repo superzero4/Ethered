@@ -41,7 +41,7 @@ namespace Views.Battle
                 EventQueue.QueueEvent(() =>
                 {
                     _healthUI.UpdateHealth(d);
-                    _unitAnimations.UpdateHealth(d);
+                    _unitAnimations.UpdateHealth(d,_root);
                 });
             });
             Data.OnUnitMoves.AddListener(Move);
