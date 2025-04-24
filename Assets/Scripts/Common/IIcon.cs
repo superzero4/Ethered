@@ -28,6 +28,7 @@ namespace Common.Visuals
         {
             public Sprite icon;
             public Color color;
+            public bool forceExpand;
             [NonSerialized] public string text;
 
 
@@ -35,12 +36,13 @@ namespace Common.Visuals
             {
             }
 
-            public IconText(IconType prefix, string text, Color? color = null)
+            public IconText(IconType prefix, string text, bool forceExpand = false, Color? color = null)
             {
                 this = Icons[prefix];
                 this.text = text;
                 if (color.HasValue)
                     this.color = color.Value;
+                this.forceExpand = forceExpand;
             }
 
             public IconText(string text)
@@ -48,6 +50,7 @@ namespace Common.Visuals
                 this.text = text;
                 icon = null;
                 color = Color.white;
+                forceExpand = false;
             }
         }
     }

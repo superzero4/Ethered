@@ -215,7 +215,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3508989113751386768, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
-      value: 21.15
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 3953969151851714605, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
@@ -223,7 +223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4498193299314624251, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
-      value: 17.95
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7344941567006805335, guid: 5a586c8385ad95c448c037251d7deb9a, type: 3}
       propertyPath: m_fontSize
@@ -364,6 +364,7 @@ MonoBehaviour:
   _nameText: {fileID: 5304750332588497095}
   _descriptionText: {fileID: 5399311890240609890}
   smallInterval: 0.3
+  _nbCol: 2
   bigInterval: 0.3
   padding: 0.05
   _button: {fileID: 1586427773468968988}

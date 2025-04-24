@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 100, y: 100}
-  m_SizeDelta: {x: 400, y: 400}
+  m_SizeDelta: {x: 0, y: 400}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &5991409560239726532
 MonoBehaviour:
@@ -55,7 +55,8 @@ MonoBehaviour:
   _nameText: {fileID: 3508989113751386768}
   _descriptionText: {fileID: 3729570778893138997}
   smallInterval: 0.3
-  bigInterval: 0.4
+  _nbCol: 2
+  bigInterval: 0.3
   padding: 0.05
 --- !u!114 &142618045856324738
 MonoBehaviour:

@@ -27,6 +27,7 @@ namespace UI
         [Header("In % of parent y")] [SerializeField, Range(0, 1f)]
         private float smallInterval = .2f;
 
+        [SerializeField, Range(1, 5)] private int _nbCol = 2;
         [SerializeField, Range(0, 1f)] private float bigInterval = .5f;
 
         [SerializeField, Range(0, 1f)] private float padding = .05f;
@@ -82,13 +83,16 @@ namespace UI
 
         private void SetInfos(bool includeDescription)
         {
-            int i = 0;
             IEnumerable<IIcon.IconText> toSet = _cachedInformations ?? Enumerable.Empty<IIcon.IconText>();
             if (includeDescription && !string.IsNullOrEmpty(_cachedDescription.text))
                 toSet = toSet.Append(_cachedDescription);
             int imax = _cachedInformations?.Count ?? 0;
             bool forceExpanded = imax < 3;
             bool isOdd = imax % 2 == 1;
+            int row = 0;
+            int col = 0;
+            int i = 0;
+            int above = 0;
             if (_pool != null)
                 _pool.SetElements(toSet,
                     (iconText, text) =>
@@ -97,24 +101,47 @@ namespace UI
                         // we check if it's corde informations or optional ones
                         Vector2 anchorMin;
                         Vector2 anchorMax;
-                        int iHalf = forceExpanded ? i : i / 2;
+                        float yMin = 1 - smallInterval * (row + 1);
+                        float yMax = 1 - smallInterval * (row) - padding;
+                        //Default full expanded
+                        anchorMin = new Vector2(0, yMin);
+                        anchorMax = new Vector2(1, yMax);
                         if (i >= imax)
                         {
-                            int aboveI = i - imax;
-                            anchorMin = new Vector2(0,
-                                1 - (smallInterval * (iHalf + (isOdd ? 1 : 0)) + bigInterval * (aboveI + 1)));
-                            anchorMax = new Vector2(1,
-                                1 - (smallInterval * (iHalf + (isOdd ? 1 : 0)) + padding + bigInterval * aboveI));
+                            anchorMin.y -= bigInterval * (above + 1) - smallInterval;
+                            anchorMax.y -= bigInterval * above;
+                            above++;
+                            col = 0;
                         }
                         else
                         {
-                            bool expand = (isOdd && i == imax - 1);
-                            float yMin = 1 - smallInterval / (expand || forceExpanded || true ? 1 : 2) * (iHalf + 1);
-                            float yMax = 1 - smallInterval / (expand || forceExpanded || true ? 1 : 2) * (iHalf) -
-                                         padding;
-                            //On each row, 2 side by side expect for the last one if is odd
-                            anchorMin = new Vector2(forceExpanded ? 0 : expand ? .245f : (i % 2 == 0 ? 0 : .51f), yMin);
-                            anchorMax = new Vector2(forceExpanded ? 1 : expand ? .755f : (i % 2 == 1 ? 1 : .49f), yMax);
+                            if (iconText.forceExpand || forceExpanded) //Big
+                            {
+                                row++;
+                                col = 0;
+                            }
+                            else
+                            {
+                                if ((isOdd && row == imax - 1)) //Centered only
+                                {
+                                    anchorMin.x = .245f;
+                                    anchorMax.y = .755f;
+                                    row++;
+                                    col = 0;
+                                }
+                                else //Row col normal case
+                                {
+                                    anchorMin.x = col * 1f / _nbCol + (col == 0 ? 0 : .01f);
+                                    anchorMax.x = (col + 1f) / _nbCol - (col == _nbCol - 1 ? 0 : 0.01f);
+
+                                    col++;
+                                    if (col >= _nbCol)
+                                    {
+                                        row++;
+                                        col = 0;
+                                    }
+                                }
+                            }
                         }
 
                         text.rectTransform.anchorMin = anchorMin;

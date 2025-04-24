@@ -66,9 +66,9 @@ namespace UnitSystem.Actions.Bases
         public IIcon.IconText AdditionalInfo { get; }
 
         IEnumerable<IconText> IIcon.IconTexts => Enumerable.Empty<IconText>()
-            .Append(new IconText(IconType.Phase, OriginPhase.ToFancyString(true)))
+            //.Append(new IconText(IconType.Phase, OriginPhase.ToFancyString(true)))
             //.Append(new IconText("Targets", NbTargets.ToString()))
-            .Append(new IconText(IconType.RelativePhase, PossibleTargets.First().Phase.ToString()))
+            .Append(new IconText(IconType.RelativePhase, PossibleTargets.First().Phase.ToString(),true))
             .Append(new IconText(IconType.Range, PossibleTargets.Max(t => t.Range).ToString()))
             .Append(AdditionalInfo);
     }
