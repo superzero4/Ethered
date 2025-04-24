@@ -11,6 +11,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Action = BattleSystem.Action;
+using ActionEvent = Common.Events.Combat.ActionEvent;
 
 namespace UI.Battle
 {

@@ -34,6 +34,7 @@ namespace BattleSystem
 
         public TimelineEvent TimeLineUpdated => _timeline.TimeLineUpdated;
 
+
         private void Init(Battle battle)
         {
             _currentTurn = 0;
@@ -60,14 +61,14 @@ namespace BattleSystem
         {
             foreach (var action in _battle.EnemyActions())
             {
-                _timeline.Append(action);
+                _timeline.Prepend(action);
                 yield return new WaitForSeconds(delay);
             }
         }
 
         public void AddAction(Action action)
         {
-            _timeline.Append(action);
+            _timeline.Prepend(action);
         }
 
         public void Reset()
@@ -95,7 +96,7 @@ namespace BattleSystem
 
         public Tilemap Tiles => _battleElements;
         public IEnumerable<Unit> Units => _allies.Concat(_ennemies);
-        public TimelineEvent OnTimelineAction => _turns.TimeLineUpdated;
+        public TimelineEvent OnTimelineActionAdded => _turns.TimeLineUpdated;
 
         public BattleEvent BattleEnd => _battleEnd;
 

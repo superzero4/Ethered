@@ -24,7 +24,6 @@ namespace Common.Events.UserInterface
             progress = targetPhase == EPhase.Ethered ? 1 : 0;
         }
     }
-
     [Serializable]
     public class TimelineEvent : UnityEvent<TimelineEventData>
     {

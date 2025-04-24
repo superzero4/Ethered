@@ -32,7 +32,7 @@ namespace UI.Battle
             if (t.InsertIndex.HasValue)
             {
                 int index = t.InsertIndex.Value;
-                var member = _memberPool.At(index);
+                var member = _memberPool.InsertNew(index);
                 member.gameObject.SetActive(true);
                 member.SetAction(t.Action, t.IsLast);
                 member.ActionEvent.AddListener(_onHover);

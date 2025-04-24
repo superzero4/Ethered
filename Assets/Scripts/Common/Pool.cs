@@ -26,7 +26,8 @@ namespace Common
             _prefab = prefab;
             _initialCount = initialCount;
             _elements = new List<Pooled>(_initialCount);
-            if (_prefab.transform.parent == root)//i.e if the object is alrady in scene as part of the child group and should be reused
+            if (_prefab.transform.parent ==
+                root) //i.e if the object is alrady in scene as part of the child group and should be reused
                 _elements.Add(_prefab);
             while (_elements.Count < _initialCount)
             {
@@ -36,11 +37,17 @@ namespace Common
 
         public List<Pooled> Elements => _elements;
 
-        private void InstantiateNew(Transform transform)
+        private void InstantiateNew(Transform transform, int index = -1)
         {
-            var actionUI = GameObject.Instantiate(_prefab, transform);
-            actionUI.gameObject.SetActive(false);
-            _elements.Add(actionUI);
+            var element = GameObject.Instantiate(_prefab, transform);
+            element.gameObject.SetActive(false);
+            if (index < 0)
+                _elements.Add(element);
+            else
+            {
+                _elements.Insert(index, element);
+                element.transform.SetSiblingIndex(index);
+            }
         }
 
         public void DisableAllFrom(int i)
@@ -56,26 +63,27 @@ namespace Common
             {
                 while (i >= _elements.Count)
                     InstantiateNew(_elements[^1].transform.parent);
-                var actionUI = _elements[i];
-                actionUI.gameObject.SetActive(true);
-                setter(t, actionUI);
+                var element = _elements[i];
+                element.gameObject.SetActive(true);
+                setter(t, element);
                 i++;
             }
 
             DisableAllFrom(i);
         }
 
+        public Pooled InsertNew(int index)
+        {
+            if (index >= _elements.Count)
+                while (index >= _elements.Count)
+                    InstantiateNew(_elements[^1].transform.parent);
+            else InstantiateNew(_elements[^1].transform.parent, index);
+            return _elements[index];
+        }
+
         public void Reset()
         {
             DisableAllFrom(0);
-        }
-
-        public Pooled At(int index)
-        {
-            //If we lack panels
-            while (index >= _elements.Count)
-                InstantiateNew(_elements[^1].transform.parent);
-            return _elements[index];
         }
     }
 }

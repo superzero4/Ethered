@@ -43,9 +43,9 @@ namespace BattleSystem
             _actions = actions;
         }
 
-        public void Append(Action action)
+        public void Prepend(Action action)
         {
-            Insert(_actions.Count, action);
+            Insert(0, action);
         }
 
         [Obsolete(
@@ -62,12 +62,12 @@ namespace BattleSystem
                 }
             }
 
-            Append(action);
+            Prepend(action);
         }
 
-        public void Prepend(Action action)
+        public void Append(Action action)
         {
-            Insert(0, action);
+            Insert(_actions.Count, action);
         }
 
         private void Insert(int index, Action action)
