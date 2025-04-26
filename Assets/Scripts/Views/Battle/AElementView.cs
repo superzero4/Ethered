@@ -5,6 +5,7 @@ using Common.Events.UserInterface;
 using NaughtyAttributes;
 using UI;
 using UI.Battle;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Views.Phase;
@@ -19,7 +20,7 @@ namespace Views.Battle
         [SerializeField, InfoBox("For movement")]
         protected Transform _root;
 
-        [SerializeField] private ScalingPhaseView _scalingPhaseView;
+        [SerializeField] protected ScalingPhaseView _scalingPhaseView;
         public T Data => _data;
         public IPhaseView[] phaseViews => new[] { _scalingPhaseView };
 
@@ -90,9 +91,7 @@ namespace Views.Battle
         }
 
         protected abstract void SetColor(Color color);
-
-        public abstract void ToggleVisibility(bool state);
-
+        
         //protected abstract IEnumerable<Renderer> Renderers { get; }
         public void SetColor()
         {

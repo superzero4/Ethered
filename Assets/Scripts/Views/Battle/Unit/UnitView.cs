@@ -92,12 +92,6 @@ namespace Views.Battle
             currentSkin.SetColor(color);
         }
 
-        public override void ToggleVisibility(bool state)
-        {
-            currentSkin.ToggleVisibility(state);
-            _healthUI.ToggleVisibility(state);
-        }
-
         protected override void RotationChanged(float newRot)
         {
             _healthUI.transform.localRotation = Quaternion.Euler(0, -newRot, 0);
