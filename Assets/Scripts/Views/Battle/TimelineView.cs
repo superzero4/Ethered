@@ -26,7 +26,7 @@ namespace Views.Battle
                 _timelineHints.HintMultiple(action.TargetsEnumerable.Select(t => t.Position)
                     .Append(action.Origin.Position));
             else
-                _timelineHints.Clear();
+                _timelineHints.Reset();
         }
     }
 }

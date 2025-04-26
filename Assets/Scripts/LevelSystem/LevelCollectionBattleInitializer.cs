@@ -1,4 +1,5 @@
 using System;
+using NaughtyAttributes;
 using System.Linq;
 using BattleSystem;
 using Common;
@@ -46,6 +47,9 @@ namespace LevelSystem
 
         [SerializeField] private LeanTweenType _ease = LeanTweenType.easeInOutCubic;
 
+        [Header("ReadOnly")] [SerializeReference, ReadOnly]
+        private TileHints _hints;
+
         private void Awake()
         {
             // Initialize the level collection
@@ -90,8 +94,9 @@ namespace LevelSystem
 
             _battleViewInitializer.Init(current, squad, _phaseSelector, out var selectables,
                 out var battle);
+            _hints = new TileHints(selectables);
             _selector.Initialize(selectables, _phaseSelector.GetLayerMask(), _camera);
-            _battleView.Init(battle, _selector, _phaseSelector, _userInput);
+            _battleView.Init(battle, _selector, _hints, _phaseSelector, _userInput);
             _userInput.Reset.Invoke();
             _phaseSelector.Initialize(EPhase.Normal);
             battle.BattleEnd.AddListener(OnBattleEnd);

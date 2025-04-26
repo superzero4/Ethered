@@ -22,7 +22,7 @@ namespace BattleSystem
         public IEnumerable<IBattleElement> Actors => _actions.Select(action => action.Origin);
 
 
-        public IEnumerator Execute(bool resetAfter, Tilemap map, float delay = -1f)
+        public IEnumerator Execute(bool resetAfter, Tilemap map, float delay = -1f, System.Action onStep = null)
         {
             foreach (var action in _actions)
             {
@@ -36,6 +36,7 @@ namespace BattleSystem
                 }
 
                 yield return delay > 0 ? new WaitForSeconds(delay) : null;
+                onStep?.Invoke();
             }
 
             if (resetAfter)

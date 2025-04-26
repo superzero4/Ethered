@@ -33,7 +33,9 @@ namespace Views.Battle
             Action<float> _onSelectedPhaseChanges)
         {
             float dur = duration * (Mathf.Abs(start - end));
-            return LeanTween.value(gameObject, start, end, dur).setEase(ease).setOnUpdate(_onSelectedPhaseChanges);
+            return LeanTween.value(gameObject, start, end, dur).setEase(ease).setOnUpdate(_onSelectedPhaseChanges)
+                .setOnComplete(
+                    () => _onSelectedPhaseChanges(end));
         }
 
         void OnPhaseChanged(PhaseEventData data)

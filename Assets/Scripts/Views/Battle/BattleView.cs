@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using BattleSystem;
 using Common;
 using Common.Events;
@@ -21,7 +22,9 @@ namespace Views.Battle
 {
     public class BattleView : MonoBehaviour
     {
-        [Header("Settings")] [SerializeField,Range(0,4f)] private float _delay = 0.5f;
+        [Header("Settings")] [SerializeField, Range(0, 4f)]
+        private float _delay = 0.5f;
+
         [SerializeField] private bool _unitActionsPreviewShowEmptyTiles = true;
         [SerializeField] private bool _allowActionChangeAfterUnitSelected = true;
 
@@ -36,7 +39,7 @@ namespace Views.Battle
 
         private UserInput _userInput;
         [SerializeField] [ReadOnly] private Selector _selector;
-
+        [SerializeField] [ReadOnly] private PhaseSelector _phaseSelector;
         [SerializeReference] [ReadOnly] private BattleSystem.Battle _battle;
 
         public BattleSystem.Battle Battle
@@ -44,10 +47,14 @@ namespace Views.Battle
             get => _battle;
         }
 
+        private IHints _hints;
 
-        public void Init(BattleSystem.Battle battle, Selector selector, PhaseSelector phase, UserInput userInput)
+        public void Init(BattleSystem.Battle battle, Selector selector, IHints hints, PhaseSelector phase,
+            UserInput userInput)
         {
             //Creation
+            _hints = hints;
+            _phaseSelector = phase;
             _userInput = userInput;
             _selector = selector;
             _battle = battle;
@@ -55,7 +62,7 @@ namespace Views.Battle
 
             //Event linkage
             //SelectionEvents
-            userInput.AddResetables(_selectionState, _ui.ConfirmButton, _ui.UnitUI);
+            userInput.AddResetables(_selectionState, _ui.ConfirmButton, _ui.UnitUI, _hints);
             selector.HoverChanged.AddListener(OnHoverChanged);
             selector.SelectionUpdated.AddListener(OnSelectionUpdated);
 
@@ -75,8 +82,9 @@ namespace Views.Battle
             _ui.EndTurnButton.AddListener(() =>
             {
                 userInput.ForceReset();
-                StartCoroutine(battle.NextTurn(_delay));
+                StartCoroutine(battle.NextTurn(_delay, () => _selector.RaiseCurrentHover()));
             });
+            battle.OnTimelineActionAdded.AddListener(d => _selector.RaiseCurrentHover());
             SetActionUIsCallback(OnActionClicked, userInput);
 
             userInput.ForceReset();
@@ -91,7 +99,7 @@ namespace Views.Battle
             bool displayed = false;
             if (_selectionState.CanSelectUnit)
             {
-                bool isTeam = unit != null && unit.Team == ETeam.Player;
+                bool isTeam = unit != null && unit.Team == ETeam.Player && unit.HealthInfo.Alive;
                 bool canAct = CanAct(unit);
                 _ui.UnitUI.SetUnit(unit, isTeam && canAct, isTeam && !canAct);
                 displayed = true;
@@ -130,8 +138,10 @@ namespace Views.Battle
                 var targs = _battle.PossibleTargetPosition(_selectionState.Origin, a,
                     _unitActionsPreviewShowEmptyTiles);
                 _selector.Reset();
-                _selector.Hints.HintMultiple(targs);
-                _selector.ShowHints = true;
+                _selector.ShowCursor = true;
+                _hints.HintMultiple(targs);
+                if (!a.MainTarget.Phase.ToPhase(_phaseSelector.Phase).Intersects(_phaseSelector.Phase))
+                    _phaseSelector.TogglePhase();
             }
         }
 
@@ -139,10 +149,11 @@ namespace Views.Battle
         {
             if (_selectionState.CanSelectUnit)
             {
+                //We ensure that the click is only handled when we are still hovering on the unit, not any click in the screen
                 if (s.unit != null && CanAct(s.unit))
                 {
                     _selectionState.SetUnit(s.unit, true);
-                    _selector.ShowHints = false;
+                    _selector.ShowCursor = false;
                 }
             }
             else if (_selectionState.CanSelectTarget && _selectionState.AcceptsMoreTargets)
@@ -152,7 +163,7 @@ namespace Views.Battle
                 {
                     _ui.TargetUI?.SetInfo(s.unit?.VisualInformations ?? s.environment.VisualInformations,
                         new IIcon.IconText[] { });
-                    _selector.ShowHints = _selectionState.AcceptsMoreTargets;
+                    _selector.ShowCursor = _selectionState.AcceptsMoreTargets;
                     _selector.RaiseCurrentHover();
                     _ui.ConfirmButton.interactable = true;
                     //TODO Probably maintain a List of targets and not just a single LastTargetUI

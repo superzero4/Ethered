@@ -43,14 +43,9 @@ namespace BattleSystem
             _battle = battle;
         }
 
-        public IEnumerator TurnEnd(bool b, float delay = .1f)
+        public IEnumerator NextTurn(float delay = .1f, System.Action _onStep = null)
         {
-            yield return _timeline.Execute(true, _battle.Tiles, delay);
-        }
-
-        public IEnumerator NextTurn(float delay = .1f)
-        {
-            yield return TurnEnd(true, delay);
+            yield return _timeline.Execute(true, _battle.Tiles, delay, _onStep);
             if (delay > 0f)
                 yield return new WaitForSeconds(delay);
             yield return InitNewTurn(delay);
@@ -233,9 +228,8 @@ namespace BattleSystem
         }
 
 
-        public IEnumerator NextTurn(float delay)
-        {
-            yield return _turns.NextTurn(delay);
+        public IEnumerator NextTurn(float delay, System.Action _onStep = null) {
+            yield return _turns.NextTurn(delay,_onStep);
             yield return new WaitForSeconds(1f);
             CheckForEnd();
             TilemapPathFindingExtensions.ClearCache();

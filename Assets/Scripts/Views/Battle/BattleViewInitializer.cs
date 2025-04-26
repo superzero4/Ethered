@@ -5,6 +5,7 @@ using Common;
 using LevelSystem;
 using NUnit.Framework;
 using SquadSystem;
+using UnitSystem;
 using UnitSystem.AI;
 using UnitSystem.AI.Dev;
 using UnityEngine;
@@ -31,7 +32,7 @@ namespace Views.Battle
         {
             selectables = new();
             battle = new BattleSystem.Battle();
-            battle.Init(level.Battle, level.Map, squad, _defaultEnvironment,_defaultObstacle,
+            battle.Init(level.Battle, level.Map, squad, _defaultEnvironment, _defaultObstacle,
                 // ReSharper disable once CoVariantArrayConversion
                 new RandomBrainCollection(GetComponentsInChildren<IComparer<Action>>()
                     .Select(comp => new UtilityBasedBrain(comp)).ToArray()));
@@ -45,12 +46,15 @@ namespace Views.Battle
                 Assert.IsTrue((int)unit.Position.Phase >= 0 && (int)unit.Position.Phase <= (int)EPhase.Both,
                     " Enum values seems corrupted, probably due to unity automatically converting ticking everything and converting all bit to 1 for a negative value, avoid using everything in serialized fields");
             }
-
+            Dictionary<PositionData, EnvironmentView> envs = new();
             foreach (var t in battle.Tiles.TilesFlat)
             {
                 EnvironmentView env = Instantiate(_environmentViewPrefab, transform);
                 env.Init(t.Base, _grid);
-                env.SetTile(t);
+                var pos = t.Base.Position;
+                pos.Phase = ERelativePhase.Opposite.ToPhase(pos.Phase);
+                envs.TryGetValue(pos, out var other);
+                env.Init(t, other);
                 if (!level.ShowTileModels)
                     env.DisableModels();
                 phaseSelector.Subscribe(env.phaseViews);
@@ -59,6 +63,7 @@ namespace Views.Battle
                 selectables.Add(env.Selectable);
                 Assert.IsTrue((int)t.Base.Position.Phase >= 0 && (int)t.Base.Position.Phase < (int)EPhase.Both,
                     " Enum values seems corrupted, probably due to unity automatically converting ticking everything and converting all bit to 1 for a negative value, avoid using everything in serialized fields");
+                envs.Add(t.Base.Position, env);
             }
 
             foreach (var env in level.Map.Environments())
@@ -70,7 +75,7 @@ namespace Views.Battle
                 var go = Instantiate(prefab, pos,
                     Quaternion.identity,
                     _grid.transform);
-                    go.transform.localRotation = Quaternion.Euler(0, turn ? -90 : 0, 0);
+                go.transform.localRotation = Quaternion.Euler(0, turn ? -90 : 0, 0);
                 go.name = "Prop " + env.center.ToString() + ", " + size.ToString();
                 go.Phase = env.center.Phase;
                 phaseSelector.Subscribe(go);

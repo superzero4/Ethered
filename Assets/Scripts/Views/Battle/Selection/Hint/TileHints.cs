@@ -19,7 +19,7 @@ namespace Views.Battle.Selection
                             s.Tile.Base.Position.Phase != EPhase.Ethered, "A non-ignored tile has been added twice");
         }
 
-        public void Clear()
+        public void Reset()
         {
             foreach (var s in _cache.Values)
                 s.Hint.Deactivate();

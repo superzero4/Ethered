@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using BattleSystem;
+using Common;
 
 namespace Views.Battle.Selection
 {
-    public interface IHints
+    public interface IHints : IReset
     {
-        void Clear();
-        void Hint(PositionData s);
         void HintMultiple(IEnumerable<PositionData> positions);
     }
 }

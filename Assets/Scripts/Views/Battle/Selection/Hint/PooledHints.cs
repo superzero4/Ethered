@@ -13,6 +13,8 @@ namespace Views.Battle.Selection
         [Header("Settings")] [SerializeField, Tooltip("Not implemented yet")]
         private bool _phased;
 
+        [SerializeField, Range(0, 10)] private int _initialCount = 4;
+
         [Header("References")] [SerializeField]
         private Grid _grid;
 
@@ -23,11 +25,11 @@ namespace Views.Battle.Selection
 
         private void Awake()
         {
-            _hints = new(_prefab, 4, _parent);
-            Clear();
+            _hints = new(_prefab, _initialCount, _parent);
+            Reset();
         }
 
-        public void Clear()
+        public void Reset()
         {
             _count = 0;
             _hints.Reset();
@@ -37,14 +39,9 @@ namespace Views.Battle.Selection
             }
         }
 
-        public void Hint(PositionData s)
-        {
-            HintMultiple(new[] { s });
-        }
-
         public void HintMultiple(IEnumerable<PositionData> positions)
         {
-            _hints.SetElements(positions,
+            _hints?.SetElements(positions,
                 (position, hint) =>
                 {
                     hint.Level = 1;
