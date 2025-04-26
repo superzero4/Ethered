@@ -45,7 +45,7 @@ namespace BattleSystem
         public bool CanExecute(Tilemap map)
         {
             //We check that the targets and been set, that they are still valid, and also that the current layout of the map is still correct
-            return IsReady && _info.AreTargetsValid(_origin, _targets.Targets.ToArray()) &&
+            return IsReady && _origin.HealthInfo.Alive && _info.AreTargetsValid(_origin, _targets.Targets.ToArray()) &&
                    _info.CanExecuteOnMap(_origin, _targets, map);
         }
 
