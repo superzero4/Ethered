@@ -18,6 +18,8 @@ namespace Views.Battle.Selection
 
         [SerializeField] private LeanTweenType _easeType;
 
+        public EPhase Phase => _phase;
+
         public void Initialize(EPhase initPhase)
         {
             IPhaseView.ease = _easeType;
