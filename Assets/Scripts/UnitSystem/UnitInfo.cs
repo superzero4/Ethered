@@ -12,16 +12,19 @@ namespace UnitSystem
     {
         [SerializeField, Range(1, 100)] private int _maxHealth;
         [SerializeField] private int _armor;
-        private List<IActionInfo> _actions;
         [SerializeField] private ActionCollection _actionCollection;
-
         [SerializeField] private VisualInformations _visualInformations;
+
+        private List<IActionInfo> _actions;
+        [SerializeField] private IIcon.IconText[] _unitSpecificAdditionalInfos;
 
         public VisualInformations VisualInformations
         {
             get => _visualInformations;
             set => _visualInformations = value;
         }
+
+        public IEnumerable<IIcon.IconText> IconTexts => _unitSpecificAdditionalInfos;
 
         public int MaxHealth
         {
@@ -39,18 +42,36 @@ namespace UnitSystem
         /// <summary>
         /// This return the action list interface, it can be modified suppressed or added to change the action set of character, the base set is the one specified by it's SkillSet
         /// </summary>
-        public List<IActionInfo> Actions => _actions==null || _actions.Count == 0 ? _actions = _actionCollection.Actions.ToList() : _actions;
+        public List<IActionInfo> Actions => _actions == null || _actions.Count == 0
+            ? _actions = _actionCollection.Actions.ToList()
+            : _actions;
 
         private ActionCollection Collection
         {
             get => _actionCollection;
-            [Obsolete("This field is only for serialization and initialisation, ignored after Action has been consulted one, use the action getter and modify directly the list",error:true)]
+            [Obsolete(
+                "This field is only for serialization and initialisation, ignored after Action has been consulted one, use the action getter and modify directly the list",
+                error: true)]
             set => _actionCollection = value;
         }
-        
+
         public UnitInfo()
         {
             _actions = new List<IActionInfo>();
+            _unitSpecificAdditionalInfos = Array.Empty<IIcon.IconText>();
+        }
+
+        public UnitInfo(UnitInfo other) : this()
+        {
+            _maxHealth = other.MaxHealth;
+            _armor = other.Armor;
+            _visualInformations = other.VisualInformations;
+            _actionCollection = other.Collection;
+        }
+
+        public UnitInfo(UnitInfo other, IEnumerable<IActionInfo> actions) : this(other)
+        {
+            _actions = actions.ToList();
         }
     }
 }

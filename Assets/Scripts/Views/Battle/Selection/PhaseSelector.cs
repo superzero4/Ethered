@@ -9,52 +9,51 @@ namespace Views.Battle.Selection
 {
     public class PhaseSelector : MonoBehaviour
     {
-        public const int SelectableLayer = 6;
         [SerializeField] private PhaseEvent _onSelectedPhaseChanges = new();
         [SerializeField] [ReadOnly] private EPhase _phase;
+
+        [Header("Tween")] [SerializeField, Range(0.01f, 10f)]
+        private float _duration;
+
+        [SerializeField] private LeanTweenType _easeType;
+
+        public EPhase Phase => _phase;
+
+        public void Initialize(EPhase initPhase)
+        {
+            IPhaseView.ease = _easeType;
+            IPhaseView.duration = _duration;
+            _phase = initPhase;
+            Invoke();
+        }
         
-        public PhaseEvent OnSelectedPhaseChanges => _onSelectedPhaseChanges;
         public void Subscribe(params IPhaseView[] view)
         {
             foreach (var v in view)
             {
-                _onSelectedPhaseChanges.AddListener(v.OnPhaseSelected);
+                _onSelectedPhaseChanges.AddListener(v.OnPhaseChanged);
+                _onSelectedPhaseChanges.AddListener(arg => v.Progress = arg.progress);
             }
         }
-        public bool Contains(EPhase other)
-        {
-            return (_phase & other) != 0b0;
-        }
-        
+
+
         private void Update()
         {
             if (Input.mouseScrollDelta.y != 0)
             {
-                _phase = _phase == EPhase.Ethered ? EPhase.Normal : EPhase.Ethered;
-                _onSelectedPhaseChanges.Invoke(new PhaseEventData() { phase = _phase });
+                TogglePhase();
             }
         }
 
-        public LayerMask GetLayerMask()
+        public void TogglePhase()
         {
-            return 0b1 << Layer();
+            _phase = _phase == EPhase.Ethered ? EPhase.Normal : EPhase.Ethered;
+            Invoke();
         }
 
-        private static int Layer()
+        private void Invoke()
         {
-            return SelectableLayer;
+            IPhaseView.Invoke(gameObject, _phase, _onSelectedPhaseChanges.Invoke);
         }
-
-        public void SetLayer<T>(AElementView<T> element) where T : IBattleElement
-        {
-            element.gameObject.layer = Layer();
-        }
-
-        public void Initialize(EPhase initPhase)
-        {
-            _phase = initPhase;
-            _onSelectedPhaseChanges.Invoke(new PhaseEventData() { phase = _phase });
-        }
-        
     }
 }

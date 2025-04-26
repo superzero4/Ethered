@@ -11,7 +11,9 @@ namespace UnitSystem.Actions.Bases
     {
         public EPhase OriginPhase { get; }
         public IEnumerable<TargetDefinition> PossibleTargets { get; }
+        public TargetDefinition MainTarget => PossibleTargets.FirstOrDefault();
         public int NbTargets { get; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -26,7 +28,16 @@ namespace UnitSystem.Actions.Bases
             {
                 return false;
             }
-            return targets.All(t => PossibleTargets.Any(targetDefinition => targetDefinition.AreValidTargets(origin, t)));
+
+            return targets.All(t =>
+                PossibleTargets.Any(targetDefinition => targetDefinition.AreValidTargets(origin, t)));
+        }
+
+        public bool IsTargetPositionValid(Unit origin, IBattleElement target)
+        {
+            if (!CouldUnitExecute(origin))
+                return false;
+            return PossibleTargets.Any(targetDefinition => targetDefinition.IsValidTarget(origin, target, out _, true));
         }
 
         public bool CouldUnitExecute(Unit origin)
@@ -47,7 +58,19 @@ namespace UnitSystem.Actions.Bases
 
         public void Execute(Unit origin, IBattleElement target)
         {
-            Execute(origin, new TargetCollection(target,NbTargets));
+            Execute(origin, new TargetCollection(target, NbTargets));
         }
+
+        /// <summary>
+        /// Something like damage text/info, dynamic based on the override or dynamic state of the action information
+        /// </summary>
+        public IIcon.IconText AdditionalInfo { get; }
+
+        IEnumerable<IconText> IIcon.IconTexts => Enumerable.Empty<IconText>()
+            //.Append(new IconText(IconType.Phase, OriginPhase.ToFancyString(true)))
+            //.Append(new IconText("Targets", NbTargets.ToString()))
+            .Append(new IconText(IconType.RelativePhase, PossibleTargets.First().Phase.ToString(), true))
+            .Append(new IconText(IconType.Range, PossibleTargets.Max(t => t.Range).ToString()))
+            .Append(AdditionalInfo);
     }
 }

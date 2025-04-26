@@ -14,13 +14,8 @@ namespace UI.Battle
 
         protected override void Clicked(IActionInfo args)
         {
-            if(_isActive)
+            if(_isActive && interactable)
                 _highlight.Highlight();
-        }
-
-        protected override void AfterAwake()
-        {
-            base.AfterAwake();
         }
 
         protected override IActionInfo GetArgs()
@@ -40,7 +35,7 @@ namespace UI.Battle
             }
         }
 
-        public void Reset()
+        public override void Reset()
         {
             _highlight.Reset();
         }

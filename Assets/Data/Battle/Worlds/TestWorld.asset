@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee6096f92784d1890ad698d0e4d3892, type: 3}
+  m_Name: TestWorld
+  m_EditorClassIdentifier: 
+  _markerNames: []
+  _dynamicSquad: {fileID: 11400000, guid: a053559b7c9c69948873daa954ef8e97, type: 2}
+  _levels:
+  - _playerActionsOverride:
+    - {fileID: 11400000, guid: c24cc97f8f5226e48960dd2f238e2bb0, type: 2}
+    - {fileID: 11400000, guid: a88612b68d1ab514bbed6729f2c020c5, type: 2}
+    _battle: {fileID: 11400000, guid: 749432e0e5a308d4c92f660ba4007e3b, type: 2}
+    _map: {fileID: 11400000, guid: ddc8345433f902c4abb1dbd2e7128645, type: 2}
+    _showTileModels: 0
+    _position: {x: 0, y: 0, z: 17}
+    _rotation: {x: 0, y: 180, z: 0}
+  - _playerActionsOverride: []
+    _battle: {fileID: 11400000, guid: 89f293346c3c6d44b988efd5b524cd03, type: 2}
+    _map: {fileID: 11400000, guid: 6c2ac608803be3847960d99266af9161, type: 2}
+    _showTileModels: 0
+    _position: {x: 0, y: 0, z: -22}
+    _rotation: {x: 0, y: 180, z: 0}
+  - _playerActionsOverride: []
+    _battle: {fileID: 11400000, guid: 749432e0e5a308d4c92f660ba4007e3b, type: 2}
+    _map: {fileID: 11400000, guid: 6c2ac608803be3847960d99266af9161, type: 2}
+    _showTileModels: 0
+    _position: {x: 7.26, y: 9.85, z: -25}
+    _rotation: {x: 0, y: 0, z: 0}
+  PreludePosition:
+    _playerActionsOverride: []
+    _battle: {fileID: 0}
+    _map: {fileID: 0}
+    _showTileModels: 0
+    _position: {x: 0, y: 12, z: 35}
+    _rotation: {x: 45, y: 0, z: 0}

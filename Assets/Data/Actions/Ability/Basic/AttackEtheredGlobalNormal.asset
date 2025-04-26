@@ -16,12 +16,13 @@ MonoBehaviour:
     _sprite: {fileID: 21300000, guid: 5a8a4d43c279fa143b407d7a8b91b4e8, type: 3}
     _color: {r: 1, g: 1, b: 1, a: 1}
     _name: Ethered bombing
-    _description: From the Ethered phase, attack all ennemies in Reality
+    _description: Attack all ennemies in Reality
+    _grayScale: {fileID: 0}
   _originPhase: 2
   _target:
-  - _nbTargets: 10
-    _range: 10
+  - _range: 10
     _targetType: 20
     _phase: -2
+  _nbTargets: 1
   _damage: 2
   _requireLOS: 0

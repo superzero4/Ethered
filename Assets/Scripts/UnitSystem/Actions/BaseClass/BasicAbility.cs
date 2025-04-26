@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using BattleSystem;
 using BattleSystem.TileSystem;
+using Common.Visuals;
 using NaughtyAttributes;
 using UnitSystem.Actions.Bases;
 using UnityEngine;
@@ -39,10 +41,10 @@ namespace UnitSystem.Actions.BaseClass
 
         public override void Execute(Unit origin, TargetCollection targetCollection)
         {
-            foreach (var target in targetCollection.Targets)
-            {
-                target.TakeDamage(_damage,origin);
-            }
+            origin.Attack(targetCollection.Targets, _damage, _requireLOS);
         }
+
+        public override IIcon.IconText AdditionalInfo =>
+            new IIcon.IconText(IIcon.IconType.Power, (_damage < 0 ? "+" : "-") + "" + Math.Abs(_damage));
     }
 }

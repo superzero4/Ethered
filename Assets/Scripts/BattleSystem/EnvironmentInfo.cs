@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Common.Visuals;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -16,6 +17,8 @@ namespace BattleSystem
 
         [SerializeField] private VisualInformations _visualInformations;
         public VisualInformations VisualInformations => _visualInformations;
+
+        public IEnumerable<IIcon.IconText> IconTexts => null;
 
         public EAllowedMovement AllowedMovement => _allowedMovement;
 

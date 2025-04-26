@@ -21,8 +21,7 @@ namespace BattleSystem.TileSystem
                     }
                     else
                     {
-                        Debug.LogWarning(
-                            "TODO cross phase LOS isn't defined yet in terms of game design nor implementation");
+                        //Debug.LogWarning("TODO cross phase LOS isn't defined yet in terms of game design nor implementation");
                     }
                 }
             }
@@ -34,7 +33,6 @@ namespace BattleSystem.TileSystem
         {
             if (origin.x == target.x && origin.y == target.y)
                 yield break;
-            int endX;
             var deltaY = target.y - origin.y;
             var deltaX = target.x - origin.x;
             //We use a y = mx + b equation to find the next tile but we use the an <1 slope to avoid floating point errors, it requires we increment on the x axis insteadn, we use flip to keep track of that
@@ -43,11 +41,8 @@ namespace BattleSystem.TileSystem
             {
                 //Just a fancy permutation
                 (origin.x, origin.y) = (origin.y, origin.x);
-                endX = target.y;
                 (deltaX, deltaY) = (deltaY, deltaX);
             }
-            else
-                endX = target.x;
             //Straight line case
             if (deltaX == 0)
             {
@@ -63,7 +58,8 @@ namespace BattleSystem.TileSystem
             for (int step = dir; step != deltaX; step += dir)
             {
                 int x = origin.x + step;
-                var y = origin.y + coef * step;
+                //The coef is handling the sign, which might be different from x to y, we just use the Abs of the step to know how far we advanced on x
+                var y = origin.y + coef * Math.Abs(step);
                 //If we intersect exactly in the middle of a tile (4 digit precision on the .5 evaluation), it means we hit both tiles
                 int decimal3Digit = Mathf.Abs((int)(y * 1000) % 1000);
                 if (decimal3Digit == 500)

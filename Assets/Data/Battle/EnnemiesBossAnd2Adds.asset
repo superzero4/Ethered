@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be1fcc23db1945d5a3b9653875272df9, type: 3}
+  m_Name: EnnemiesBossAnd2Adds
+  m_EditorClassIdentifier: 
+  _units:
+    _units:
+    - _maxHealth: 50
+      _armor: 0
+      _actionCollection: {fileID: 11400000, guid: 5a0f0f53e4f336d49a11176b1327cb91, type: 2}
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 55e87ef0aa74eef449cb7b33b0f63ffd, type: 3}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Romeo Mallory
+        _description: 
+        _grayScale: {fileID: 0}
+    - _maxHealth: 20
+      _armor: 0
+      _actionCollection: {fileID: 11400000, guid: cd933160a18d72d4eaddebaa473cc57c, type: 2}
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 55e87ef0aa74eef449cb7b33b0f63ffd, type: 3}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Flo Xander
+        _description: 
+        _grayScale: {fileID: 0}
+    - _maxHealth: 20
+      _armor: 0
+      _actionCollection: {fileID: 11400000, guid: cd933160a18d72d4eaddebaa473cc57c, type: 2}
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 55e87ef0aa74eef449cb7b33b0f63ffd, type: 3}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Judy Peggy
+        _description: 
+        _grayScale: {fileID: 0}
+    _upgrades: []
+  _defaultUnit:
+    _maxHealth: 20
+    _armor: 0
+    _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
+    _visualInformations:
+      _sprite: {fileID: 21300000, guid: 55e87ef0aa74eef449cb7b33b0f63ffd, type: 3}
+      _color: {r: 1, g: 1, b: 1, a: 1}
+      _name: David Smith
+      _description: 
+      _grayScale: {fileID: 0}

@@ -37,24 +37,37 @@ namespace UnitSystem
             AllAllies = 33
         }
 
+        public int Range => _range;
+
+        public ERelativePhase Phase => _phase;
+
         public bool IsTargetPhaseValid(EPhase phase, IBattleElement target)
         {
             return phase.HasFlag(target.Phase);
         }
-        
-        public bool AreValidTargets(IBattleElement origin, params IBattleElement[] targets)
+
+        public bool AreValidTargets(IBattleElement origin,
+            params IBattleElement[] targets)
         {
-            EPhase phase = _phase.ToPhase(origin.Position.Phase);
+            int cnt = 0;
             foreach (var target in targets)
             {
-                if (IsValidTarget(origin, phase, target, out bool checkForAllTargets)) return checkForAllTargets;
+                bool isValid = IsValidTarget(origin, target, out bool checkForAllTargets, false);
+                if (!checkForAllTargets)
+                    return isValid;
+                else if (isValid)
+                    cnt++;
+                else
+                    return false;
             }
 
-            return false;
+            return cnt == targets.Length;
         }
 
-        public bool IsValidTarget(IBattleElement origin, EPhase phase, IBattleElement target, out bool checkForAllTargets)
+        public bool IsValidTarget(IBattleElement origin, IBattleElement target,
+            out bool checkForAllTargets, bool bypassType = false)
         {
+            EPhase phase = _phase.ToPhase(origin.Position.Phase);
             if (target == null || target.Position.DistanceTo(origin.Position) > _range)
             {
                 checkForAllTargets = false;
@@ -64,16 +77,22 @@ namespace UnitSystem
             if (!IsTargetPhaseValid(phase, target))
             {
                 checkForAllTargets = false;
+                return false;
+            }
+
+            if (bypassType)
+            {
+                checkForAllTargets = false;
                 return true;
             }
 
             bool isSelf = origin == target;
-            bool isAlly = origin.Team == target.Team;
-            bool isUnit = !target.IsGround;
-            //TODO implement concrete logic all vs anything and find a batter way than this order dependant if forest
+            bool isAlly = origin.Team == target.Team && target.Alive;
+            bool isUnit = !target.IsGround && target.Alive;
+            //TODO implement concrete logic all vs anything and find a batter way than this order dependant "if forest"
             if (_targetType.HasFlag(TargetType.Anything))
             {
-                checkForAllTargets = true;
+                checkForAllTargets = false;
                 return true;
             }
 
@@ -81,7 +100,7 @@ namespace UnitSystem
             {
                 if (_targetType.HasFlag(TargetType.AnyUnit))
                 {
-                    checkForAllTargets = true;
+                    checkForAllTargets = false;
                     return true;
                 }
 
@@ -89,7 +108,7 @@ namespace UnitSystem
                 {
                     if (_targetType.HasFlag(TargetType.AnyAlly))
                     {
-                        checkForAllTargets = true;
+                        checkForAllTargets = false;
                         return true;
                     }
                     else if (_targetType.HasFlag(TargetType.AllAllies))
@@ -102,7 +121,7 @@ namespace UnitSystem
                     {
                         if (_targetType.HasFlag(TargetType.Self))
                         {
-                            checkForAllTargets = true;
+                            checkForAllTargets = false;
                             return true;
                         }
                     }
@@ -110,7 +129,7 @@ namespace UnitSystem
                     {
                         if (_targetType.HasFlag(TargetType.AnyOtherAlly))
                         {
-                            checkForAllTargets = true;
+                            checkForAllTargets = false;
                             return true;
                         }
 
@@ -125,7 +144,7 @@ namespace UnitSystem
                 {
                     if (_targetType.HasFlag(TargetType.AnyEnemy))
                     {
-                        checkForAllTargets = true;
+                        checkForAllTargets = false;
                         return true;
                     }
                     else if (_targetType.HasFlag(TargetType.AllEnemies))
@@ -139,10 +158,11 @@ namespace UnitSystem
             {
                 if (_targetType.HasFlag(TargetType.Ground))
                 {
-                    checkForAllTargets = true;
+                    checkForAllTargets = false;
                     return true;
                 }
             }
+
             checkForAllTargets = false;
             return false;
         }

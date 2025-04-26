@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 namespace BattleSystem
 {
     [Serializable]
-    public struct PositionData
+    public struct PositionData : IEquatable<PositionData>
     {
         public int DistanceTo(PositionData other)
         {
@@ -48,6 +48,31 @@ namespace BattleSystem
         public override string ToString()
         {
             return $"({Position.x},{Position.y}:{Utils.PhaseToChar(phase)})";
+        }
+
+        public bool Equals(PositionData other)
+        {
+            return _position.Equals(other._position) && phase == other.phase;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is PositionData other && Equals(other);
+        }
+
+        public static bool operator ==(PositionData a, PositionData b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(PositionData a, PositionData b)
+        {
+            return !a.Equals(b);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_position, (int)phase);
         }
     }
 

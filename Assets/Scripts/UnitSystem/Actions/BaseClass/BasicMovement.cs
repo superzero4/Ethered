@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BattleSystem;
 using BattleSystem.TileSystem;
+using Common.Visuals;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -17,7 +18,6 @@ namespace UnitSystem.Actions.Bases
 
         [SerializeField] private ERelativePhase _targetPhase;
         public override EPhase OriginPhase => _originPhase;
-        private PathWrapper _pathToTarget;
 
         public override IEnumerable<TargetDefinition> PossibleTargets
         {
@@ -28,37 +28,36 @@ namespace UnitSystem.Actions.Bases
 
         public override bool CanExecuteOnMap(Unit origin, TargetCollection targets, Tilemap map)
         {
+            return TryFindPath(origin, targets, map);
+        }
+
+        private bool TryFindPath(Unit origin, TargetCollection targets, Tilemap map)
+        {
             Assert.IsTrue(targets.Count == 1);
             var target = targets.MainTarget;
+            //Cached pathfinding
+            var inReach = map.InReach(origin.Position.Position,
+                TravelPhases(origin, target), _range);
             //If we are on multiple phases, we need to be able to land on all of them
-            var hash = new HashSet<Tile>(map[target.Position]);
-            foreach (var tile in hash)
-            {
-                if (!tile.Empty) return false;
-            }
+            foreach (var tile in map[target.Position])
+                if (!tile.Empty || !inReach.ContainsKey(tile.Base.Position))
+                    return false;
 
-            int count = 0;
-            foreach ((Tile tile, PathWrapper path) in map.InReach(origin.Position.Position,
-                         origin.Position.Phase != target.Position.Phase ? EPhase.Both : origin.Position.Phase, _range))
-            {
-                if (hash.Contains(tile))
-                {
-                    count++;
-                    if (count == hash.Count)
-                    {
-                        _pathToTarget = path;
-                        return true;
-                    }
-                }
-            }
+            return true;
+        }
 
-            return false;
+        private static EPhase TravelPhases(Unit origin, IBattleElement target)
+        {
+            return origin.Position.Phase != target.Position.Phase ? EPhase.Both : origin.Position.Phase;
         }
 
         public override void Execute(Unit origin, TargetCollection targetCollection)
         {
-            origin.Move(_pathToTarget);
+            var cached = TilemapPathFindingExtensions.cache[(origin.Position.Position, TravelPhases(origin,targetCollection.MainTarget), _range)];
+            origin.Move(cached[targetCollection.MainTarget.Position]);
             //targetCollection.MainTarget.Position);
         }
+
+        public override IIcon.IconText AdditionalInfo => default;
     }
 }

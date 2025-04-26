@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Common.Visuals;
 using UnityEngine;
 
@@ -7,15 +8,16 @@ namespace BattleSystem
     [Serializable]
     public class Environment : IBattleElement
     {
-        
         public Environment(EnvironmentInfo info, PositionData position)
         {
             this._position = position;
             this._info = info;
         }
+
         public Environment(EnvironmentInfo info) : this(info, new PositionData(Vector2Int.zero, EPhase.Normal))
         {
         }
+
         public Environment(EnvironmentInfo info, EPhase phase, Vector2Int position) : this(info,
             new PositionData(position, phase))
         {
@@ -34,6 +36,16 @@ namespace BattleSystem
         }
 
         public ETeam Team => ETeam.None;
+
+        public IEnumerable<IIcon.IconText> AdditionalIconTexts()
+        {
+            yield break;
+        }
+
+        public void CancelAction(bool isCancelTarget)
+        {
+            
+        }
 
         int IHealth.CurrentHealth
         {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using BattleSystem;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Action = BattleSystem.Action;
 
 namespace Common.Events.UserInterface
@@ -14,9 +15,15 @@ namespace Common.Events.UserInterface
     [Serializable]
     public struct PhaseEventData
     {
-        public EPhase phase;
-    }
+        public EPhase targetPhase;
+        public float progress;
 
+        public PhaseEventData(EPhase targetPhase)
+        {
+            this.targetPhase = targetPhase;
+            progress = targetPhase == EPhase.Ethered ? 1 : 0;
+        }
+    }
     [Serializable]
     public class TimelineEvent : UnityEvent<TimelineEventData>
     {
@@ -38,5 +45,7 @@ namespace Common.Events.UserInterface
 
         public int? InsertIndex => _insertIndex;
         public Action Action => _insertIndex.HasValue ? _actions[_insertIndex.Value] : null;
+        public bool IsLast => _insertIndex.HasValue && _insertIndex.Value == _actions.Count - 1;
+        public int Count => _actions.Count;
     }
 }

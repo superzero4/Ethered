@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using BattleSystem;
 using BattleSystem.TileSystem;
 using UnitSystem;
+using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
+using Action = BattleSystem.Action;
 
 namespace Common.Events.Combat
 {
@@ -22,6 +25,11 @@ namespace Common.Events.Combat
     {
     }
 
+    [Serializable]
+    public class UnitAttackEvent : UnityEvent<UnitAttackData>
+    {
+    }
+
     public class UnitEvent : UnityEvent<UnitEventData>
     {
     }
@@ -29,12 +37,30 @@ namespace Common.Events.Combat
     [Serializable]
     public struct ActionEventData
     {
+        public Action action;
+    }
+
+    [Serializable]
+    public class UnitCancelEvent : UnityEvent<UnitCancelEventData>
+    {
+    }
+
+    [Serializable]
+    public struct UnitCancelEventData
+    {
+        public UnitCancelEventData(bool isCancelTarget)
+        {
+            this.isCancelTarget = isCancelTarget;
+        }
+
+        public bool isCancelTarget;
     }
 
     [Serializable]
     public class UnitMovementData : UnitEventData
     {
         public PathWrapper path;
+        public PositionData oldPosition;
     }
 
     [Serializable]
@@ -42,6 +68,15 @@ namespace Common.Events.Combat
     {
         public PositionIndexer direction;
         public int oldHealth;
+    }
+
+    [Serializable]
+    public class UnitAttackData : UnitEventData
+    {
+        public PositionIndexer direction;
+        public bool needLos;
+        public int manhattandistance;
+        public bool IsCloseQuarter => manhattandistance <= 1;
     }
 
     [Serializable]
@@ -54,12 +89,14 @@ namespace Common.Events.Combat
             return new UnitEventData { unit = unit };
         }
     }
+
     /// <summary>
     /// ETeam.None => battle still running
     /// </summary>
     public class BattleEvent : UnityEvent<BattleEventData>
     {
     }
+
     public struct BattleEventData
     {
         public ETeam winner;

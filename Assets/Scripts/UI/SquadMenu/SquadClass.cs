@@ -9,7 +9,7 @@ namespace SquadSystem
     public class SquadClass : MonoBehaviour
     {
         [SerializeField] private Squad _squad;
-        [SerializeField] private BattleInfo _battleInfo;
+        [SerializeField] private EncounterInfo _battleInfo;
 
         [FormerlySerializedAs("_coins")] [SerializeField]
         private int _startCoins;

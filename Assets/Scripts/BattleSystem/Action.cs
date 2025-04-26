@@ -19,13 +19,13 @@ namespace BattleSystem
         [SerializeField] private IActionInfo _info;
         public bool HasTargets => _targets != null && _targets.Count > 0;
         public IEnumerable<IBattleElement> TargetsEnumerable => _targets.Targets;
+        public IBattleElement MainTarget => _targets.MainTarget;
 
         [Obsolete(
             "Private setter, targets shouldn't be accessed nor modiified directly, use methods that try to set them instead",
             true)]
         private TargetCollection Targets
         {
-            set => _targets = value;
             get => _targets;
         }
 
@@ -42,12 +42,12 @@ namespace BattleSystem
             _info.Execute(_origin, _targets);
         }
 
-        // ReSharper disable SimplifyConditionalTernaryExpression
         public bool CanExecute(Tilemap map)
         {
-            return (IsReady ? _info.CanExecuteOnMap(_origin, _targets, map) : false);
+            //We check that the targets and been set, that they are still valid, and also that the current layout of the map is still correct
+            return IsReady && _origin.HealthInfo.Alive && _info.AreTargetsValid(_origin, _targets.Targets.ToArray()) &&
+                   _info.CanExecuteOnMap(_origin, _targets, map);
         }
-        // ReSharper restore SimplifyConditionalTernaryExpression
 
         private bool IsReady => _origin != null && _targets != null;
 

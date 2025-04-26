@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace BattleSystem.TileSystem
         public Vector3Int Size => _size;
         public IEnumerable<Tile[][]> Tiles => _tiles;
         public IEnumerable<Tile> TilesFlat => _tiles.SelectMany(x => x.SelectMany(y => y));
-
+        
         public Tilemap(Vector2Int sizeXY, int numberOfPhase, EnvironmentInfo defaultEnvironment)
         {
             _size = new Vector3Int(sizeXY.x, sizeXY.y, numberOfPhase);
@@ -91,14 +92,11 @@ namespace BattleSystem.TileSystem
 
         public void SetEnvironment(Environment env)
         {
-            foreach (var phase in Utils.FlagIndexes(env.Position.Phase))
-            {
-                var tile = this[env.Position.Position, phase];
+            foreach (var tile in this[env.Position])
                 if (tile != null)
-                {
                     tile.Base = env;
-                }
-            }
         }
+
+        
     }
 }

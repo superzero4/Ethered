@@ -8,7 +8,10 @@ using Common;
 using Common.Events;
 using Common.Events.Combat;
 using Common.Events.UserInterface;
+using Common.Visuals;
+using SquadSystem;
 using UnitSystem;
+using UnitSystem.Actions.Bases;
 using UnitSystem.AI;
 using UnitSystem.AI.Dev;
 using UnityEngine;
@@ -31,6 +34,7 @@ namespace BattleSystem
 
         public TimelineEvent TimeLineUpdated => _timeline.TimeLineUpdated;
 
+
         private void Init(Battle battle)
         {
             _currentTurn = 0;
@@ -39,14 +43,9 @@ namespace BattleSystem
             _battle = battle;
         }
 
-        public IEnumerator TurnEnd(bool b, float delay = .1f)
+        public IEnumerator NextTurn(float delay = .1f, System.Action _onStep = null)
         {
-            yield return _timeline.Execute(true, delay);
-        }
-
-        public IEnumerator NextTurn(float delay = .1f)
-        {
-            yield return TurnEnd(true, delay);
+            yield return _timeline.Execute(true, _battle.Tiles, delay, _onStep);
             if (delay > 0f)
                 yield return new WaitForSeconds(delay);
             yield return InitNewTurn(delay);
@@ -57,14 +56,14 @@ namespace BattleSystem
         {
             foreach (var action in _battle.EnemyActions())
             {
-                _timeline.Append(action);
+                _timeline.Prepend(action);
                 yield return new WaitForSeconds(delay);
             }
         }
 
         public void AddAction(Action action)
         {
-            _timeline.Append(action);
+            _timeline.Prepend(action);
         }
 
         public void Reset()
@@ -74,7 +73,7 @@ namespace BattleSystem
 
         public bool CanStillAct(Unit unit)
         {
-            return unit != null && (unit.ActionsPerTurn == 1
+            return unit != null && unit.HealthInfo.Alive && (unit.ActionsPerTurn == 1
                 ? _timeline.Actors.All(a => a != unit)
                 : _timeline.Actors.Count(a => a == unit) < unit.ActionsPerTurn);
         }
@@ -92,52 +91,63 @@ namespace BattleSystem
 
         public Tilemap Tiles => _battleElements;
         public IEnumerable<Unit> Units => _allies.Concat(_ennemies);
-        public TimelineEvent OnTimelineAction => _turns.TimeLineUpdated;
+        public TimelineEvent OnTimelineActionAdded => _turns.TimeLineUpdated;
 
         public BattleEvent BattleEnd => _battleEnd;
 
-
-        public void Init(BattleInfo info, IBrainCollection brains)
+        public void Init(EncounterInfo info, MapInfo map, Squad squad, EnvironmentInfo defaultEnvironment,
+            EnvironmentInfo defaultObstacle,
+            IBrainCollection brains = null)
         {
+            TilemapPathFindingExtensions.ClearCache();
             //Assert.IsNotNull(brains, "Brains were null, ensure that the caller has a reference to a brain collection so it can work correctly");
             _battleEnd = new BattleEvent();
             if (brains == null)
             {
-                Debug.LogWarning("No actual brains set, falling back to a set of one random brain");
+                Debug.LogWarning("No actual brains set, falling back to a set of one default randombrain");
                 brains = new OneBrainCollection(new RandomTryoutsBrain(1000));
             }
 
             _turns = new Turns(this);
             _brains = brains;
-            _battleElements = new Tilemap(new Vector2Int(info.Size.x, info.Size.y), 2, info.DefaultEnvironment);
-            var specific = info.GetSpecificEnvironments();
+            _battleElements = new Tilemap(new Vector2Int(map.Size.x, map.Size.y), 2, defaultEnvironment);
+            var specific = map.GetSpecificEnvironments();
             if (specific != null && specific.Any())
                 foreach (var env in specific)
-                    _battleElements.SetEnvironment(env);
-            _allies = new List<Unit>();
-            var mid = info.Size.x / 2;
-            for (int i = 0; i < info.Squad.Units.Count; i++)
-            {
-                var item = new Unit(info.Squad.Units[i], ETeam.Player, new Vector2Int(i, 0),
-                    i == 2 ? EPhase.Both : (i % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
-                Assert.IsTrue(item.Position.Phase != EPhase.None);
-                _allies.Add(item);
-                _battleElements.SetUnit(item);
-            }
-
-            _ennemies = new List<Unit>();
-            for (int i = 0; i < info.Enemies.Units.Count; i++)
-            {
-                var enemy = info.Enemies.Units[i];
-                var pos = new Vector2Int(mid + (i % 2 == 0 ? 1 : -1) * ((i + 1) / 2), info.Size.y - 1);
-                var item = new Unit(enemy, ETeam.Enemy, pos,
-                    pos.x == mid ? EPhase.Both : (pos.x % 2 == 0 ? EPhase.Normal : EPhase.Ethered));
-                Assert.IsTrue(item.Position.Phase != EPhase.None);
-                _ennemies.Add(item);
-                _battleElements.SetUnit(item);
-            }
-
+                    if (env.Position.Phase != EPhase.None)
+                        _battleElements.SetEnvironment(
+                            env.VisualInformations.IsDefault &&
+                            env.allowedMovement == defaultObstacle.AllowedMovement
+                                ? new Environment(defaultObstacle, env.Position)
+                                : env);
+            var mid = map.Size.x / 2;
+            _allies = AddUnits(map.PlayerSpawns, squad, ETeam.Player);
+            _ennemies = AddUnits(map.EnemySpawns, info.Units, ETeam.Enemy);
             SubscribeToUnitsEvents();
+        }
+
+        private List<Unit> AddUnits(PositionData[] spawns, Squad squad, ETeam team)
+        {
+            List<Unit> list = new List<Unit>();
+            int min = Math.Min(squad.Units.Count, spawns.Length);
+            if (min != squad.Units.Count)
+            {
+                Debug.LogWarning(
+                    "The number of units exceeded the number of available spawn points, ensure the map has enough spawn points for the corresponding ecounter");
+            }
+
+            for (int i = 0; i < min; i++)
+            {
+                var pos = spawns[i];
+                var item = new Unit(squad.Units[i], team, pos.Position,
+                    pos.Phase);
+                list.Add(item);
+                _battleElements.SetUnit(item);
+                Assert.IsTrue((int)item.Position.Phase >= 0 && (int)item.Position.Phase < (int)EPhase.Both,
+                    " Enum values seems corrupted, probably due to unity automatically converting ticking everything and converting all bit to 1 for a negative value, avoid using everything in serialized fields");
+            }
+
+            return list;
         }
 
         private void SubscribeToUnitsEvents()
@@ -150,16 +160,30 @@ namespace BattleSystem
 
         private void UnitMoved(UnitMovementData arg0)
         {
-            _battleElements.RemoveUnit(arg0.path.Path[0]);
+            //foreach (var position in arg0.path.Path.Take(2))
+            //{
+            //    foreach (var t in _battleElements[position])
+            //    {
+            //        if (t.Unit != null && t.Unit == arg0.unit)
+            //            _battleElements.RemoveUnit(position);
+            //    }
+            //}
+            _battleElements.RemoveUnit(arg0.oldPosition);
             _battleElements.SetUnit(arg0.unit);
+            //TODO see in basic movement how we should handle the changes of the map in beetween because
+            //TilemapPathFindingExtensions.ClearCache();
         }
 
         public IEnumerable<Action> EnemyActions()
         {
             foreach (var ennemy in _ennemies)
             {
+                if (!ennemy.HealthInfo.Alive)
+                    continue;
                 var action = _brains.RandomBrain().GetDecision(ennemy, _battleElements);
-                Assert.IsTrue(action.HasTargets, "Action provided by brain doesn't have targets, fix Brain");
+                if (action == null)
+                    continue;
+                //Assert.IsTrue(action!=null && action.HasTargets, "Action provided by brain doesn't have targets, fix Brain");
                 yield return action;
             }
         }
@@ -204,10 +228,11 @@ namespace BattleSystem
         }
 
 
-        public IEnumerator NextTurn(float delay)
-        {
-            yield return _turns.NextTurn(delay);
+        public IEnumerator NextTurn(float delay, System.Action _onStep = null) {
+            yield return _turns.NextTurn(delay,_onStep);
+            yield return new WaitForSeconds(1f);
             CheckForEnd();
+            TilemapPathFindingExtensions.ClearCache();
         }
 
         private void CheckForEnd()
@@ -235,12 +260,28 @@ namespace BattleSystem
 
         public IEnumerator InitNewTurn(float delay)
         {
+            //TilemapPathFindingExtensions.ClearCache();
             yield return _turns.InitNewTurn(delay);
         }
 
         public bool CanStillAct(Unit unit)
         {
             return _turns.CanStillAct(unit);
+        }
+
+        public IEnumerable<PositionData> PossibleTargetPosition(Unit origin, IActionInfo action, bool absolute)
+        {
+            foreach (var target in _battleElements.TilesFlat)
+                if (TargetPreshot(action, origin, target.Unit, absolute) ||
+                    TargetPreshot(action, origin, target.Base, absolute))
+                    yield return target.Base.Position;
+        }
+
+        private bool TargetPreshot(IActionInfo action, Unit origin, IBattleElement target, bool checkPositionOnly)
+        {
+            return ((checkPositionOnly && action.IsTargetPositionValid(origin, target)) ||
+                    action.AreTargetsValid(origin, target)) &&
+                   action.CanExecuteOnMap(origin, new TargetCollection(target), _battleElements);
         }
     }
 }

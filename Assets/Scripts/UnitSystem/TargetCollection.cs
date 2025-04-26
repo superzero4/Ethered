@@ -11,7 +11,7 @@ namespace UnitSystem
         [Obsolete]
         int maxSize;
         public IBattleElement MainTarget => _target.Peek();
-        public TargetCollection(IBattleElement target, int maxSize) : this(new List<IBattleElement>() { target },
+        public TargetCollection(IBattleElement target, int maxSize = 1) : this(new List<IBattleElement>() { target },
             maxSize)
         {
         }

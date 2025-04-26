@@ -8,6 +8,7 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
+using Views.Battle.Selection;
 using Environment = BattleSystem.Environment;
 
 namespace Views.Battle
@@ -15,11 +16,25 @@ namespace Views.Battle
     public class EnvironmentView : AElementView<Environment>
     {
         [SerializeField] private Transform _modelsParent = null;
+        [SerializeField] private Selectable _selectable = null;
         private Renderer[] model = null;
         [SerializeField, ReadOnly] private Tile _tile;
+        [SerializeField] private Renderer[] _mainRenderer = null;
         private Renderer _mainRenderer1;
         public Tile Tile => _tile;
-        public void SetTile(Tile tile) => _tile = tile;
+
+        public Selectable Selectable => _selectable;
+
+
+        public void Init(Tile tile, EnvironmentView other)
+        {
+            _tile = tile;
+            if (other != null)
+            {
+                _selectable.Other = other._selectable;
+                other._selectable.Other = _selectable;
+            }
+        }
 
         protected override void Init(Grid grid)
         {
@@ -36,6 +51,11 @@ namespace Views.Battle
             }
         }
 
+        public void DisableModels()
+        {
+            foreach (Transform models in _modelsParent)
+                models.gameObject.SetActive(false);
+        }
 
         protected override Color GetColor()
         {
@@ -45,29 +65,18 @@ namespace Views.Battle
             {
                 case EPhase.Normal: color = Color.white; break;
                 case EPhase.Ethered: color = Color.blue; break;
-                case EPhase.Both: color = (Color.blue)/2f; break;
+                case EPhase.Both: color = (Color.blue) / 2f; break;
             }
+
             return color;
         }
 
-        protected override  void SetColor(Color color)
+        protected override void SetColor(Color color)
         {
             foreach (var renderer in model)
             {
                 renderer.material.color = color;
             }
-        }
-
-        public override void ToggleVisibility(bool state)
-        {
-            foreach (var renderer in model)
-                renderer.enabled = state;
-        }
-
-        public override void OnPhaseSelected(PhaseEventData arg0)
-        {
-            base.OnPhaseSelected(arg0);
-            ToggleVisibiltyFromPhase(arg0.phase);
         }
     }
 }

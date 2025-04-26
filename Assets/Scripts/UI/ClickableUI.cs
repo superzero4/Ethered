@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Common;
 using Common.Events;
 using Common.Events.UserInteraction;
@@ -25,6 +26,12 @@ namespace UI
         }
 
         public UnityEvent<EventArg> OnClick => _onClick;
+
+        public void Click()
+        {
+            if (interactable)
+                OnClick.Invoke(GetArgs());
+        }
 
         /// <summary>
         /// This is supposed to handle any internal logic/changes that should happen on click, it has the same information than the external that would subscribe to the method, possibly empty
@@ -53,7 +60,7 @@ namespace UI
         /// <returns>The arguments of specified type that will be raised with the event, typically a status represented by a field or other logic, continaing information about what was pressed</returns>
         protected abstract EventArg GetArgs();
 
-        public void Reset()
+        public virtual void Reset()
         {
             interactable = false;
         }

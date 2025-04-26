@@ -39,11 +39,13 @@ namespace Views.Battle.Animation
 
             playableGraph.Play();
         }
-        
+
         public void PlayOneShot(AnimationClip oneShotClip, bool loopUntilExited)
         {
+            if(!playableGraph.IsValid())
+                return;
             if (oneShotPlayable.IsValid() && oneShotPlayable.GetAnimationClip() == oneShotClip) return;
-
+            
             InterruptOneShot();
             oneShotPlayable = AnimationClipPlayable.Create(playableGraph, oneShotClip);
             animationMixer.ConnectInput(1, oneShotPlayable, 0);
@@ -51,26 +53,28 @@ namespace Views.Battle.Animation
 
             // Calculate blendDuration as 10% of clip length,
             // but ensure that it's not less than 0.1f or more than half the clip length
-            float blendDuration = BlendDuration(oneShotClip);
+            float blendDuration = BlendDuration(oneShotClip.length);
 
             BlendIn(blendDuration);
             if (!loopUntilExited)
                 BlendOut(blendDuration, oneShotClip.length - blendDuration);
         }
 
-        private static float BlendDuration(AnimationClip oneShotClip)
+        private static float BlendDuration(float oneShotClipDuration)
         {
-            float blendDuration = Mathf.Clamp(oneShotClip.length * 0.1f, 0.1f, oneShotClip.length * 0.5f);
+            float blendDuration = Mathf.Clamp(oneShotClipDuration * 0.1f, 0.1f, oneShotClipDuration * 0.5f);
             return blendDuration;
         }
 
         public void BlendOutNow()
         {
-            BlendOut(BlendDuration(oneShotPlayable.GetAnimationClip()), 0f);
+            BlendOut(oneShotPlayable.IsValid() ? BlendDuration(oneShotPlayable.GetAnimationClip().length) : 0f, 0f);
         }
 
         void BlendIn(float duration)
         {
+            if (blendInHandle != null)
+                runner.StopCoroutine(blendInHandle);
             blendInHandle = runner.StartCoroutine(Blend(duration, blendTime =>
             {
                 float weight = Mathf.Lerp(1f, 0f, blendTime);
@@ -81,6 +85,8 @@ namespace Views.Battle.Animation
 
         void BlendOut(float duration, float delay)
         {
+            if (blendOutHandle != null)
+                runner.StopCoroutine(blendOutHandle);
             blendOutHandle = runner.StartCoroutine(Blend(duration, blendTime =>
             {
                 float weight = Mathf.Lerp(0f, 1f, blendTime);
@@ -111,9 +117,9 @@ namespace Views.Battle.Animation
 
         void InterruptOneShot()
         {
-            if (blendInHandle != null)
+            if (blendInHandle != null && runner != null)
                 runner.StopCoroutine(blendInHandle);
-            if (blendOutHandle != null)
+            if (blendOutHandle != null && runner != null)
                 runner.StopCoroutine(blendOutHandle);
 
             SetRelativeWeights(1f);
@@ -126,6 +132,8 @@ namespace Views.Battle.Animation
 
         private void SetRelativeWeights(float weightOfFirstInput)
         {
+            if (!animationMixer.IsValid())
+                return;
             animationMixer.SetInputWeight(0, weightOfFirstInput);
             animationMixer.SetInputWeight(1, 1 - weightOfFirstInput);
         }
@@ -133,7 +141,8 @@ namespace Views.Battle.Animation
         void DisconnectOneShot()
         {
             animationMixer.DisconnectInput(1);
-            playableGraph.DestroyPlayable(oneShotPlayable);
+            if (oneShotPlayable.IsValid())
+                playableGraph.DestroyPlayable(oneShotPlayable);
         }
 
         public void Destroy()

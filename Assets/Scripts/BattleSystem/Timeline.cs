@@ -2,9 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BattleSystem.TileSystem;
 using Common.Events;
+using Common.Events.Combat;
 using Common.Events.UserInterface;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace BattleSystem
 {
@@ -18,12 +21,22 @@ namespace BattleSystem
 
         public IEnumerable<IBattleElement> Actors => _actions.Select(action => action.Origin);
 
-        public IEnumerator Execute(bool resetAfter, float delay = -1f)
+
+        public IEnumerator Execute(bool resetAfter, Tilemap map, float delay = -1f, System.Action onStep = null)
         {
             foreach (var action in _actions)
             {
-                action.Execute();
+                if (action.CanExecute(map))
+                    action.Execute();
+                else
+                {
+                    action.Origin.CancelAction(true);
+                    foreach (var target in action.TargetsEnumerable)
+                        target.CancelAction(false);
+                }
+
                 yield return delay > 0 ? new WaitForSeconds(delay) : null;
+                onStep?.Invoke();
             }
 
             if (resetAfter)
@@ -41,9 +54,9 @@ namespace BattleSystem
             _actions = actions;
         }
 
-        public void Append(Action action)
+        public void Prepend(Action action)
         {
-            Insert(_actions.Count, action);
+            Insert(0, action);
         }
 
         [Obsolete(
@@ -60,12 +73,12 @@ namespace BattleSystem
                 }
             }
 
-            Append(action);
+            Prepend(action);
         }
 
-        public void Prepend(Action action)
+        public void Append(Action action)
         {
-            Insert(0, action);
+            Insert(_actions.Count, action);
         }
 
         private void Insert(int index, Action action)

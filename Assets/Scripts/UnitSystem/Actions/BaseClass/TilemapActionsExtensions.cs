@@ -9,13 +9,43 @@ namespace BattleSystem.Actions
 {
     public static class TilemapActionsExtensions
     {
-        public static Action GetRandomValidAction(this Tilemap tiles,Unit unit, int maxTries)
+        public static IEnumerable<Action> GetAllValidActions(this Tilemap map, Unit source, float f)
+        {
+            Action a = null;
+            foreach (var actionInfo in source.Info.Actions)
+            {
+                bool TryAppend(IBattleElement target, out Action action)
+                {
+                    action = null;
+                    if (target == null)
+                        return false;
+                    action = new Action(source, actionInfo);
+
+                    if (action.TryAppendTargets(source, target))
+                        if (action.CanExecute(map))
+                            return true;
+
+                    action = null;
+                    return false;
+                }
+
+                foreach (var tile in map.TilesFlat)
+                {
+                    if (TryAppend(tile.Base, out a))
+                        yield return a;
+                    if (TryAppend(tile.Unit, out a))
+                        yield return a;
+                }
+            }
+        }
+
+        public static Action GetRandomValidAction(this Tilemap tiles, Unit unit, float unitPriority, int maxTries)
         {
             int i = 0;
             Action action = null;
             for (i = 0; i < maxTries; i++)
             {
-                if (tiles.TryGetRandomValidAction(unit, out action))
+                if (tiles.TryGetRandomValidAction(unit, out action, unitPriority))
                 {
                     if (action.CanExecute(tiles))
                     {
@@ -27,11 +57,12 @@ namespace BattleSystem.Actions
             return null;
         }
 
-        public static bool TryGetRandomValidAction(this Tilemap Tiles, Unit unit, out Action action)
+        public static bool TryGetRandomValidAction(this Tilemap Tiles, Unit unit, out Action action,
+            float probalityOfTargetingUnit = .5f)
         {
             var Size = Tiles.Size;
             IBattleElement target;
-            bool targetTile = UnityEngine.Random.Range(0, 1f) >= .5f;
+            bool targetTile = UnityEngine.Random.Range(0, 1f) >= probalityOfTargetingUnit;
             if (targetTile)
             {
                 var ph = Random.Range(1, 3);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Common;
 using UnitSystem;
@@ -9,37 +10,43 @@ using UnityEngine.Serialization;
 
 namespace UI.Battle
 {
-    public class UnitUI : MonoBehaviour, IVisualInformationUI
+    public class UnitUI : MonoBehaviour, IVisualInformationUI, IReset
     {
         [SerializeField] private List<ActionUI> _actionUIs;
         [SerializeField] private InfoUI _unitUI;
-        private DynamicHideAndShow<ActionUI> _dynamicHideAndShow;
+        [SerializeReference] private Pool<ActionUI> _pool;
 
-        public IEnumerable<ActionUI> ActionUIs => _actionUIs;
+        public ActionUI[] ActionUIRead => _actionUIs.ToArray();
 
         public void Initialize()
         {
-            _dynamicHideAndShow = new DynamicHideAndShow<ActionUI>(_actionUIs);
+            _pool = new Pool<ActionUI>(_actionUIs);
         }
 
         //TODO implement grayScale by refactoring logic used for action, make it also valid for unit icons
         public void SetUnit(Unit unit, bool displayAction, bool greyPortrait)
         {
             var unitInfo = unit?.Info;
-            (this as IVisualInformationUI).SetIcon(unitInfo);
+            (this as IVisualInformationUI).SetIcon(unit);
             if (unitInfo == null || unitInfo.Actions == null || !displayAction)
             {
-                _dynamicHideAndShow.Reset();
+                _pool.Reset();
                 return;
             }
-            
-            _dynamicHideAndShow.SetPanels(unit.Info.Actions,
+
+            _pool.SetElements(unit.Info.Actions,
                 (action, actionUI) => { actionUI.SetAction(action, action.CouldUnitExecute(unit)); });
         }
 
-        public void SetInfo(VisualInformations info)
+        public void SetInfo(VisualInformations? info, IEnumerable<IIcon.IconText> additionalInformations)
         {
-            _unitUI.SetInfo(info);
+            _unitUI.SetInfo(info, additionalInformations);
+        }
+
+        public void Reset()
+        {
+            _pool.Reset();
+            ResetActionUIs();
         }
 
         public void ResetActionUIs(ActionUI except = null)

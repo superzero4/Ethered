@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using BattleSystem;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace UnitSystem.Actions.Bases
@@ -12,7 +13,7 @@ namespace UnitSystem.Actions.Bases
     [Serializable]
     public abstract class ActionInfoCompleteSO : ActionInfoBaseSO, IActionInfo
     {
-        [SerializeField] private EPhase _originPhase;
+        [SerializeField,EnumFlags] private EPhase _originPhase;
         [Tooltip("Will mostly be a one element lits, target will be valid if it matches at least one of the target definitions (For instance an ability could have a different reach depending on the target's phase)")]
         [SerializeField] private List<TargetDefinition> _target;
         [SerializeField,Range(0,10)] private int _nbTargets = 1;

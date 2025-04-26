@@ -17,25 +17,52 @@ namespace Views.Battle.Animation
         Hurt = 3,
         Death = 4,
         Healed = 5,
+        Shoot = 6,
+        TurnL = 7,
+        TurnR = 8,
+        Cast = 9,
+        Cancel = 10,
+        Celebrate = 11,
     }
 
     [CreateAssetMenu(fileName = "AnimationList", menuName = "AnimationList", order = 0)]
     public class AnimationList : ScriptableObject
     {
         [Serializable]
+        public struct AnimationWithTrigger
+        {
+            [SerializeField] private bool _disable;
+            [SerializeField] private AnimationClip _clip;
+            [SerializeField, Range(0, 1f)] private float _triggerTime;
+
+            public AnimationWithTrigger(AnimationClip clip, float triggerTime = 0f, bool disable = false)
+            {
+                _clip = clip;
+                _triggerTime = triggerTime;
+                this._disable = disable;
+            }
+
+            public AnimationClip Clip => _clip;
+
+            public float TriggerTime => _triggerTime;
+
+            public bool Disable => _disable;
+        }
+
+        [Serializable]
         private struct AnimationKV
         {
             [SerializeField] private AnimationType _type;
-            [SerializeField] private List<AnimationClip> _animations;
+            [SerializeField] private List<AnimationWithTrigger> _animations;
 
-            public AnimationKV(AnimationType type, List<AnimationClip> animations)
+            public AnimationKV(AnimationType type, List<AnimationWithTrigger> animations)
             {
                 _type = type;
                 _animations = animations;
             }
 
             public AnimationType Type => _type;
-            public List<AnimationClip> Animations => _animations;
+            public List<AnimationWithTrigger> Animations => _animations;
         }
 
         [InfoBox(
@@ -43,9 +70,9 @@ namespace Views.Battle.Animation
         [SerializeField]
         private List<AnimationKV> _animationsList;
 
-        private Dictionary<AnimationType, List<AnimationClip>> _animations;
+        private Dictionary<AnimationType, List<AnimationWithTrigger>> _animations;
 
-        public AnimationClip this[AnimationType t]
+        public AnimationWithTrigger this[AnimationType t]
         {
             get
             {
@@ -56,11 +83,11 @@ namespace Views.Battle.Animation
                 {
                     Debug.LogError(
                         $"Animation type {t} not found in list {this.name}, returning null animation, consider fixing it");
-                    return null;
+                    return default;
                 }
 
-                var l = _animations[t];
-                return l[UnityEngine.Random.Range(0, l.Count)];
+                var l = _animations[t].Where(t => !t.Disable).ToArray();
+                return l[UnityEngine.Random.Range(0, l.Length)];
             }
         }
 
@@ -77,7 +104,7 @@ namespace Views.Battle.Animation
                 if (_animations.ContainsKey(kv.Type))
                     _animations[kv.Type].AddRange(kv.Animations);
                 else
-                    _animations.Add(kv.Type, new List<AnimationClip>(kv.Animations));
+                    _animations.Add(kv.Type, new List<AnimationWithTrigger>(kv.Animations));
             }
         }
 #if UNITY_EDITOR
@@ -92,14 +119,14 @@ namespace Views.Battle.Animation
         [Button("Fill with search", EButtonEnableMode.Editor)]
         public void FillWithSearch()
         {
-            var element = new AnimationKV(_typeToFillWithSearch, new List<AnimationClip>());
+            var element = new AnimationKV(_typeToFillWithSearch, new List<AnimationWithTrigger>());
             foreach (var guid in AssetDatabase.FindAssets("t:AnimationClip", new[] { root }))
             {
                 var path = AssetDatabase.GUIDToAssetPath(guid);
                 var anim = AssetDatabase.LoadAssetAtPath<AnimationClip>(path);
                 Regex regex = new Regex(_search);
                 if (anim != null && regex.IsMatch(anim.name))
-                    element.Animations.Add(anim);
+                    element.Animations.Add(new AnimationWithTrigger(anim));
             }
 
             if (element.Animations.Count > 0)

@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be1fcc23db1945d5a3b9653875272df9, type: 3}
+  m_Name: DummyBattle
+  m_EditorClassIdentifier: 
+  _units:
+    _units:
+    - _maxHealth: 1
+      _armor: 0
+      _actionCollection: {fileID: 11400000, guid: e0927b309688d7e4c86939d12d43d9bd, type: 2}
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 852a52076e29c08488f785a7b2071b5c, type: 3}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Dummy
+        _description: Target practice
+        _grayScale: {fileID: 0}
+      _unitSpecificAdditionalInfos: []
+    - _maxHealth: 1
+      _armor: 0
+      _actionCollection: {fileID: 11400000, guid: e0927b309688d7e4c86939d12d43d9bd, type: 2}
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 852a52076e29c08488f785a7b2071b5c, type: 3}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Dummy 2
+        _description: Target practice
+        _grayScale: {fileID: 0}
+      _unitSpecificAdditionalInfos: []
+    _upgrades: []
+  _defaultUnit:
+    _maxHealth: 20
+    _armor: 0
+    _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
+    _visualInformations:
+      _sprite: {fileID: 21300000, guid: 9a6c196d611eade4c9dd6343fd710631, type: 3}
+      _color: {r: 0, g: 0, b: 0, a: 0}
+      _name: 
+      _description: 
+      _grayScale: {fileID: 0}
+    _unitSpecificAdditionalInfos: []

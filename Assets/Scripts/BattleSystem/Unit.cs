@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BattleSystem;
 using BattleSystem.TileSystem;
 using Common.Events;
@@ -17,6 +18,8 @@ namespace UnitSystem
         [SerializeField] private ETeam _team;
         [SerializeField] private UnitMovementEvent _onUnitMoves;
         [SerializeField] private UnitHealthEvent _onUnitHealthChange;
+        [SerializeField] private UnitAttackEvent _onUnitAttack;
+        [SerializeField] private UnitCancelEvent _onCancel;
         [SerializeField] private int _currentHealth;
         private int _health;
         public UnitInfo Info => _info;
@@ -29,10 +32,13 @@ namespace UnitSystem
             _position = new PositionData(position, phase);
             _onUnitMoves = new UnitMovementEvent();
             _onUnitHealthChange = new UnitHealthEvent();
+            _onUnitAttack = new UnitAttackEvent();
+            _onCancel = new UnitCancelEvent();
         }
+
         public void Move(PathWrapper newPosition)
         {
-            var eventData = new UnitMovementData() { unit = this, path = newPosition };
+            var eventData = new UnitMovementData() { oldPosition = _position, unit = this, path = newPosition };
             _position = newPosition.Path[^1];
             _onUnitMoves?.Invoke(eventData);
         }
@@ -44,12 +50,13 @@ namespace UnitSystem
 
         public ETeam Team => _team;
 
-        public EAllowedMovement allowedMovement => EAllowedMovement.Cross;
+        public EAllowedMovement allowedMovement => HealthInfo.Alive ? EAllowedMovement.Cross : EAllowedMovement.Stop;
 
         public VisualInformations VisualInformations => _info.VisualInformations;
 
         public UnitMovementEvent OnUnitMoves => _onUnitMoves;
         public UnitHealthEvent OnUnitHealthChange => _onUnitHealthChange;
+        public UnitAttackEvent OnUnitAttack => _onUnitAttack;
         public IHealth HealthInfo => this;
 
         int IHealth.CurrentHealth
@@ -63,6 +70,8 @@ namespace UnitSystem
         //TODO implement that using the unit info and upgrade system if it reveals to be used, calling code use this even if it's currently a constant value
         public int ActionsPerTurn => 1;
 
+        public UnitCancelEvent OnCancel => _onCancel;
+
 
         void IHealth.TakeDamageUncapped(int damage, IBattleElement source)
         {
@@ -70,6 +79,31 @@ namespace UnitSystem
                 { unit = this, oldHealth = _currentHealth, direction = _position.Position - source.Position.Position };
             _currentHealth -= damage;
             _onUnitHealthChange?.Invoke(data);
+        }
+
+        public void Attack(IEnumerable<IBattleElement> targetCollectionTargets, int damage, bool requiredLos)
+        {
+            var direction = targetCollectionTargets.First().Position.Position - this.Position.Position;
+            this._onUnitAttack.Invoke(new UnitAttackData()
+            {
+                unit = this,
+                direction = direction,
+                needLos = requiredLos,
+                manhattandistance = direction.x + direction.y,
+            });
+            foreach (var target in targetCollectionTargets)
+            {
+                target.TakeDamage(damage, this);
+            }
+        }
+
+        public IEnumerable<IIcon.IconText> AdditionalIconTexts() => _info.IconTexts.Append(new IIcon.IconText(
+            IIcon.IconType.Health,
+            _currentHealth.ToString() + "/" + MaxHealth.ToString()));
+
+        public void CancelAction(bool isCancelTarget)
+        {
+            _onCancel.Invoke(new UnitCancelEventData(isCancelTarget));
         }
     }
 }

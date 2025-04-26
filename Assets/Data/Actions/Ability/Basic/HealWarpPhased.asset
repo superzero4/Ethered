@@ -16,9 +16,9 @@ MonoBehaviour:
     _sprite: {fileID: 21300000, guid: 60edb7dedd3ea694292145e8de8e05b8, type: 3}
     _color: {r: 1, g: 1, b: 1, a: 1}
     _name: Phased heal
-    _description: Heal an ally in the same phase as you
+    _description: Heal an ally
     _grayScale: {fileID: 0}
-  _originPhase: -1
+  _originPhase: 3
   _target:
   - _range: 7
     _targetType: 2

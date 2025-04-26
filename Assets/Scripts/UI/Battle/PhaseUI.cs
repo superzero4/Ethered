@@ -1,28 +1,79 @@
 using System;
+using System.Linq;
 using BattleSystem;
 using Common.Events;
+using Common.Events.UserInteraction;
 using Common.Events.UserInterface;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Views.Battle;
 
 namespace UI.Battle
 {
-    public class PhaseUI : MonoBehaviour , IPhaseView
+    public class PhaseUI : MonoBehaviour, IPhaseView
     {
-        [SerializeField] private GameObject _normal;
-        [SerializeField] private GameObject _ethered;
-        public void OnPhaseSelected(PhaseEventData data)
+        [SerializeField] private bool _invert = true;
+
+        [SerializeField, Tooltip("Color lerp instead")]
+        private bool _alphaFade = false;
+
+        [SerializeField] private UnityEngine.UI.Button _normal;
+        [SerializeField] private UnityEngine.UI.Image[] _normalImages;
+        [SerializeField] private UnityEngine.UI.Button _ethered;
+        [SerializeField] private UnityEngine.UI.Image[] _etheredImages;
+
+        [SerializeField] private UnityEngine.UI.Image[] _commons;
+        [SerializeField] private UnityEvent _onClick = new();
+        [SerializeField] Color _normalColor;
+        [SerializeField] Color _etheredColor;
+
+        public void Initialize(bool startActive)
         {
-            if(data.phase == EPhase.Normal)
+            _normal.onClick.AddListener(_onClick.Invoke);
+            if (_normal != _ethered)
+                _ethered.onClick.AddListener(_onClick.Invoke);
+            if (!startActive)
+                ToggleVisibility(false);
+        }
+        public void ToggleVisibility(bool visible)
+        {
+            gameObject.SetActive(visible);
+        }
+
+        public float Progress
+        {
+            set
             {
-                _normal.SetActive(true);
-                _ethered.SetActive(false);
+                if (_invert)
+                    value = 1 - value;
+                var lerp = Color.Lerp(_normalColor, _etheredColor, value);
+                if (_alphaFade)
+                {
+                    _normal.image.color = SetAlpha(_normal.image.color, 1 - value);
+                    _ethered.image.color = SetAlpha(_ethered.image.color, value);
+                }
+                else
+                {
+                    var ilerp = Color.Lerp(_etheredColor, _normalColor, value);
+                    foreach (var image in _normalImages)
+                        image.color = lerp;
+
+                    foreach (var image in _etheredImages)
+                        image.color = ilerp;
+                }
+
+                foreach (var image in _commons)
+                    image.color = lerp;
             }
-            else
-            {
-                _normal.SetActive(false);
-                _ethered.SetActive(true);
-            }
+        }
+
+        public UnityEvent OnClick => _onClick;
+
+        private Color SetAlpha(Color color, float alpha)
+        {
+            color.a = alpha;
+            return color;
         }
     }
 }
