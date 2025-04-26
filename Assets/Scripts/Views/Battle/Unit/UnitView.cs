@@ -108,9 +108,7 @@ namespace Views.Battle
                 if (pos == arg0.oldPosition) //If we are on the start
                     continue;
                 var dir = (Vector2)pos.Position - last.Position;
-                Assert.IsTrue(
-                    (dir.magnitude == 1 && pos.Phase == last.Phase) || (dir.magnitude == 0 && pos.Phase != last.Phase),
-                    $"Invalid movement {dir} {last} to {pos}  with a magnitude higher than 1 or switching phase with a magnitude higher than 0");
+                //Assert.IsTrue((dir.magnitude == 1 && pos.Phase == last.Phase) || (dir.magnitude == 0 && pos.Phase != last.Phase), $"Invalid movement {dir} {last} to {pos}  with a magnitude higher than 1 or switching phase with a magnitude higher than 0");
                 var turn = TweenTurn(lastDir, dir, out bool snap, out bool left);
                 if (!snap)
                     seq.append(() => { _unitAnimations.Turn(left); });
@@ -118,7 +116,7 @@ namespace Views.Battle
                 seq.append(() => { SetColor(); });
                 if (pos.Phase != last.Phase)
                     seq.append(() => SyncPhase());
-                else
+                if (dir.x != 0 || dir.y != 0)
                     seq.append(() => { _unitAnimations.Move(); });
                 seq.append(LeanTween.move(_root.gameObject, _grid.PhasedCellToWorld(pos),
                     _unitAnimations.MoveTime));
