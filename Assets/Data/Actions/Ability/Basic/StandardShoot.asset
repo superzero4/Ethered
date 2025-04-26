@@ -16,7 +16,7 @@ MonoBehaviour:
     _sprite: {fileID: 21300000, guid: b42d72a66c3f81644b649164fe3254c7, type: 3}
     _color: {r: 1, g: 1, b: 1, a: 1}
     _name: Standard shot
-    _description: Damage an ennemy that you can see in the same phase
+    _description: Damage an ennemy that you can see
     _grayScale: {fileID: 0}
   _originPhase: 3
   _target:

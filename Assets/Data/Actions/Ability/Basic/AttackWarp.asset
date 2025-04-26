@@ -16,7 +16,7 @@ MonoBehaviour:
     _sprite: {fileID: 21300000, guid: dbdce2d58a1ba134bad7a6b1e48556bc, type: 3}
     _color: {r: 1, g: 1, b: 1, a: 1}
     _name: Distant attack
-    _description: Damage an ennemy in the same phase
+    _description: Damage an ennemy from above
     _grayScale: {fileID: 0}
   _originPhase: 3
   _target:
