@@ -112,7 +112,14 @@ namespace LevelSystem
             battle.BattleEnd.AddListener(OnBattleEnd);
             if (_autoEnd)
                 _userInput.Dev.AddListener(e => ForceEnd());
-            AnimateBattleView(precedent, current);
+            LeanTween.sequence()
+                .append(AnimateBattleView(precedent, current))
+                .append(() =>
+                {
+                    _ui.PhaseUI.ToggleVisibility(!current.OnlyOnePhase);
+                    _selector.ShowCursor = true;
+                });
+        }
 
         private void PlaceGrid(Level current)
         {
