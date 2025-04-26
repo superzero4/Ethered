@@ -20,7 +20,7 @@ namespace Views.Phase
         //On the displayed phase changed
         public void OnPhaseChanged(PhaseEventData data)
         {
-            if (data.targetPhase == _shownPhase)
+            if (data.targetPhase != _shownPhase)
             {
                 _shownPhase = data.targetPhase;
                 //We cancel any running tween that would be working on the scale for this specific object, when this method is call we update all globally the objects that depends on a phase
