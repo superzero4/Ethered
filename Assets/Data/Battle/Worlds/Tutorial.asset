@@ -70,7 +70,7 @@ MonoBehaviour:
     _battle: {fileID: 11400000, guid: 73d592778fc517947a7253233d649979, type: 2}
     _map: {fileID: 11400000, guid: fcdf04c654ae1884cb5426662f166370, type: 2}
     _showTileModels: 0
-    _position: {x: -2.2802057, y: 14.63, z: 15.566511}
+    _position: {x: -2.2802057, y: 14.73, z: 15.566511}
     _rotation: {x: -0, y: 342.3187, z: 0}
   PreludePosition:
     _playerActionsOverride: []
