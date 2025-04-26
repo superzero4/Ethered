@@ -20,66 +20,6 @@ using UnityEngine.Assertions;
 namespace BattleSystem
 {
     [Serializable]
-    public class Turns : IReset
-    {
-        private Timeline _timeline;
-        private Battle _battle;
-        private int _currentTurn = 0;
-
-        //TODO refactor double coupling by making the BrainCollection have a reference to the tilemap on creation and forwarding it to the brains, (because it's class) and therefore Turns could work withe the brains list directly without necistating the whole Battle/Tilemap
-        public Turns(Battle battle)
-        {
-            Init(battle);
-        }
-
-        public TimelineEvent TimeLineUpdated => _timeline.TimeLineUpdated;
-
-
-        private void Init(Battle battle)
-        {
-            _currentTurn = 0;
-            _timeline = new Timeline();
-            _timeline.Initialize(new List<Action>());
-            _battle = battle;
-        }
-
-        public IEnumerator NextTurn(float delay = .1f, System.Action _onStep = null)
-        {
-            yield return _timeline.Execute(true, _battle.Tiles, delay, _onStep);
-            if (delay > 0f)
-                yield return new WaitForSeconds(delay);
-            yield return InitNewTurn(delay);
-            _currentTurn++;
-        }
-
-        public IEnumerator InitNewTurn(float delay = .1f)
-        {
-            foreach (var action in _battle.EnemyActions())
-            {
-                _timeline.Prepend(action);
-                yield return new WaitForSeconds(delay);
-            }
-        }
-
-        public void AddAction(Action action)
-        {
-            _timeline.Prepend(action);
-        }
-
-        public void Reset()
-        {
-            Init(_battle);
-        }
-
-        public bool CanStillAct(Unit unit)
-        {
-            return unit != null && unit.HealthInfo.Alive && (unit.ActionsPerTurn == 1
-                ? _timeline.Actors.All(a => a != unit)
-                : _timeline.Actors.Count(a => a == unit) < unit.ActionsPerTurn);
-        }
-    }
-
-    [Serializable]
     public class Battle
     {
         [SerializeField] private List<Unit> _allies;
@@ -96,6 +36,7 @@ namespace BattleSystem
         public BattleEvent BattleEnd => _battleEnd;
 
         public bool AlliesCanAct => _allies.Any(a => _turns.CanStillAct(a));
+
         public void Init(EncounterInfo info, MapInfo map, Squad squad, EnvironmentInfo defaultEnvironment,
             EnvironmentInfo defaultObstacle,
             IBrainCollection brains = null)
@@ -121,7 +62,6 @@ namespace BattleSystem
                             env.allowedMovement == defaultObstacle.AllowedMovement
                                 ? new Environment(defaultObstacle, env.Position)
                                 : env);
-            var mid = map.Size.x / 2;
             _allies = AddUnits(map.PlayerSpawns, squad, ETeam.Player);
             _ennemies = AddUnits(map.EnemySpawns, info.Units, ETeam.Enemy);
             SubscribeToUnitsEvents();
@@ -229,9 +169,10 @@ namespace BattleSystem
         }
 
 
-        public IEnumerator NextTurn(float delay, System.Action _onStep = null) {
-            yield return _turns.NextTurn(delay,_onStep);
-            yield return new WaitForSeconds(1f);
+        public IEnumerator NextTurn(float delay, System.Action _onStep = null)
+        {
+            yield return _turns.NextTurn(delay, _onStep);
+            yield return new WaitForSeconds(0.5f);
             CheckForEnd();
             TilemapPathFindingExtensions.ClearCache();
         }
