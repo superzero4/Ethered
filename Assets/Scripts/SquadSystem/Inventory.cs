@@ -1,22 +1,23 @@
 using System.Collections.Generic;
+using SquadSystem.Items;
 using UnityEngine;
 
 namespace SquadSystem
 {
     public class Inventory : MonoBehaviour
     {
-        [SerializeField] private Dictionary<string, int> inventory; // TODO : make the class serializable
+        [SerializeField] private Dictionary<Item, int> inventory; // TODO : make the class serializable
         
         private void Awake()
         {
-            inventory = new Dictionary<string, int>();
+            inventory = new Dictionary<Item, int>();
         }
         
         /// <summary>
         /// Add an item to the inventory
         /// </summary>
         /// <param name="item"></param>
-        public void AddItem(string item)
+        public void AddItem(Item item)
         {
             AddItem(item, 1);
         }
@@ -26,9 +27,9 @@ namespace SquadSystem
         /// </summary>
         /// <param name="item"></param>
         /// <param name="quantity"></param>
-        public void AddItem(string item, int quantity)
+        public void AddItem(Item item, int quantity)
         {
-            inventory ??= new Dictionary<string, int>();
+            inventory ??= new Dictionary<Item, int>();
             if (!inventory.TryAdd(item, quantity))
             {
                 inventory[item] += quantity;
@@ -39,7 +40,7 @@ namespace SquadSystem
         /// Remove an item from the inventory
         /// </summary>
         /// <param name="item"></param>
-        public void RemoveItem(string item)
+        public void RemoveItem(Item item)
         {
             if (!inventory.ContainsKey(item)) return;
             inventory.Remove(item);
@@ -50,7 +51,7 @@ namespace SquadSystem
         /// </summary>
         /// <param name="item"></param>
         /// <param name="quantity"></param>
-        public void RemoveItem(string item, int quantity)
+        public void RemoveItem(Item item, int quantity)
         {
             if (!inventory.ContainsKey(item) || inventory[item] < quantity) return;
             inventory[item] -= quantity;
@@ -65,7 +66,7 @@ namespace SquadSystem
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public bool ContainsItem(string item)
+        public bool ContainsItem(Item item)
         {
             return inventory.ContainsKey(item);
         }
@@ -76,7 +77,7 @@ namespace SquadSystem
         /// <param name="item"></param>
         /// <param name="quantity"></param>
         /// <returns></returns>
-        public bool ContainsItem(string item, int quantity)
+        public bool ContainsItem(Item item, int quantity)
         {
             return inventory.TryGetValue(item, out int value) && value >= quantity;
         }
@@ -86,7 +87,7 @@ namespace SquadSystem
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public int GetItemCount(string item)
+        public int GetItemCount(Item item)
         {
             return inventory.TryGetValue(item, out int value) ? value : 0;
         }
@@ -95,9 +96,9 @@ namespace SquadSystem
         /// Get the list of items in the inventory
         /// </summary>
         /// <returns></returns>
-        public List<string> GetItems()
+        public List<Item> GetItems()
         {
-            return new List<string>(inventory.Keys);
+            return new List<Item>(inventory.Keys);
         }
         
         /// <summary>
@@ -121,7 +122,7 @@ namespace SquadSystem
         /// Get the inventory
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, int> GetInventory()
+        public Dictionary<Item, int> GetInventory()
         {
             return inventory;
         }
@@ -130,7 +131,7 @@ namespace SquadSystem
         /// Set the inventory
         /// </summary>
         /// <param name="newInventory"></param>
-        public void SetInventory(Dictionary<string, int> newInventory)
+        public void SetInventory(Dictionary<Item, int> newInventory)
         {
             inventory = newInventory;
         }

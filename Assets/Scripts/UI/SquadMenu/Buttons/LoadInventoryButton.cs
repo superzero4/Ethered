@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SquadSystem.Items;
 using SquadSystem.UI;
 using UnityEngine;
 
@@ -17,14 +18,14 @@ namespace SquadSystem.Buttons
         /// </summary>
         public void LoadInventory()
         {
-            Dictionary<string, int> inventory = inventoryReference.GetInventory();
+            Dictionary<Item, int> inventory = inventoryReference.GetInventory();
             
-            foreach (KeyValuePair<string, int> item in inventory)
+            foreach (KeyValuePair<Item, int> item in inventory)
             {
                 GameObject inventoryItem = Instantiate(inventoryItemPrefab, inventoryContainer.transform);
                 InventoryUI inventoryUI = inventoryItem.GetComponent<InventoryUI>();
                 inventoryUI.SetParameters(
-                    item.Key, 
+                    item.Key.GetItemName(), 
                     item.Value
                     );
             }

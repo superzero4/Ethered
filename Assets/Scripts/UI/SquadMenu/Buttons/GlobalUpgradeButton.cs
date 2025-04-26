@@ -40,5 +40,17 @@ namespace SquadSystem.Buttons
             // Add the upgrade to the list of upgrades
             upgradeList.AddUpgrade(upgrade);
         }
+
+        /// <summary>
+        /// Set the parameters of the upgrade button
+        /// </summary>
+        /// <param name="upgrade"></param>
+        public void SetParameters(Upgrade upgrade)
+        {
+            this.upgrade = upgrade;
+            squadClass = FindFirstObjectByType<SquadClass>();
+            squadMenu = FindFirstObjectByType<SquadMenu>();
+            upgradeList = FindFirstObjectByType<UpgradeList>();
+        }
     }
 }

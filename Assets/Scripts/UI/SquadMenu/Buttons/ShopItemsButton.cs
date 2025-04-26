@@ -1,12 +1,11 @@
+using SquadSystem.Items;
 using UnityEngine;
 
 namespace SquadSystem.Buttons
 {
     public class ShopItemsButton : MonoBehaviour
     {
-        [SerializeField] private string itemName;
-        [SerializeField] private int coinsCost;
-        [SerializeField] private int etherCost;
+        [SerializeField] private Item itemRef;
         [SerializeField] private int quantity = 1; // Default quantity is 1
         [SerializeField] private Inventory inventoryRef;
         [SerializeField] private SquadClass squadClass;
@@ -17,6 +16,9 @@ namespace SquadSystem.Buttons
         /// </summary>
         public void OnClick()
         {
+            int coinsCost = itemRef.GetItemCoinsCost();
+            int etherCost = itemRef.GetItemEtherCost();
+            
             // Check if the player has enough coins or ether to buy the item
             if (squadClass.Coins < coinsCost || squadClass.Ether < etherCost)
             {
@@ -27,7 +29,20 @@ namespace SquadSystem.Buttons
             squadMenu.UpdateCoins(-coinsCost);
             squadMenu.UpdateEther(-etherCost);
             
-            inventoryRef.AddItem(itemName, quantity);
+            inventoryRef.AddItem(itemRef, quantity);
+        }
+
+        /// <summary>
+        /// Set the parameters of the shop item button
+        /// </summary>
+        /// <param name="item"></param>
+        public void SetParameters(Item item)
+        {
+            itemRef = item;
+            quantity = 1; // Default quantity is 1
+            inventoryRef = FindFirstObjectByType<Inventory>();
+            squadClass = FindFirstObjectByType<SquadClass>();
+            squadMenu = FindFirstObjectByType<SquadMenu>();
         }
     }
 }

@@ -1,4 +1,5 @@
 using Common.GlobalFlow;
+using SquadSystem.Items;
 using TMPro;
 using UnitSystem;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace SquadSystem
         [SerializeField] private SquadClass squadClass;
         [SerializeField] private UpgradeList upgradeList;
         [SerializeField] private Inventory inventory;
+        [SerializeField] private Shop shop;
         
         private Squad Squad { get; set; }
 
@@ -23,7 +25,8 @@ namespace SquadSystem
             Squad = squadClass.GetSquad();
             coinsText.SetText(Squad.Coins.ToString());
             etherText.SetText(Squad.Ether.ToString());
-            InitInventory();
+            shop.GenerateSquadMemberShopWithTheList(2);
+            //shop.GenerateGlobalUpgradesShopWithTheList(2);
         }
         
         /// <summary>
@@ -58,15 +61,6 @@ namespace SquadSystem
             squadClass.Ether += value;
             
             etherText.SetText(squadClass.Ether.ToString());
-        }
-        
-        /// <summary>
-        /// Temporary method to initialize the inventory
-        /// </summary>
-        private void InitInventory()
-        {
-            inventory.AddItem("Health Kit", 5);
-            inventory.AddItem("Grenade", 3);
         }
 
         public void GoToNextScene()

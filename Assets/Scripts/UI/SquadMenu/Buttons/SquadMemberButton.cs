@@ -35,6 +35,23 @@ namespace SquadSystem.Buttons
             
             squadClass.AddUnit(unitInfo);
         }
-        
+
+        /// <summary>
+        /// Set the parameters of the squad member button
+        /// </summary>
+        /// <param name="maxHealth"></param>
+        /// <param name="armor"></param>
+        /// <param name="coinsCost"></param>
+        /// <param name="etherCost"></param>
+        public void SetParameters(int maxHealth, int armor, int coinsCost, int etherCost)
+        {
+            this.maxHealth = maxHealth;
+            this.armor = armor;
+            this.coinsCost = coinsCost;
+            this.etherCost = etherCost;
+            squadClass = FindFirstObjectByType<SquadClass>();
+            squadMenu = FindFirstObjectByType<SquadMenu>();
+        }
+
     }
 }
