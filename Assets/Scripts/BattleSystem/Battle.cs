@@ -183,6 +183,8 @@ namespace BattleSystem
         {
             foreach (var ennemy in _ennemies)
             {
+                if (!ennemy.HealthInfo.Alive)
+                    continue;
                 var action = _brains.RandomBrain().GetDecision(ennemy, _battleElements);
                 if (action == null)
                     continue;
