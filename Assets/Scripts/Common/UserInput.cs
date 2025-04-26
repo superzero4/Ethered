@@ -18,8 +18,8 @@ namespace Common
         public UnityEvent EndTurn => _endTurn;
         [SerializeField] private KeyCode action1 = KeyCode.Alpha1;
         [SerializeField, Range(0, 10)] private int _maxActions = 5;
-        private UnityEvent<int> _action0 = new();
-        public UnityEvent<int> Action0 => _action0;
+        private UnityEvent<int> _action = new();
+        public UnityEvent<int> Action => _action;
         [SerializeField] private KeyCode[] resetKey = new[] { KeyCode.Escape };
         [SerializeField, Range(1, 4)] private int ResetMouseButton = 1;
         private ResetEvent _reset = new();
@@ -44,7 +44,7 @@ namespace Common
             CheckKey(confirmKey, _confirm);
             for (int i = 0; i < _maxActions; i++)
                 if (Input.GetKeyDown(action1 + i))
-                    _action0.Invoke(i);
+                    _action.Invoke(i);
             if (Input.GetMouseButtonDown(ResetMouseButton))
                 _reset.Invoke();
             for (var i = 0; i < resetKey.Length; i++)
