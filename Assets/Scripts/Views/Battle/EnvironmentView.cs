@@ -19,12 +19,22 @@ namespace Views.Battle
         [SerializeField] private Selectable _selectable = null;
         private Renderer[] model = null;
         [SerializeField, ReadOnly] private Tile _tile;
+        [SerializeField] private Renderer[] _mainRenderer = null;
         private Renderer _mainRenderer1;
         public Tile Tile => _tile;
 
         public Selectable Selectable => _selectable;
 
-        public void SetTile(Tile tile) => _tile = tile;
+
+        public void Init(Tile tile, EnvironmentView other)
+        {
+            _tile = tile;
+            if (other != null)
+            {
+                _selectable.Other = other._selectable;
+                other._selectable.Other = _selectable;
+            }
+        }
 
         protected override void Init(Grid grid)
         {
@@ -47,7 +57,6 @@ namespace Views.Battle
                 models.gameObject.SetActive(false);
         }
 
-
         protected override Color GetColor()
         {
             var color = base.GetColor();
@@ -68,13 +77,6 @@ namespace Views.Battle
             {
                 renderer.material.color = color;
             }
-        }
-
-        public override void ToggleVisibility(bool state)
-        {
-            foreach (var renderer in model)
-                renderer.enabled = state;
-            _selectable.Hint.gameObject.SetActive(state);
         }
     }
 }
