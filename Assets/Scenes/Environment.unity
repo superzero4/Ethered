@@ -239,6 +239,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4859381276880320, guid: 6ff04bde591b8af4284ecf06b1f4e10d, type: 3}
   m_PrefabInstance: {fileID: 1851057}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2575346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2575347}
+  - component: {fileID: 2575348}
+  m_Layer: 0
+  m_Name: Grid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2575347
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2575346}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 135382658346608369}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!156049354 &2575348
+Grid:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2575346}
+  m_Enabled: 1
+  m_CellSize: {x: 1, y: 1, z: 1}
+  m_CellGap: {x: 0, y: 0, z: 0}
+  m_CellLayout: 0
+  m_CellSwizzle: 1
 --- !u!1001 &3260094
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18351,13 +18395,23 @@ MonoBehaviour:
   _selector: {fileID: 2189047592591808761}
   _phaseSelector: {fileID: 8648784348819078593}
   _postProcess: {fileID: 1784189797095629010}
+  _ui: {fileID: 7886430137452856160}
   _camera: {fileID: 2429077060790632261}
+  _grid: {fileID: 2575348}
+  _timelineHints: {fileID: 1299627670}
   _goToNextSceneOnEnd: 1
   _skipShop: 1
   _autoEnd: 1
-  _levelSkip: 2
+  _levelSkip: 0
   _duration: 3
   _ease: 7
+  _hints:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!4 &246798881
 Transform:
   m_ObjectHideFlags: 0
@@ -95523,7 +95577,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _phased: 0
-  _grid: {fileID: 7484454263053250384}
   _prefab: {fileID: 3911681077726942120, guid: 47dcfaefea442f140930a2d6eb4ee63c, type: 3}
   _parent: {fileID: 358908443}
   _hints:
@@ -95545,7 +95598,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3373329d618c40b8a9bf7c315d39cd08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timelineInfoHints: {fileID: 1299627668}
 --- !u!1001 &1300048000
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158031,6 +158083,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 150051990}
+  - {fileID: 2575347}
   m_Father: {fileID: 3514514237250734108}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &328743285287425024
@@ -158048,7 +158101,6 @@ MonoBehaviour:
   _delay: 2
   _unitActionsPreviewShowEmptyTiles: 1
   _allowActionChangeAfterUnitSelected: 1
-  _ui: {fileID: 7886430137452856160}
   _timelineView: {fileID: 1299627671}
   _selectionState:
     rid: -2
@@ -158056,6 +158108,7 @@ MonoBehaviour:
   _phaseSelector: {fileID: 0}
   _battle:
     rid: -2
+  _ui: {fileID: 7886430137452856160}
   references:
     version: 2
     RefIds:
@@ -158430,6 +158483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28d087fad06049d9b5435787382a3872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cursor: {fileID: 6119563003416653789}
   _hoverChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -158438,15 +158492,7 @@ MonoBehaviour:
       m_Calls: []
   _phase: 0
   _current: {fileID: 0}
-  previousSelectedLevel: 0
-  _hints:
-    rid: -2
-  _cursor: {fileID: 6119563003416653789}
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+  _showCursor: 0
 --- !u!224 &2202978141104286871
 RectTransform:
   m_ObjectHideFlags: 0
@@ -159501,7 +159547,6 @@ GameObject:
   - component: {fileID: 135382658346608369}
   - component: {fileID: 1556576423}
   - component: {fileID: 5351250457139213536}
-  - component: {fileID: 7484454263053250384}
   m_Layer: 0
   m_Name: Initialization
   m_TagString: Untagged
@@ -159541,7 +159586,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _props: {fileID: 1556576423}
-  _grid: {fileID: 7484454263053250384}
   _defaultEnvironment:
     _visualInformations:
       _sprite: {fileID: 21300000, guid: 7e4b656897a61f4459756635bc093fc5, type: 3}
@@ -159643,7 +159687,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _phased: 0
-  _grid: {fileID: 7484454263053250384}
   _prefab: {fileID: 5121351673512474457, guid: 803912c32376ae94f8688086f0125dae, type: 3}
   _parent: {fileID: 6119563003416653788}
   _hints:
@@ -159946,18 +159989,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 575474591}
   m_SourcePrefab: {fileID: 100100000, guid: 0cbb7e31e31a2694790e07ab26923974, type: 3}
---- !u!156049354 &7484454263053250384
-Grid:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5159102866428617045}
-  m_Enabled: 1
-  m_CellSize: {x: 1, y: 1, z: 1}
-  m_CellGap: {x: 0, y: 0, z: 0}
-  m_CellLayout: 0
-  m_CellSwizzle: 1
 --- !u!114 &7768702028003257863
 MonoBehaviour:
   m_ObjectHideFlags: 0

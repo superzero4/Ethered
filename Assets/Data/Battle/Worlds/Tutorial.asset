@@ -27,6 +27,7 @@ MonoBehaviour:
     _battle: {fileID: 11400000, guid: 749432e0e5a308d4c92f660ba4007e3b, type: 2}
     _map: {fileID: 11400000, guid: 92523a972847a72449d03e122dc8d00d, type: 2}
     _showTileModels: 0
+    _onlyOnePhase: 1
     _position: {x: 18, y: 9.6, z: 1.5}
     _rotation: {x: -0, y: 270, z: 0}
   - _playerActionsOverride:
@@ -36,6 +37,7 @@ MonoBehaviour:
     _battle: {fileID: 11400000, guid: 749432e0e5a308d4c92f660ba4007e3b, type: 2}
     _map: {fileID: 11400000, guid: cc76ba6bd404b40458e77119baeac27c, type: 2}
     _showTileModels: 0
+    _onlyOnePhase: 0
     _position: {x: 9.5, y: 9.6, z: -1.000001}
     _rotation: {x: -0, y: 180, z: -0}
   - _playerActionsOverride:
@@ -45,6 +47,7 @@ MonoBehaviour:
     _battle: {fileID: 11400000, guid: 749432e0e5a308d4c92f660ba4007e3b, type: 2}
     _map: {fileID: 11400000, guid: 0e9d661131ea64445a75bf6aaf0452cd, type: 2}
     _showTileModels: 0
+    _onlyOnePhase: 0
     _position: {x: 14, y: 14, z: -31.5}
     _rotation: {x: -0, y: 270, z: -0}
   - _playerActionsOverride:
@@ -54,6 +57,7 @@ MonoBehaviour:
     _battle: {fileID: 11400000, guid: 749432e0e5a308d4c92f660ba4007e3b, type: 2}
     _map: {fileID: 11400000, guid: 18dfe2b751d1abb4691a9c24a0f4fe6b, type: 2}
     _showTileModels: 0
+    _onlyOnePhase: 0
     _position: {x: -5.8, y: 0, z: -26}
     _rotation: {x: -0, y: 0, z: 0}
   - _playerActionsOverride:
@@ -64,12 +68,14 @@ MonoBehaviour:
     _battle: {fileID: 11400000, guid: 73d592778fc517947a7253233d649979, type: 2}
     _map: {fileID: 11400000, guid: b10053bcffb02f943bd027273d60da74, type: 2}
     _showTileModels: 0
+    _onlyOnePhase: 0
     _position: {x: -4.8, y: 0, z: -10}
     _rotation: {x: -0, y: 0, z: 0}
   - _playerActionsOverride: []
     _battle: {fileID: 11400000, guid: 73d592778fc517947a7253233d649979, type: 2}
     _map: {fileID: 11400000, guid: fcdf04c654ae1884cb5426662f166370, type: 2}
     _showTileModels: 0
+    _onlyOnePhase: 0
     _position: {x: -2.2802057, y: 14.73, z: 15.566511}
     _rotation: {x: -0, y: 342.3187, z: 0}
   PreludePosition:
@@ -77,5 +83,6 @@ MonoBehaviour:
     _battle: {fileID: 0}
     _map: {fileID: 0}
     _showTileModels: 0
+    _onlyOnePhase: 0
     _position: {x: 0, y: 12, z: 35}
     _rotation: {x: 45, y: 0, z: 0}
