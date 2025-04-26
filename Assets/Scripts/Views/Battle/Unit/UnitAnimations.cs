@@ -44,7 +44,7 @@ namespace Views.Battle
                 };
                 backToIdle = false;
             }
-            else if (curr > arg0.oldHealth)
+            else if (arg0.hitValue<0)
                 val = AnimationType.Healed;
             else
                 val = AnimationType.Hurt;
@@ -56,19 +56,19 @@ namespace Views.Battle
         {
             System.Action onTrigger = onArrived;
             AnimationType animationType;
-            if (arg0.IsCloseQuarter)
-            {
-                animationType = AnimationType.Attack;
-            }
-            else if (arg0.needLos)
-            {
-                animationType = AnimationType.Shoot;
-                onTrigger += () => { _weapon.WeaponShoot(worldPos, delay); };
-            }
-            else
+            if (!arg0.isOffensive || !arg0.needLos)
             {
                 onTrigger += () => _weapon.Cast(worldPos);
                 animationType = AnimationType.Cast;
+            }
+            else if (arg0.IsCloseQuarter)
+            {
+                animationType = AnimationType.Attack;
+            }
+            else
+            {
+                animationType = AnimationType.Shoot;
+                onTrigger += () => { _weapon.WeaponShoot(worldPos, delay); };
             }
 
             _animationPlayer.Play(animationType, false, onTrigger);

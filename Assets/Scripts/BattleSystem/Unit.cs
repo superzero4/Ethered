@@ -76,7 +76,10 @@ namespace UnitSystem
         void IHealth.TakeDamageUncapped(int damage, IBattleElement source)
         {
             var data = new UnitHitData()
-                { unit = this, oldHealth = _currentHealth, direction = _position.Position - source.Position.Position };
+            {
+                unit = this, oldHealth = _currentHealth, direction = _position.Position - source.Position.Position,
+                hitValue = damage
+            };
             _currentHealth -= damage;
             _onUnitHealthChange?.Invoke(data);
         }
@@ -89,7 +92,8 @@ namespace UnitSystem
                 unit = this,
                 direction = direction,
                 needLos = requiredLos,
-                manhattandistance = direction.x + direction.y,
+                manhattandistance = Mathf.Abs(direction.x) + Mathf.Abs(direction.y),
+                damage = damage
             });
             foreach (var target in targetCollectionTargets)
             {
