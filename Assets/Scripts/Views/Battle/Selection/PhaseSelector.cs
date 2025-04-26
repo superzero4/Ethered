@@ -23,10 +23,9 @@ namespace Views.Battle.Selection
         {
             IPhaseView.ease = _easeType;
             IPhaseView.duration = _duration;
-            _phase = initPhase;
-            Invoke();
+            Invoke(initPhase);
         }
-        
+
         public void Subscribe(params IPhaseView[] view)
         {
             foreach (var v in view)
@@ -47,13 +46,13 @@ namespace Views.Battle.Selection
 
         public void TogglePhase()
         {
-            _phase = _phase == EPhase.Ethered ? EPhase.Normal : EPhase.Ethered;
-            Invoke();
+            Invoke(_phase == EPhase.Normal ? EPhase.Ethered : EPhase.Normal);
         }
 
-        private void Invoke()
+        private void Invoke(EPhase target)
         {
-            IPhaseView.Invoke(gameObject, _phase, _onSelectedPhaseChanges.Invoke);
+            if (IPhaseView.Invoke(gameObject, target, _onSelectedPhaseChanges.Invoke))
+                _phase = target;
         }
     }
 }

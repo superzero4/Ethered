@@ -11,11 +11,13 @@ namespace Views.Battle
         private static float _progress;
         public static float duration;
         public static LeanTweenType ease;
+        public static LTDescr current;
 
         // ReSharper disable Unity.PerformanceAnalysis
-        public static void Invoke(GameObject gameObject, EPhase _phase, Action<PhaseEventData> _onSelectedPhaseChanges)
+        public static bool Invoke(GameObject gameObject, EPhase _phase, Action<PhaseEventData> _onSelectedPhaseChanges)
         {
-            LeanTween.cancel(gameObject);
+            if (current != null && current.ratioPassed < 1)
+                return false;
             var data = new PhaseEventData() { targetPhase = _phase };
             Action<float> _onUpdate = (float val) =>
             {
@@ -24,9 +26,10 @@ namespace Views.Battle
                 _onSelectedPhaseChanges.Invoke(data);
             };
             if (_phase == EPhase.Ethered)
-                Tween(gameObject, _phase, _progress, 1f, _onUpdate);
+                current = Tween(gameObject, _phase, _progress, 1f, _onUpdate);
             else
-                Tween(gameObject, _phase, _progress, 0f, _onUpdate);
+                current = Tween(gameObject, _phase, _progress, 0f, _onUpdate);
+            return true;
         }
 
         public static LTDescr Tween(GameObject gameObject, EPhase _phase, float start, float end,
