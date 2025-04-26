@@ -1,12 +1,14 @@
 using BattleSystem;
 using Common.Events.UserInterface;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Views.Battle;
 
 namespace Views.Phase
 {
     public class ScalingPhaseView : MonoBehaviour, IPhaseView
     {
+
         private void Awake()
         {
         }
@@ -18,10 +20,18 @@ namespace Views.Phase
         //On the displayed phase changed
         public void OnPhaseChanged(PhaseEventData data)
         {
-            _shownPhase = data.targetPhase;
-            //We cancel any running tween that would be working on the scale for this specific object, when this method is call we update all globally the objects that depends on a phase
-            LeanTween.cancel(gameObject);
+            if (data.targetPhase == _shownPhase)
+            {
+                _shownPhase = data.targetPhase;
+                //We cancel any running tween that would be working on the scale for this specific object, when this method is call we update all globally the objects that depends on a phase
+                LeanTween.cancel(gameObject);
+            }
+            else if (data.progress == 0f || data.progress >= 1f)
+            {
+                
+            }
         }
+
         //When we change the phase where the view lives in
         public EPhase Phase
         {
@@ -30,11 +40,17 @@ namespace Views.Phase
                 if (_phase == value)
                     return;
                 _phase = value;
-                float start = _phase.Intersects(_shownPhase) || _shownPhase == EPhase.None ? 0 : 1;
+                float start = StartValue();
                 IPhaseView.Tween(gameObject, _phase, _phase == EPhase.Both ? Progress : start, 1 - start, RawSet);
             }
             get { return _phase; }
         }
+
+        private int StartValue()
+        {
+            return _phase.Intersects(_shownPhase) || _shownPhase == EPhase.None ? 0 : 1;
+        }
+
         private float Remap(float value, bool invert)
         {
             //It animates out in half of the time and in in the other half
@@ -67,8 +83,14 @@ namespace Views.Phase
         private void RawSet(float value)
         {
             _progress = value;
-            _root.localScale = Vector3.one * value;
+            RawSet(value, _root);
         }
+
+        private static void RawSet(float value, Transform target)
+        {
+            target.localScale = Vector3.one * value;
+        }
+
 
         public Transform Root
         {
@@ -77,6 +99,5 @@ namespace Views.Phase
         }
 
         private float _progress;
-        
     }
 }
