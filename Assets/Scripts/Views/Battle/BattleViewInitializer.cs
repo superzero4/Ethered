@@ -55,7 +55,7 @@ namespace Views.Battle
                 if (!level.ShowTileModels)
                     env.DisableModels();
                 phaseSelector.Subscribe(env.phaseViews);
-                phaseSelector.SetLayer(env);
+                Selector.SetLayer(env);
                 env.gameObject.name = "Tile " + t.Base.Position.ToString();
                 selectables.Add(env.Selectable);
                 Assert.IsTrue((int)t.Base.Position.Phase >= 0 && (int)t.Base.Position.Phase < (int)EPhase.Both,

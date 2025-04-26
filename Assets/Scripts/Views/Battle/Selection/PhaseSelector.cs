@@ -9,7 +9,6 @@ namespace Views.Battle.Selection
 {
     public class PhaseSelector : MonoBehaviour
     {
-        public const int SelectableLayer = 6;
         [SerializeField] private PhaseEvent _onSelectedPhaseChanges = new();
         [SerializeField] [ReadOnly] private EPhase _phase;
 
@@ -55,21 +54,6 @@ namespace Views.Battle.Selection
         private void Invoke()
         {
             IPhaseView.Invoke(gameObject, _phase, _onSelectedPhaseChanges.Invoke);
-        }
-
-        public LayerMask GetLayerMask()
-        {
-            return 0b1 << Layer();
-        }
-
-        private static int Layer()
-        {
-            return SelectableLayer;
-        }
-
-        public void SetLayer<T>(AElementView<T> element) where T : IBattleElement
-        {
-            element.gameObject.layer = Layer();
         }
     }
 }

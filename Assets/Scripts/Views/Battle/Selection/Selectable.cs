@@ -41,7 +41,7 @@ namespace Views.Battle.Selection
         private void Start()
         {
             Assert.IsTrue(_env != null);
-            Assert.IsTrue(gameObject.layer == PhaseSelector.SelectableLayer);
+            Assert.IsTrue(gameObject.layer == Selector.SelectableLayer);
         }
 
         public void OnPhaseChanged(PhaseEventData data)

@@ -136,5 +136,22 @@ namespace Views.Battle.Selection
                 //No continuous updates required, this object works only with the discrete event to fetch the target phase
             }
         }
+
+        public const int SelectableLayer = 6;
+
+        public static LayerMask GetLayerMask()
+        {
+            return 0b1 << Layer();
+        }
+
+        private static int Layer()
+        {
+            return SelectableLayer;
+        }
+
+        public static void SetLayer<T>(AElementView<T> element) where T : IBattleElement
+        {
+            element.gameObject.layer = Layer();
+        }
     }
 }

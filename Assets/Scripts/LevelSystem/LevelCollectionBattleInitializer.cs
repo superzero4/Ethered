@@ -105,7 +105,7 @@ namespace LevelSystem
                 out var battle);
             _hints = new TileHints(selectables);
             _timelineHints.Init(2, _grid);
-            _selector.Initialize(selectables, _phaseSelector.GetLayerMask(), _camera, _grid);
+            _selector.Initialize(selectables, Selector.GetLayerMask(), _camera, _grid);
             _battleView.Init(battle, _selector, _phaseSelector, _userInput, _ui, _hints, _timelineHints);
             _userInput.Reset.Invoke();
             _phaseSelector.Initialize(EPhase.Normal);
