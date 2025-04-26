@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 using Common;
-using Common.Events;
 using Common.Events.UserInteraction;
+using NaughtyAttributes;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,7 +11,16 @@ namespace UI
 {
     public abstract class ClickableUI<EventArg> : InfoUI, IReset
     {
+        [Serializable]
+        private struct SpriteStateE
+        {
+            public SpriteState state;
+            public Sprite normalSprite;
+        }
+
         [SerializeField] private Button _button;
+        [SerializeField, ReadOnly] private SpriteStateE _normal;
+        [SerializeField] private SpriteStateE _emphasized;
         [SerializeField] private UnityEvent<EventArg> _onClick = new();
 
         public bool interactable
@@ -23,6 +31,17 @@ namespace UI
                 _button.interactable = value;
                 Interactable(value);
             }
+        }
+
+        public bool highlighted
+        {
+            set { Apply(value && _emphasized.normalSprite != null ? _emphasized : _normal); }
+        }
+
+        private void Apply(SpriteStateE state)
+        {
+            _button.spriteState = state.state;
+            _button.image.sprite = state.normalSprite;
         }
 
         public UnityEvent<EventArg> OnClick => _onClick;
@@ -45,11 +64,16 @@ namespace UI
 
         protected override void AfterAwake()
         {
-            base.AfterAwake();
+            base.AfterAwake();  
             Assert.IsTrue(_button != null);
             //We forward the event through another event with be uses externally, and we also call a abstract method for OnClick logic internal to this class
             _button.onClick.AddListener(() => _onClick.Invoke(GetArgs()));
             _onClick.AddListener(Clicked);
+            _normal = new()
+            {
+                normalSprite = _button.image.sprite,
+                state = _button.spriteState
+            };
             //_button.onClick.AddListener(() => Debug.Log("Button Clicked"));
             //_onClick.AddListener(args => Debug.Log("On click event raised with args: " + args));
         }
@@ -63,6 +87,7 @@ namespace UI
         public virtual void Reset()
         {
             interactable = false;
+            highlighted = false;
         }
     }
 

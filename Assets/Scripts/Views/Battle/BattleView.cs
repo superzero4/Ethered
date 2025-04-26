@@ -28,9 +28,8 @@ namespace Views.Battle
         [SerializeField] private bool _unitActionsPreviewShowEmptyTiles = true;
         [SerializeField] private bool _allowActionChangeAfterUnitSelected = true;
 
-        [Header("References")]
-
-        [SerializeField] private TimelineView _timelineView;
+        [Header("References")] [SerializeField]
+        private TimelineView _timelineView;
 
 
         [Header("Read Only")] [SerializeReference] [ReadOnly]
@@ -40,7 +39,7 @@ namespace Views.Battle
         [SerializeField] [ReadOnly] private Selector _selector;
         [SerializeField] [ReadOnly] private PhaseSelector _phaseSelector;
         [SerializeReference] [ReadOnly] private BattleSystem.Battle _battle;
-        [SerializeReference] [ReadOnly]private BattleUI _ui;
+        [SerializeReference] [ReadOnly] private BattleUI _ui;
 
 
         public BattleSystem.Battle Battle
@@ -49,6 +48,7 @@ namespace Views.Battle
         }
 
         private IHints _hints;
+
         public void Init(BattleSystem.Battle battle, Selector selector, PhaseSelector phase,
             UserInput userInput, BattleUI ui, IHints hints, IHints timelineHints)
         {
@@ -68,7 +68,7 @@ namespace Views.Battle
             selector.SelectionUpdated.AddListener(OnSelectionUpdated);
 
             //UI Events
-            _timelineView.Init(ui.TimelineUI, battle,timelineHints);
+            _timelineView.Init(ui.TimelineUI, battle, timelineHints);
             phase.Subscribe(ui.PhaseUI);
             ui.Initialize(userInput);
             ui.PhaseUI.OnClick.AddListener(phase.TogglePhase);
@@ -84,8 +84,13 @@ namespace Views.Battle
             {
                 userInput.ForceReset();
                 StartCoroutine(battle.NextTurn(_delay, () => _selector.RaiseCurrentHover()));
+                ui.EndTurnButton.Reset();
             });
-            battle.OnTimelineActionAdded.AddListener(d => _selector.RaiseCurrentHover());
+            battle.OnTimelineActionAdded.AddListener(d =>
+            {
+                _selector.RaiseCurrentHover();
+                ui.EndTurnButton.interactable = true;
+            });
             SetActionUIsCallback(OnActionClicked, userInput);
 
             userInput.ForceReset();
@@ -183,6 +188,7 @@ namespace Views.Battle
             var action = _selectionState.Confirm();
             var confirmed = _battle.ConfirmAction(action);
             _userInput.ForceReset();
+            _ui.EndTurnButton.highlighted = !_battle.AlliesCanAct;
             if (!confirmed)
             {
                 //TODO Show cancel feedback

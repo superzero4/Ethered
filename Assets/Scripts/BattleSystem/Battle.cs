@@ -95,6 +95,7 @@ namespace BattleSystem
 
         public BattleEvent BattleEnd => _battleEnd;
 
+        public bool AlliesCanAct => _allies.Any(a => _turns.CanStillAct(a));
         public void Init(EncounterInfo info, MapInfo map, Squad squad, EnvironmentInfo defaultEnvironment,
             EnvironmentInfo defaultObstacle,
             IBrainCollection brains = null)

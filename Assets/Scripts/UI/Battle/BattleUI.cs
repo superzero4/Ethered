@@ -58,7 +58,17 @@ namespace UI.Battle
             VisualInformations.Default = _default;
             IIcon.Icons = _icons.ToDictionary(i => i.iconType, i => i.icon);
             _unitUI.Initialize();
+            _endTurnButton.Reset();
             _phaseUI.Initialize(false);
+        }
+
+        public void EndTurnVisibility(bool active, bool emphasize)
+        {
+            //_endTurnButton.gameObject.SetActive(active);
+            //if (active)
+            //{
+            //    _endTurnButton.
+            //}
         }
     }
 }
