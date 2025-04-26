@@ -25,11 +25,8 @@ namespace SquadSystem
             Squad = squadClass.GetSquad();
             coinsText.SetText(Squad.Coins.ToString());
             etherText.SetText(Squad.Ether.ToString());
-            InitInventory();
-            //shop.GenerateSquadMemberShopRandomly();
             shop.GenerateSquadMemberShopWithTheList(2);
             //shop.GenerateGlobalUpgradesShopWithTheList(2);
-            shop.GenerateItemsShopWithTheList(2);
         }
         
         /// <summary>
@@ -64,24 +61,6 @@ namespace SquadSystem
             squadClass.Ether += value;
             
             etherText.SetText(squadClass.Ether.ToString());
-        }
-        
-        /// <summary>
-        /// Temporary method to initialize the inventory
-        /// </summary>
-        private void InitInventory()
-        {
-            Item healthKit = squadPanel.AddComponent<Item>();
-            healthKit.SetParameters("Health Kit", 10, 0);
-            inventory.AddItem(healthKit, 5);
-            
-            Debug.Log(inventory.GetInventorySize());
-            
-            Item grenade = squadPanel.AddComponent<Item>();
-            grenade.SetParameters("Grenade", 0, 10);
-            inventory.AddItem(grenade, 3);
-            
-            Debug.Log(inventory.GetInventorySize());
         }
 
         public void GoToNextScene()
