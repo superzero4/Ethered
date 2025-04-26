@@ -18,15 +18,13 @@ namespace Views.Battle
     {
         private IBrainCollection _brains;
         [SerializeField] private EnvironmentProps _props;
-        [SerializeField] private Grid _grid;
         [SerializeField] private EnvironmentInfo _defaultEnvironment;
         [SerializeField] private EnvironmentInfo _defaultObstacle;
         [Header("Prefabs")] [SerializeField] private UnitView _unitViewPrefab;
         [SerializeField] private EnvironmentView _environmentViewPrefab;
 
-        public Grid Grid => _grid;
 
-        public void Init(Level level, Squad squad, PhaseSelector phaseSelector,
+        public void Init(Level level, Squad squad, PhaseSelector phaseSelector, Grid _grid,
             out List<Selectable> selectables,
             out BattleSystem.Battle battle)
         {
@@ -36,8 +34,6 @@ namespace Views.Battle
                 // ReSharper disable once CoVariantArrayConversion
                 new RandomBrainCollection(GetComponentsInChildren<IComparer<Action>>()
                     .Select(comp => new UtilityBasedBrain(comp)).ToArray()));
-            _grid.transform.position = level.Position;
-            _grid.transform.eulerAngles = level.Rotation;
             foreach (var unit in battle.Units)
             {
                 var unitView = Instantiate(_unitViewPrefab, transform);
@@ -46,6 +42,7 @@ namespace Views.Battle
                 Assert.IsTrue((int)unit.Position.Phase >= 0 && (int)unit.Position.Phase <= (int)EPhase.Both,
                     " Enum values seems corrupted, probably due to unity automatically converting ticking everything and converting all bit to 1 for a negative value, avoid using everything in serialized fields");
             }
+
             Dictionary<PositionData, EnvironmentView> envs = new();
             foreach (var t in battle.Tiles.TilesFlat)
             {

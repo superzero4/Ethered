@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using BattleSystem;
 using Common;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -13,19 +14,21 @@ namespace Views.Battle.Selection
         [Header("Settings")] [SerializeField, Tooltip("Not implemented yet")]
         private bool _phased;
 
-        [SerializeField, Range(0, 10)] private int _initialCount = 4;
 
-        [Header("References")] [SerializeField]
         private Grid _grid;
 
         [SerializeField] private SelectionHint _prefab;
         [SerializeField] private Transform _parent;
-        [FormerlySerializedAs("_memberPool")] [SerializeReference] private Pool<SelectionHint> _hints;
+
+        [FormerlySerializedAs("_memberPool")] [SerializeReference]
+        private Pool<SelectionHint> _hints;
+
         private int _count;
 
-        private void Awake()
+        public void Init(int count, Grid grid)
         {
-            _hints = new(_prefab, _initialCount, _parent);
+            _grid = grid;
+            _hints = new(_prefab, count, _parent);
             Reset();
         }
 

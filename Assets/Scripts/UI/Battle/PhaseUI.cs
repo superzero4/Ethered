@@ -28,11 +28,17 @@ namespace UI.Battle
         [SerializeField] Color _normalColor;
         [SerializeField] Color _etheredColor;
 
-        public void Initialize()
+        public void Initialize(bool startActive)
         {
             _normal.onClick.AddListener(_onClick.Invoke);
             if (_normal != _ethered)
                 _ethered.onClick.AddListener(_onClick.Invoke);
+            if (!startActive)
+                ToggleVisibility(false);
+        }
+        public void ToggleVisibility(bool visible)
+        {
+            gameObject.SetActive(visible);
         }
 
         public float Progress

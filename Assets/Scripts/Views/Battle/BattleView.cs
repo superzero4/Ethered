@@ -28,8 +28,7 @@ namespace Views.Battle
         [SerializeField] private bool _unitActionsPreviewShowEmptyTiles = true;
         [SerializeField] private bool _allowActionChangeAfterUnitSelected = true;
 
-        [Header("References")] [SerializeField, InfoBox("Just a big reference holder")]
-        private BattleUI _ui;
+        [Header("References")]
 
         [SerializeField] private TimelineView _timelineView;
 
@@ -41,6 +40,8 @@ namespace Views.Battle
         [SerializeField] [ReadOnly] private Selector _selector;
         [SerializeField] [ReadOnly] private PhaseSelector _phaseSelector;
         [SerializeReference] [ReadOnly] private BattleSystem.Battle _battle;
+        [SerializeReference] [ReadOnly]private BattleUI _ui;
+
 
         public BattleSystem.Battle Battle
         {
@@ -48,38 +49,38 @@ namespace Views.Battle
         }
 
         private IHints _hints;
-
-        public void Init(BattleSystem.Battle battle, Selector selector, IHints hints, PhaseSelector phase,
-            UserInput userInput)
+        public void Init(BattleSystem.Battle battle, Selector selector, PhaseSelector phase,
+            UserInput userInput, BattleUI ui, IHints hints, IHints timelineHints)
         {
-            //Creation
+            _ui = ui;
             _hints = hints;
             _phaseSelector = phase;
             _userInput = userInput;
             _selector = selector;
             _battle = battle;
+            //Creation
             _selectionState = new SelectionState(_allowActionChangeAfterUnitSelected);
 
             //Event linkage
             //SelectionEvents
-            userInput.AddResetables(_selectionState, _ui.ConfirmButton, _ui.UnitUI, _hints);
+            userInput.AddResetables(_selectionState, ui.ConfirmButton, ui.UnitUI, _hints);
             selector.HoverChanged.AddListener(OnHoverChanged);
             selector.SelectionUpdated.AddListener(OnSelectionUpdated);
 
             //UI Events
-            _timelineView.Init(_ui.TimelineUI, battle);
-            phase.Subscribe(_ui.PhaseUI);
-            _ui.Initialize(userInput);
-            _ui.PhaseUI.OnClick.AddListener(phase.TogglePhase);
+            _timelineView.Init(ui.TimelineUI, battle,timelineHints);
+            phase.Subscribe(ui.PhaseUI);
+            ui.Initialize(userInput);
+            ui.PhaseUI.OnClick.AddListener(phase.TogglePhase);
             userInput.Confirm.AddListener(() =>
             {
-                if (!_ui.ConfirmButton.interactable)
+                if (!ui.ConfirmButton.interactable)
                     _userInput.ForceMouse();
                 else
-                    _ui.ConfirmButton.Click();
+                    ui.ConfirmButton.Click();
             });
-            _ui.ConfirmButton.AddListener(OnConfirmed);
-            _ui.EndTurnButton.AddListener(() =>
+            ui.ConfirmButton.AddListener(OnConfirmed);
+            ui.EndTurnButton.AddListener(() =>
             {
                 userInput.ForceReset();
                 StartCoroutine(battle.NextTurn(_delay, () => _selector.RaiseCurrentHover()));
@@ -117,7 +118,7 @@ namespace Views.Battle
         [SuppressMessage("ReSharper", "ConvertClosureToMethodGroup")]
         private void SetActionUIsCallback(UnityAction<IActionInfo> onClick, UserInput userInput)
         {
-            userInput.Action0.AddListener(i =>
+            userInput.Action.AddListener(i =>
             {
                 if (_selectionState.CanSelectAction && i >= 0 && i < _ui.UnitUI.ActionUIRead.Length)
                     _ui.UnitUI.ActionUIRead[i].Click();

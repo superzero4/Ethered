@@ -58,7 +58,7 @@ namespace UI.Battle
             VisualInformations.Default = _default;
             IIcon.Icons = _icons.ToDictionary(i => i.iconType, i => i.icon);
             _unitUI.Initialize();
-            _phaseUI.Initialize();
+            _phaseUI.Initialize(false);
         }
     }
 }

@@ -23,11 +23,13 @@ namespace Views.Battle
         [SerializeField] protected ScalingPhaseView _scalingPhaseView;
         public T Data => _data;
         public IPhaseView[] phaseViews => new[] { _scalingPhaseView };
+        private float _baseRot;
 
         public void Init(T data, Grid grid)
         {
             _data = data;
             _scalingPhaseView.Root = _root;
+            _baseRot = grid.transform.rotation.eulerAngles.y;
             SyncPhase();
             Init(grid);
             SetColor();
@@ -64,7 +66,7 @@ namespace Views.Battle
             get => _root.localRotation.eulerAngles.y;
             set
             {
-                _root.localRotation = Quaternion.Euler(0, value, 0);
+                _root.localRotation = Quaternion.Euler(0, value + _baseRot, 0);
                 RotationChanged(Rotation);
             }
         }
@@ -91,7 +93,7 @@ namespace Views.Battle
         }
 
         protected abstract void SetColor(Color color);
-        
+
         //protected abstract IEnumerable<Renderer> Renderers { get; }
         public void SetColor()
         {

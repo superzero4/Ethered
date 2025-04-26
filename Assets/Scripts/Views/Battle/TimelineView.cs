@@ -9,12 +9,11 @@ namespace Views.Battle
 {
     public class TimelineView : MonoBehaviour
     {
-        [SerializeField] private GameObject _timelineInfoHints;
         [SerializeField] [ReadOnly] private IHints _timelineHints;
 
-        public void Init(TimelineUI timelineUI, BattleSystem.Battle battle)
+        public void Init(TimelineUI timelineUI, BattleSystem.Battle battle, IHints hints)
         {
-            _timelineHints = _timelineInfoHints.GetComponent<IHints>();
+            _timelineHints = hints;
             timelineUI.Initialize(OnHoverAction);
             battle.OnTimelineActionAdded.AddListener(timelineUI.OnTimelineMemberInserted);
         }

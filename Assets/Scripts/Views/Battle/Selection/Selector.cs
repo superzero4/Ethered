@@ -39,10 +39,11 @@ namespace Views.Battle.Selection
             set => _showCursor = value;
         }
 
-        public void Initialize(IEnumerable<Selectable> selectables, LayerMask mask, Camera camera)
+        public void Initialize(IEnumerable<Selectable> selectables, LayerMask mask, Camera camera, Grid grid)
         {
+            _cursor.Init(2, grid);
             _camera = camera;
-            ShowCursor = true;
+            ShowCursor = false;
             //We have a quick mapping from a gameObject to it's selectable component without the need of a GetComponent on every selection
             _selectables = new(selectables.Select(s => new KeyValuePair<GameObject, Selectable>(s.gameObject, s)));
             _results = new RaycastHit[8];

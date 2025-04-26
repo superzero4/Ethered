@@ -6,6 +6,7 @@ using Common;
 using Common.Events.Combat;
 using Common.GlobalFlow;
 using SquadSystem;
+using UI.Battle;
 using UnitSystem;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -22,18 +23,25 @@ namespace LevelSystem
         private static bool _flag;
         private ILevelCollection _levels;
 
-        [Header("References")] [SerializeField]
+        [Header("References")] [SerializeField] [Header("Battle")]
         private Object _levelsHolder;
-
-        [FormerlySerializedAs("_bindings")] [SerializeField]
-        private UserInput _userInput;
 
         [SerializeField] private BattleViewInitializer _battleViewInitializer;
         [SerializeField] private BattleView _battleView;
-        [SerializeField] private Selector _selector;
+        [Header("Selection")] [SerializeField] private Selector _selector;
         [SerializeField] private PhaseSelector _phaseSelector;
+        [SerializeField] private Grid _grid;
+        [SerializeField] private PooledHints _timelineHints;
+
+        [Header("UIX")] [FormerlySerializedAs("_bindings")] [SerializeField]
+        private UserInput _userInput;
+
+        [SerializeField] private BattleUI _ui;
+
+        [Header("Camera")] [SerializeField] private Camera _camera;
         [SerializeField] private PostProcessPhaseView _postProcess;
-        [SerializeField] private Camera _camera;
+
+
         [Header("Settings")] [SerializeField] private bool _goToNextSceneOnEnd = true;
         [SerializeField] private bool _skipShop = true;
 
@@ -74,6 +82,7 @@ namespace LevelSystem
         private void SetBattle()
         {
             var current = _levels.Current;
+            PlaceGrid(current);
             var precedent = _levels.Precedent;
 
             _postProcess.Init(_camera);
@@ -92,17 +101,24 @@ namespace LevelSystem
                     squad.Units[i] = new UnitInfo(squad.Units[i], current.PlayerActionsOverride);
             }
 
-            _battleViewInitializer.Init(current, squad, _phaseSelector, out var selectables,
+            _battleViewInitializer.Init(current, squad, _phaseSelector, _grid, out var selectables,
                 out var battle);
             _hints = new TileHints(selectables);
-            _selector.Initialize(selectables, _phaseSelector.GetLayerMask(), _camera);
-            _battleView.Init(battle, _selector, _hints, _phaseSelector, _userInput);
+            _timelineHints.Init(2, _grid);
+            _selector.Initialize(selectables, _phaseSelector.GetLayerMask(), _camera, _grid);
+            _battleView.Init(battle, _selector, _phaseSelector, _userInput, _ui, _hints, _timelineHints);
             _userInput.Reset.Invoke();
             _phaseSelector.Initialize(EPhase.Normal);
             battle.BattleEnd.AddListener(OnBattleEnd);
             if (_autoEnd)
                 _userInput.Dev.AddListener(e => ForceEnd());
             AnimateBattleView(precedent, current);
+
+        private void PlaceGrid(Level current)
+        {
+            _grid.transform.parent = null;
+            _grid.transform.position = current.Position;
+            _grid.transform.eulerAngles = current.Rotation;
         }
 
         public void ForceEnd()
@@ -137,13 +153,13 @@ namespace LevelSystem
             }
         }
 
-        private void AnimateBattleView(Level precedent, Level current)
+        private LTDescr AnimateBattleView(Level precedent, Level current)
         {
             _battleView.transform.position = precedent.Position;
             _battleView.transform.eulerAngles = precedent.Rotation;
             _battleView.transform.LeanMove(current.Position, _duration).setEase(_ease);
             _battleView.transform.LeanRotate(current.Rotation, _duration).setEase(_ease);
-            _camera.transform.LeanMoveLocalX(_battleViewInitializer.Grid.cellSize.x * current.Map.Size.x / 2f,
+            return _camera.transform.LeanMoveLocalX(_grid.cellSize.x * current.Map.Size.x / 2f,
                 _duration);
         }
     }
