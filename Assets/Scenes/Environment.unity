@@ -159688,7 +159688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _phased: 0
   _prefab: {fileID: 5121351673512474457, guid: 803912c32376ae94f8688086f0125dae, type: 3}
-  _parent: {fileID: 6119563003416653788}
+  _parent: {fileID: 0}
   _hints:
     rid: -2
   references:

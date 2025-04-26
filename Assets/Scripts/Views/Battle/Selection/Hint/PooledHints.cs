@@ -28,7 +28,7 @@ namespace Views.Battle.Selection
         public void Init(int count, Grid grid)
         {
             _grid = grid;
-            _hints = new(_prefab, count, _parent);
+            _hints = new(_prefab, count, _parent==null ? _grid.transform : _parent);
             Reset();
         }
 
