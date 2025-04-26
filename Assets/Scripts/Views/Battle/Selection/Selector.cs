@@ -1,63 +1,51 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using BattleSystem;
 using Common;
 using Common.Events.UserInteraction;
 using Common.Events.UserInterface;
 using NaughtyAttributes;
-using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.Serialization;
-using ReadOnly = NaughtyAttributes.ReadOnlyAttribute;
 
 namespace Views.Battle.Selection
 {
     public class Selector : MonoBehaviour, IReset, IPhaseView
     {
-        private LayerMask _selectionMask;
-
-        //[Header("References")] [SerializeField]
-        private Camera _camera;
-
+        [SerializeField] private PooledHints _cursor;
         [Header("Events")] [SerializeField] private SelectionEvent _hoverChanged = new();
 
         [SerializeField] private SelectionEvent _selectionUpdated = new();
+
 
         [Header("ReadOnly")] [SerializeField, ReadOnly]
         private EPhase _phase;
 
         [SerializeField] [ReadOnly] private Selectable _current;
+        [SerializeField, ReadOnly] private bool _showCursor;
+        [Header("Set externally")] private LayerMask _selectionMask;
 
-        [SerializeReference, ReadOnly] int previousSelectedLevel;
-
-        [InfoBox("Will find all Hints available in scene on startup and use them")] [SerializeReference] [ReadOnly]
-        private IHints _hints;
-
-        [SerializeField] [ReadOnly] private int _hintLevel = 0;
-
+        //[Header("References")] [SerializeField]
+        private Camera _camera;
         private RaycastHit[] _results;
         private Dictionary<GameObject, Selectable> _selectables;
+
         public SelectionEvent HoverChanged => _hoverChanged;
         public SelectionEvent SelectionUpdated => _selectionUpdated;
-        public IHints Hints => _hints;
 
-        public bool ShowHints
+        public bool ShowCursor
         {
-            get => _hintLevel > 0;
-            set { _hintLevel = value ? 2 : 0; }
+            get => _showCursor;
+            set => _showCursor = value;
         }
 
         public void Initialize(IEnumerable<Selectable> selectables, LayerMask mask, Camera camera)
         {
             _camera = camera;
-            ShowHints = true;
+            ShowCursor = true;
             //We have a quick mapping from a gameObject to it's selectable component without the need of a GetComponent on every selection
             _selectables = new(selectables.Select(s => new KeyValuePair<GameObject, Selectable>(s.gameObject, s)));
-            _hints = new TileHints(_selectables.Values);
-            _results = new RaycastHit[4];
+            _results = new RaycastHit[8];
             _current = _selectables.First().Value;
             RaiseCurrentHover();
             _selectionMask = mask;
@@ -66,7 +54,8 @@ namespace Views.Battle.Selection
 
         public void Select()
         {
-            if (_current == null) return;
+            if (_current == null || _current.Selection.unit != _unsafeHover.unit ||
+                _current.Selection.environment != _unsafeHover.environment) return;
             _selectionUpdated.Invoke(_current.Selection);
         }
 
@@ -80,44 +69,63 @@ namespace Views.Battle.Selection
         }
 
 
-        private void CastRays()
+        /// <summary>
+        /// Compared to the even which is raised containing the last not null, usable information, the unsafe hover is correspoding in real time to what's under the mouse, including null
+        /// </summary>
+        private SelectionEventData _unsafeHover;
+        //public SelectionEventData UnsafeHover => _unsafeHover;
+
+        private void CastRays(bool smartRefresh = true)
         {
             int result = Physics.RaycastNonAlloc(_camera.ScreenPointToRay(Input.mousePosition), _results,
                 Mathf.Infinity, _selectionMask);
             //Possible result = 0 => we don't enter
+            _unsafeHover = new SelectionEventData(null, null);
             for (int i = 0; i < result; i++)
             {
                 var selectable = _selectables[_results[i].transform.gameObject];
-                if ((selectable != _current && _phase.Intersects(selectable.Tile.Phase)))
+                if (_phase.Intersects(selectable.Tile.Phase))
                 {
-                    if (ShowHints)
+                    _unsafeHover = selectable.Selection;
+                    if (!smartRefresh || selectable != _current)
                     {
-                        _current.Hint.Level = previousSelectedLevel;
-                        _current = selectable;
-                        RaiseCurrentHover();
+                        if (ShowCursor)
+                            UpdateCurrent(selectable);
                     }
                 }
             }
         }
 
+        private void UpdateCurrent(Selectable selectable, bool erase = true)
+        {
+            _current = selectable;
+            RaiseCurrentHover();
+        }
+
         public void RaiseCurrentHover()
         {
-            previousSelectedLevel = _current.Hint.Level;
-            _current.Hint.Level = _hintLevel;
-            _hoverChanged.Invoke(_current.Selection);
+            if (_current != null)
+            {
+                _cursor.HintMultiple(new[] { _current.Tile.Base.Position });
+                _hoverChanged.Invoke(_current.Selection);
+            }
         }
 
         public void Reset()
         {
-            _hints.Clear();
-            ShowHints = true;
-            previousSelectedLevel = 0;
+            //_cursor.Reset();
+            //_current = null;
+            ShowCursor = true;
             RaiseCurrentHover();
         }
 
         public void OnPhaseChanged(PhaseEventData arg0)
         {
-            _phase = arg0.targetPhase;
+            if (_phase != arg0.targetPhase)
+            {
+                _phase = arg0.targetPhase;
+                UpdateCurrent(_current.Other, false);
+            }
         }
 
         public float Progress
