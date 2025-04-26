@@ -51,6 +51,8 @@ namespace Views.Battle
 
         private void Cancel(UnitCancelEventData arg0)
         {
+            if (!Data.HealthInfo.Alive)
+                return;
             if (arg0.isCancelTarget)
                 _unitAnimations._animationPlayer.Play(AnimationType.Cancel);
             else
