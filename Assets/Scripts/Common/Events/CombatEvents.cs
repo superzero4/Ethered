@@ -5,6 +5,7 @@ using BattleSystem.TileSystem;
 using UnitSystem;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Action = BattleSystem.Action;
 
 namespace Common.Events.Combat
@@ -74,8 +75,8 @@ namespace Common.Events.Combat
     {
         public PositionIndexer direction;
         public bool needLos;
-        public int distance;
-        public bool IsCloseQuarter => distance == 1;
+        public int manhattandistance;
+        public bool IsCloseQuarter => manhattandistance <= 1;
     }
 
     [Serializable]

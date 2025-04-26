@@ -89,7 +89,7 @@ namespace UnitSystem
                 unit = this,
                 direction = direction,
                 needLos = requiredLos,
-                distance = (int)direction.magnitude,
+                manhattandistance = direction.x + direction.y,
             });
             foreach (var target in targetCollectionTargets)
             {
