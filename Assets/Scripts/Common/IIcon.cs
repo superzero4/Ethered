@@ -13,12 +13,14 @@ namespace Common.Visuals
         {
             None = 0,
             Range = 1,
-            Power = 2,
+            Tier = 2,
             Phase = 3,
             RelativePhase = 4,
             Distance = 5,
             Health = 6,
             Text = 7,
+            Attack = 8,
+            Heal = 9,
         }
 
         public static Dictionary<IconType, IconText> Icons = null;

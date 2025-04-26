@@ -45,6 +45,6 @@ namespace UnitSystem.Actions.BaseClass
         }
 
         public override IIcon.IconText AdditionalInfo =>
-            new IIcon.IconText(IIcon.IconType.Power, (_damage < 0 ? "+" : "-") + "" + Math.Abs(_damage));
+            new(_damage < 0 ? IIcon.IconType.Heal : IIcon.IconType.Attack, Math.Abs(_damage).ToString());
     }
 }

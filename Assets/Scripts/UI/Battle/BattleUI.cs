@@ -21,6 +21,7 @@ namespace UI.Battle
         [SerializeField] private TimelineUI _timelineUI;
         [SerializeField] private PhaseUI _phaseUI;
 
+        [Header("Buttons")]
         [SerializeField, InfoBox("Reusable, changable and event reassignable action button")]
         private ClickableUI _confirmButton;
 

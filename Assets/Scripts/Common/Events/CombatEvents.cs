@@ -68,11 +68,14 @@ namespace Common.Events.Combat
     {
         public PositionIndexer direction;
         public int oldHealth;
+        public int hitValue;
     }
 
     [Serializable]
     public class UnitAttackData : UnitEventData
     {
+        public int damage;
+        public bool isOffensive => damage >= 0;
         public PositionIndexer direction;
         public bool needLos;
         public int manhattandistance;
