@@ -41,11 +41,12 @@ MonoBehaviour:
     _position: {x: 9.5, y: 9.6, z: -1.000001}
     _rotation: {x: -0, y: 180, z: -0}
   - _playerActionsOverride:
+    - {fileID: 11400000, guid: 493143f3d4c080141b0702b50f34b04c, type: 2}
     - {fileID: 11400000, guid: 4dd9bf59d139279439ecbd565cc07c66, type: 2}
-    - {fileID: 11400000, guid: 4a3ced525bed6f449924a5f7678914a9, type: 2}
     - {fileID: 11400000, guid: c6a6144560e31434589116791b3e9e2b, type: 2}
+    - {fileID: 11400000, guid: 4a3ced525bed6f449924a5f7678914a9, type: 2}
     _battle: {fileID: 11400000, guid: 749432e0e5a308d4c92f660ba4007e3b, type: 2}
-    _map: {fileID: 11400000, guid: 0e9d661131ea64445a75bf6aaf0452cd, type: 2}
+    _map: {fileID: 11400000, guid: 027bd7764014e264d888644914fb2a56, type: 2}
     _showTileModels: 0
     _onlyOnePhase: 0
     _position: {x: 14, y: 14, z: -31.5}
