@@ -15,24 +15,39 @@ MonoBehaviour:
   _markerNames:
   - RoadBattle1 Hint
   - RoadBattle2 Hint
-  _dynamicSquad: {fileID: 11400000, guid: a053559b7c9c69948873daa954ef8e97, type: 2}
+  _dynamicSquad: {fileID: 11400000, guid: 5e173cd4fd0695047b27440c8d6959ca, type: 2}
   _levels:
   - _playerActionsOverride: []
     _battle: {fileID: 11400000, guid: 73d592778fc517947a7253233d649979, type: 2}
     _map: {fileID: 11400000, guid: c722095bbb3b0e8419ad302d9d07ddf1, type: 2}
     _showTileModels: 0
+    _onlyOnePhase: 0
+    _reward:
+      Ether: 100
+      Coins: 100
+    _showShop: 1
     _position: {x: 0, y: 0, z: 17}
     _rotation: {x: -0, y: 180, z: -0}
   - _playerActionsOverride: []
     _battle: {fileID: 11400000, guid: 0106a29571322bc439a971238e8b612f, type: 2}
     _map: {fileID: 11400000, guid: c722095bbb3b0e8419ad302d9d07ddf1, type: 2}
     _showTileModels: 0
-    _position: {x: 0, y: 0, z: 17}
+    _onlyOnePhase: 0
+    _reward:
+      Ether: 200
+      Coins: 200
+    _showShop: 1
+    _position: {x: 0, y: 0, z: -22}
     _rotation: {x: -0, y: 180, z: -0}
   PreludePosition:
     _playerActionsOverride: []
     _battle: {fileID: 0}
     _map: {fileID: 0}
     _showTileModels: 0
+    _onlyOnePhase: 0
+    _reward:
+      Ether: 0
+      Coins: 0
+    _showShop: 0
     _position: {x: 0, y: 12, z: 35}
     _rotation: {x: 45, y: 180, z: 0}

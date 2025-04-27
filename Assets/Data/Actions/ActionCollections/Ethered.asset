@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a05ca1f5046f45c585f6fbc20a4bb72f, type: 3}
   m_Name: Ethered
   m_EditorClassIdentifier: 
+  _archetypeName: Ethered specialist
   _actions:
   - {fileID: 11400000, guid: 4dd9bf59d139279439ecbd565cc07c66, type: 2}
   - {fileID: 11400000, guid: d0680d071e3c14748b2a1c119940005a, type: 2}

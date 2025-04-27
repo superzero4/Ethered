@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TestWorld
   m_EditorClassIdentifier: 
   _markerNames: []
-  _dynamicSquad: {fileID: 11400000, guid: a053559b7c9c69948873daa954ef8e97, type: 2}
+  _dynamicSquad: {fileID: 11400000, guid: 5e173cd4fd0695047b27440c8d6959ca, type: 2}
   _levels:
   - _playerActionsOverride:
     - {fileID: 11400000, guid: 4dd9bf59d139279439ecbd565cc07c66, type: 2}
@@ -25,6 +25,10 @@ MonoBehaviour:
     _map: {fileID: 11400000, guid: ddc8345433f902c4abb1dbd2e7128645, type: 2}
     _showTileModels: 0
     _onlyOnePhase: 0
+    _reward:
+      Ether: 0
+      Coins: 0
+    _showShop: 0
     _position: {x: 0, y: 0, z: 17}
     _rotation: {x: 0, y: 180, z: 0}
   - _playerActionsOverride: []
@@ -32,6 +36,10 @@ MonoBehaviour:
     _map: {fileID: 11400000, guid: 6c2ac608803be3847960d99266af9161, type: 2}
     _showTileModels: 0
     _onlyOnePhase: 0
+    _reward:
+      Ether: 0
+      Coins: 0
+    _showShop: 0
     _position: {x: 0, y: 0, z: -22}
     _rotation: {x: 0, y: 180, z: 0}
   - _playerActionsOverride: []
@@ -39,6 +47,10 @@ MonoBehaviour:
     _map: {fileID: 11400000, guid: 6c2ac608803be3847960d99266af9161, type: 2}
     _showTileModels: 0
     _onlyOnePhase: 0
+    _reward:
+      Ether: 0
+      Coins: 0
+    _showShop: 0
     _position: {x: 7.26, y: 9.85, z: -25}
     _rotation: {x: 0, y: 0, z: 0}
   PreludePosition:
@@ -47,5 +59,9 @@ MonoBehaviour:
     _map: {fileID: 0}
     _showTileModels: 0
     _onlyOnePhase: 0
+    _reward:
+      Ether: 0
+      Coins: 0
+    _showShop: 0
     _position: {x: 0, y: 12, z: 35}
     _rotation: {x: 45, y: 0, z: 0}
