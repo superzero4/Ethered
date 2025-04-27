@@ -25,6 +25,7 @@ namespace SquadSystem
 
         private void Awake()
         {
+            squadClass.LoadSquad();
             Squad = squadClass.Squad;
             coinsText.SetText(Squad.Coins.ToString());
             etherText.SetText(Squad.Ether.ToString());

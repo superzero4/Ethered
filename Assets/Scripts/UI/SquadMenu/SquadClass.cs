@@ -56,6 +56,11 @@ namespace SquadSystem
 
         private void Awake()
         {
+            LoadSquad();
+        }
+
+        public void LoadSquad()
+        {
             _squad = _battleInfo.Units;
         }
 
