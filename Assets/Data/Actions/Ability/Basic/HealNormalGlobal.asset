@@ -15,7 +15,7 @@ MonoBehaviour:
   _visualInformations:
     _sprite: {fileID: 21300000, guid: bec6d67d3940de44e9a1f1dc03b55fd1, type: 3}
     _color: {r: 1, g: 1, b: 1, a: 1}
-    _name: Reality healing
+    _name: Reality mass heal
     _description: Heal all other allies in Reality
     _grayScale: {fileID: 0}
   _originPhase: 1
