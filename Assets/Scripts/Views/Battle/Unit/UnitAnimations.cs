@@ -52,7 +52,7 @@ namespace Views.Battle
             _animationPlayer.Play(val, !backToIdle, onComplete);
         }
 
-        public void Attack(UnitAttackData arg0, Vector3 worldPos, float delay, Action onArrived)
+        public void Attack(UnitAttackData arg0, Vector3 worldPos, float delay, Action onArrived, Action onEnd)
         {
             System.Action onTrigger = onArrived;
             AnimationType animationType;
@@ -71,7 +71,7 @@ namespace Views.Battle
                 onTrigger += () => { _weapon.WeaponShoot(worldPos, delay); };
             }
 
-            _animationPlayer.Play(animationType, false, onTrigger);
+            _animationPlayer.Play(animationType, false, onTrigger, onEnd);
         }
 
 
