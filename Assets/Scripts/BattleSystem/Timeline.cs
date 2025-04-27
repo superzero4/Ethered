@@ -5,6 +5,7 @@ using System.Linq;
 using BattleSystem.TileSystem;
 using Common.Events;
 using Common.Events.Combat;
+using Common.Events.UserInteraction;
 using Common.Events.UserInterface;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -16,26 +17,14 @@ namespace BattleSystem
     {
         [SerializeField] private List<Action> _actions;
         [SerializeField] private TimelineEvent _timeLineUpdated = new();
+        [SerializeField] private ResetEvent _timelineCleared = new();
 
         public TimelineEvent TimeLineUpdated => _timeLineUpdated;
 
         public IEnumerable<IBattleElement> Actors => _actions.Select(action => action.Origin);
 
         int index = 0;
-
-        public IEnumerator Execute(bool resetAfter, Tilemap map, float delay = -1f, System.Action onStep = null)
-        {
-            for (index = 0; index < _actions.Count; index++)
-            {
-                Step(map);
-                yield return delay > 0 ? new WaitForSeconds(delay) : null;
-                onStep?.Invoke();
-            }
-
-            if (resetAfter)
-                Reset();
-        }
-
+        
         private void Reset()
         {
             TilemapPathFindingExtensions.ClearCache();
@@ -82,12 +71,12 @@ namespace BattleSystem
             _timeLineUpdated.Invoke(new TimelineEventData(_actions, index));
         }
 
-        public bool Step(Tilemap map)
+        public void Step(Tilemap map)
         {
             if (index >= _actions.Count)
             {
                 Reset();
-                return true;
+                return;
             }
 
             var action = _actions[index];
@@ -102,7 +91,6 @@ namespace BattleSystem
 
             _timeLineUpdated.Invoke(new TimelineEventData(_actions, index, true));
             index++;
-            return false;
         }
     }
 }

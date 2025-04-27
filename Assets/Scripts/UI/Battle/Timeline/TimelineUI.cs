@@ -29,6 +29,12 @@ namespace UI.Battle
 
         public void OnTimelineMemberInserted(TimelineEventData t)
         {
+            if (t.isReset)
+            {
+                _memberPool.Reset();
+                return;
+            }
+
             if (t.InsertIndex.HasValue)
             {
                 int index = t.InsertIndex.Value;
@@ -53,9 +59,7 @@ namespace UI.Battle
                 }
             }
             else
-            {
-                _memberPool.Reset();
-            }
+                Assert.IsTrue(false, "A timeline event that is not a clear, should have a proper index");
         }
 
         public void Reset()

@@ -47,7 +47,7 @@ namespace Common.Tool
                     }
                 }
 
-                yield return battle.NextTurn(-1f);
+                battle.Step();
                 yield return new WaitForSeconds(_delay);
             }
         }

@@ -15,6 +15,7 @@ namespace BattleSystem
     {
         private Timeline _timeline;
         private Battle _battle;
+        private bool _hastarted = false;
         private int _currentTurn = 0;
 
         //TODO refactor double coupling by making the BrainCollection have a reference to the tilemap on creation and forwarding it to the brains, (because it's class) and therefore Turns could work withe the brains list directly without necistating the whole Battle/Tilemap
@@ -32,23 +33,12 @@ namespace BattleSystem
             _timeline = new Timeline();
             _timeline.Initialize(new List<Action>());
             _battle = battle;
-        }
-
-        public IEnumerator NextTurn(float delay = 0f, System.Action _onStep = null)
-        {
-            yield return _timeline.Execute(true, _battle.Tiles, delay, _onStep);
-            yield return new WaitForSeconds(delay);
-            yield return InitNewTurn(delay);
-            _currentTurn++;
-        }
-
-        public IEnumerator InitNewTurn(float delay = .1f)
-        {
-            foreach (var action in _battle.EnemyActions())
+            _hastarted = false;
+            _timeline.TimeLineUpdated.AddListener(d =>
             {
-                yield return new WaitForSeconds(delay);
-                _timeline.Prepend(action);
-            }
+                if (d.isReset)
+                    _hastarted = false;
+            });
         }
 
         public void AddAction(Action action)
@@ -63,26 +53,22 @@ namespace BattleSystem
 
         public bool CanStillAct(Unit unit)
         {
-            return unit != null && unit.HealthInfo.Alive && (unit.ActionsPerTurn == 1
+            return _hastarted && unit != null && unit.HealthInfo.Alive && (unit.ActionsPerTurn == 1
                 ? _timeline.Actors.All(a => a != unit)
                 : _timeline.Actors.Count(a => a == unit) < unit.ActionsPerTurn);
         }
 
-        public bool Step(Tilemap map, float newTurnDelay = .1f)
+        public void NewTurn()
         {
-            bool finished = _timeline.Step(map);
-            if (finished)
-            {
-                foreach (var action in _battle.EnemyActions())
-                {
-                    _timeline.Prepend(action);
-                }
+            foreach (var action in _battle.EnemyActions())
+                AddAction(action);
 
-                _currentTurn++;
-                return true;
-            }
-
-            return false;
+            _currentTurn++;
+            _hastarted = true;
+        }
+        public void Step()
+        {
+            _timeline.Step(_battle.Tiles);
         }
     }
 }

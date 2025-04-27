@@ -83,8 +83,13 @@ namespace Views.Battle
             ui.EndTurnButton.AddListener(OnEndTurn);
             battle.OnTimelineActionAdded.AddListener(d =>
             {
-                _selector.RaiseCurrentHover();
-                ui.EndTurnButton.interactable = true;
+                if (d.isReset)
+                    LeanTween.delayedCall(_delay, () =>
+                    {
+                        _battle.NextTurn();
+                        _selector.RaiseCurrentHover();
+                        ui.EndTurnButton.interactable = true;
+                    });
             });
             SetActionUIsCallback(OnActionClicked, userInput);
 
@@ -93,7 +98,6 @@ namespace Views.Battle
             //StartCoroutine(_battle.InitNewTurn(_delay));
         }
 
-        
 
         public bool CanAct(Unit unit) => unit != null && unit.Team == ETeam.Player && _battle.CanStillAct(unit);
 
@@ -215,6 +219,7 @@ namespace Views.Battle
                 //TODO Show cancel feedback
             } // Else timeline UI should have subscribed to timeline events and be update on it's own
         }
+
         private void OnEndTurn()
         {
             _userInput.ForceReset();

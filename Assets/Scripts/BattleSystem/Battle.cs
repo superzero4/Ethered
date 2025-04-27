@@ -51,6 +51,11 @@ namespace BattleSystem
             }
 
             _turns = new Turns(this);
+            _turns.TimeLineUpdated.AddListener(d =>
+            {
+                if (d.isReset)
+                    CheckForEnd();
+            });
             _brains = brains;
             _battleElements = new Tilemap(new Vector2Int(map.Size.x, map.Size.y), 2, defaultEnvironment);
             var specific = map.GetSpecificEnvironments();
@@ -170,14 +175,7 @@ namespace BattleSystem
 
         public void Step()
         {
-            if (_turns.Step(_battleElements))
-                CheckForEnd();
-        }
-
-        public IEnumerator NextTurn(float delay, System.Action _onStep = null)
-        {
-            yield return _turns.NextTurn(delay, _onStep);
-            CheckForEnd();
+            _turns.Step();
         }
 
         private void CheckForEnd()
@@ -203,12 +201,6 @@ namespace BattleSystem
             _battleEnd?.Invoke(new BattleEventData() { winner = winner });
         }
 
-        public IEnumerator InitNewTurn(float delay)
-        {
-            //TilemapPathFindingExtensions.ClearCache();
-            yield return _turns.InitNewTurn(delay);
-        }
-
         public bool CanStillAct(Unit unit)
         {
             return _turns.CanStillAct(unit);
@@ -227,6 +219,11 @@ namespace BattleSystem
             return ((checkPositionOnly && action.IsTargetPositionValid(origin, target)) ||
                     action.AreTargetsValid(origin, target)) &&
                    action.CanExecuteOnMap(origin, new TargetCollection(target), _battleElements);
+        }
+
+        public void NextTurn()
+        {
+            _turns.NewTurn();
         }
     }
 }
