@@ -6,6 +6,6 @@ namespace Views.Battle.Selection
 {
     public interface IHints : IReset
     {
-        void HintMultiple(IEnumerable<PositionData> positions);
+        void HintMultiple(IEnumerable<PositionData> positions, PositionData? main = default);
     }
 }

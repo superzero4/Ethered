@@ -34,8 +34,10 @@ namespace Views.Battle.Selection
                 Assert.IsTrue(false);
         }
 
-        public void HintMultiple(IEnumerable<PositionData> positions)
+        public void HintMultiple(IEnumerable<PositionData> positions, PositionData? main = default)
         {
+            if (main != null)
+                Hint(main.Value);
             foreach (var pos in positions)
                 Hint(pos);
         }

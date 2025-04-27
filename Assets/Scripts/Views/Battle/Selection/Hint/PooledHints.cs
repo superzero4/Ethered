@@ -28,7 +28,7 @@ namespace Views.Battle.Selection
         public void Init(int count, Grid grid)
         {
             _grid = grid;
-            _hints = new(_prefab, count, _parent==null ? _grid.transform : _parent);
+            _hints = new(_prefab, count, _parent == null ? _grid.transform : _parent);
             Reset();
         }
 
@@ -42,12 +42,15 @@ namespace Views.Battle.Selection
             }
         }
 
-        public void HintMultiple(IEnumerable<PositionData> positions)
+        public void HintMultiple(IEnumerable<PositionData> positions, PositionData? main = default)
         {
-            _hints?.SetElements(positions,
+            var positionList = new List<PositionData>(positions);
+            if (main != null)
+                positionList.Add(main.Value);
+            _hints?.SetElements(positionList,
                 (position, hint) =>
                 {
-                    hint.Level = 1;
+                    hint.Level = main.HasValue && position == main.Value ? 2 : 1;
                     var pos = _grid.PhasedCellToWorld(position);
                     hint.transform.position = pos;
                 });
