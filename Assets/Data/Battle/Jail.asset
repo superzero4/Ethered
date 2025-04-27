@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f5f9a12dbfd431ea864789c8089bef7, type: 3}
   m_Name: Jail
   m_EditorClassIdentifier: 
-  _size: {x: 7, y: 7}
+  _size: {x: 5, y: 7}
   _playerSpawns:
   - _position:
       position: {x: 0, y: 0}
     phase: 1
   _enemySpawns:
   - _position:
-      position: {x: 3, y: 3}
+      position: {x: 2, y: 3}
     phase: 1
   _specificEnvironments:
   - environment:
@@ -32,7 +32,7 @@ MonoBehaviour:
       _allowedMovement: 0
     center:
       _position:
-        position: {x: 3, y: 3}
+        position: {x: 2, y: 3}
       phase: 1
     min: {x: -1, y: -1}
     max: {x: 1, y: 1}
