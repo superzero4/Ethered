@@ -20,45 +20,50 @@ MonoBehaviour:
       _visualInformations:
         _sprite: {fileID: 21300000, guid: 55e87ef0aa74eef449cb7b33b0f63ffd, type: 3}
         _color: {r: 1, g: 1, b: 1, a: 1}
-        _name: Grace Oscar
+        _name: Invader
         _description: 
         _grayScale: {fileID: 0}
+      _unitSpecificAdditionalInfos: []
     - _maxHealth: 20
       _armor: 0
       _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
       _visualInformations:
-        _sprite: {fileID: 21300000, guid: 55e87ef0aa74eef449cb7b33b0f63ffd, type: 3}
+        _sprite: {fileID: 21300000, guid: 786ff5baa7bf79547a28a0258712ebca, type: 3}
         _color: {r: 1, g: 1, b: 1, a: 1}
-        _name: Mallory Flo
+        _name: Invader
         _description: 
         _grayScale: {fileID: 0}
+      _unitSpecificAdditionalInfos: []
     - _maxHealth: 20
       _armor: 0
       _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
       _visualInformations:
-        _sprite: {fileID: 21300000, guid: 55e87ef0aa74eef449cb7b33b0f63ffd, type: 3}
+        _sprite: {fileID: 21300000, guid: 97d80b8b969d016428c7e0c64e13aea3, type: 3}
         _color: {r: 1, g: 1, b: 1, a: 1}
-        _name: Kevin Smith
+        _name: Invader
         _description: 
         _grayScale: {fileID: 0}
+      _unitSpecificAdditionalInfos: []
     - _maxHealth: 20
       _armor: 0
       _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
       _visualInformations:
-        _sprite: {fileID: 21300000, guid: 55e87ef0aa74eef449cb7b33b0f63ffd, type: 3}
+        _sprite: {fileID: 21300000, guid: 26bee45f8b4c0c442b45a98b1ce3addb, type: 3}
         _color: {r: 1, g: 1, b: 1, a: 1}
-        _name: Alice Eve
+        _name: Invader
         _description: 
         _grayScale: {fileID: 0}
+      _unitSpecificAdditionalInfos: []
     - _maxHealth: 20
       _armor: 0
       _actionCollection: {fileID: 11400000, guid: 1165d00ee982f0e44bc64631f9d63882, type: 2}
       _visualInformations:
-        _sprite: {fileID: 21300000, guid: 55e87ef0aa74eef449cb7b33b0f63ffd, type: 3}
+        _sprite: {fileID: 21300000, guid: 378d0bd54b25b8a40bdbcae61d117373, type: 3}
         _color: {r: 1, g: 1, b: 1, a: 1}
-        _name: Romeo Walter
+        _name: Invader
         _description: 
         _grayScale: {fileID: 0}
+      _unitSpecificAdditionalInfos: []
     _upgrades: []
   _defaultUnit:
     _maxHealth: 20
@@ -70,3 +75,4 @@ MonoBehaviour:
       _name: David Smith
       _description: 
       _grayScale: {fileID: 0}
+    _unitSpecificAdditionalInfos: []

@@ -18,29 +18,32 @@ MonoBehaviour:
       _armor: 0
       _actionCollection: {fileID: 11400000, guid: 5a0f0f53e4f336d49a11176b1327cb91, type: 2}
       _visualInformations:
-        _sprite: {fileID: 21300000, guid: 55e87ef0aa74eef449cb7b33b0f63ffd, type: 3}
+        _sprite: {fileID: 21300000, guid: e0a1b1de11c21584ba6a4e10fbcd1b67, type: 3}
         _color: {r: 1, g: 1, b: 1, a: 1}
-        _name: Romeo Mallory
+        _name: Alien Leader
         _description: 
         _grayScale: {fileID: 0}
+      _unitSpecificAdditionalInfos: []
+    - _maxHealth: 20
+      _armor: 0
+      _actionCollection: {fileID: 11400000, guid: cd933160a18d72d4eaddebaa473cc57c, type: 2}
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 852a52076e29c08488f785a7b2071b5c, type: 3}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: Zealot
+        _description: 
+        _grayScale: {fileID: 0}
+      _unitSpecificAdditionalInfos: []
     - _maxHealth: 20
       _armor: 0
       _actionCollection: {fileID: 11400000, guid: cd933160a18d72d4eaddebaa473cc57c, type: 2}
       _visualInformations:
         _sprite: {fileID: 21300000, guid: 55e87ef0aa74eef449cb7b33b0f63ffd, type: 3}
         _color: {r: 1, g: 1, b: 1, a: 1}
-        _name: Flo Xander
+        _name: Zealot
         _description: 
         _grayScale: {fileID: 0}
-    - _maxHealth: 20
-      _armor: 0
-      _actionCollection: {fileID: 11400000, guid: cd933160a18d72d4eaddebaa473cc57c, type: 2}
-      _visualInformations:
-        _sprite: {fileID: 21300000, guid: 55e87ef0aa74eef449cb7b33b0f63ffd, type: 3}
-        _color: {r: 1, g: 1, b: 1, a: 1}
-        _name: Judy Peggy
-        _description: 
-        _grayScale: {fileID: 0}
+      _unitSpecificAdditionalInfos: []
     _upgrades: []
   _defaultUnit:
     _maxHealth: 20
@@ -52,3 +55,4 @@ MonoBehaviour:
       _name: David Smith
       _description: 
       _grayScale: {fileID: 0}
+    _unitSpecificAdditionalInfos: []

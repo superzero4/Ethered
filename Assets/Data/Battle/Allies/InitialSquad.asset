@@ -20,7 +20,7 @@ MonoBehaviour:
       _visualInformations:
         _sprite: {fileID: 21300000, guid: 9a6c196d611eade4c9dd6343fd710631, type: 3}
         _color: {r: 1, g: 1, b: 1, a: 1}
-        _name: Romeo David
+        _name: Sacha Romeo
         _description: 
         _grayScale: {fileID: 0}
       _unitSpecificAdditionalInfos: []
@@ -28,9 +28,9 @@ MonoBehaviour:
       _armor: 0
       _actionCollection: {fileID: 11400000, guid: 793cb790057417548a2d658f49c47785, type: 2}
       _visualInformations:
-        _sprite: {fileID: 21300000, guid: 9a6c196d611eade4c9dd6343fd710631, type: 3}
+        _sprite: {fileID: 21300000, guid: 1153d50ea2eda9e4aa54c175eb3f164e, type: 3}
         _color: {r: 1, g: 1, b: 1, a: 1}
-        _name: Doe Charlie
+        _name: Flore Xander
         _description: 
         _grayScale: {fileID: 0}
       _unitSpecificAdditionalInfos: []
