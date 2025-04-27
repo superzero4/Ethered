@@ -26,8 +26,7 @@ namespace Common
             _units.Init(5, _defaultUnit);
         }
 
-        [Button]
-        private void FillRandomNames()
+        public static void FillRandomNames(Squad squad)
         {
             string[] names = new string[]
             {
@@ -36,13 +35,19 @@ namespace Common
                 "Ivan", "Judy", "Kevin", "Linda", "Mallory", "Oscar", "Peggy", "Romeo", "Trent", "Ursula", "Victor",
                 "Walter", "Xander", "Yvonne", "Zelda"
             };
-            for (int i = 0; i < _units.Units.Count; i++)
+            for (int i = 0; i < squad.Units.Count; i++)
             {
-                var info = _units.Units[i].VisualInformations;
+                var info = squad.Units[i].VisualInformations;
                 info.Name = names[UnityEngine.Random.Range(0, names.Length)] + " " +
                             names[UnityEngine.Random.Range(0, names.Length)];
-                _units.Units[i].VisualInformations = info;
+                squad.Units[i].VisualInformations = info;
             }
+        }
+
+        [Button]
+        private void FillRandomNames()
+        {
+            FillRandomNames(_units);
         }
 
         [Button]
