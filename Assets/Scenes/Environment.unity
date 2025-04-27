@@ -18411,9 +18411,6 @@ MonoBehaviour:
   _nextSceneDelay: 1
   _hints:
     rid: -2
-  _squad:
-    _units: []
-    _upgrades: []
   references:
     version: 2
     RefIds:
@@ -145613,7 +145610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a84a20f5f1d4c36810779a043fee6c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelSkip: 4
+  _levelSkip: 6
   _levelsHolder: {fileID: 11400000, guid: a02d267547d95834285abac9ea482792, type: 2}
   _initSquad: {fileID: 11400000, guid: a053559b7c9c69948873daa954ef8e97, type: 2}
   _dynamicSquad: {fileID: 11400000, guid: 5e173cd4fd0695047b27440c8d6959ca, type: 2}
