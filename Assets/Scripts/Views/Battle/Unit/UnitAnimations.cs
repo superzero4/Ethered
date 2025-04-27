@@ -44,7 +44,7 @@ namespace Views.Battle
                 };
                 backToIdle = false;
             }
-            else if (arg0.hitValue<0)
+            else if (arg0.hitValue < 0)
                 val = AnimationType.Healed;
             else
                 val = AnimationType.Hurt;
@@ -56,7 +56,7 @@ namespace Views.Battle
         {
             System.Action onTrigger = onArrived;
             AnimationType animationType;
-            if (!arg0.isOffensive || !arg0.needLos)
+            if (!arg0.isOffensive || (!arg0.needLos && !arg0.IsCloseQuarter))
             {
                 onTrigger += () => _weapon.Cast(worldPos);
                 animationType = AnimationType.Cast;
