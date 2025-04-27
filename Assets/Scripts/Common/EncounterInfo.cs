@@ -41,7 +41,7 @@ namespace Common
         {
             string[] names = new string[]
             {
-                "Sacha", "Flo", "John", "Doe", "Jane", "Smith", "Alice", "Bob", "Charlie", "David", "Eve", "Frank",
+                "Sacha", "Flore", "John", "Doe", "Jane", "Smith", "Alice", "Bob", "Charlie", "David", "Eve", "Frank",
                 "Grace", "Heidi",
                 "Ivan", "Judy", "Kevin", "Linda", "Mallory", "Oscar", "Peggy", "Romeo", "Trent", "Ursula", "Victor",
                 "Walter", "Xander", "Yvonne", "Zelda"
