@@ -21,25 +21,15 @@ namespace BattleSystem
 
         public IEnumerable<IBattleElement> Actors => _actions.Select(action => action.Origin);
 
+        int index = 0;
 
         public IEnumerator Execute(bool resetAfter, Tilemap map, float delay = -1f, System.Action onStep = null)
         {
-            int index = 0;
-            foreach (var action in _actions)
+            for (index = 0; index < _actions.Count; index++)
             {
-                if (action.CanExecute(map))
-                    action.Execute();
-                else
-                {
-                    action.Origin.CancelAction(true);
-                    foreach (var target in action.TargetsEnumerable)
-                        target.CancelAction(false);
-                }
-
+                Step(map);
                 yield return delay > 0 ? new WaitForSeconds(delay) : null;
                 onStep?.Invoke();
-                _timeLineUpdated.Invoke(new TimelineEventData(_actions, index, true));
-                index++;
             }
 
             if (resetAfter)
@@ -48,6 +38,8 @@ namespace BattleSystem
 
         private void Reset()
         {
+            TilemapPathFindingExtensions.ClearCache();
+            index = 0;
             _actions.Clear();
             _timeLineUpdated.Invoke(new TimelineEventData(_actions, null));
         }
@@ -88,6 +80,29 @@ namespace BattleSystem
         {
             _actions.Insert(index, action);
             _timeLineUpdated.Invoke(new TimelineEventData(_actions, index));
+        }
+
+        public bool Step(Tilemap map)
+        {
+            if (index >= _actions.Count)
+            {
+                Reset();
+                return true;
+            }
+
+            var action = _actions[index];
+            if (action.CanExecute(map))
+                action.Execute();
+            else
+            {
+                action.Origin.CancelAction(true);
+                foreach (var target in action.TargetsEnumerable)
+                    target.CancelAction(false);
+            }
+
+            _timeLineUpdated.Invoke(new TimelineEventData(_actions, index, true));
+            index++;
+            return false;
         }
     }
 }

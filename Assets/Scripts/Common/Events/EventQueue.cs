@@ -4,7 +4,8 @@ using UnityEngine.Events;
 
 namespace Common.Events
 {
-    public static class EventQueue
+    //T is only used to guarantee there is implictely an independant available queue for each given type to communicate
+    public static class EventQueue<T>
     {
         private static Queue<Action> _queue = new ();
         public static void QueueEvent(Action eventToAdd)

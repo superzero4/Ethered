@@ -3,6 +3,7 @@ using System.Linq;
 using BattleSystem;
 using Common.Events;
 using Common.Events.Combat;
+using Common.Events.UserInteraction;
 using Common.Events.UserInterface;
 using NaughtyAttributes;
 using UI.Battle;
@@ -21,7 +22,10 @@ namespace Views.Battle
         [SerializeField, Range(0, 3)] private int _skinIndex;
         public UnitSkin currentSkin => _skin[_skinIndex];
 
+        public ResetEvent OnActionViewEnded => _onActionViewEnded;
+
         [SerializeField] private UnitAnimations _unitAnimations;
+        [SerializeField] private ResetEvent _onActionViewEnded = new();
 
         [Header("ReadOnly")] [SerializeField] [ReadOnly]
         private Grid _grid;
@@ -38,7 +42,7 @@ namespace Views.Battle
             _unitAnimations.Init(currentSkin);
             Data.OnUnitHealthChange.AddListener(d =>
             {
-                EventQueue.QueueEvent(() =>
+                EventQueue<UnitView>.QueueEvent(() =>
                 {
                     _healthUI.UpdateHealth(d);
                     _unitAnimations.UpdateHealth(d, _root);
@@ -53,10 +57,11 @@ namespace Views.Battle
         {
             if (!Data.HealthInfo.Alive)
                 return;
+            System.Action onEnd = _onActionViewEnded.Invoke;
             if (arg0.isCancelTarget)
-                _unitAnimations._animationPlayer.Play(AnimationType.Cancel);
+                _unitAnimations._animationPlayer.Play(AnimationType.Cancel, false, null, onEnd);
             else
-                _unitAnimations._animationPlayer.Play(AnimationType.Celebrate);
+                _unitAnimations._animationPlayer.Play(AnimationType.Celebrate, false, null, onEnd);
         }
 
 
@@ -124,6 +129,8 @@ namespace Views.Battle
                 last = pos;
                 lastDir = dir;
             }
+
+            seq.append(_onActionViewEnded.Invoke);
         }
 
         private void Attack(UnitAttackData arg0)
@@ -141,10 +148,11 @@ namespace Views.Battle
                     _grid.PhasedCellToWorld(arg0.unit.Position.Position + arg0.direction, 1f), del, () =>
                     {
                         seq.append(del);
-                        seq.append(EventQueue.ProcessAll);
+                        seq.append(EventQueue<UnitView>.ProcessAll);
                     }
                 );
             });
+            seq.append(_onActionViewEnded.Invoke);
         }
 
         private LTDescr TweenTurn(Vector2 origin, Vector2 dest, out bool snap, out bool isLeft)

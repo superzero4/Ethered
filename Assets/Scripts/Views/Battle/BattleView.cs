@@ -80,12 +80,7 @@ namespace Views.Battle
                     ui.ConfirmButton.Click();
             });
             ui.ConfirmButton.AddListener(OnConfirmed);
-            ui.EndTurnButton.AddListener(() =>
-            {
-                userInput.ForceReset();
-                StartCoroutine(battle.NextTurn(_delay, () => _selector.RaiseCurrentHover()));
-                ui.EndTurnButton.Reset();
-            });
+            ui.EndTurnButton.AddListener(OnEndTurn);
             battle.OnTimelineActionAdded.AddListener(d =>
             {
                 _selector.RaiseCurrentHover();
@@ -94,8 +89,11 @@ namespace Views.Battle
             SetActionUIsCallback(OnActionClicked, userInput);
 
             userInput.ForceReset();
-            StartCoroutine(_battle.InitNewTurn(_delay));
+            _battle.Step();
+            //StartCoroutine(_battle.InitNewTurn(_delay));
         }
+
+        
 
         public bool CanAct(Unit unit) => unit != null && unit.Team == ETeam.Player && _battle.CanStillAct(unit);
 
@@ -216,6 +214,13 @@ namespace Views.Battle
             {
                 //TODO Show cancel feedback
             } // Else timeline UI should have subscribed to timeline events and be update on it's own
+        }
+        private void OnEndTurn()
+        {
+            _userInput.ForceReset();
+            _battle.Step();
+            //StartCoroutine(_battle.NextTurn(_delay, () => _selector.RaiseCurrentHover()));
+            _ui.EndTurnButton.Reset();
         }
     }
 }

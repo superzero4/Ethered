@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BattleSystem.TileSystem;
 using Common;
 using Common.Events.UserInterface;
 using UnitSystem;
@@ -33,9 +34,10 @@ namespace BattleSystem
             _battle = battle;
         }
 
-        public IEnumerator NextTurn(float delay = .1f, System.Action _onStep = null)
+        public IEnumerator NextTurn(float delay = 0f, System.Action _onStep = null)
         {
             yield return _timeline.Execute(true, _battle.Tiles, delay, _onStep);
+            yield return new WaitForSeconds(delay);
             yield return InitNewTurn(delay);
             _currentTurn++;
         }
@@ -64,6 +66,23 @@ namespace BattleSystem
             return unit != null && unit.HealthInfo.Alive && (unit.ActionsPerTurn == 1
                 ? _timeline.Actors.All(a => a != unit)
                 : _timeline.Actors.Count(a => a == unit) < unit.ActionsPerTurn);
+        }
+
+        public bool Step(Tilemap map, float newTurnDelay = .1f)
+        {
+            bool finished = _timeline.Step(map);
+            if (finished)
+            {
+                foreach (var action in _battle.EnemyActions())
+                {
+                    _timeline.Prepend(action);
+                }
+
+                _currentTurn++;
+                return true;
+            }
+
+            return false;
         }
     }
 }

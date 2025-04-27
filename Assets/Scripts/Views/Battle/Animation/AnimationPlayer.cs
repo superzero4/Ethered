@@ -73,8 +73,10 @@ namespace Views.Battle.Animation
                 yield return new WaitForSeconds(1);
             }
         }
+
         Coroutine _currentCoroutine;
-        public void Play(AnimationType type, bool loop = false, Action onAnimationEvent = null)
+
+        public void Play(AnimationType type, bool loop = false, Action onAnimationEvent = null, Action onEnd = null)
         {
             var clip = _animationList[type];
             _animation.PlayOneShot(clip.Clip, loop);
@@ -89,6 +91,9 @@ namespace Views.Battle.Animation
                     onAnimationEvent?.Invoke();
                 }
             }
+
+            if (onEnd != null)
+                StartCoroutine(WaitForTrigger(onEnd, 1f, clip.Clip.length));
         }
 
         public void Play(AnimationType type, Func<bool> stopWhen, Action onAnimationEvent = null)
@@ -98,6 +103,7 @@ namespace Views.Battle.Animation
                 StopCoroutine(_currentCoroutine);
             _currentCoroutine = StartCoroutine(EndAfter(stopWhen));
         }
+
         public void Play(AnimationType type, float time, Action onAnimationEvent = null)
         {
             Play(type, true, onAnimationEvent);
@@ -111,6 +117,7 @@ namespace Views.Battle.Animation
             yield return new WaitUntil(stopWhen);
             _animation.BlendOutNow();
         }
+
         private IEnumerator EndAfter(float time)
         {
             yield return new WaitForSeconds(time);

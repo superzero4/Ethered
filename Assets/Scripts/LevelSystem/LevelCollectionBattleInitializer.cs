@@ -54,6 +54,7 @@ namespace LevelSystem
         private float _duration;
 
         [SerializeField] private LeanTweenType _ease = LeanTweenType.easeInOutCubic;
+        [SerializeField, Range(0.001f, 10f)] private float _nextScenDelay = .5f;
 
         [Header("ReadOnly")] [SerializeReference, ReadOnly]
         private TileHints _hints;
@@ -101,8 +102,7 @@ namespace LevelSystem
                     squad.Units[i] = new UnitInfo(squad.Units[i], current.PlayerActionsOverride);
             }
 
-            _battleViewInitializer.Init(current, squad, _phaseSelector, _grid, out var selectables,
-                out var battle);
+            var battle = _battleViewInitializer.Init(current, squad, _phaseSelector, _grid, out var selectables);
             _hints = new TileHints(selectables);
             _timelineHints.Init(2, _grid);
             _selector.Initialize(selectables, Selector.GetLayerMask(), _camera, _grid);
@@ -139,12 +139,13 @@ namespace LevelSystem
         private void OnBattleEnd(BattleEventData t)
         {
             Debug.Log($"Battle Ended, won by {t.winner}");
+            SceneFlow.EScene dest = default;
             if (_goToNextSceneOnEnd)
             {
                 if (t.winner == ETeam.Enemy)
                 {
                     _levels.Reset();
-                    SceneFlow.LoadScene(SceneFlow.EScene.GameOver);
+                    dest = SceneFlow.EScene.GameOver;
                 }
                 else
                 {
@@ -152,11 +153,13 @@ namespace LevelSystem
                     if (_skipShop)
                     {
                         //TODO hot reload scene intelligently instead if needed
-                        SceneFlow.LoadScene(SceneFlow.EScene.Battle);
+                        dest = SceneFlow.EScene.Battle;
                     }
                     else
-                        SceneFlow.LoadScene(SceneFlow.EScene.SquadMenu);
+                        dest = SceneFlow.EScene.SquadMenu;
                 }
+
+                LeanTween.delayedCall(_nextScenDelay, () => SceneFlow.LoadScene(dest));
             }
         }
 

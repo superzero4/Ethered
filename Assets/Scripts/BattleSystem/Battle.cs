@@ -168,13 +168,16 @@ namespace BattleSystem
             return sb.ToString();
         }
 
+        public void Step()
+        {
+            if (_turns.Step(_battleElements))
+                CheckForEnd();
+        }
 
         public IEnumerator NextTurn(float delay, System.Action _onStep = null)
         {
             yield return _turns.NextTurn(delay, _onStep);
-            yield return new WaitForSeconds(0.5f);
             CheckForEnd();
-            TilemapPathFindingExtensions.ClearCache();
         }
 
         private void CheckForEnd()
