@@ -6,10 +6,11 @@ namespace Common.GlobalFlow
     {
         public enum EScene
         {
+            Unset = -1,
             MainMenu = 0,
             SquadMenu = 1,
             Battle = 2,
-            GameOver = 3
+            GameOver = 3,
         }
 
         public static void LoadScene(EScene scene)

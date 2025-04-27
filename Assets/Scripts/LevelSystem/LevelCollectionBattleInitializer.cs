@@ -54,7 +54,9 @@ namespace LevelSystem
         private float _duration;
 
         [SerializeField] private LeanTweenType _ease = LeanTweenType.easeInOutCubic;
-        [SerializeField, Range(0.001f, 10f)] private float _nextScenDelay = .5f;
+
+        [FormerlySerializedAs("_nextScenDelay")] [SerializeField, Range(0.001f, 10f)]
+        private float _nextSceneDelay = .5f;
 
         [Header("ReadOnly")] [SerializeReference, ReadOnly]
         private TileHints _hints;
@@ -77,8 +79,12 @@ namespace LevelSystem
                 _flag = true;
             }
 
+            _nextScene = SceneFlow.EScene.Unset;
             SetBattle();
         }
+
+        private bool _battleEnded => _nextScene != SceneFlow.EScene.Unset;
+        private SceneFlow.EScene _nextScene = SceneFlow.EScene.Unset;
 
         private void SetBattle()
         {
@@ -107,9 +113,18 @@ namespace LevelSystem
             _timelineHints.Init(2, _grid);
             _selector.Initialize(selectables, Selector.GetLayerMask(), _camera, _grid);
             _battleView.Init(battle, _selector, _phaseSelector, _userInput, _ui, _hints, _timelineHints);
+            battle.OnTimelineActionAdded.AddListener(d =>
+            {
+                if (d.isReset && _battleEnded)
+                {
+                    _ui.EndTurnButton.Emphasize = true;
+                    _ui.EndTurnButton.RemoveAllListeners();
+                    _ui.EndTurnButton.AddListener(() => SceneFlow.LoadScene(_nextScene));
+                }
+            });
             _userInput.Reset.Invoke();
             _phaseSelector.Initialize(EPhase.Normal);
-            battle.BattleEnd.AddListener(OnBattleEnd);
+            battle.BattleEnd.AddListener(OnBattleEndCache);
             if (_autoEnd)
                 _userInput.Dev.AddListener(e => ForceEnd());
             LeanTween.sequence()
@@ -130,16 +145,16 @@ namespace LevelSystem
 
         public void ForceEnd()
         {
-            OnBattleEnd(new BattleEventData()
+            OnBattleEndCache(new BattleEventData()
             {
                 winner = ETeam.Player
             });
         }
 
-        private void OnBattleEnd(BattleEventData t)
+        private void OnBattleEndCache(BattleEventData t)
         {
             Debug.Log($"Battle Ended, won by {t.winner}");
-            SceneFlow.EScene dest = default;
+            SceneFlow.EScene dest = SceneFlow.EScene.Unset;
             if (_goToNextSceneOnEnd)
             {
                 if (t.winner == ETeam.Enemy)
@@ -159,7 +174,7 @@ namespace LevelSystem
                         dest = SceneFlow.EScene.SquadMenu;
                 }
 
-                LeanTween.delayedCall(_nextScenDelay, () => SceneFlow.LoadScene(dest));
+                _nextScene = dest;
             }
         }
 

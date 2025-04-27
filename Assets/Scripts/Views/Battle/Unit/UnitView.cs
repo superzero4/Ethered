@@ -58,10 +58,11 @@ namespace Views.Battle
             if (!Data.HealthInfo.Alive)
                 return;
             System.Action onEnd = _onActionViewEnded.Invoke;
+            //We only want to flush the events on the cancelled not the canceller otherwise we'll skip two actions
             if (arg0.isCancelTarget)
                 _unitAnimations._animationPlayer.Play(AnimationType.Cancel, false, null, onEnd);
             else
-                _unitAnimations._animationPlayer.Play(AnimationType.Celebrate, false, null, onEnd);
+                _unitAnimations._animationPlayer.Play(AnimationType.Celebrate, false, null, null);
         }
 
 
@@ -149,7 +150,7 @@ namespace Views.Battle
                     {
                         seq.append(del);
                         seq.append(EventQueue<UnitView>.ProcessAll);
-                    }
+                    }, _onActionViewEnded.Invoke
                 );
             });
             seq.append(_onActionViewEnded.Invoke);

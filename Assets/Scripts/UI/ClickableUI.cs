@@ -100,6 +100,11 @@ namespace UI
         {
             OnClick.AddListener(_ => action());
         }
+        
+        public void RemoveAllListeners()
+        {
+            OnClick.RemoveAllListeners();
+        }
 
         protected override void Clicked(EmptyEvenData args)
         {
@@ -109,5 +114,6 @@ namespace UI
         {
             return default;
         }
+
     }
 }
