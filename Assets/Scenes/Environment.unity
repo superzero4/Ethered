@@ -18405,7 +18405,7 @@ MonoBehaviour:
   _levelSkip: 0
   _duration: 3
   _ease: 7
-  _nextScenDelay: 1
+  _nextSceneDelay: 1
   _hints:
     rid: -2
   references:
@@ -121814,15 +121814,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4362264027587702, guid: f923d13d00af49f4c888dd5f62f0835e, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9908828
+      value: 0.7959281
       objectReference: {fileID: 0}
     - target: {fileID: 4362264027587702, guid: f923d13d00af49f4c888dd5f62f0835e, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4362264027587702, guid: f923d13d00af49f4c888dd5f62f0835e, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.13472652
+      value: 0.6053912
       objectReference: {fileID: 0}
     - target: {fileID: 4362264027587702, guid: f923d13d00af49f4c888dd5f62f0835e, type: 3}
       propertyPath: m_LocalRotation.z
@@ -158103,7 +158103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c94d35e1f3ec64382d600d745c4bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delay: 0.5
+  _delay: 0.2
   _unitActionsPreviewShowEmptyTiles: 1
   _allowActionChangeAfterUnitSelected: 1
   _timelineView: {fileID: 1299627671}
