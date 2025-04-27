@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _archetypeName: Sniper
   _actions:
-  - {fileID: 11400000, guid: 4dd9bf59d139279439ecbd565cc07c66, type: 2}
   - {fileID: 11400000, guid: ff0f1ead0db88e945bf667eea7a55f70, type: 2}
+  - {fileID: 11400000, guid: 4dd9bf59d139279439ecbd565cc07c66, type: 2}

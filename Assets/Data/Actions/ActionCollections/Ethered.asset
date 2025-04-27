@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _archetypeName: Ethered specialist
   _actions:
-  - {fileID: 11400000, guid: 4dd9bf59d139279439ecbd565cc07c66, type: 2}
   - {fileID: 11400000, guid: d0680d071e3c14748b2a1c119940005a, type: 2}
   - {fileID: 11400000, guid: b686a582120f0454da4b3d36b55ff885, type: 2}
   - {fileID: 11400000, guid: c6a6144560e31434589116791b3e9e2b, type: 2}
+  - {fileID: 11400000, guid: 4dd9bf59d139279439ecbd565cc07c66, type: 2}

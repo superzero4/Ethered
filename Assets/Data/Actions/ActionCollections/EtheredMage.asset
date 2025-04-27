@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _archetypeName: Ethered mage
   _actions:
-  - {fileID: 11400000, guid: c24cc97f8f5226e48960dd2f238e2bb0, type: 2}
   - {fileID: 11400000, guid: d0680d071e3c14748b2a1c119940005a, type: 2}
   - {fileID: 11400000, guid: ac607e8988f9ba745baac7f314175712, type: 2}
   - {fileID: 11400000, guid: 9e0b5079f9f139b4f8190a31169f6fee, type: 2}
+  - {fileID: 11400000, guid: c24cc97f8f5226e48960dd2f238e2bb0, type: 2}
