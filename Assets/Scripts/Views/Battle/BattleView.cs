@@ -144,9 +144,10 @@ namespace Views.Battle
                 var targs = _battle.PossibleTargetPosition(_selectionState.Origin, a,
                     _unitActionsPreviewShowEmptyTiles);
                 _selector.Reset();
+                _hints.Reset();
                 _selector.ShowCursor = true;
                 _hints.HintMultiple(targs);
-                if (!a.MainTarget.Phase.ToPhase(_phaseSelector.Phase).Intersects(_phaseSelector.Phase))
+                if (!a.MainTarget.Phase.ToPhase(_selectionState.Origin.Position.Phase).Intersects(_phaseSelector.Phase))
                     _phaseSelector.TogglePhase();
             }
         }
@@ -159,6 +160,8 @@ namespace Views.Battle
                 if (s.unit != null && CanAct(s.unit))
                 {
                     _selectionState.SetUnit(s.unit, true);
+                    _selector.ShowCursor = true;
+                    _selector.RaiseCurrentHover();
                     _selector.ShowCursor = false;
                 }
             }

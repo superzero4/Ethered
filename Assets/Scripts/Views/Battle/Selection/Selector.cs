@@ -90,8 +90,7 @@ namespace Views.Battle.Selection
                     _unsafeHover = selectable.Selection;
                     if (!smartRefresh || selectable != _current)
                     {
-                        if (ShowCursor)
-                            UpdateCurrent(selectable);
+                        UpdateCurrent(selectable);
                     }
                 }
             }
@@ -107,8 +106,11 @@ namespace Views.Battle.Selection
         {
             if (_current != null)
             {
-                _cursor.HintMultiple(new[] { _current.Tile.Base.Position });
-                _hoverChanged.Invoke(_current.Selection);
+                if (_showCursor)
+                {
+                    _cursor.HintMultiple(new[] { _current.Tile.Base.Position });
+                    _hoverChanged.Invoke(_current.Selection);
+                }
             }
         }
 

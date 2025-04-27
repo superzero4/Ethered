@@ -15,9 +15,9 @@ namespace Views.Battle.Selection
     {
         [SerializeReference] private Unit _origin;
         [SerializeReference] private Action _action;
-        public bool CanSelectUnit => _origin == null;
-        public bool CanSelectAction => !CanSelectUnit && (_allowReplace || _action == null);
-        public bool CanSelectTarget => !CanSelectUnit && _action!=null;
+        public bool CanSelectUnit => _action == null;
+        public bool CanSelectAction => _origin != null && (_allowReplace || _action == null);
+        public bool CanSelectTarget => _origin != null && _action != null;
 
         public bool AcceptsMoreTargets
         {
@@ -30,6 +30,7 @@ namespace Views.Battle.Selection
 
         public Unit Origin => _origin;
         private bool _allowReplace = false;
+
         public SelectionState(bool allowReplace)
         {
             _allowReplace = allowReplace;
