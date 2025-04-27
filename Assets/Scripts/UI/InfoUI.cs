@@ -158,6 +158,14 @@ namespace UI
             (this as IVisualInformationUI).SetIcon(iconProvider);
         }
 
+        public void SetInfo(IIcon iconProvider, int distance)
+        {
+            var info = iconProvider.VisualInformations;
+            var icon = iconProvider.IconTexts;
+            icon = icon.Append(new(IIcon.IconType.Distance, distance.ToString()));
+            (this as IVisualInformationUI).SetInfo(info, icon);
+        }
+
         public void OnPointerEnter(PointerEventData eventData)
         {
             SetInfos(true);

@@ -50,7 +50,7 @@ namespace UI.Battle
             var visualOverride = a.Info.VisualInformations;
             visualOverride.ClearDescription();
             _actionUI.SetInfo(visualOverride, a.Info.IconTexts);
-            _targetUIPool.SetElements(a.TargetsEnumerable, (target, targetUI) => targetUI.SetInfo(target));
+            _targetUIPool.SetElements(a.TargetsEnumerable, (target, targetUI) => targetUI.SetInfo(target, a.Origin.Position.DistanceTo(target.Position)));
             _next.gameObject.SetActive(!isLast);
         }
 
