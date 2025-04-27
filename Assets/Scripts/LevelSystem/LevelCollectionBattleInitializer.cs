@@ -23,6 +23,10 @@ namespace LevelSystem
         private static bool _flag;
         private ILevelCollection _levels;
 
+        [Header("Dev")] [SerializeField] private bool _autoEnd;
+
+        [SerializeField, UnityEngine.Range(0, 100)]
+        private int _levelSkip;
         [Header("References")] [SerializeField] [Header("Battle")]
         private Object _levelsHolder;
 
@@ -45,10 +49,7 @@ namespace LevelSystem
         [Header("Settings")] [SerializeField] private bool _goToNextSceneOnEnd = true;
         [SerializeField] private bool _skipShop = true;
 
-        [Header("Dev")] [SerializeField] private bool _autoEnd;
-
-        [SerializeField, UnityEngine.Range(0, 100)]
-        private int _levelSkip;
+        
 
         [Header("Intro")] [SerializeField, UnityEngine.Range(0, 10f)]
         private float _duration;
