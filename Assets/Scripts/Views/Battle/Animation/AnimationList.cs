@@ -132,6 +132,6 @@ namespace Views.Battle.Animation
             if (element.Animations.Count > 0)
                 _animationsList.Add(element);
         }
-    }
 #endif
+    }
 }
