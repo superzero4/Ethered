@@ -144,13 +144,15 @@ namespace Views.Battle
 
         private void OnActionClicked(IActionInfo a)
         {
+            //We reclicked aka toggle back the same action
             if (_selectionState.Action != null && _selectionState.Action.Info == a)
             {
                 _selectionState.ResetAction();
                 _ui.UnitUI.ResetActionUIs();
                 _hints.Reset();
-                _selector.ShowCursor = false;
                 EnsurePhaseIsVisible(_selectionState.Origin.Position.Phase);
+                _selector.ShowCursor = true;
+                _selector.RaiseCurrentHover();
                 return;
             }
 
