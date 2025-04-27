@@ -44,7 +44,7 @@ namespace UnitSystem.Actions.BaseClass
             origin.Attack(targetCollection.Targets, _damage, _requireLOS);
         }
 
-        public override IIcon.IconText AdditionalInfo =>
-            new(_damage < 0 ? IIcon.IconType.Heal : IIcon.IconType.Attack, Math.Abs(_damage).ToString());
+        public override IEnumerable<IIcon.IconText> AdditionalInfo => base.AdditionalInfo.Prepend(
+            new(_damage < 0 ? IIcon.IconType.Heal : IIcon.IconType.Attack, Math.Abs(_damage).ToString()));
     }
 }

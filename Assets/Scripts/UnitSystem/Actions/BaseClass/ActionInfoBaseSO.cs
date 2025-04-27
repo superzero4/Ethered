@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using BattleSystem;
 using BattleSystem.TileSystem;
 using Common.Visuals;
@@ -21,6 +22,10 @@ namespace UnitSystem.Actions.Bases
 
         public abstract bool CanExecuteOnMap(Unit origin, TargetCollection targets, Tilemap map);
         public abstract void Execute(Unit origin, TargetCollection targetCollection);
-        public abstract IIcon.IconText AdditionalInfo { get; }
+
+        public virtual IEnumerable<IIcon.IconText> AdditionalInfo
+        {
+            get { yield return new IIcon.IconText(IIcon.IconType.Range, PossibleTargets.Max(t => t.Range).ToString()); }
+        }
     }
 }
