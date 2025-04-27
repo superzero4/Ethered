@@ -282,7 +282,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &72313631240410648
 CanvasRenderer:
@@ -395,6 +395,17 @@ MonoBehaviour:
   coinsCost: 0
   etherCost: 0
   squadClass: {fileID: 0}
+  info:
+    _maxHealth: 0
+    _armor: 0
+    _actionCollection: {fileID: 0}
+    _visualInformations:
+      _sprite: {fileID: 0}
+      _color: {r: 0, g: 0, b: 0, a: 0}
+      _name: 
+      _description: 
+      _grayScale: {fileID: 0}
+    _unitSpecificAdditionalInfos: []
   squadMenu: {fileID: 0}
 --- !u!114 &518476194944461913
 MonoBehaviour:
