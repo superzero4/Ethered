@@ -103,5 +103,6 @@ namespace Common.Events.Combat
     public struct BattleEventData
     {
         public ETeam winner;
+        public List<Unit> alliesStatus;
     }
 }

@@ -15,6 +15,17 @@ namespace Common
 
         public UnitInfo DefaultUnit => _defaultUnit;
 
+        public int Coins
+        {
+            get { return _units.Coins; }
+            set { _units.Coins = value; }
+        }
+        public int Ether
+        {
+            get { return _units.Ether; }
+            set { _units.Ether = value; }
+        }
+
         public void Fill(Squad squad)
         {
             _units = squad;

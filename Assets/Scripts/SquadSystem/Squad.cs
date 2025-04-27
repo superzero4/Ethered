@@ -11,7 +11,6 @@ namespace SquadSystem
     [Serializable]
     public struct Squad
     {
-
         public Squad(Squad other)
         {
             _units = new List<UnitInfo>(other._units.Select(u => new UnitInfo(u)));
@@ -21,6 +20,11 @@ namespace SquadSystem
         }
 
         [SerializeField] private List<UnitInfo> _units;
+
+        public void ReplaceUnitInfo(IEnumerable<UnitInfo> units)
+        {
+            _units = new List<UnitInfo>(units);
+        }
 
         public void Trim(int size)
         {

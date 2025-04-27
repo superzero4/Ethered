@@ -57,7 +57,7 @@ namespace LevelSystem
         [Header("ReadOnly")] [SerializeReference, ReadOnly]
         private TileHints _hints;
 
-        private void Awake()
+        private void Start()
         {
             _nextScene = SceneFlow.EScene.Unset;
             SetBattle();
@@ -66,8 +66,6 @@ namespace LevelSystem
         private bool _battleEnded => _nextScene != SceneFlow.EScene.Unset;
         private SceneFlow.EScene _nextScene = SceneFlow.EScene.Unset;
 
-        [FormerlySerializedAs("squad")] [SerializeField]
-        private Squad _squad;
 
         private ILevelCollection _levels => LevelProgression.Instance.Levels;
         private EncounterInfo _dynamicSquad => LevelProgression.Instance.DynamicSquad;
@@ -86,15 +84,15 @@ namespace LevelSystem
 
             _userInput.AddResetables(_selector);
             _userInput.MouseButton.AddListener(_selector.Select);
-            _squad = _dynamicSquad.Units;
+            var tempSquad = new Squad(_dynamicSquad.Units);
             if (current.PlayerActionsOverride != null && current.PlayerActionsOverride.Length > 0)
             {
-                _squad.Trim(current.PlayerActionsOverride.Length);
-                for (int i = 0; i < _squad.Units.Count; i++)
-                    _squad.Units[i] = new UnitInfo(_squad.Units[i], current.PlayerActionsOverride);
+                tempSquad.Trim(current.PlayerActionsOverride.Length);
+                for (int i = 0; i < tempSquad.Units.Count; i++)
+                    tempSquad.Units[i] = new UnitInfo(tempSquad.Units[i], current.PlayerActionsOverride);
             }
 
-            var battle = _battleViewInitializer.Init(current, _squad, _phaseSelector, _grid, out var selectables);
+            var battle = _battleViewInitializer.Init(current, tempSquad, _phaseSelector, _grid, out var selectables);
             _hints = new TileHints(selectables);
             _timelineHints.Init(2, _grid);
             _selector.Initialize(selectables, Selector.GetLayerMask(), _camera, _grid);
@@ -112,7 +110,7 @@ namespace LevelSystem
             _phaseSelector.Initialize(EPhase.Normal);
             battle.BattleEnd.AddListener(OnBattleEndCache);
             if (_autoEnd)
-                _userInput.Dev.AddListener(e => ForceEnd());
+                _userInput.Dev.AddListener(e => ForceEnd(battle));
             LeanTween.sequence()
                 .append(AnimateBattleView(precedent, current))
                 .append(() =>
@@ -129,11 +127,12 @@ namespace LevelSystem
             _grid.transform.eulerAngles = current.Rotation;
         }
 
-        public void ForceEnd()
+        public void ForceEnd(Battle battle)
         {
             OnBattleEndCache(new BattleEventData()
             {
-                winner = ETeam.Player
+                winner = ETeam.Player,
+                alliesStatus = battle.Units.Where(u => u.Team == ETeam.Player).ToList(),
             });
             SceneFlow.LoadScene(_nextScene);
         }
@@ -152,11 +151,16 @@ namespace LevelSystem
                 else
                 {
                     var current = _levels.Current;
-                    _squad.Coins += current.Rewards.Coins;
-                    _squad.Ether += current.Rewards.Ether;
-                    _dynamicSquad.Fill(_squad);
-                    _levels.Increment();
-                    if (!current.ShowShop)
+                    _dynamicSquad.Coins += current.Rewards.Coins;
+                    _dynamicSquad.Ether += current.Rewards.Ether;
+                    var filtered = _dynamicSquad.Units.Units.Where((inf, i) =>
+                        i >= t.alliesStatus.Count || t.alliesStatus[i].HealthInfo.Alive);
+                    _dynamicSquad.Units.ReplaceUnitInfo(filtered);
+                    //We keep the base squad without the potential locla overrride but we filter out the dead units
+                    _levels.Increment(1, out bool finished);
+                    if (finished)
+                        dest = SceneFlow.EScene.GameOver;
+                    else if (!current.ShowShop)
                     {
                         //TODO hot reload scene intelligently instead if needed
                         dest = SceneFlow.EScene.Battle;

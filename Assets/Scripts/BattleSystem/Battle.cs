@@ -198,7 +198,7 @@ namespace BattleSystem
                     break;
             }
 
-            _battleEnd?.Invoke(new BattleEventData() { winner = winner });
+            _battleEnd?.Invoke(new BattleEventData() { winner = winner, alliesStatus = _allies });
         }
 
         public bool CanStillAct(Unit unit)
