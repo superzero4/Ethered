@@ -7,8 +7,7 @@ namespace LevelSystem
     [CreateAssetMenu(fileName = "worldCollection", menuName = "Battle/WorldCollection")]
     public class WorldCollection : ScriptableObject, ILevelCollection
     {
-        [SerializeField]
-        private WorldSO[] _worlds;
+        [SerializeField] private WorldSO[] _worlds;
         private int _currentIndex = 0;
         private ILevelCollection currentLevelCollection => _worlds[_currentIndex];
 
@@ -23,12 +22,15 @@ namespace LevelSystem
         public void Increment(int value, out bool reset)
         {
             reset = false;
-            currentLevelCollection.Increment(value, out bool b);
-            if (b)
+            for (int i = 0; i < value; i++)
             {
-                _currentIndex++;
-                _currentIndex %= _worlds.Length;
-                reset = _currentIndex == 0;
+                currentLevelCollection.Increment(1, out bool b);
+                if (b)
+                {
+                    _currentIndex++;
+                    _currentIndex %= _worlds.Length;
+                    reset = _currentIndex == 0;
+                }
             }
         }
 
