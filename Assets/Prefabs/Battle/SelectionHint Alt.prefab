@@ -8,13 +8,49 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2924605442905185693, guid: 5d54c231e02309d4d81d54fb7d1c0045, type: 3}
+      propertyPath: _colorLevels.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -2924605442905185693, guid: 5d54c231e02309d4d81d54fb7d1c0045, type: 3}
+      propertyPath: _colorLevels.Array.data[0].a
+      value: 0.39215687
+      objectReference: {fileID: 0}
+    - target: {fileID: -2924605442905185693, guid: 5d54c231e02309d4d81d54fb7d1c0045, type: 3}
+      propertyPath: _colorLevels.Array.data[0].b
+      value: 0.48867923
+      objectReference: {fileID: 0}
+    - target: {fileID: -2924605442905185693, guid: 5d54c231e02309d4d81d54fb7d1c0045, type: 3}
+      propertyPath: _colorLevels.Array.data[0].g
+      value: 0.87431216
+      objectReference: {fileID: 0}
+    - target: {fileID: -2924605442905185693, guid: 5d54c231e02309d4d81d54fb7d1c0045, type: 3}
+      propertyPath: _colorLevels.Array.data[0].r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2924605442905185693, guid: 5d54c231e02309d4d81d54fb7d1c0045, type: 3}
+      propertyPath: _colorLevels.Array.data[1].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2924605442905185693, guid: 5d54c231e02309d4d81d54fb7d1c0045, type: 3}
+      propertyPath: _colorLevels.Array.data[1].b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2924605442905185693, guid: 5d54c231e02309d4d81d54fb7d1c0045, type: 3}
+      propertyPath: _colorLevels.Array.data[1].g
+      value: 0.75418985
+      objectReference: {fileID: 0}
+    - target: {fileID: -2924605442905185693, guid: 5d54c231e02309d4d81d54fb7d1c0045, type: 3}
+      propertyPath: _colorLevels.Array.data[1].r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2571957123013372730, guid: 5d54c231e02309d4d81d54fb7d1c0045, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 70ee623a0efc8fc4da31e453d50f8dd4, type: 2}
     - target: {fileID: 6584936744104304278, guid: 5d54c231e02309d4d81d54fb7d1c0045, type: 3}
       propertyPath: m_Name
-      value: SelectionHint Variant
+      value: SelectionHint Alt
       objectReference: {fileID: 0}
     - target: {fileID: 7882137532016905675, guid: 5d54c231e02309d4d81d54fb7d1c0045, type: 3}
       propertyPath: m_LocalPosition.x
