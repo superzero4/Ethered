@@ -76,10 +76,12 @@ namespace Views.Battle.Animation
 
         Coroutine _currentCoroutine;
 
-        public void Play(AnimationType type, bool loop = false, Action onAnimationEvent = null, Action onEnd = null)
+        public void Play(AnimationType type, bool loop = false, Action onAnimationEvent = null, Action onEnd = null,
+            bool eventOnly = false)
         {
             var clip = _animationList[type];
-            _animation.PlayOneShot(clip.Clip, loop);
+            if (!eventOnly)
+                _animation.PlayOneShot(clip.Clip, loop);
             if (onAnimationEvent != null)
             {
                 if (clip.TriggerTime > 0)

@@ -55,13 +55,12 @@ namespace Views.Battle
 
         private void Cancel(UnitCancelEventData arg0)
         {
-            if (!Data.HealthInfo.Alive)
-                return;
+            bool shouldAnimate = Data.HealthInfo.Alive;
             System.Action onEnd = _onActionViewEnded.Invoke;
             //We only want to flush the events on the cancelled not the canceller otherwise we'll skip two actions
             if (arg0.isCancelTarget)
-                _unitAnimations._animationPlayer.Play(AnimationType.Cancel, false, null, onEnd);
-            else
+                _unitAnimations._animationPlayer.Play(AnimationType.Cancel, false, null, onEnd, !shouldAnimate);
+            else if (shouldAnimate)
                 _unitAnimations._animationPlayer.Play(AnimationType.Celebrate, false, null, null);
         }
 
@@ -69,27 +68,8 @@ namespace Views.Battle
         protected override Color GetColor()
         {
             var color = base.GetColor();
-            if (_data.Team == ETeam.Player)
-            {
-                switch (_data.Position.Phase)
-                {
-                    default: color = Color.green; break;
-                    //case EPhase.Normal: color = Color.blue; break;
-                    //case EPhase.Ethered: color = Color.cyan; break;
-                    //case EPhase.Both: color = Color.green; break;
-                }
-            }
-            else if (_data.Team == ETeam.Enemy)
-            {
-                switch (_data.Position.Phase)
-                {
-                    default: color = Color.red; break;
-                    //case EPhase.Normal: color = Color.red; break;
-                    //case EPhase.Ethered: color = Color.magenta; break;
-                    //case EPhase.Both: color = Color.yellow; break;
-                }
-            }
-
+            if (_data.Team == ETeam.Player) color = Color.green;
+            else if (_data.Team == ETeam.Enemy) color = Color.red;
             return color;
         }
 
@@ -153,7 +133,6 @@ namespace Views.Battle
                     }, _onActionViewEnded.Invoke
                 );
             });
-            seq.append(_onActionViewEnded.Invoke);
         }
 
         private LTDescr TweenTurn(Vector2 origin, Vector2 dest, out bool snap, out bool isLeft)
