@@ -11,6 +11,7 @@ namespace SquadSystem
     [Serializable]
     public struct Squad
     {
+
         public Squad(Squad other)
         {
             _units = new List<UnitInfo>(other._units.Select(u => new UnitInfo(u)));

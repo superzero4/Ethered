@@ -1,8 +1,10 @@
 using Common.GlobalFlow;
+using SquadSystem.Buttons;
 using SquadSystem.Items;
 using TMPro;
 using UnitSystem;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SquadSystem
 {
@@ -15,17 +17,20 @@ namespace SquadSystem
         [SerializeField] private GameObject squadPanel;
         [SerializeField] private SquadClass squadClass;
         [SerializeField] private UpgradeList upgradeList;
+        [SerializeField] private LoadSquadButton loadSquadButton;
         [SerializeField] private Inventory inventory;
         [SerializeField] private Shop shop;
         
         private Squad Squad { get; set; }
 
-        private void Start()
+        private void Awake()
         {
-            Squad = squadClass.GetSquad();
+            Squad = squadClass.Squad;
             coinsText.SetText(Squad.Coins.ToString());
             etherText.SetText(Squad.Ether.ToString());
-            shop.GenerateSquadMemberShopWithTheList(2);
+            shop.GenerateSquadMemberShopWithTheList(6);
+            squadPanel.SetActive(true);
+            loadSquadButton.GetComponent<Button>().onClick.Invoke();
             //shop.GenerateGlobalUpgradesShopWithTheList(2);
         }
         
@@ -63,7 +68,7 @@ namespace SquadSystem
             etherText.SetText(squadClass.Ether.ToString());
         }
 
-        public void GoToNextScene()
+        public void GoToNextScene() 
         {
             squadClass.ForwardToBattle();
             SceneFlow.LoadScene(SceneFlow.EScene.Battle);

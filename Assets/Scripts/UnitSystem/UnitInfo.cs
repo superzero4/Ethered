@@ -14,7 +14,7 @@ namespace UnitSystem
         [SerializeField] private int _armor;
         [SerializeField] private ActionCollection _actionCollection;
         [SerializeField] private VisualInformations _visualInformations;
-
+        public string ArchetypeName => _actionCollection.name;
         private List<IActionInfo> _actions;
         [SerializeField] private IIcon.IconText[] _unitSpecificAdditionalInfos;
 

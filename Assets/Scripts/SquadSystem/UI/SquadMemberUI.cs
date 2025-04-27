@@ -10,9 +10,9 @@ namespace SquadSystem.UI
         [SerializeField] private TMP_Text healthText;
         [SerializeField] private TMP_Text armorText;
         
-        public void SetParameters(int index, int health, int armor)
+        public void SetParameters(string name, int health, int armor)
         {
-            squadMemberIndexText.text = "Squad Member " + index;
+            squadMemberIndexText.text = name;
             healthText.text = "Health: " + health;
             armorText.text = "Armor: " + armor;
         }
