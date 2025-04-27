@@ -18405,6 +18405,7 @@ MonoBehaviour:
   _levelSkip: 0
   _duration: 3
   _ease: 7
+  _nextScenDelay: 1
   _hints:
     rid: -2
   references:
@@ -158098,7 +158099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c94d35e1f3ec64382d600d745c4bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delay: 2
+  _delay: 0.5
   _unitActionsPreviewShowEmptyTiles: 1
   _allowActionChangeAfterUnitSelected: 1
   _timelineView: {fileID: 1299627671}
