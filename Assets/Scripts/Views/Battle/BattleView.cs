@@ -211,7 +211,7 @@ namespace Views.Battle
             var action = _selectionState.Confirm();
             var confirmed = _battle.ConfirmAction(action);
             _userInput.ForceReset();
-            _ui.EndTurnButton.highlighted = !_battle.AlliesCanAct;
+            _ui.EndTurnButton.Emphasize = !_battle.AlliesCanAct;
             if (!confirmed)
             {
                 //TODO Show cancel feedback

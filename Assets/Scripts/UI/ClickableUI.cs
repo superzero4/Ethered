@@ -33,7 +33,7 @@ namespace UI
             }
         }
 
-        public bool highlighted
+        public bool Emphasize
         {
             set { Apply(value && _emphasized.normalSprite != null ? _emphasized : _normal); }
         }
@@ -87,7 +87,7 @@ namespace UI
         public virtual void Reset()
         {
             interactable = false;
-            highlighted = false;
+            Emphasize = false;
         }
     }
 
