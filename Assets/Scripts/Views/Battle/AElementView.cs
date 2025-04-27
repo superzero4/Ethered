@@ -67,7 +67,7 @@ namespace Views.Battle
             set
             {
                 _root.localRotation = Quaternion.Euler(0, value + _baseRot, 0);
-                RotationChanged(Rotation);
+                RotationChanged(value);
             }
         }
 
