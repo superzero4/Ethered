@@ -9,28 +9,23 @@ using SquadSystem;
 using UI.Battle;
 using UnitSystem;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 using Views.Battle;
 using Views.Battle.Selection;
 using Views.Phase;
-using Object = UnityEngine.Object;
 
 namespace LevelSystem
 {
     public class LevelCollectionBattleInitializer : MonoBehaviour
     {
-        private static bool _flag;
-        private ILevelCollection _levels;
-
         [Header("Dev")] [SerializeField] private bool _autoEnd;
 
-        [SerializeField, UnityEngine.Range(0, 100)]
-        private int _levelSkip;
-        [Header("References")] [SerializeField] [Header("Battle")]
-        private Object _levelsHolder;
 
-        [SerializeField] private BattleViewInitializer _battleViewInitializer;
+        [Header("References")] [SerializeField]
+        private LevelProgression _levelProgression;
+
+        [Header("Battle")] [SerializeField] private BattleViewInitializer _battleViewInitializer;
+
         [SerializeField] private BattleView _battleView;
         [Header("Selection")] [SerializeField] private Selector _selector;
         [SerializeField] private PhaseSelector _phaseSelector;
@@ -49,7 +44,6 @@ namespace LevelSystem
         [Header("Settings")] [SerializeField] private bool _goToNextSceneOnEnd = true;
         [SerializeField] private bool _skipShop = true;
 
-        
 
         [Header("Intro")] [SerializeField, UnityEngine.Range(0, 10f)]
         private float _duration;
@@ -59,33 +53,24 @@ namespace LevelSystem
         [FormerlySerializedAs("_nextScenDelay")] [SerializeField, Range(0.001f, 10f)]
         private float _nextSceneDelay = .5f;
 
+
         [Header("ReadOnly")] [SerializeReference, ReadOnly]
         private TileHints _hints;
 
         private void Awake()
         {
-            // Initialize the level collection
-            Assert.IsTrue(_levelsHolder != null && _levelsHolder is ILevelCollection,
-                " _levelsHolder is null or not of type ILevelCollection");
-            _levels = _levelsHolder as ILevelCollection;
-            if (!_flag)
-            {
-#if UNITY_EDITOR
-                if (_levelsHolder is WorldCollection worldCollection)
-                    foreach (var world in worldCollection.Worlds)
-                        world.SetPositionFromMarkerName();
-#endif
-                _levels.Reset();
-                _levels.Increment(_levelSkip);
-                _flag = true;
-            }
-
             _nextScene = SceneFlow.EScene.Unset;
             SetBattle();
         }
 
         private bool _battleEnded => _nextScene != SceneFlow.EScene.Unset;
         private SceneFlow.EScene _nextScene = SceneFlow.EScene.Unset;
+
+        [FormerlySerializedAs("squad")] [SerializeField]
+        private Squad _squad;
+
+        private ILevelCollection _levels => LevelProgression.Instance.Levels;
+        private EncounterInfo _dynamicSquad => LevelProgression.Instance.DynamicSquad;
 
         private void SetBattle()
         {
@@ -101,15 +86,15 @@ namespace LevelSystem
 
             _userInput.AddResetables(_selector);
             _userInput.MouseButton.AddListener(_selector.Select);
-            Squad squad = new Squad(_levels.StartingSquad.Units);
+            _squad = _dynamicSquad.Units;
             if (current.PlayerActionsOverride != null && current.PlayerActionsOverride.Length > 0)
             {
-                squad.Trim(current.PlayerActionsOverride.Length);
-                for (int i = 0; i < squad.Units.Count; i++)
-                    squad.Units[i] = new UnitInfo(squad.Units[i], current.PlayerActionsOverride);
+                _squad.Trim(current.PlayerActionsOverride.Length);
+                for (int i = 0; i < _squad.Units.Count; i++)
+                    _squad.Units[i] = new UnitInfo(_squad.Units[i], current.PlayerActionsOverride);
             }
 
-            var battle = _battleViewInitializer.Init(current, squad, _phaseSelector, _grid, out var selectables);
+            var battle = _battleViewInitializer.Init(current, _squad, _phaseSelector, _grid, out var selectables);
             _hints = new TileHints(selectables);
             _timelineHints.Init(2, _grid);
             _selector.Initialize(selectables, Selector.GetLayerMask(), _camera, _grid);
@@ -150,6 +135,7 @@ namespace LevelSystem
             {
                 winner = ETeam.Player
             });
+            SceneFlow.LoadScene(_nextScene);
         }
 
         private void OnBattleEndCache(BattleEventData t)
@@ -165,8 +151,12 @@ namespace LevelSystem
                 }
                 else
                 {
+                    var current = _levels.Current;
+                    _squad.Coins += current.Rewards.Coins;
+                    _squad.Ether += current.Rewards.Ether;
+                    _dynamicSquad.Fill(_squad);
                     _levels.Increment();
-                    if (_skipShop)
+                    if (!current.ShowShop)
                     {
                         //TODO hot reload scene intelligently instead if needed
                         dest = SceneFlow.EScene.Battle;

@@ -32,6 +32,7 @@ namespace LevelSystem
         [SerializeField, Tooltip("Shouldn't be used for more than position and rotation")]
         private Level PreludePosition;
 
+        [SerializeField]
         private int _currentLevelIndex;
         public Level Current => _levels[_currentLevelIndex];
         public Level Precedent => _currentLevelIndex > 0 ? _levels[_currentLevelIndex - 1] : PreludePosition;
