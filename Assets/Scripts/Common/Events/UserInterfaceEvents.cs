@@ -34,18 +34,21 @@ namespace Common.Events.UserInterface
     public struct TimelineEventData
     {
         private int? _insertIndex;
+        private bool _isRemove;
         private List<Action> _actions;
 
-        public TimelineEventData(IEnumerable<Action> newActions, int? insertIndex = null)
+        public TimelineEventData(IEnumerable<Action> actions, int? insertIndex = null, bool isRemove = false)
         {
             this._insertIndex = insertIndex;
             //We do a copy of the references but we do not reference the list in case it's modified, we just want a copy
-            this._actions = new List<Action>(newActions);
+            this._actions = new List<Action>(actions);
+            this._isRemove = isRemove;
         }
 
         public int? InsertIndex => _insertIndex;
         public Action Action => _insertIndex.HasValue ? _actions[_insertIndex.Value] : null;
         public bool IsLast => _insertIndex.HasValue && _insertIndex.Value == _actions.Count - 1;
         public int Count => _actions.Count;
+        public bool IsRemove => _isRemove;
     }
 }

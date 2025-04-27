@@ -32,18 +32,25 @@ namespace UI.Battle
             if (t.InsertIndex.HasValue)
             {
                 int index = t.InsertIndex.Value;
-                var member = _memberPool.InsertNew(index);
-                member.gameObject.SetActive(true);
-                member.SetAction(t.Action, t.IsLast);
-                member.ActionEvent.AddListener(_onHover);
-                if (t.IsLast && index > 0)
-                    _memberPool.Elements[index - 1].IsLast = false;
-                LeanTween.cancel(_scroll.gameObject);
-                LeanTween.value(_scroll.gameObject, _scroll.horizontalNormalizedPosition - 1f / t.Count,
-                        (index + 1f) / t.Count,
-                        _tweenDuration)
-                    .setEase(_ease)
-                    .setOnUpdate(value => { _scroll.horizontalNormalizedPosition = value; });
+                if (t.IsRemove)
+                {
+                    _memberPool.Disable(index);
+                }
+                else
+                {
+                    var member = _memberPool.InsertNew(index);
+                    member.gameObject.SetActive(true);
+                    member.SetAction(t.Action, t.IsLast);
+                    member.ActionEvent.AddListener(_onHover);
+                    if (t.IsLast && index > 0)
+                        _memberPool.Elements[index - 1].IsLast = false;
+                    LeanTween.cancel(_scroll.gameObject);
+                    LeanTween.value(_scroll.gameObject, _scroll.horizontalNormalizedPosition - 1f / t.Count,
+                            (index + 1f) / t.Count,
+                            _tweenDuration)
+                        .setEase(_ease)
+                        .setOnUpdate(value => { _scroll.horizontalNormalizedPosition = value; });
+                }
             }
             else
             {

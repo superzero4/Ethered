@@ -24,6 +24,7 @@ namespace BattleSystem
 
         public IEnumerator Execute(bool resetAfter, Tilemap map, float delay = -1f, System.Action onStep = null)
         {
+            int index = 0;
             foreach (var action in _actions)
             {
                 if (action.CanExecute(map))
@@ -37,6 +38,8 @@ namespace BattleSystem
 
                 yield return delay > 0 ? new WaitForSeconds(delay) : null;
                 onStep?.Invoke();
+                _timeLineUpdated.Invoke(new TimelineEventData(_actions, index, true));
+                index++;
             }
 
             if (resetAfter)

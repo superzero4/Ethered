@@ -85,5 +85,10 @@ namespace Common
         {
             DisableAllFrom(0);
         }
+
+        public void Disable(int index)
+        {
+            _elements[index].gameObject.SetActive(false);
+        }
     }
 }
