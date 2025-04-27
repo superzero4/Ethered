@@ -14,8 +14,7 @@ namespace UI.Battle
 
         protected override void Clicked(IActionInfo args)
         {
-            if(_isActive && interactable)
-                _highlight.Highlight();
+           
         }
 
         protected override IActionInfo GetArgs()
@@ -38,6 +37,11 @@ namespace UI.Battle
         public override void Reset()
         {
             _highlight.Reset();
+        }
+        public void Highlight()
+        {
+            if (_isActive)
+                _highlight.Highlight();
         }
     }
 }

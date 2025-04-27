@@ -131,13 +131,27 @@ namespace Views.Battle
             foreach (var actionUI in _ui.UnitUI.ActionUIRead)
             {
                 userInput.AddResetables(actionUI);
-                actionUI.OnClick.AddListener(a => _ui.UnitUI.ResetActionUIs(actionUI));
-                actionUI.OnClick.AddListener(onClick);
+                actionUI.OnClick.AddListener(a =>
+                {
+                    _ui.UnitUI.ResetActionUIs(actionUI);
+                    onClick.Invoke(a);
+                });
+                //actionUI.OnClick.AddListener();
             }
         }
 
         private void OnActionClicked(IActionInfo a)
         {
+            if (_selectionState.Action != null && _selectionState.Action.Info == a)
+            {
+                _selectionState.ResetAction();
+                _ui.UnitUI.ResetActionUIs();
+                _hints.Reset();
+                _selector.ShowCursor = false;
+                EnsurePhaseIsVisible(_selectionState.Origin.Position.Phase);
+                return;
+            }
+
             var valid = _selectionState.SelectActionIfValid(a, true);
             if (valid)
             {
@@ -147,9 +161,15 @@ namespace Views.Battle
                 _hints.Reset();
                 _selector.ShowCursor = true;
                 _hints.HintMultiple(targs);
-                if (!a.MainTarget.Phase.ToPhase(_selectionState.Origin.Position.Phase).Intersects(_phaseSelector.Phase))
-                    _phaseSelector.TogglePhase();
+                var targetPhase = a.MainTarget.Phase.ToPhase(_selectionState.Origin.Position.Phase);
+                EnsurePhaseIsVisible(targetPhase);
             }
+        }
+
+        private void EnsurePhaseIsVisible(EPhase targetPhase)
+        {
+            if (!targetPhase.Intersects(_phaseSelector.Phase))
+                _phaseSelector.TogglePhase();
         }
 
         private void OnSelectionUpdated(SelectionEventData s)

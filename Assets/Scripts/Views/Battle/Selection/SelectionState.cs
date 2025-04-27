@@ -29,7 +29,8 @@ namespace Views.Battle.Selection
         }
 
         public Unit Origin => _origin;
-        private bool _allowReplace = false;
+        public Action Action => _action;
+        private readonly bool _allowReplace = false;
 
         public SelectionState(bool allowReplace)
         {
@@ -54,6 +55,10 @@ namespace Views.Battle.Selection
             _origin = unit;
         }
 
+        public void ResetAction()
+        {
+            _action = null;
+        }
         public void SetAction(IActionInfo action)
         {
             Assert.IsTrue(CanSelectAction, "Unit is not set before trying to set action");

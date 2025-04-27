@@ -54,8 +54,9 @@ namespace UI.Battle
             foreach (var actionUI in _actionUIs)
             {
                 if (actionUI == except)
-                    continue;
-                actionUI.Reset();
+                    actionUI.Highlight();
+                else
+                    actionUI.Reset();
             }
         }
     }
