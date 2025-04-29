@@ -23,6 +23,11 @@ namespace LevelSystem
             for (int i = 0; i < value; i++)
             {
                 currentLevelCollection.Increment(1, out bool b);
+                if(Current.SkipLevel)
+                {
+                    i--;
+                    continue;
+                }
                 if (b)
                 {
                     _currentIndex++;

@@ -29,8 +29,9 @@ namespace LevelSystem
          Tooltip(
              "If not, tiles will have the status defined but no additional prefab will be spawned/displayed on it, it will rely on the already existing world for the player to know")]
         private bool _showTileModels;
-
+        [Header("Level specificity")]
         [SerializeField] private bool _onlyOnePhase;
+        [SerializeField] private bool _skipLevel;
         [Header("Meta")] [SerializeField] private Reward _reward;
         [SerializeField] private bool _showShop;
         [Header("Placement")] [SerializeField] private Vector3 _position;
@@ -65,5 +66,7 @@ namespace LevelSystem
             get { return _showShop; }
             set { _showShop = value; }
         }
+
+        public bool SkipLevel => _skipLevel;
     }
 }

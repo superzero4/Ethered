@@ -32,8 +32,7 @@ namespace LevelSystem
         [SerializeField, Tooltip("Shouldn't be used for more than position and rotation")]
         private Level PreludePosition;
 
-        [SerializeField]
-        private int _currentLevelIndex;
+        [SerializeField] private int _currentLevelIndex;
         public Level Current => _levels[_currentLevelIndex];
         public Level Precedent => _currentLevelIndex > 0 ? _levels[_currentLevelIndex - 1] : PreludePosition;
 
@@ -41,9 +40,12 @@ namespace LevelSystem
 
         public void Increment(int value, out bool reset)
         {
-            _currentLevelIndex += value;
-            reset = _currentLevelIndex >= _levels.Length;
-            _currentLevelIndex %= _levels.Length;
+            do
+            {
+                _currentLevelIndex += value;
+                reset = _currentLevelIndex >= _levels.Length;
+                _currentLevelIndex %= _levels.Length;
+            } while (Current.SkipLevel && !reset);
         }
 
         public void Reset()
