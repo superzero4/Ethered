@@ -76,7 +76,7 @@ namespace Views.Battle
 
         protected Vector2 CurrentLookAt()
         {
-            float yRotation = _root.localRotation.eulerAngles.y;
+            float yRotation = _root.localRotation.eulerAngles.y-_baseRot;
             float radians = yRotation * Mathf.Deg2Rad;
             return new Vector2(Mathf.Sin(radians), Mathf.Cos(radians));
         }
