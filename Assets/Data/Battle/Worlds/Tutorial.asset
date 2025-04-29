@@ -28,6 +28,7 @@ MonoBehaviour:
     _map: {fileID: 11400000, guid: 92523a972847a72449d03e122dc8d00d, type: 2}
     _showTileModels: 0
     _onlyOnePhase: 1
+    _skipLevel: 0
     _reward:
       Ether: 0
       Coins: 0
@@ -42,6 +43,7 @@ MonoBehaviour:
     _map: {fileID: 11400000, guid: cc76ba6bd404b40458e77119baeac27c, type: 2}
     _showTileModels: 0
     _onlyOnePhase: 0
+    _skipLevel: 0
     _reward:
       Ether: 0
       Coins: 0
@@ -57,6 +59,7 @@ MonoBehaviour:
     _map: {fileID: 11400000, guid: 027bd7764014e264d888644914fb2a56, type: 2}
     _showTileModels: 0
     _onlyOnePhase: 0
+    _skipLevel: 0
     _reward:
       Ether: 0
       Coins: 0
@@ -72,6 +75,7 @@ MonoBehaviour:
     _map: {fileID: 11400000, guid: 18dfe2b751d1abb4691a9c24a0f4fe6b, type: 2}
     _showTileModels: 0
     _onlyOnePhase: 0
+    _skipLevel: 0
     _reward:
       Ether: 0
       Coins: 0
@@ -87,6 +91,7 @@ MonoBehaviour:
     _map: {fileID: 11400000, guid: b10053bcffb02f943bd027273d60da74, type: 2}
     _showTileModels: 0
     _onlyOnePhase: 0
+    _skipLevel: 1
     _reward:
       Ether: 100
       Coins: 150
@@ -98,6 +103,7 @@ MonoBehaviour:
     _map: {fileID: 11400000, guid: fcdf04c654ae1884cb5426662f166370, type: 2}
     _showTileModels: 0
     _onlyOnePhase: 0
+    _skipLevel: 0
     _reward:
       Ether: 100
       Coins: 50
@@ -110,6 +116,7 @@ MonoBehaviour:
     _map: {fileID: 0}
     _showTileModels: 0
     _onlyOnePhase: 0
+    _skipLevel: 0
     _reward:
       Ether: 0
       Coins: 0
