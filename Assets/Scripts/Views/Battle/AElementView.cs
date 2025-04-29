@@ -107,8 +107,12 @@ namespace Views.Battle
 
         protected virtual void Init(Grid grid)
         {
+            var pos = Data.Position.Position;
+            bool condition = pos.y <= 2; //_data.Team == ETeam.Player;
             SnapToCorrectPosition(grid,
-                _data.Team == ETeam.Player ? new PositionIndexer(0, 1) : new PositionIndexer(0, -1));
+                pos.y == 2
+                    ? (pos.x <= 2 ? new PositionIndexer(1, 0) : new PositionIndexer(-1, 0))
+                    : (condition ? new PositionIndexer(0, 1) : new PositionIndexer(0, -1)));
         }
     }
 }

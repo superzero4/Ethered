@@ -19,7 +19,7 @@ namespace LevelSystem
     public class LevelCollectionBattleInitializer : MonoBehaviour
     {
         [Header("Dev")] [SerializeField] private bool _autoEnd;
-
+        [SerializeField] private bool _cinematicMode = false;
 
         [Header("References")] [SerializeField]
         private LevelProgression _levelProgression;
@@ -111,6 +111,12 @@ namespace LevelSystem
             battle.BattleEnd.AddListener(OnBattleEndCache);
             if (_autoEnd)
                 _userInput.Dev.AddListener(e => ForceEnd(battle));
+            if (_cinematicMode)
+            {
+                _ui.gameObject.SetActive(false);
+                _camera.cullingMask = 0b1 << LayerMask.NameToLayer("Default");
+            }
+
             LeanTween.sequence()
                 .append(AnimateBattleView(precedent, current))
                 .append(() =>

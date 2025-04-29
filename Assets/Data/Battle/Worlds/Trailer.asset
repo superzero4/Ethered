@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee6096f92784d1890ad698d0e4d3892, type: 3}
+  m_Name: Trailer
+  m_EditorClassIdentifier: 
+  _markerNames:
+  - RoadBattle1 Hint
+  _dynamicSquad: {fileID: 11400000, guid: 5e173cd4fd0695047b27440c8d6959ca, type: 2}
+  _levels:
+  - _playerActionsOverride: []
+    _battle: {fileID: 11400000, guid: d869aadf4c3f8154894a716b05b7a38a, type: 2}
+    _map: {fileID: 11400000, guid: 52a85448c600e3741ae6e891ac79699a, type: 2}
+    _showTileModels: 0
+    _onlyOnePhase: 0
+    _reward:
+      Ether: 0
+      Coins: 0
+    _showShop: 0
+    _position: {x: 0, y: 0, z: 17}
+    _rotation: {x: -0, y: 180, z: -0}
+  PreludePosition:
+    _playerActionsOverride: []
+    _battle: {fileID: 0}
+    _map: {fileID: 0}
+    _showTileModels: 0
+    _onlyOnePhase: 0
+    _reward:
+      Ether: 0
+      Coins: 0
+    _showShop: 0
+    _position: {x: 0, y: 0, z: 0}
+    _rotation: {x: 0, y: 0, z: 0}
+  _currentLevelIndex: 0

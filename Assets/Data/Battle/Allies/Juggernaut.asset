@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be1fcc23db1945d5a3b9653875272df9, type: 3}
+  m_Name: Juggernaut
+  m_EditorClassIdentifier: 
+  _units:
+    _units:
+    - _maxHealth: 40
+      _armor: 0
+      _actionCollection: {fileID: 11400000, guid: 793cb790057417548a2d658f49c47785, type: 2}
+      _visualInformations:
+        _sprite: {fileID: 21300000, guid: 9a6c196d611eade4c9dd6343fd710631, type: 3}
+        _color: {r: 1, g: 1, b: 1, a: 1}
+        _name: You
+        _description: 
+        _grayScale: {fileID: 0}
+      _unitSpecificAdditionalInfos: []
+    _upgrades: []
+  _defaultUnit:
+    _maxHealth: 0
+    _armor: 0
+    _actionCollection: {fileID: 0}
+    _visualInformations:
+      _sprite: {fileID: 0}
+      _color: {r: 0, g: 0, b: 0, a: 0}
+      _name: 
+      _description: 
+      _grayScale: {fileID: 0}
+    _unitSpecificAdditionalInfos: []
