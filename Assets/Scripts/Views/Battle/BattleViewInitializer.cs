@@ -4,7 +4,7 @@ using BattleSystem;
 using Common;
 using Common.Events.UserInteraction;
 using LevelSystem;
-using NUnit.Framework;
+using UnityEngine.Assertions;
 using SquadSystem;
 using UnitSystem;
 using UnitSystem.AI;

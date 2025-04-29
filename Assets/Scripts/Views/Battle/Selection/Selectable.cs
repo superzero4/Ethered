@@ -3,7 +3,7 @@ using BattleSystem.TileSystem;
 using Common.Events;
 using Common.Events.UserInteraction;
 using Common.Events.UserInterface;
-using NUnit.Framework;
+using UnityEngine.Assertions;
 using UnityEngine;
 using NaughtyAttributes;
 namespace Views.Battle.Selection

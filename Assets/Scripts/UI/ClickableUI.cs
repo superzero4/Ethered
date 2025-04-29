@@ -2,7 +2,7 @@ using System;
 using Common;
 using Common.Events.UserInteraction;
 using NaughtyAttributes;
-using NUnit.Framework;
+using UnityEngine.Assertions;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
