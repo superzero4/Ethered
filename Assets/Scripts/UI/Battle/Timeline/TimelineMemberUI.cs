@@ -25,7 +25,7 @@ namespace UI.Battle
         private Pool<InfoUI> _targetUIPool;
         private Action _action;
 
-        public void Awake()
+        public void Init()
         {
             _targetUIPool = new(_targetUIPrefab, 5, _targetUIPrefab.transform.parent);
         }

@@ -45,6 +45,7 @@ namespace UI.Battle
                 else
                 {
                     var member = _memberPool.InsertNew(index);
+                    member.Init();
                     member.gameObject.SetActive(true);
                     member.SetAction(t.Action, t.IsLast);
                     member.ActionEvent.AddListener(_onHover);
