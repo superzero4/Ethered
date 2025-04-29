@@ -31,7 +31,7 @@ namespace LevelSystem
             Assert.IsTrue(_levelsHolder != null && _levelsHolder is ILevelCollection,
                 " _levelsHolder is null or not of type ILevelCollection");
             _levels = _levelsHolder as ILevelCollection;
-            if (_instance==null)
+            if (_instance == null)
             {
 #if UNITY_EDITOR
                 if (_levelsHolder is WorldCollection worldCollection)
@@ -40,7 +40,12 @@ namespace LevelSystem
 #endif
                 _levels.Reset();
                 _dynamicSquad.Fill(new Squad(_initSquad.Units));
+#if UNITY_EDITOR
                 _levels.Increment(_levelSkip);
+#else
+                _levels.Increment(0);
+#endif
+
                 _instance = this;
                 DontDestroyOnLoad(gameObject);
             }
