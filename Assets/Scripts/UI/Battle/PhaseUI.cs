@@ -4,6 +4,7 @@ using BattleSystem;
 using Common.Events;
 using Common.Events.UserInteraction;
 using Common.Events.UserInterface;
+using Common.Tool;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -36,6 +37,7 @@ namespace UI.Battle
             if (!startActive)
                 ToggleVisibility(false);
         }
+
         public void ToggleVisibility(bool visible)
         {
             gameObject.SetActive(visible);
@@ -50,8 +52,8 @@ namespace UI.Battle
                 var lerp = Color.Lerp(_normalColor, _etheredColor, value);
                 if (_alphaFade)
                 {
-                    _normal.image.color = SetAlpha(_normal.image.color, 1 - value);
-                    _ethered.image.color = SetAlpha(_ethered.image.color, value);
+                    _normal.image.color = _normal.image.color.Alpha(1 - value);
+                    _ethered.image.color = _ethered.image.color.Alpha(value);
                 }
                 else
                 {
@@ -69,11 +71,5 @@ namespace UI.Battle
         }
 
         public UnityEvent OnClick => _onClick;
-
-        private Color SetAlpha(Color color, float alpha)
-        {
-            color.a = alpha;
-            return color;
-        }
     }
 }
