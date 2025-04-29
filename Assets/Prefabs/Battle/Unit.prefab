@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 678341651956317964}
   - component: {fileID: 4001677503993550540}
   - component: {fileID: 3871737118798555265}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 1873340815323004278}
   - component: {fileID: 8194147257513596483}
   - component: {fileID: 4089582354229372888}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -376,12 +376,14 @@ MonoBehaviour:
     nbParticles: 0
     speed: 0
     lifetime: 0
+    spreadAngle: 0
     color: {r: 0, g: 0, b: 0, a: 0}
   height: 0
   _cast:
     nbParticles: 0
     speed: 0
     lifetime: 0
+    spreadAngle: 0
     color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &5871885064238084101
 GameObject:
@@ -394,7 +396,7 @@ GameObject:
   - component: {fileID: 237919723448395497}
   - component: {fileID: 7022486643462349654}
   - component: {fileID: 6219029706986507935}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -509,12 +511,14 @@ MonoBehaviour:
     nbParticles: 0
     speed: 0
     lifetime: 0
+    spreadAngle: 0
     color: {r: 0, g: 0, b: 0, a: 0}
   height: 0
   _cast:
     nbParticles: 0
     speed: 0
     lifetime: 0
+    spreadAngle: 0
     color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1001 &5640094959623982027
 PrefabInstance:
@@ -1144,6 +1148,9 @@ MonoBehaviour:
   - {fileID: 7940500368723082979}
   _skinIndex: 0
   _unitAnimations: {fileID: 5229143338843726291}
+  _onActionViewEnded:
+    m_PersistentCalls:
+      m_Calls: []
   _grid: {fileID: 0}
   references:
     version: 2
@@ -1164,6 +1171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rotationTime: 0.3111112
   _moveTime: 1
+  _deathTime: 0.5
   _skin: {fileID: 0}
 --- !u!114 &1565532374859959357
 MonoBehaviour:
