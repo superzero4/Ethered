@@ -1,3 +1,4 @@
+//#define DEBUG_BUILD
 using Common;
 using SquadSystem;
 using UnityEngine;
@@ -40,7 +41,7 @@ namespace LevelSystem
 #endif
                 _levels.Reset();
                 _dynamicSquad.Fill(new Squad(_initSquad.Units));
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEBUG_BUILD
                 _levels.Increment(_levelSkip);
 #else
                 _levels.Increment(0);
