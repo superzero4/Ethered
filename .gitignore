@@ -83,3 +83,4 @@ crashlytics-build.properties
 .idea/.idea.Ethered/.idea/workspace.xml
 /Assets/RiderFlow.UserData
 Assets/RiderFlow.UserData.meta
+*.zip
