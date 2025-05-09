@@ -179,14 +179,19 @@ namespace LevelSystem
             }
         }
 
+
         private LTDescr AnimateBattleView(Level precedent, Level current)
         {
             _battleView.transform.position = precedent.Position;
+            var pos = _camera.transform.localPosition;
+            pos.x = Offset(precedent);
+            _camera.transform.localPosition = pos;
             _battleView.transform.eulerAngles = precedent.Rotation;
+            _camera.transform.LeanMoveLocalX(Offset(current), _duration / 2f);
             _battleView.transform.LeanMove(current.Position, _duration).setEase(_ease);
-            _battleView.transform.LeanRotate(current.Rotation, _duration).setEase(_ease);
-            return _camera.transform.LeanMoveLocalX(_grid.cellSize.x * current.Map.Size.x / 2f,
-                _duration);
+            return _battleView.transform.LeanRotate(current.Rotation, _duration).setEase(_ease);
         }
+
+        private float Offset(Level l) => _grid.cellSize.x * (l.Map != null ? l.Map.Size.x / 2f : 0f);
     }
 }
