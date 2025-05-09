@@ -145615,7 +145615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a84a20f5f1d4c36810779a043fee6c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelSkip: 4
+  _levelSkip: 0
   _levelsHolder: {fileID: 11400000, guid: a02d267547d95834285abac9ea482792, type: 2}
   _initSquad: {fileID: 11400000, guid: a053559b7c9c69948873daa954ef8e97, type: 2}
   _dynamicSquad: {fileID: 11400000, guid: 5e173cd4fd0695047b27440c8d6959ca, type: 2}
@@ -158991,6 +158991,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6153325037856197870}
     m_Modifications:
+    - target: {fileID: 4963433914974989463, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4963433914974989463, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4963433914974989463, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5134358295108084908, guid: 3a03a1566fc770c4aa155ac84a7b8697, type: 3}
       propertyPath: m_fontSize
       value: 17.95
@@ -160125,12 +160137,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
